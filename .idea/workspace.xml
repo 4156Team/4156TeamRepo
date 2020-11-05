@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="17321d6f-dfa8-4acb-848b-794b7f83d925" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="spring-beans.schema" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$USER_HOME$/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jpObJCCGRAGWrJUxk3rnkydh8D" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.java.rollercoaster" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MybatisGenerator">
+    <configuration name="MybatisGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java.rollercoaster.MybatisGenerator" />
+      <module name="rollercoaster" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java.rollercoaster.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RollercoasterApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="rollercoaster" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.java.rollercoaster.RollercoasterApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MybatisGenerator" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="17321d6f-dfa8-4acb-848b-794b7f83d925" name="Default Changelist" comment="" />
+      <created>1604497639294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604497639294</updated>
+      <workItem from="1604497645557" duration="6263000" />
+      <workItem from="1604565354221" duration="2759000" />
+      <workItem from="1604595404986" duration="308000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="100" y="367" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1604560260405">
+      <screen x="0" y="23" width="1440" height="827" />
+    </state>
+    <state x="100" y="367" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.23.1440.827@0.23.1440.827" timestamp="1604560260405" />
+    <state x="445" y="311" width="460" height="256" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1604558160828">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state x="445" y="311" width="460" height="256" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.23.1440.828@0.23.1440.828" timestamp="1604558160828" />
+    <state x="445" y="324" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1604560262048">
+      <screen x="0" y="23" width="1440" height="827" />
+    </state>
+    <state x="445" y="324" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.23.1440.827@0.23.1440.827" timestamp="1604560262048" />
+    <state width="1239" height="213" key="GridCell.Tab.0.bottom" timestamp="1604565704571">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.0.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604556074172" />
+    <state width="1239" height="213" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604556468929" />
+    <state width="1239" height="213" key="GridCell.Tab.0.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604565704571" />
+    <state width="1239" height="213" key="GridCell.Tab.0.center" timestamp="1604565704571">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.0.center/0.23.1440.826@0.23.1440.826" timestamp="1604556074171" />
+    <state width="1239" height="213" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1604556468929" />
+    <state width="1239" height="213" key="GridCell.Tab.0.center/0.23.1440.828@0.23.1440.828" timestamp="1604565704571" />
+    <state width="1239" height="213" key="GridCell.Tab.0.left" timestamp="1604565704570">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.0.left/0.23.1440.826@0.23.1440.826" timestamp="1604556074170" />
+    <state width="1239" height="213" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1604556468928" />
+    <state width="1239" height="213" key="GridCell.Tab.0.left/0.23.1440.828@0.23.1440.828" timestamp="1604565704570" />
+    <state width="1239" height="213" key="GridCell.Tab.0.right" timestamp="1604565704571">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.0.right/0.23.1440.826@0.23.1440.826" timestamp="1604556074172" />
+    <state width="1239" height="213" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1604556468929" />
+    <state width="1239" height="213" key="GridCell.Tab.0.right/0.23.1440.828@0.23.1440.828" timestamp="1604565704571" />
+    <state width="1239" height="213" key="GridCell.Tab.1.bottom" timestamp="1604561422907">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.1.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604556074173" />
+    <state width="1239" height="213" key="GridCell.Tab.1.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604556468931" />
+    <state width="1239" height="213" key="GridCell.Tab.1.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604561422907" />
+    <state width="1239" height="213" key="GridCell.Tab.1.center" timestamp="1604561422906">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.1.center/0.23.1440.826@0.23.1440.826" timestamp="1604556074172" />
+    <state width="1239" height="213" key="GridCell.Tab.1.center/0.23.1440.827@0.23.1440.827" timestamp="1604556468930" />
+    <state width="1239" height="213" key="GridCell.Tab.1.center/0.23.1440.828@0.23.1440.828" timestamp="1604561422906" />
+    <state width="1239" height="213" key="GridCell.Tab.1.left" timestamp="1604561422906">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.1.left/0.23.1440.826@0.23.1440.826" timestamp="1604556074172" />
+    <state width="1239" height="213" key="GridCell.Tab.1.left/0.23.1440.827@0.23.1440.827" timestamp="1604556468930" />
+    <state width="1239" height="213" key="GridCell.Tab.1.left/0.23.1440.828@0.23.1440.828" timestamp="1604561422906" />
+    <state width="1239" height="213" key="GridCell.Tab.1.right" timestamp="1604561422906">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state width="1239" height="213" key="GridCell.Tab.1.right/0.23.1440.826@0.23.1440.826" timestamp="1604556074173" />
+    <state width="1239" height="213" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1604556468930" />
+    <state width="1239" height="213" key="GridCell.Tab.1.right/0.23.1440.828@0.23.1440.828" timestamp="1604561422906" />
+    <state x="290" y="142" key="NewModule_or_Project.wizard" timestamp="1604557877252">
+      <screen x="0" y="23" width="1440" height="827" />
+    </state>
+    <state x="290" y="142" key="NewModule_or_Project.wizard/0.23.1440.827@0.23.1440.827" timestamp="1604557877252" />
+    <state x="416" y="23" width="1024" height="827" key="SettingsEditor" timestamp="1604498358725">
+      <screen x="0" y="23" width="1440" height="827" />
+    </state>
+    <state x="416" y="23" width="1024" height="827" key="SettingsEditor/0.23.1440.827@0.23.1440.827" timestamp="1604498358725" />
+  </component>
+</project>
