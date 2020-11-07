@@ -30,9 +30,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17321d6f-dfa8-4acb-848b-794b7f83d925" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,13 +97,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -136,6 +136,7 @@
       <workItem from="1604595404986" duration="308000" />
       <workItem from="1604595721246" duration="987000" />
       <workItem from="1604597008355" duration="4119000" />
+      <workItem from="1604723398956" duration="298000" />
     </task>
     <servers />
   </component>
@@ -169,13 +170,15 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="249" y="23" width="1024" height="830" key="#Project_Structure" timestamp="1604636087012">
-      <screen x="0" y="23" width="1440" height="830" />
+    <state x="249" y="23" width="1024" height="830" key="#Project_Structure" timestamp="1604723413731">
+      <screen x="0" y="23" width="1440" height="834" />
     </state>
     <state x="249" y="23" key="#Project_Structure/0.23.1440.829@0.23.1440.829" timestamp="1604629493150" />
     <state x="249" y="23" width="1024" height="830" key="#Project_Structure/0.23.1440.830@0.23.1440.830" timestamp="1604636087012" />
+    <state x="249" y="23" key="#Project_Structure/0.23.1440.834@0.23.1440.834" timestamp="1604723413731" />
     <state x="100" y="367" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1604560260405">
       <screen x="0" y="23" width="1440" height="827" />
     </state>
