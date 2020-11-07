@@ -35,9 +35,14 @@
         <table tableName="event" domainObjectName="Event" />
         <table tableName="appointment" domainObjectName="Appointment" />
         <table tableName="facility" domainObjectName="Facility">
-        <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.pojo.FacilityStatus"/>
+            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.pojo.enumeration.FacilityStatus"/>
         </table>
-        <table tableName="ticket" domainObjectName="Ticket" />
-        <table tableName="user" domainObjectName="UserAccount" />
+        <table tableName="ticket" domainObjectName="Ticket" >
+            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.pojo.enumeration.Status"/>
+        </table>
+        <table tableName="user" domainObjectName="UserAccount" >
+            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.pojo.enumeration.UserGender"/>
+            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.pojo.enumeration.Role"/>
+        </table>
     </context>
 </generatorConfiguration>

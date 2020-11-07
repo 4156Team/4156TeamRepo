@@ -1,4 +1,4 @@
-package com.java.rollercoaster.pojo;
+package com.java.rollercoaster.pojo.enumeration;
 
 public enum FacilityStatus {
     repairing("repairing"),
