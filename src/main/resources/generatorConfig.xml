@@ -31,11 +31,13 @@
 
         <!--要生成哪些表 -->
         <!--其中tableName指的是mysql里面的tableName, domainObjectName指的是转换后的类名 -->
-        <table tableName="password" domainObjectName="userPassword" />
-        <table tableName="event" domainObjectName="event" />
-        <table tableName="appointment" domainObjectName="appointment" />
-        <table tableName="facility" domainObjectName="facility" />
-        <table tableName="ticket" domainObjectName="ticket" />
-        <table tableName="user" domainObjectName="userAccount" />
+        <table tableName="password" domainObjectName="UserPassword" />
+        <table tableName="event" domainObjectName="Event" />
+        <table tableName="appointment" domainObjectName="Appointment" />
+        <table tableName="facility" domainObjectName="Facility">
+        <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.pojo.FacilityStatus"/>
+        </table>
+        <table tableName="ticket" domainObjectName="Ticket" />
+        <table tableName="user" domainObjectName="UserAccount" />
     </context>
 </generatorConfiguration>

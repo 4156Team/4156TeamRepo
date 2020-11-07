@@ -1,6 +1,6 @@
 package com.java.rollercoaster.service.impl;
 
-import com.java.rollercoaster.service.testService;
+import com.java.rollercoaster.service.TestService;
 
-public class testServiceImpl implements testService {
+public class testServiceImpl implements TestService {
 }
