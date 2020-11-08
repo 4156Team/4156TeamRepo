@@ -7,4 +7,5 @@ public interface UserService {
 //    UserModel getUserByPhoneNumber(String phoneNumber);
     UserModel getUserByUserId(Integer userId);
     void register(UserModel userModel) throws BusinessException;
+    UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException;
 }
