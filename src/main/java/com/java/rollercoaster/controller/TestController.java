@@ -3,8 +3,12 @@ package com.java.rollercoaster.controller;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
+import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.UserAccount;
+import com.java.rollercoaster.pojo.enumeration.Role;
+import com.java.rollercoaster.pojo.enumeration.UserGender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +23,9 @@ public class TestController {
     private EventMapper eventMapper;
     @Autowired
     private TicketMapper ticketMapper;
+
+    @Autowired
+    private UserAccountMapper userAccountMapper;
     //加上responseBody注解后 就是返回json 否则redirect到前端界面
     @RequestMapping("/test1")
     public String index() {
@@ -38,9 +45,18 @@ public class TestController {
     public String test(){
         Facility facility = facilityMapper.selectByPrimaryKey("Walkhammer");
 //        eventMapper.selectByPrimaryKey("11");
-        System.out.println("***********");
-        return facility.getFacilityStatus().toString();
+//        System.out.println("***********");
+//        return facility.getFacilityStatus().toString();
 //        return "success";
+        UserAccount userAccount = new UserAccount();
+        userAccount.setPhoneNumber("18718691881");
+        userAccount.setRole(Role.visitor);
+        userAccount.setUserAge(22);
+        userAccount.setUserName("Yuzhang");
+        userAccount.setUserGender(UserGender.male);
+        userAccountMapper.insertSelective(userAccount);
+        System.out.println(userAccount.getUserId());
+        return "*****";
     }
 
     @RequestMapping("/test4")

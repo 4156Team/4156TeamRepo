@@ -18,11 +18,11 @@ public class UserServiceImpl implements UserService {
     private UserPasswordMapper userPasswordMapper;
     @Override
     public UserModel getUserByPhoneNumber(String phoneNumber) {
-        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(phoneNumber);
+        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(10);
         if (userAccount == null) {
             return null;
         }
-        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(phoneNumber);
+            UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(0);
         return convertFromDataObject(userAccount, userPassword);
 
     }

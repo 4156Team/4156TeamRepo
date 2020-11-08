@@ -40,7 +40,8 @@
         <table tableName="ticket" domainObjectName="Ticket" >
             <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.pojo.enumeration.Status"/>
         </table>
-        <table tableName="user" domainObjectName="UserAccount" >
+        <table tableName="userAccount" domainObjectName="UserAccount" >
+            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>
             <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.pojo.enumeration.UserGender"/>
             <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.pojo.enumeration.Role"/>
         </table>

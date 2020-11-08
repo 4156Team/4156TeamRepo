@@ -2,6 +2,8 @@ package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.enumeration.Status;
 import com.java.rollercoaster.service.CheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,13 @@ public class CheckInServiceImpl implements CheckInService {
     private TicketMapper ticketMapper;
     @Override
     public ErrorEnum checkTicket(String ticketId) {
-        if (null != ticketMapper.selectByPrimaryKey(ticketId)){
+        Ticket ticket = ticketMapper.selectByPrimaryKey(ticketId);
+        if (null == ticket){
             return ErrorEnum.WRONG_TICKET_ID;
+        } else if (Status.used == ticket.getStatus()){
+            return ErrorEnum.INVALID_TICKET;
         } else{
-            ticketMapper.deleteByPrimaryKey(ticketId);
+            System.out.println("ddd");
         }
         return ErrorEnum.OK;
     }
