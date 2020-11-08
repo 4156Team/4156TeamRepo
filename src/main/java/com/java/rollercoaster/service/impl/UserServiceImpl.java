@@ -14,6 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.UUID.randomUUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,6 +53,8 @@ public class UserServiceImpl implements UserService {
         return convertFromDataObject(userAccount, userPassword);
     }
 
+
+
     @Override
     @Transactional
     public void register(UserModel userModel) throws BusinessException {
@@ -54,14 +66,37 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         UserAccount userAccount = convertFromModel(userModel);
-        userAccountMapper.insertSelective(userAccount);
-
+        try{
+            userAccountMapper.insertSelective(userAccount);
+        }catch (DuplicateKeyException ex) {
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR,"This telephone has been registered");
+        }
         userModel.setUserId(userAccount.getUserId());
+
         UserPassword userPassword = convertPasswordFromModel(userModel);
         userPasswordMapper.insertSelective(userPassword);
         return;
 
     }
+
+    @Override
+    public UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException {
+            //get user information by user phone number
+            UserAccount userAccount = userAccountMapper.selectByTelephone(telphone);
+            if (userAccount== null) {
+                throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
+            }
+            UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
+            UserModel userModel = convertFromDataObject(userAccount, userPassword);
+            //compare encrypt password with the input password
+            if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {
+                throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
+            }
+            return userModel;
+
+
+    }
+
     private UserPassword convertPasswordFromModel(UserModel userModel) {
         if (userModel == null) {
             return  null;

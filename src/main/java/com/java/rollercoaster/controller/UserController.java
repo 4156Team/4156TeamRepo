@@ -21,6 +21,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.UUID.randomUUID;
 
 @Controller("user")
 @RequestMapping("/user")
@@ -28,6 +31,24 @@ import java.util.Map;
 public class UserController extends BaseController{
     @Autowired
     UserService userService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    @RequestMapping(value = "/login", method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType login(@RequestParam(name = "telphone") String telphone,
+                                  @RequestParam(name = "password")String password) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //入参校验
+        if (org.apache.commons.lang3.StringUtils.isEmpty(telphone) ||
+                org.apache.commons.lang3.StringUtils.isEmpty(password)) {
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+        }
+        //Determine if login is valid
+        UserModel userModel = userService.validateLogin(telphone, this.EncodeByMd5(password));
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        return CommonReturnType.create(null);
+    }
 
     //Register endpoint
     @RequestMapping(value = "/register", method = {RequestMethod.POST})

@@ -5,6 +5,7 @@ public enum ErrorEnum implements CommonError{
     PARAMETER_VALIDATION_ERROR(10001,"Invalid parameter"),
     UNKNOWN_ERROR(10002,"unknown error"),
     USER_NOT_EXIST(20001,"User not exist"),
+    USER_LOGIN_FAIL(20002,"User or password is incorrect"),
     INVALID_TICKET(201,"The ticket id is invalid in that day."),
     WRONG_TICKET_ID(202, "The ticket id is wrong.");
 
