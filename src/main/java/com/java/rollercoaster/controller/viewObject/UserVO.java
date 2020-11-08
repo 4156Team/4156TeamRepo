@@ -3,6 +3,21 @@ package com.java.rollercoaster.controller.viewObject;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
 
 public class UserVO {
+    private String phoneNumber;
+    private String userName;
+    private UserGender UserGender;
+    private Integer userAge;
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -34,9 +49,4 @@ public class UserVO {
     public void setUserAge(Integer userAge) {
         this.userAge = userAge;
     }
-
-    private String phoneNumber;
-    private String userName;
-    private UserGender UserGender;
-    private Integer userAge;
 }
