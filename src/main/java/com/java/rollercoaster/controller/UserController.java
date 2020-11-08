@@ -3,6 +3,8 @@ package com.java.rollercoaster.controller;
 import com.java.rollercoaster.controller.viewObject.UserVO;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.pojo.enumeration.Role;
+import com.java.rollercoaster.pojo.enumeration.UserGender;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.UserService;
 import com.java.rollercoaster.service.model.UserModel;
@@ -11,16 +13,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller("user")
 @RequestMapping("/user")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class UserController extends BaseController{
     @Autowired
     UserService userService;
+
+    //Register endpoint
+    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType register(@RequestParam(name = "telphone") String telphone,
+                                     @RequestParam(name = "name") String name,
+                                     @RequestParam(name = "gender") String gender,
+                                     @RequestParam(name = "age")Integer age,
+                                     @RequestParam(name = "password")String password
+    ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //用户的注册流程
+        UserModel userModel = new UserModel();
+        userModel.setUserName(name);
+        userModel.setUserGender(UserGender.valueOf(gender));
+        userModel.setUserAge(age);
+        userModel.setPhoneNumber(telphone);
+        userModel.setPassword(this.EncodeByMd5(password));
+        userModel.setRole(Role.visitor);
+        userService.register(userModel);
+        return CommonReturnType.create(null);
+    }
+
+    public String EncodeByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        //determine computation method
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        //encrypt
+        String newstr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+        return  newstr;
+    }
+
+
     @RequestMapping("/get")
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name="id") Integer userId) throws BusinessException {
