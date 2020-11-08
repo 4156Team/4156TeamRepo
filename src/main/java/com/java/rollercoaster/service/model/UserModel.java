@@ -4,6 +4,9 @@ import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
 
 public class UserModel {
+
+
+    private Integer userId;
     private String phoneNumber;
     private String userName;
     private UserGender UserGender;
@@ -11,6 +14,14 @@ public class UserModel {
     private Role Role;
 
     private String password;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

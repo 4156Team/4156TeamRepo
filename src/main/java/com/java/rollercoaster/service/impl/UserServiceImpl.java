@@ -16,16 +16,28 @@ public class UserServiceImpl implements UserService {
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+
+//    @Override
+//    public UserModel getUserByPhoneNumber(String phoneNumber) {
+//        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(phoneNumber);
+//        if (userAccount == null) {
+//            return null;
+//        }
+//        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(phoneNumber);
+//        return convertFromDataObject(userAccount, userPassword);
+//
+//    }
+
     @Override
-    public UserModel getUserByPhoneNumber(String phoneNumber) {
-        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(10);
+    public UserModel getUserByUserId(Integer userId) {
+        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(userId);
         if (userAccount == null) {
             return null;
         }
-            UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(0);
+        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userId);
         return convertFromDataObject(userAccount, userPassword);
-
     }
+
     private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
         if (userAccount == null) {
             return  null;
