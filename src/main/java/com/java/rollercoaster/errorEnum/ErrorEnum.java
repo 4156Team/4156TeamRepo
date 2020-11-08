@@ -2,6 +2,8 @@ package com.java.rollercoaster.errorEnum;
 
 public enum ErrorEnum implements CommonError{
     OK(100, ""),
+    PARAMETER_VALIDATION_ERROR(10001,"Invalid parameter"),
+    UNKNOWN_ERROR(10002,"unknown error"),
     USER_NOT_EXIST(20001,"User not exist"),
     INVALID_TICKET(201,"The ticket id is invalid in that day."),
     WRONG_TICKET_ID(202, "The ticket id is wrong.");
