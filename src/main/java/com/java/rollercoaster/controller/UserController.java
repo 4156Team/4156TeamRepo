@@ -1,5 +1,9 @@
 package com.java.rollercoaster.controller;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.java.rollercoaster.controller.viewObject.UserVO;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
@@ -17,9 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +128,36 @@ public class UserController extends BaseController{
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(userModel, userVO);
         return userVO;
+    }
+    @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
+    public void verifyToken(String idtokenstr) {
+        System.out.println(idtokenstr);
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+                .setAudience(Collections.singletonList("66670440653-9ooesmgkcr05a37k224mr3sjsctis262.apps.googleusercontent.com")).build();
+        GoogleIdToken idToken = null;
+        try {
+            idToken = verifier.verify(idtokenstr);
+        } catch (GeneralSecurityException e) {
+            System.out.println("驗證時出現GeneralSecurityException異常");
+        } catch (IOException e) {
+            System.out.println("驗證時出現IOException異常");
+        }
+        if (idToken != null) {
+            System.out.println("驗證成功.");
+            GoogleIdToken.Payload payload = idToken.getPayload();
+            String userId = payload.getSubject();
+			System.out.println("User ID: " + userId);
+//			String email = payload.getEmail();
+//			boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+//			String name = (String) payload.get("name");
+//			String pictureUrl = (String) payload.get("picture");
+//			String locale = (String) payload.get("locale");
+//			String familyName = (String) payload.get("family_name");
+//			String givenName = (String) payload.get("given_name");
+        } else {
+            System.out.println("Invalid ID token.");
+        }
     }
 
 

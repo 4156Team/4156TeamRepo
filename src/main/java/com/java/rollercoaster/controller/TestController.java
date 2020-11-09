@@ -75,4 +75,10 @@ public class TestController {
         return ticket.getValidDate().toString();
     }
 
+    @RequestMapping("/test5")
+    public String test5(){
+        return "/login";
+
+    }
+
 }
