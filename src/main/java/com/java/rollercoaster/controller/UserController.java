@@ -8,6 +8,7 @@ import com.java.rollercoaster.controller.viewObject.UserVO;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -151,10 +152,14 @@ public class UserController extends BaseController{
 			System.out.println("User ID: " + userId);
 			String name = (String) payload.get("name");
             System.out.println("User name:" + name);
-            UserModel userModel = new UserModel();
-            userModel.setUserId(Integer.parseInt(userId));
-            userModel.setUserName(name);
-            userService.register(userModel);
+
+            UserAccount userAccount = new UserAccount();
+            userAccount.setThirdPartyId(userId);
+            userAccount.setUserName(name);
+            UserModel userModel = userService.loginWithGoogle(userAccount);
+
+            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         } else {
             System.out.println("Invalid ID token.");
         }

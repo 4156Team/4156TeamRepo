@@ -13,6 +13,16 @@ public class UserModel {
     private Integer userAge;
     private Role Role;
 
+    public String getThirdPartyId() {
+        return thirdPartyId;
+    }
+
+    public void setThirdPartyId(String thirdPartyId) {
+        this.thirdPartyId = thirdPartyId;
+    }
+
+    private String thirdPartyId;
+
     private String password;
 
     public Integer getUserId() {

@@ -89,6 +89,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException {
+        if (userAccount == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+        UserAccount existAccount = userAccountMapper.selectByThirdPartyId(userAccount.getThirdPartyId());
+        if (existAccount == null) {
+            userAccountMapper.insertSelective(userAccount);
+        }
+        UserAccount account = userAccountMapper.selectByThirdPartyId(userAccount.getThirdPartyId());
+        UserModel userModel = new UserModel();
+        userModel.setUserId(account.getUserId());
+        userModel.setUserName(account.getUserName());
+        userModel.setThirdPartyId(account.getThirdPartyId());
+        return userModel;
+    }
+
+    @Override
     public UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException {
         //get user information by user phone number
         UserAccountExample example = new UserAccountExample();
