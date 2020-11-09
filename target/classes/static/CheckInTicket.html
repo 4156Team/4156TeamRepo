@@ -5,6 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-
+    <div>
+        <input type="text" id="TicketID" class="gui-input" placeholder="TicketID">
+        <button class="btn blue" id="check" type="submit"> check </button>
+    </div>
+    <script>
+        jQuery(document).ready(function() {
+            $("#check").on("click", function (){
+                var ticketId=$("#TicketID").val();
+                console.log(ticketId);
+                
+            })
+        });
+    </script>
 </body>
 </html>
