@@ -33,23 +33,6 @@
                 </button>
             </div>
         </div>
-        <div data-onsuccess="onSignIn" data-theme="dark"></div>
-        <script>
-            function onSignIn(googleUser) {
-              // 客戶端如果有需要的話可以通過profile來獲取使用者資訊
-              var profile = googleUser.getBasicProfile();
-              // 傳回後臺驗證，並獲取userid
-              var id_token = googleUser.getAuthResponse().id_token;
-              console.log("ID Token: " + id_token);
-              var xhr = new XMLHttpRequest();
-              xhr.open('POST', 'http://gntina.iok.la/googleVerify');
-              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-              xhr.onload = function() {
-                console.log('Signed in as: ' + xhr.responseText);
-              };
-              xhr.send('idtokenstr=' + id_token);
-            };
-        </script>
         
     </body>
     <script>

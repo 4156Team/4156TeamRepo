@@ -77,7 +77,7 @@ public class TestController {
 
     @RequestMapping("test5")
     public String test5(){
-        return "/login";
+        return "/demo";
     }
 
 }

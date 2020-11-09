@@ -129,9 +129,10 @@ public class UserController extends BaseController{
         BeanUtils.copyProperties(userModel, userVO);
         return userVO;
     }
+
     @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
-    public void verifyToken(String idtokenstr) {
-        System.out.println(idtokenstr);
+    @ResponseBody
+    public void verifyToken(String idtokenstr) throws BusinessException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), JacksonFactory.getDefaultInstance())
                 .setAudience(Collections.singletonList("66670440653-9ooesmgkcr05a37k224mr3sjsctis262.apps.googleusercontent.com")).build();
@@ -139,22 +140,21 @@ public class UserController extends BaseController{
         try {
             idToken = verifier.verify(idtokenstr);
         } catch (GeneralSecurityException e) {
-            System.out.println("驗證時出現GeneralSecurityException異常");
+            System.out.println("GeneralSecurityException Exception");
         } catch (IOException e) {
-            System.out.println("驗證時出現IOException異常");
+            System.out.println("IOException");
         }
         if (idToken != null) {
-            System.out.println("驗證成功.");
+            System.out.println("Verified");
             GoogleIdToken.Payload payload = idToken.getPayload();
             String userId = payload.getSubject();
 			System.out.println("User ID: " + userId);
-//			String email = payload.getEmail();
-//			boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-//			String name = (String) payload.get("name");
-//			String pictureUrl = (String) payload.get("picture");
-//			String locale = (String) payload.get("locale");
-//			String familyName = (String) payload.get("family_name");
-//			String givenName = (String) payload.get("given_name");
+			String name = (String) payload.get("name");
+            System.out.println("User name:" + name);
+            UserModel userModel = new UserModel();
+            userModel.setUserId(Integer.parseInt(userId));
+            userModel.setUserName(name);
+            userService.register(userModel);
         } else {
             System.out.println("Invalid ID token.");
         }

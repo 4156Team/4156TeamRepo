@@ -70,10 +70,10 @@ public class UserServiceImpl implements UserService {
         if(userModel == null) {
             throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
-        if(StringUtils.isEmpty(userModel.getUserName()) || userModel.getUserGender() == null
-        || userModel.getUserAge() == null || StringUtils.isEmpty(userModel.getPhoneNumber())) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
+//        if(StringUtils.isEmpty(userModel.getUserName()) || userModel.getUserGender() == null
+//        || userModel.getUserAge() == null || StringUtils.isEmpty(userModel.getPhoneNumber())) {
+//            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+//        }
         UserAccount userAccount = convertFromModel(userModel);
         try{
             userAccountMapper.insertSelective(userAccount);
