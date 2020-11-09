@@ -1,13 +1,16 @@
 package com.java.rollercoaster.service.impl;
 
+import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.UserAccountExample;
 import com.java.rollercoaster.pojo.UserPassword;
 import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.TicketModel;
 import com.java.rollercoaster.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.UUID.randomUUID;
@@ -34,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+    @Autowired
+    private TicketMapper ticketMapper;
 
 //    @Override
 //    public UserModel getUserByPhoneNumber(String phoneNumber) {
@@ -102,7 +108,12 @@ public class UserServiceImpl implements UserService {
         }
         return userModel;
 
+    }
 
+    @Override
+    public List<Ticket> getTicketsByUserId(Integer userId) {
+        List<Ticket> ticketList = ticketMapper.selectByUserId(userId);
+        return ticketList;
     }
 
     private UserPassword convertPasswordFromModel(UserModel userModel) {
