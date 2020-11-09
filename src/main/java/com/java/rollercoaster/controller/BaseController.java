@@ -15,7 +15,6 @@ import java.util.Map;
 public class BaseController {
     //handle exceptions which are not handled by controller layer
     public static final String CONTENT_TYPE_FORMED="application/x-www-form-urlencoded";
-
 //    @ExceptionHandler(Exception.class)
 //    @ResponseStatus(HttpStatus.OK)
 //    @ResponseBody
@@ -30,8 +29,8 @@ public class BaseController {
 //            responseData.put("errMsg", ErrorEnum.UNKNOWN_ERROR.getErrMsg());
 //        }
 //        return CommonReturnType.create(responseData,"fail");
-//
-//
+
+
 //    }
 
 }

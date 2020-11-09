@@ -128,7 +128,7 @@
     -->
     select
     <include refid="Base_Column_List" />
-    from user
+    from userAccount
     where phone_number = #{phoneNumber,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

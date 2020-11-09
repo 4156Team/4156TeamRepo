@@ -3,6 +3,7 @@ package com.java.rollercoaster.controller;
 import com.java.rollercoaster.controller.viewObject.UserVO;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -20,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -94,6 +96,22 @@ public class UserController extends BaseController{
         UserVO userVO = convertFromModel(userModel);
         //return common object
         return CommonReturnType.create(userVO);
+    }
+
+    @RequestMapping("/ticketsRecord")
+    @ResponseBody
+    public CommonReturnType getTickets() throws BusinessException {
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (!isLogin)  {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
+        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        //if user not exist
+        if (userModel == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+        List<Ticket> ticketList = userService.getTicketsByUserId(userModel.getUserId());
+        return CommonReturnType.create(ticketList);
     }
 
     private UserVO convertFromModel(UserModel userModel) {
