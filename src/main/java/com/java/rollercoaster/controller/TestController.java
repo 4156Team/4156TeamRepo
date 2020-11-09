@@ -9,11 +9,14 @@ import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 @Controller
 public class TestController {
@@ -66,6 +69,10 @@ public class TestController {
         if (null == ticket){
             return "No such ticket";
         }
+        System.out.println(new Date());
+        Date date = new Date();
+        System.out.println(DateUtils.isSameDay(date,ticket.getValidDate()));
         return ticket.getValidDate().toString();
     }
+
 }

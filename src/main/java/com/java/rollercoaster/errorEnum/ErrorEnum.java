@@ -8,7 +8,9 @@ public enum ErrorEnum implements CommonError{
     USER_NOT_LOGIN(20003,"User Not Login"),
     USER_LOGIN_FAIL(20002,"User or password is incorrect"),
     INVALID_TICKET(201,"The ticket id is invalid in that day."),
-    WRONG_TICKET_ID(202, "The ticket id is wrong.");
+    WRONG_TICKET_ID(202, "The ticket id is wrong."),
+    USED_TICKET(203, "The ticket has been used."),
+    WRONG_APPOINTMENT_ID(211,"The appointment id is wrong.");
 
     private int errorCode;
     private String errorMessage;
