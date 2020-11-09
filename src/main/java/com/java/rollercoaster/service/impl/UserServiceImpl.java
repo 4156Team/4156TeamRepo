@@ -5,6 +5,7 @@ import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
 import com.java.rollercoaster.pojo.UserAccount;
+import com.java.rollercoaster.pojo.UserAccountExample;
 import com.java.rollercoaster.pojo.UserPassword;
 import com.java.rollercoaster.service.UserService;
 import com.java.rollercoaster.service.model.UserModel;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.UUID.randomUUID;
@@ -81,18 +84,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException {
-            //get user information by user phone number
-            UserAccount userAccount = userAccountMapper.selectByTelephone(telphone);
-            if (userAccount== null) {
-                throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
-            }
-            UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
-            UserModel userModel = convertFromDataObject(userAccount, userPassword);
-            //compare encrypt password with the input password
-            if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {
-                throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
-            }
-            return userModel;
+        //get user information by user phone number
+        UserAccountExample example = new UserAccountExample();
+        UserAccountExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneNumberEqualTo(telphone);
+        UserAccount userAccount = Optional
+                                    .ofNullable(userAccountMapper.selectByExample(example))
+                                    .orElse(new ArrayList<>()).get(0);
+        if (userAccount== null) {
+            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
+        }
+        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
+        UserModel userModel = convertFromDataObject(userAccount, userPassword);
+        //compare encrypt password with the input password
+        if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {
+            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
+        }
+        return userModel;
 
 
     }
