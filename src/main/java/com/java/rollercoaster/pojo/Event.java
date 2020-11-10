@@ -1,5 +1,9 @@
 package com.java.rollercoaster.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Event {
@@ -25,6 +29,7 @@ public class Event {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date startTime;
 
     /**
@@ -33,6 +38,7 @@ public class Event {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date endTime;
 
     /**
@@ -193,5 +199,17 @@ public class Event {
      */
     public void setEventRemainPositions(Integer eventRemainPositions) {
         this.eventRemainPositions = eventRemainPositions;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventName='" + eventName + '\'' +
+                ", eventIntroduction='" + eventIntroduction + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", eventLocation='" + eventLocation + '\'' +
+                ", eventRemainPositions=" + eventRemainPositions +
+                '}';
     }
 }

@@ -17,7 +17,7 @@
             console.log(AppointmentId);
             $.ajax({
                 type: "POST",
-                url:"http://localhost:8080/manager/checkTicket",
+                url:"http://localhost:8080/manager/checkAppointment",
                 data:AppointmentId,
                 contentType: "application/json;charset=UTF-8",
                 success:function(data){

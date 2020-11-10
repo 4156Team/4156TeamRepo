@@ -20,38 +20,40 @@ public class ManagerController {
 
     @PostMapping("/addEvent")
     @ResponseBody
-    public ErrorEnum addEvent(@RequestBody Event event){
-        return manageParkService.addEvent(event);
+    public CommonReturnType addEvent(@RequestBody Event event){
+        System.out.println(event.toString());
+        return CommonReturnType.autoCreate(manageParkService.addEvent(event));
     }
 
     @PostMapping("/updateEvent")
     @ResponseBody
-    public ErrorEnum updateEvent(@RequestBody Event event){
-        return manageParkService.updateEvent(event);
+    public CommonReturnType updateEvent(@RequestBody Event event){
+        return CommonReturnType.autoCreate(manageParkService.updateEvent(event));
     }
 
     @PostMapping("/deleteEvent")
     @ResponseBody
-    public ErrorEnum deleteEvent(@RequestBody String eventName){
-        return manageParkService.deleteEvent(eventName);
+    public CommonReturnType deleteEvent(@RequestBody String eventName){
+        return CommonReturnType.autoCreate(manageParkService.deleteEvent(eventName));
     }
 
     @PostMapping("/addFacility")
     @ResponseBody
-    public ErrorEnum addFacility(@RequestBody Facility facility){
-        return manageParkService.addFacility(facility);
+    public CommonReturnType addFacility(@RequestBody Facility facility){
+        return CommonReturnType.autoCreate(manageParkService.addFacility(facility));
     }
 
     @PostMapping("/updateFacility")
     @ResponseBody
-    public ErrorEnum updateFacility(@RequestBody Facility facility){
-        return manageParkService.updateFacility(facility);
+    public CommonReturnType updateFacility(@RequestBody Facility facility){
+        System.out.println(facility.toString());
+        return CommonReturnType.autoCreate(manageParkService.updateFacility(facility));
     }
 
     @PostMapping("/deleteFacility")
     @ResponseBody
-    public ErrorEnum deleteFacility(@RequestBody String facilityName){
-        return manageParkService.deleteFacility(facilityName);
+    public CommonReturnType deleteFacility(@RequestBody String facilityName){
+        return CommonReturnType.autoCreate(manageParkService.deleteFacility(facilityName));
     }
 
     @PostMapping(value="/checkTicket")
@@ -59,22 +61,14 @@ public class ManagerController {
     public CommonReturnType checkTicket(@RequestBody String ticketId){
         System.out.println(ticketId);
         ErrorEnum errorEnum = checkInService.checkTicket(ticketId);
-        if(ErrorEnum.OK == errorEnum){
-            return CommonReturnType.create(errorEnum);
-        } else{
-            return CommonReturnType.create(errorEnum, "fail");
-        }
+        return CommonReturnType.autoCreate(errorEnum);
     }
 
     @PostMapping("/checkAppointment")
     @ResponseBody
-    public ErrorEnum checkAppointment(@RequestBody String appointmentId){
-        return checkInService.checkAppointments(appointmentId);
-    }
-
-    @RequestMapping("")
-    public String manageView(){
-        return "/managerView";
+    public CommonReturnType checkAppointment(@RequestBody String appointmentId){
+        System.out.println(appointmentId);
+        return CommonReturnType.autoCreate(checkInService.checkAppointments(appointmentId));
     }
 
 }

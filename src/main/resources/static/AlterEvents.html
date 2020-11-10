@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div>
+        <input type="text" id="EventName" class="gui-input" placeholder="Event Name">
+        <input type="text" id="EventIntroduction" class="gui-input" placeholder="Event Introduction">
+        <input type="text" id="StartTime" class="gui-input" placeholder="Start Time 19:00:00">
+        <input type="text" id="EndTime" class="gui-input" placeholder="End Time 20:00:00">
+        <input type="text" id="EventLocation" class="gui-input" placeholder="Event Location">
+        <input type="text" id="EventRemainPositions" class="gui-input" placeholder="Event Remain Positions">
+    </div>
+    <div>
+        <button class="btn blue" id="Add_Event" type="submit"> Add Event </button>
+    </div>
+    <div>
+        <button class="btn blue" id="Delete_Event" type="submit"> Delete Event </button>
+    </div>
+    <div>
+        <button class="btn blue" id="Update_Event" type="submit"> Update Event </button>
+    </div>
+    <script>
+        jQuery(document).ready(function() {
+            $("#Add_Event").on("click", function (){
+                $.ajax({
+                    type: "POST",
+                    url:"http://localhost:8080/manager/addEvent",
+                    data:JSON.stringify({
+                        "eventName":$("#EventName").val(),
+                        "eventIntroduction":$("#EventIntroduction").val(),
+                        "startTime":$("#StartTime").val(),
+                        "endTime":$("#EndTime").val(),
+                        "eventLocation":$("#EventLocation").val(),
+                        "eventRemainPositions":$("#EventRemainPositions").val(),
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(data){
+                        console.log(data)
+                        if (data.status === "success") {
+                            alert("Add event successfully");
+                        } else {
+                            alert("Failed to add event, the reason is that " + data.data);
+                        }
+                    },
+                    error:function(data){
+                        console.log(data)
+                        alert("Error! "+data.responseText);
+                    }
+
+                });
+            })
+        });
+    </script>
+
+    <script>
+        jQuery(document).ready(function() {
+            $("#Delete_Event").on("click", function (){
+                $.ajax({
+                    type: "POST",
+                    url:"http://localhost:8080/manager/deleteEvent",
+                    data:$("#EventName").val(),
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(data){
+                        console.log(data)
+                        if (data.status === "success") {
+                            alert("Delete event successfully");
+                        } else {
+                            alert("Failed to delete event, the reason is that " + data.data);
+                        }
+                    },
+                    error:function(data){
+                        console.log(data)
+                        alert("Error! "+data.responseText);
+                    }
+
+                });
+            })
+        });
+    </script>
+
+    <script>
+        jQuery(document).ready(function() {
+            $("#Update_Event").on("click", function (){
+                $.ajax({
+                    type: "POST",
+                    url:"http://localhost:8080/manager/updateEvent",
+                    data:JSON.stringify({
+                        "eventName":$("#EventName").val(),
+                        "eventIntroduction":("" === $("#EventIntroduction").val())?null:$("#EventIntroduction").val(),
+                        "startTime":("" === $("#StartTime").val())?null:$("#StartTime").val(),
+                        "endTime":("" === $("#EndTime").val())?null:$("#EndTime").val(),
+                        "eventLocation":("" === $("#EventLocation").val())?null:$("#EventLocation").val(),
+                        "eventRemainPositions":("" === $("#EventRemainPositions").val())?null:$("#EventRemainPositions").val(),
+                    }),
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    success:function(data){
+                        console.log(data)
+                        if (data.status === "success") {
+                            alert("Update event successfully");
+                        } else {
+                            alert("Failed to update event, the reason is that " + data.data);
+                        }
+                    },
+                    error:function(data){
+                        console.log(data)
+                        alert("Error! "+data.responseText);
+                    }
+
+                });
+            })
+        });
+    </script>
+</body>
+</html>

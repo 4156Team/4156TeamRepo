@@ -18,6 +18,7 @@ public class CommonReturnType {
         type.setData(result);
         return type;
     }
+
     public static CommonReturnType autoCreate(ErrorEnum errorEnum){
         if (ErrorEnum.OK == errorEnum){
             return create(errorEnum);

@@ -1,5 +1,6 @@
 package com.java.rollercoaster.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
 import java.util.Date;
 
@@ -34,6 +35,7 @@ public class Facility {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date facilityOpenTime;
 
     /**
@@ -42,6 +44,7 @@ public class Facility {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
+    @JsonFormat(pattern = "HH:mm:ss")
     private Date facilityCloseTime;
 
     /**
@@ -194,5 +197,17 @@ public class Facility {
      */
     public void setQueueStatus(Integer queueStatus) {
         this.queueStatus = queueStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "facilityName='" + facilityName + '\'' +
+                ", FacilityStatus=" + FacilityStatus +
+                ", facilityIntroduction='" + facilityIntroduction + '\'' +
+                ", facilityOpenTime=" + facilityOpenTime +
+                ", facilityCloseTime=" + facilityCloseTime +
+                ", queueStatus=" + queueStatus +
+                '}';
     }
 }
