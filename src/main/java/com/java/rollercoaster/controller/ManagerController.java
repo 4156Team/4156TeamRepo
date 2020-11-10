@@ -3,6 +3,7 @@ package com.java.rollercoaster.controller;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,16 +54,27 @@ public class ManagerController {
         return manageParkService.deleteFacility(facilityName);
     }
 
-    @PostMapping("/checkTicket")
+    @PostMapping(value="/checkTicket")
     @ResponseBody
-    public ErrorEnum checkTicket(@RequestBody String ticketId){
-        return checkInService.checkTicket(ticketId);
+    public CommonReturnType checkTicket(@RequestBody String ticketId){
+        System.out.println(ticketId);
+        ErrorEnum errorEnum = checkInService.checkTicket(ticketId);
+        if(ErrorEnum.OK == errorEnum){
+            return CommonReturnType.create(errorEnum);
+        } else{
+            return CommonReturnType.create(errorEnum, "fail");
+        }
     }
 
     @PostMapping("/checkAppointment")
     @ResponseBody
     public ErrorEnum checkAppointment(@RequestBody String appointmentId){
         return checkInService.checkAppointments(appointmentId);
+    }
+
+    @RequestMapping("")
+    public String manageView(){
+        return "/managerView";
     }
 
 }

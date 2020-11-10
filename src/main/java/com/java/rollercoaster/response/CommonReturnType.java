@@ -1,5 +1,7 @@
 package com.java.rollercoaster.response;
 
+import com.java.rollercoaster.errorEnum.ErrorEnum;
+
 public class CommonReturnType {
     //response status success/fail
     private String status;
@@ -15,6 +17,13 @@ public class CommonReturnType {
         type.setStatus(status);
         type.setData(result);
         return type;
+    }
+    public static CommonReturnType autoCreate(ErrorEnum errorEnum){
+        if (ErrorEnum.OK == errorEnum){
+            return create(errorEnum);
+        } else{
+            return create(errorEnum, "fail");
+        }
     }
 
     public String getStatus() {

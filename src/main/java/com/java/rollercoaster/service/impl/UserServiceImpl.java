@@ -5,10 +5,7 @@ import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorEnum.BusinessException;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
-import com.java.rollercoaster.pojo.Ticket;
-import com.java.rollercoaster.pojo.UserAccount;
-import com.java.rollercoaster.pojo.UserAccountExample;
-import com.java.rollercoaster.pojo.UserPassword;
+import com.java.rollercoaster.pojo.*;
 import com.java.rollercoaster.service.UserService;
 import com.java.rollercoaster.service.model.TicketModel;
 import com.java.rollercoaster.service.model.UserModel;
@@ -93,15 +90,23 @@ public class UserServiceImpl implements UserService {
         if (userAccount == null) {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
-        UserAccount existAccount = userAccountMapper.selectByThirdPartyId(userAccount.getThirdPartyId());
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria criteria = userAccountExample.createCriteria();
+        criteria.andThirdPartyIdEqualTo(userAccount.getThirdPartyId());
+        UserAccount existAccount = Optional.ofNullable(userAccountMapper.selectByExample(userAccountExample))
+                                    .orElse(new ArrayList<>()).get(0);
+
+        UserModel userModel = new UserModel();
         if (existAccount == null) {
             userAccountMapper.insertSelective(userAccount);
+            userModel.setUserId(userAccount.getUserId());
+            userModel.setUserName(userAccount.getUserName());
+            userModel.setThirdPartyId(userAccount.getThirdPartyId());
+        } else{
+            userModel.setUserId(existAccount.getUserId());
+            userModel.setUserName(existAccount.getUserName());
+            userModel.setThirdPartyId(existAccount.getThirdPartyId());
         }
-        UserAccount account = userAccountMapper.selectByThirdPartyId(userAccount.getThirdPartyId());
-        UserModel userModel = new UserModel();
-        userModel.setUserId(account.getUserId());
-        userModel.setUserName(account.getUserName());
-        userModel.setThirdPartyId(account.getThirdPartyId());
         return userModel;
     }
 
@@ -129,7 +134,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Ticket> getTicketsByUserId(Integer userId) {
-        List<Ticket> ticketList = ticketMapper.selectByUserId(userId);
+        TicketExample ticketExample = new TicketExample();
+        TicketExample.Criteria criteria = ticketExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
         return ticketList;
     }
 

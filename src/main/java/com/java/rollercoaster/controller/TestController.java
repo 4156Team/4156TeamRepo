@@ -65,6 +65,7 @@ public class TestController {
     @RequestMapping("/test4")
     @ResponseBody
     public String test4(@RequestParam String ticketId){
+        System.out.println(ticketId);
         Ticket ticket = ticketMapper.selectByPrimaryKey(ticketId);
         if (null == ticket){
             return "No such ticket";
@@ -78,6 +79,16 @@ public class TestController {
     @RequestMapping("test5")
     public String test5(){
         return "/demo";
+    }
+
+    @RequestMapping("test6")
+    public String test6(){
+        return "/managerView";
+    }
+
+    @RequestMapping("test7")
+    public String test7(){
+        return "/login";
     }
 
 }
