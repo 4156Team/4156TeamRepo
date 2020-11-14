@@ -7,6 +7,5 @@ import java.util.Date;
 public interface TicketService {
     ErrorEnum addTicket(Ticket ticket);
     ErrorEnum updateTicket(Ticket ticket);
-    ErrorEnum deleteTicket(Integer userId, Date validDate);
-    //每个userId和validDate对应唯一票
+    ErrorEnum deleteTicket(String ticketId);
 }

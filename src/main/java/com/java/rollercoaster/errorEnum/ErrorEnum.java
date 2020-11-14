@@ -18,7 +18,12 @@ public enum ErrorEnum implements CommonError{
     NO_SUCH_EVENT(223, "The event does not exist"),
     EMPTY_FACILITY_NAME(224, "The facility name is empty."),
     DUPLICATE_FACILITY_NAME(225, "The facility name is duplicate."),
-    NO_SUCH_FACILITY(226, "The facility does not exist");
+    NO_SUCH_FACILITY(226, "The facility does not exist"),
+
+    EMPTY_TICKET(241, "Try to operate empty ticket."),
+    DUPLICATE_TICKET(242, "Ticket already existed."),
+    DATE_PASSED(243, "The date chosen has already passed."),
+    NO_SUCH_TICKET(244, "Ticket does not exist.");
 
     private int errorCode;
     private String errorMessage;
