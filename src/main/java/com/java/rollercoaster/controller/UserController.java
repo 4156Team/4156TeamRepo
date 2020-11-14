@@ -10,6 +10,7 @@ import com.java.rollercoaster.errorEnum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.enumeration.Role;
+import com.java.rollercoaster.pojo.enumeration.Status;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.UserService;
@@ -57,7 +58,8 @@ public class UserController extends BaseController{
         UserModel userModel = userService.validateLogin(telphone, this.EncodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-        return CommonReturnType.create(null);
+        Role role = userModel.getRole();
+        return CommonReturnType.create(role);
     }
 
     //Register endpoint
@@ -160,6 +162,7 @@ public class UserController extends BaseController{
 
             this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
             this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+            System.out.println("It's here.");
         } else {
             System.out.println("Invalid ID token.");
         }

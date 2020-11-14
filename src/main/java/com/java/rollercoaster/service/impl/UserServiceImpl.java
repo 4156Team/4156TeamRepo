@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         userModel.setUserId(userAccount.getUserId());
 
         UserPassword userPassword = convertPasswordFromModel(userModel);
+        System.out.println(userPassword.getPassword());
         userPasswordMapper.insertSelective(userPassword);
         return;
 
@@ -93,8 +94,8 @@ public class UserServiceImpl implements UserService {
         UserAccountExample userAccountExample = new UserAccountExample();
         UserAccountExample.Criteria criteria = userAccountExample.createCriteria();
         criteria.andThirdPartyIdEqualTo(userAccount.getThirdPartyId());
-        UserAccount existAccount = Optional.ofNullable(userAccountMapper.selectByExample(userAccountExample))
-                                    .orElse(new ArrayList<>()).get(0);
+        List<UserAccount> candidates = userAccountMapper.selectByExample(userAccountExample);
+        UserAccount existAccount = candidates.isEmpty()? null : candidates.get(0);
 
         UserModel userModel = new UserModel();
         if (existAccount == null) {
@@ -125,6 +126,8 @@ public class UserServiceImpl implements UserService {
         UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
         UserModel userModel = convertFromDataObject(userAccount, userPassword);
         //compare encrypt password with the input password
+        System.out.println(userPassword.getPassword());
+        System.out.println(encryptPassword);
         if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {
             throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
         }

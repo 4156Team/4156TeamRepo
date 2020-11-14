@@ -36,7 +36,7 @@
                     url:"http://localhost:8080/user/ticketsRecord", 
                     xhrFields:{withCredentials:true},
                     success:function(data){
-                        if(data.status == "success"){
+                        if(data.status === "success"){
                             g_ticketList = data.data;
                             reloadDom();
                         }else{
