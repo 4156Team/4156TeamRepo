@@ -9,6 +9,7 @@ import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
+import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 
 @Controller
 public class TestController {
@@ -29,6 +29,7 @@ public class TestController {
 
     @Autowired
     private UserAccountMapper userAccountMapper;
+
     //加上responseBody注解后 就是返回json 否则redirect到前端界面
     @RequestMapping("/test1")
     public String index() {
@@ -38,19 +39,19 @@ public class TestController {
 
     @RequestMapping("/test2")
     @ResponseBody
-    public String result(){
+    public String result() {
         System.out.println("test2");
         return "test2";
     }
 
+    /**
+     * Test for mapper.
+     *
+     * @return ****.
+     */
     @RequestMapping("/test3")
     @ResponseBody
-    public String test(){
-        Facility facility = facilityMapper.selectByPrimaryKey("Walkhammer");
-//        eventMapper.selectByPrimaryKey("11");
-//        System.out.println("***********");
-//        return facility.getFacilityStatus().toString();
-//        return "success";
+    public String test() {
         UserAccount userAccount = new UserAccount();
         userAccount.setPhoneNumber("18718691881");
         userAccount.setRole(Role.visitor);
@@ -62,32 +63,38 @@ public class TestController {
         return "*****";
     }
 
+    /**
+     * Test for ticketMapper and the jsonFormat.
+     *
+     * @param ticketId ticketId.
+     * @return validDate.
+     */
     @RequestMapping("/test4")
     @ResponseBody
-    public String test4(@RequestParam String ticketId){
+    public String test4(@RequestParam String ticketId) {
         System.out.println(ticketId);
         Ticket ticket = ticketMapper.selectByPrimaryKey(ticketId);
-        if (null == ticket){
+        if (null == ticket) {
             return "No such ticket";
         }
         System.out.println(new Date());
         Date date = new Date();
-        System.out.println(DateUtils.isSameDay(date,ticket.getValidDate()));
+        System.out.println(DateUtils.isSameDay(date, ticket.getValidDate()));
         return ticket.getValidDate().toString();
     }
 
     @RequestMapping("test5")
-    public String test5(){
+    public String test5() {
         return "/demo";
     }
 
     @RequestMapping("test6")
-    public String test6(){
+    public String test6() {
         return "/managerView";
     }
 
     @RequestMapping("test7")
-    public String test7(){
+    public String test7() {
         return "/login";
     }
 

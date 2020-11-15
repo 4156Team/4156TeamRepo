@@ -2,14 +2,13 @@ package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
-import com.java.rollercoaster.errorEnum.BusinessException;
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.service.QueryService;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
-import com.java.rollercoaster.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

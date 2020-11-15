@@ -2,7 +2,7 @@ package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.service.ManageParkService;
@@ -18,11 +18,11 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum addEvent(Event event) {
-        if (null == event.getEventName() || "".equals(event.getEventName())){
+        if (null == event.getEventName() || "".equals(event.getEventName())) {
             return ErrorEnum.EMPTY_EVENT_NAME;
-        } else if (null != eventMapper.selectByPrimaryKey(event.getEventName())){
+        } else if (null != eventMapper.selectByPrimaryKey(event.getEventName())) {
             return ErrorEnum.DUPLICATE_EVENT_NAME;
-        } else{
+        } else {
             eventMapper.insert(event);
             return ErrorEnum.OK;
         }
@@ -30,9 +30,9 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum updateEvent(Event event) {
-        if (null == event.getEventName()){
+        if (null == event.getEventName()) {
             return ErrorEnum.EMPTY_EVENT_NAME;
-        } else if (null == eventMapper.selectByPrimaryKey(event.getEventName())){
+        } else if (null == eventMapper.selectByPrimaryKey(event.getEventName())) {
             return ErrorEnum.NO_SUCH_EVENT;
         }
         eventMapper.updateByPrimaryKeySelective(event);
@@ -41,9 +41,9 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum deleteEvent(String eventName) {
-        if (null == eventName){
+        if (null == eventName) {
             return ErrorEnum.EMPTY_EVENT_NAME;
-        } else if (null == eventMapper.selectByPrimaryKey(eventName)){
+        } else if (null == eventMapper.selectByPrimaryKey(eventName)) {
             return ErrorEnum.NO_SUCH_EVENT;
         }
         eventMapper.deleteByPrimaryKey(eventName);
@@ -53,11 +53,11 @@ public class ManageParkServiceImpl implements ManageParkService {
     @Override
     public ErrorEnum addFacility(Facility facility) {
 
-        if (null == facility.getFacilityName() || "".equals(facility.getFacilityName())){
+        if (null == facility.getFacilityName() || "".equals(facility.getFacilityName())) {
             return ErrorEnum.EMPTY_FACILITY_NAME;
-        } else if (null != facilityMapper.selectByPrimaryKey(facility.getFacilityName())){
+        } else if (null != facilityMapper.selectByPrimaryKey(facility.getFacilityName())) {
             return ErrorEnum.DUPLICATE_FACILITY_NAME;
-        } else{
+        } else {
             facilityMapper.insert(facility);
             return ErrorEnum.OK;
         }
@@ -65,9 +65,9 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum updateFacility(Facility facility) {
-        if (null == facility.getFacilityName()){
+        if (null == facility.getFacilityName()) {
             return ErrorEnum.EMPTY_FACILITY_NAME;
-        } else if (null == facilityMapper.selectByPrimaryKey(facility.getFacilityName())){
+        } else if (null == facilityMapper.selectByPrimaryKey(facility.getFacilityName())) {
             return ErrorEnum.NO_SUCH_FACILITY;
         }
         facilityMapper.updateByPrimaryKeySelective(facility);
@@ -76,9 +76,9 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum deleteFacility(String facilityName) {
-        if (null == facilityName){
+        if (null == facilityName) {
             return ErrorEnum.EMPTY_FACILITY_NAME;
-        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)){
+        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {
             return ErrorEnum.NO_SUCH_FACILITY;
         }
         facilityMapper.deleteByPrimaryKey(facilityName);

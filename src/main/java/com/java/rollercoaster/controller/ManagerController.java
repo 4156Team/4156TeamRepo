@@ -1,6 +1,6 @@
 package com.java.rollercoaster.controller;
 
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -8,67 +8,132 @@ import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+    /**
+     * Service for managePark.
+     */
     @Autowired
-    ManageParkService manageParkService;
+    private ManageParkService manageParkService;
+    /**
+     * Service for checkIn.
+     */
     @Autowired
-    CheckInService checkInService;
+    private CheckInService checkInService;
 
+    /**
+     * Add event.
+     *
+     * @param event event
+     * @return CommonReturnType
+     */
     @PostMapping("/addEvent")
     @ResponseBody
-    public CommonReturnType addEvent(@RequestBody Event event){
+    public CommonReturnType addEvent(@RequestBody final Event event) {
         System.out.println(event.toString());
         return CommonReturnType.autoCreate(manageParkService.addEvent(event));
     }
 
+    /**
+     * Update event.
+     *
+     * @param event event
+     * @return CommonReturnType
+     */
     @PostMapping("/updateEvent")
     @ResponseBody
-    public CommonReturnType updateEvent(@RequestBody Event event){
-        return CommonReturnType.autoCreate(manageParkService.updateEvent(event));
+    public CommonReturnType updateEvent(@RequestBody final Event event) {
+        return CommonReturnType.autoCreate(
+                manageParkService.updateEvent(event));
     }
 
+    /**
+     * Delete event.
+     *
+     * @param eventName eventName
+     * @return CommonReturnType
+     */
     @PostMapping("/deleteEvent")
     @ResponseBody
-    public CommonReturnType deleteEvent(@RequestBody String eventName){
-        return CommonReturnType.autoCreate(manageParkService.deleteEvent(eventName));
+    public CommonReturnType deleteEvent(@RequestBody final String eventName) {
+        return CommonReturnType.autoCreate(
+                manageParkService.deleteEvent(eventName));
     }
 
+    /**
+     * Add facility.
+     *
+     * @param facility facility
+     * @return CommonReturnType
+     */
     @PostMapping("/addFacility")
     @ResponseBody
-    public CommonReturnType addFacility(@RequestBody Facility facility){
-        return CommonReturnType.autoCreate(manageParkService.addFacility(facility));
+    public CommonReturnType addFacility(@RequestBody final Facility facility) {
+        return CommonReturnType.autoCreate(
+                manageParkService.addFacility(facility));
     }
 
+    /**
+     * Update facility.
+     *
+     * @param facility facility
+     * @return CommonReturnType
+     */
     @PostMapping("/updateFacility")
     @ResponseBody
-    public CommonReturnType updateFacility(@RequestBody Facility facility){
+    public CommonReturnType updateFacility(@RequestBody final Facility facility) {
         System.out.println(facility.toString());
-        return CommonReturnType.autoCreate(manageParkService.updateFacility(facility));
+        return CommonReturnType.autoCreate(
+                manageParkService.updateFacility(facility));
     }
 
+    /**
+     * Delete facility.
+     *
+     * @param facilityName facilityName
+     * @return CommonReturnType
+     */
     @PostMapping("/deleteFacility")
     @ResponseBody
-    public CommonReturnType deleteFacility(@RequestBody String facilityName){
-        return CommonReturnType.autoCreate(manageParkService.deleteFacility(facilityName));
+    public CommonReturnType deleteFacility(@RequestBody
+                                               final String facilityName) {
+        return CommonReturnType.autoCreate(
+                manageParkService.deleteFacility(facilityName));
     }
 
-    @PostMapping(value="/checkTicket")
+    /**
+     * Check ticket.
+     *
+     * @param ticketId ticketId
+     * @return CommonReturnType
+     */
+    @PostMapping("/checkTicket")
     @ResponseBody
-    public CommonReturnType checkTicket(@RequestBody String ticketId){
-        System.out.println(ticketId);
+    public CommonReturnType checkTicket(@RequestBody
+                                            final String ticketId) {
         ErrorEnum errorEnum = checkInService.checkTicket(ticketId);
         return CommonReturnType.autoCreate(errorEnum);
     }
 
+    /**
+     * Check appointment.
+     *
+     * @param appointmentId appointmentId
+     * @return CommonReturnType
+     */
     @PostMapping("/checkAppointment")
     @ResponseBody
-    public CommonReturnType checkAppointment(@RequestBody String appointmentId){
+    public CommonReturnType checkAppointment(@RequestBody
+                                                 final String appointmentId) {
         System.out.println(appointmentId);
-        return CommonReturnType.autoCreate(checkInService.checkAppointments(appointmentId));
+        return CommonReturnType.autoCreate(
+                checkInService.checkAppointments(appointmentId));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.java.rollercoaster.response;
 
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 
 public class CommonReturnType {
     //response status success/fail

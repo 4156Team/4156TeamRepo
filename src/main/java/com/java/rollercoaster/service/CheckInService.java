@@ -1,6 +1,6 @@
 package com.java.rollercoaster.service;
 
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 
 public interface CheckInService {
     ErrorEnum checkTicket(String ticketId);

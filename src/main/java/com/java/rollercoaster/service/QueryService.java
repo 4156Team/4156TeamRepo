@@ -1,6 +1,6 @@
 package com.java.rollercoaster.service;
 
-import com.java.rollercoaster.errorEnum.BusinessException;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
 

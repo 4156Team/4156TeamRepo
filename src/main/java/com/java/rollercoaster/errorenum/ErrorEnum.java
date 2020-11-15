@@ -1,17 +1,17 @@
-package com.java.rollercoaster.errorEnum;
+package com.java.rollercoaster.errorenum;
 
-public enum ErrorEnum implements CommonError{
+public enum ErrorEnum implements CommonError {
     OK(100, ""),
-    PARAMETER_VALIDATION_ERROR(10001,"Invalid parameter"),
-    UNKNOWN_ERROR(10002,"unknown error"),
-    USER_NOT_EXIST(20001,"User not exist"),
-    USER_NOT_LOGIN(20003,"User Not Login"),
-    USER_LOGIN_FAIL(20002,"User or password is incorrect"),
+    PARAMETER_VALIDATION_ERROR(10001, "Invalid parameter."),
+    UNKNOWN_ERROR(10002, "unknown error"),
+    USER_NOT_EXIST(20001, "User not exist"),
+    USER_NOT_LOGIN(20003, "User Not Login"),
+    USER_LOGIN_FAIL(20002, "User or password is incorrect"),
 
-    INVALID_TICKET(201,"The ticket id is invalid in that day."),
+    INVALID_TICKET(201, "The ticket id is invalid in that day."),
     WRONG_TICKET_ID(202, "The ticket id is wrong."),
     USED_TICKET(203, "The ticket has been used."),
-    WRONG_APPOINTMENT_ID(204,"The appointment id is wrong."),
+    WRONG_APPOINTMENT_ID(204, "The appointment id is wrong."),
 
     EMPTY_EVENT_NAME(221, "The event name is empty."),
     DUPLICATE_EVENT_NAME(222, "The event name is duplicate."),
@@ -49,7 +49,7 @@ public enum ErrorEnum implements CommonError{
         this.errorMessage = errorMessage;
     }
 
-    ErrorEnum(int code, String message){
+    ErrorEnum(int code, String message) {
         this.errorCode = code;
         this.errorMessage = message;
     }

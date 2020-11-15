@@ -1,4 +1,4 @@
-package com.java.rollercoaster.errorEnum;
+package com.java.rollercoaster.errorenum;
 
 public interface CommonError {
     public int getErrCode();

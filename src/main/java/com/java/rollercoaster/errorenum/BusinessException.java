@@ -1,4 +1,4 @@
-package com.java.rollercoaster.errorEnum;
+package com.java.rollercoaster.errorenum;
 
 public class BusinessException extends Exception implements CommonError{
     private CommonError commonError;

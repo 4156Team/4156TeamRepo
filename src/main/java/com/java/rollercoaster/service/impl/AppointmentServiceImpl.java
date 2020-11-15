@@ -3,15 +3,12 @@ package com.java.rollercoaster.service.impl;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
-import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -24,7 +21,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public ErrorEnum addAppointment(Appointment appointment) {
-        if (null == appointment){
+        if (null == appointment) {
             return ErrorEnum.EMPTY_APPOINTMENT;
         } else if (null != appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid())){
             return ErrorEnum.DUPLICATE_APPOINTMENT;

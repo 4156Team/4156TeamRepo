@@ -7,17 +7,14 @@ import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
 import org.junit.jupiter.api.Test;
 import com.java.rollercoaster.dao.EventMapper;
-import com.java.rollercoaster.errorEnum.BusinessException;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.pojo.Event;
-import org.junit.jupiter.api.Test;
-import com.java.rollercoaster.service.impl.QueryServiceImpl;
-import com.java.rollercoaster.errorEnum.ErrorEnum;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;

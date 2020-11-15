@@ -1,9 +1,7 @@
 package com.java.rollercoaster.controller;
 
-import com.java.rollercoaster.errorEnum.BusinessException;
-import com.java.rollercoaster.errorEnum.ErrorEnum;
-import com.java.rollercoaster.pojo.Event;
-import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;

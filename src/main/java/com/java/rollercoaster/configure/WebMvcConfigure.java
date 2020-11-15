@@ -7,16 +7,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfigure implements WebMvcConfigurer {
-
-   /* @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index.html").setViewName("index");
-    }*/
-
-    //所有css,js,images等等都调到static路径下,其他的都跳到templates下
+    /**
+     * Put all the css, js and images in the static package
+     * and other files in the resources package.
+     *
+     * @param registry ResourceHandlerRegistry.
+     */
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/**").addResourceLocations("classpath:");
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:");
     }
 }
