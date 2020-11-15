@@ -23,9 +23,9 @@ public class QueryServiceImpl implements QueryService {
 
     @Override
     public EventModel queryEvent(String eventName) throws BusinessException {
-        if (null == eventName){
+        if (null == eventName) {
             throw new BusinessException(ErrorEnum.EMPTY_EVENT_NAME);
-        } else if (null == eventMapper.selectByPrimaryKey(eventName)){
+        } else if (null == eventMapper.selectByPrimaryKey(eventName)) {
             throw new BusinessException(ErrorEnum.NO_SUCH_EVENT);
         }
         Event eventFromDb = eventMapper.selectByPrimaryKey(eventName);
@@ -41,9 +41,9 @@ public class QueryServiceImpl implements QueryService {
 
     @Override
     public FacilityModel queryFacility(String facilityName) throws BusinessException {
-        if (null == facilityName){
+        if (null == facilityName) {
             throw new BusinessException(ErrorEnum.EMPTY_FACILITY_NAME);
-        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)){
+        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {
             throw new BusinessException(ErrorEnum.NO_SUCH_FACILITY);
         }
         Facility facilityFromDb = facilityMapper.selectByPrimaryKey(facilityName);

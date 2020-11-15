@@ -2,7 +2,6 @@ package com.java.rollercoaster.service.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 public class EventModel {
@@ -32,20 +31,54 @@ public class EventModel {
         this.eventIntroduction = eventIntroduction;
     }
 
+    /**
+     * Get event start time with null check.
+     *
+     */
     public Date getStartTime() {
-        return startTime;
+        if (this.startTime == null) {
+            return null;
+        }
+        return (Date) startTime.clone();
     }
 
+    /**
+     * Set event start time with null check.
+     *
+     */
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        if (startTime == null) {
+            this.startTime = null;
+        } else {
+            Date newStartTime = (Date) startTime.clone();
+            this.startTime = newStartTime;
+        }
+
     }
 
+    /**
+     * Get event end time with null check.
+     *
+     */
     public Date getEndTime() {
-        return endTime;
+        if (this.endTime == null) {
+            return null;
+        }
+        return (Date) endTime.clone();
     }
 
+    /**
+     * Set event end time with null check.
+     *
+     */
     public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+        if (endTime == null) {
+            this.endTime = null;
+        } else {
+            Date newEndTime = (Date) endTime.clone();
+            this.endTime = newEndTime;
+        }
+
     }
 
     public String getEventLocation() {

@@ -2,13 +2,12 @@ package com.java.rollercoaster.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
-
 import java.util.Date;
 
 public class FacilityModel {
 
     private String facilityName;
-    private FacilityStatus FacilityStatus;
+    private FacilityStatus facilityStatus;
     private String facilityIntroduction;
     @JsonFormat(pattern = "HH:mm:ss")
     private Date facilityOpenTime;
@@ -25,11 +24,11 @@ public class FacilityModel {
     }
 
     public com.java.rollercoaster.pojo.enumeration.FacilityStatus getFacilityStatus() {
-        return FacilityStatus;
+        return facilityStatus;
     }
 
-    public void setFacilityStatus(com.java.rollercoaster.pojo.enumeration.FacilityStatus facilityStatus) {
-        FacilityStatus = facilityStatus;
+    public void setFacilityStatus(FacilityStatus facilityStatus) {
+        this.facilityStatus = facilityStatus;
     }
 
     public String getFacilityIntroduction() {
@@ -40,20 +39,51 @@ public class FacilityModel {
         this.facilityIntroduction = facilityIntroduction;
     }
 
+    /**
+     * Get facility open time with null check.
+     *
+     */
     public Date getFacilityOpenTime() {
-        return facilityOpenTime;
+        if (this.facilityOpenTime == null) {
+            return null;
+        }
+        return (Date) facilityOpenTime.clone();
     }
 
+    /**
+     * Set facility open time with null check.
+     *
+     */
     public void setFacilityOpenTime(Date facilityOpenTime) {
-        this.facilityOpenTime = facilityOpenTime;
+        if (facilityOpenTime == null) {
+            this.facilityOpenTime = null;
+        } else {
+            this.facilityOpenTime = (Date) facilityOpenTime.clone();
+        }
+
     }
 
+    /**
+     * Get facility close time with null check.
+     *
+     */
     public Date getFacilityCloseTime() {
-        return facilityCloseTime;
+        if (this.facilityCloseTime == null) {
+            return null;
+        }
+        return (Date) facilityCloseTime.clone();
     }
 
+    /**
+     * Set facility close time with null check.
+     *
+     */
     public void setFacilityCloseTime(Date facilityCloseTime) {
-        this.facilityCloseTime = facilityCloseTime;
+        if (facilityCloseTime == null) {
+            this.facilityCloseTime = null;
+        } else {
+            this.facilityCloseTime = (Date) facilityCloseTime.clone();
+        }
     }
 
     public Integer getQueueStatus() {
