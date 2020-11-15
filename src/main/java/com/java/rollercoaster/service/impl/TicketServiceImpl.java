@@ -5,10 +5,9 @@ import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.errorEnum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.TicketService;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 @Service
 public class TicketServiceImpl implements TicketService {

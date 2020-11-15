@@ -23,7 +23,12 @@ public enum ErrorEnum implements CommonError{
     EMPTY_TICKET(241, "Try to operate empty ticket."),
     DUPLICATE_TICKET(242, "Ticket already existed."),
     DATE_PASSED(243, "The date chosen has already passed."),
-    NO_SUCH_TICKET(244, "Ticket does not exist.");
+    NO_SUCH_TICKET(244, "Ticket does not exist."),
+
+    EMPTY_APPOINTMENT(251, "Try to operate empty appointment."),
+    DUPLICATE_APPOINTMENT(252, "The appointment is duplicate."),
+    EVENT_NO_POSITION(253, "This event has no remaining position."),
+    NO_SUCH_APPOINTMENT(254, "The appointment does not exist.");
 
     private int errorCode;
     private String errorMessage;
