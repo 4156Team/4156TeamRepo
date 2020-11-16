@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService {
         try {
             userAccountMapper.insertSelective(userAccount);
         } catch (DuplicateKeyException ex) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR,
-                    "This telephone has been registered");
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         userModel.setUserId(userAccount.getUserId());
 
@@ -99,9 +98,8 @@ public class UserServiceImpl implements UserService {
         UserAccountExample example = new UserAccountExample();
         UserAccountExample.Criteria criteria = example.createCriteria();
         criteria.andPhoneNumberEqualTo(telphone);
-        UserAccount userAccount = Optional
-                                    .ofNullable(userAccountMapper.selectByExample(example))
-                                    .orElse(new ArrayList<>()).get(0);
+        List<UserAccount> results = userAccountMapper.selectByExample(example);
+        UserAccount userAccount = results.isEmpty() ? null : results.get(0);
         if (userAccount ==  null) {
             throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
         }

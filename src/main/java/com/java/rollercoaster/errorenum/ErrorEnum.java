@@ -37,7 +37,7 @@ public enum ErrorEnum implements CommonError {
         return this.errorCode;
     }
 
-    public void setErrorCode(int errorCode) {
+    private void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
@@ -45,7 +45,7 @@ public enum ErrorEnum implements CommonError {
         return errorMessage;
     }
 
-    public void setErrorMessage(String errorMessage) {
+    private void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
@@ -64,9 +64,4 @@ public enum ErrorEnum implements CommonError {
         return this.errorMessage;
     }
 
-    @Override
-    public CommonError setErrMsg(String errMsg) {
-        this.errorMessage = errMsg;
-        return this;
-    }
 }

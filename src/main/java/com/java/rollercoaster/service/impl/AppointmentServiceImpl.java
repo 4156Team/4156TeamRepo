@@ -53,7 +53,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ErrorEnum.USER_NOT_EXIST;
         }
         Appointment prevAppoint = appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid());
-        if(prevAppoint.getEventName() == appointment.getEventName()){
+        if(prevAppoint.getEventName().equals(appointment.getEventName())){
             appointmentMapper.updateByPrimaryKeySelective(appointment);
             return ErrorEnum.OK;
         } else{

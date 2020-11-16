@@ -44,10 +44,10 @@ public class TicketModel {
     }
 
     public Date getValidDate() {
-        return validDate;
+        return new Date(validDate.getTime());
     }
 
     public void setValidDate(Date validDate) {
-        this.validDate = validDate;
+        this.validDate = new Date(validDate.getTime());
     }
 }

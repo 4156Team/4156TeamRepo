@@ -185,6 +185,9 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>4.0.4</version>
+                <configuration>
+                    <excludeFilterFile>ignore_spotbugs.xml</excludeFilterFile>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>

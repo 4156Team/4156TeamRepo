@@ -5,5 +5,4 @@ public interface CommonError {
 
     public String getErrMsg();
 
-    public CommonError setErrMsg(String errMsg);
 }

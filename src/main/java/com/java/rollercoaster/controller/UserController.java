@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -73,7 +74,7 @@ public class UserController extends BaseController {
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", (Serializable) userModel);
         Role role = userModel.getRole();
         return CommonReturnType.create(role);
     }
