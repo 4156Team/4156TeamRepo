@@ -1,6 +1,6 @@
 package com.java.rollercoaster.controller.viewObject;
 
-import com.java.rollercoaster.pojo.enumeration.UserGender;
+import com.java.rollercoaster.service.model.enumeration.UserGender;
 
 public class UserVO {
     private String phoneNumber;
@@ -34,11 +34,11 @@ public class UserVO {
         this.userName = userName;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.UserGender getUserGender() {
+    public com.java.rollercoaster.service.model.enumeration.UserGender getUserGender() {
         return UserGender;
     }
 
-    public void setUserGender(com.java.rollercoaster.pojo.enumeration.UserGender userGender) {
+    public void setUserGender(com.java.rollercoaster.service.model.enumeration.UserGender userGender) {
         UserGender = userGender;
     }
 

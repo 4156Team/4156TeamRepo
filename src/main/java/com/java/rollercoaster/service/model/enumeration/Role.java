@@ -1,4 +1,4 @@
-package com.java.rollercoaster.pojo.enumeration;
+package com.java.rollercoaster.service.model.enumeration;
 
 public enum Role {
     visitor("visitor"),

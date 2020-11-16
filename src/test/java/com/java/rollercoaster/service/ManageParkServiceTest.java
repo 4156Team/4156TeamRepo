@@ -6,7 +6,7 @@ import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
-import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
