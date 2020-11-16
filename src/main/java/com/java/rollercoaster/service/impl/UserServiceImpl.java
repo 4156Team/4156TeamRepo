@@ -33,15 +33,15 @@ public class UserServiceImpl implements UserService {
     private TicketMapper ticketMapper;
 
 
-    @Override
-    public UserModel getUserByUserId(Integer userId) {
-        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(userId);
-        if (userAccount == null) {
-            return null;
-        }
-        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userId);
-        return convertFromDataObject(userAccount, userPassword);
-    }
+//    @Override
+//    public UserModel getUserByUserId(Integer userId) {
+//        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(userId);
+//        if (userAccount == null) {
+//            return null;
+//        }
+//        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userId);
+//        return convertFromDataObject(userAccount, userPassword);
+//    }
 
 
 

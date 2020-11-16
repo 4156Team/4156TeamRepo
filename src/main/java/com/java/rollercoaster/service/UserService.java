@@ -8,7 +8,7 @@ import com.java.rollercoaster.service.model.UserModel;
 import java.util.List;
 
 public interface UserService {
-    UserModel getUserByUserId(Integer userId);
+//    UserModel getUserByUserId(Integer userId);
 
     void register(UserModel userModel) throws BusinessException;
 
