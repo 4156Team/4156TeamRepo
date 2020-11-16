@@ -31,7 +31,7 @@ public class QueryController {
     public CommonReturnType queryEvent(@RequestParam(name = "eventName") String eventName) {
         try {
             return CommonReturnType.create(queryService.queryEvent(eventName));
-        } catch (BusinessException e) {
+        } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);
         }
     }
@@ -49,7 +49,7 @@ public class QueryController {
                                                       String facilityName) {
         try {
             return CommonReturnType.create(queryService.queryFacility(facilityName));
-        } catch (BusinessException e) {
+        } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);
         }
     }
