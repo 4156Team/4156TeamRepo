@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label class="control-label">Telephone Number</label>
                 <div>
-                    <input class="form-control" type="text" placeholder="Telehone number" name="telphone" id="telphone" />
+                    <input class="form-control" type="text" placeholder="Telehone number" name="telephone" id="telephone" />
                 </div>
             </div>
             <div class="form-group">
@@ -48,18 +48,19 @@
     </body>
     <script>
         jQuery(document).ready(function(){
-            //绑定otp的click事件用于向后端发送获取手机验证码的请求
+
             $("#register").on("click",function(){
-                var telphone=$("#telphone").val();
+                var telephone=$("#telephone").val();
                 var password = $("#password").val();
                 var age = $("#age").val();
                 var gender = $("#gender").val();
                 var name=$("#name").val();
-                if (telphone == null || telphone==""){
+                console.log(telephone);
+                if (telephone == null || telephone===""){
                     alert("Phone number cannot be empty");
                     return false;
                 }
-                if (password == null || password==""){
+                if (password == null || password===""){
                     alert("Password cannot be empty");
                     return false;
                 }
@@ -81,7 +82,7 @@
                     contentType:"application/x-www-form-urlencoded",
                     url:"http://localhost:8080/user/register",
                     data:{
-                        "telphone":$("#telphone").val(),
+                        "telephone":$("#telephone").val(),
                         "password":password,
                         "age":age,
                         "gender":gender,
