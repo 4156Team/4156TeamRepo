@@ -7,10 +7,11 @@ import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.enumeration.Status;
 import com.java.rollercoaster.service.CheckInService;
-import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 
 @Service

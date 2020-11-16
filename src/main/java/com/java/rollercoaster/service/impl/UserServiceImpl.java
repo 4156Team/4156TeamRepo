@@ -5,7 +5,11 @@ import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.*;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
+import com.java.rollercoaster.pojo.UserAccount;
+import com.java.rollercoaster.pojo.UserAccountExample;
+import com.java.rollercoaster.pojo.UserPassword;
 import com.java.rollercoaster.service.UserService;
 import com.java.rollercoaster.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
@@ -16,8 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,16 +32,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TicketMapper ticketMapper;
 
-//    @Override
-//    public UserModel getUserByPhoneNumber(String phoneNumber) {
-//        UserAccount userAccount = userAccountMapper.selectByPrimaryKey(phoneNumber);
-//        if (userAccount == null) {
-//            return null;
-//        }
-//        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(phoneNumber);
-//        return convertFromDataObject(userAccount, userPassword);
-//
-//    }
 
     @Override
     public UserModel getUserByUserId(Integer userId) {
@@ -54,18 +48,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void register(UserModel userModel) throws BusinessException {
-        if(userModel == null) {
+        if (userModel == null) {
             throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
-//        if(StringUtils.isEmpty(userModel.getUserName()) || userModel.getUserGender() == null
-//        || userModel.getUserAge() == null || StringUtils.isEmpty(userModel.getPhoneNumber())) {
-//            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-//        }
         UserAccount userAccount = convertFromModel(userModel);
-        try{
+        try {
             userAccountMapper.insertSelective(userAccount);
-        }catch (DuplicateKeyException ex) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR,"This telephone has been registered");
+        } catch (DuplicateKeyException ex) {
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR,
+                    "This telephone has been registered");
         }
         userModel.setUserId(userAccount.getUserId());
 
@@ -85,7 +76,7 @@ public class UserServiceImpl implements UserService {
         UserAccountExample.Criteria criteria = userAccountExample.createCriteria();
         criteria.andThirdPartyIdEqualTo(userAccount.getThirdPartyId());
         List<UserAccount> candidates = userAccountMapper.selectByExample(userAccountExample);
-        UserAccount existAccount = candidates.isEmpty()? null : candidates.get(0);
+        UserAccount existAccount = candidates.isEmpty() ?  null : candidates.get(0);
 
         UserModel userModel = new UserModel();
         if (existAccount == null) {
@@ -93,7 +84,7 @@ public class UserServiceImpl implements UserService {
             userModel.setUserId(userAccount.getUserId());
             userModel.setUserName(userAccount.getUserName());
             userModel.setThirdPartyId(userAccount.getThirdPartyId());
-        } else{
+        } else {
             userModel.setUserId(existAccount.getUserId());
             userModel.setUserName(existAccount.getUserName());
             userModel.setThirdPartyId(existAccount.getThirdPartyId());
@@ -102,7 +93,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException {
+    public UserModel validateLogin(String telphone,
+                                   String encryptPassword) throws BusinessException {
         //get user information by user phone number
         UserAccountExample example = new UserAccountExample();
         UserAccountExample.Criteria criteria = example.createCriteria();
@@ -110,7 +102,7 @@ public class UserServiceImpl implements UserService {
         UserAccount userAccount = Optional
                                     .ofNullable(userAccountMapper.selectByExample(example))
                                     .orElse(new ArrayList<>()).get(0);
-        if (userAccount== null) {
+        if (userAccount ==  null) {
             throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
         }
         UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());

@@ -7,7 +7,7 @@ import java.util.Date;
 public class TicketModel {
     private String ticketId;
     private Integer userId;
-    private Status Status;
+    private Status status;
     private Float price;
     private Date validDate;
 
@@ -28,11 +28,11 @@ public class TicketModel {
     }
 
     public com.java.rollercoaster.pojo.enumeration.Status getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(com.java.rollercoaster.pojo.enumeration.Status status) {
-        Status = status;
+        this.status = status;
     }
 
     public Float getPrice() {
