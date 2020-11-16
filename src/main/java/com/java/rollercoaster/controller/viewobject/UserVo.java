@@ -1,13 +1,22 @@
-package com.java.rollercoaster.controller.viewobject;
+package com.java.rollercoaster.controller.viewObject;
 
-import com.java.rollercoaster.pojo.enumeration.UserGender;
+import com.java.rollercoaster.service.model.enumeration.UserGender;
 
-public class UserVo {
+public class UserVO {
     private String phoneNumber;
     private String userName;
-    private UserGender userGender;
+    private UserGender UserGender;
     private Integer userAge;
     private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -25,12 +34,12 @@ public class UserVo {
         this.userName = userName;
     }
 
-    public UserGender getUserGender() {
-        return userGender;
+    public com.java.rollercoaster.service.model.enumeration.UserGender getUserGender() {
+        return UserGender;
     }
 
-    public void setUserGender(UserGender userGender) {
-        this.userGender = userGender;
+    public void setUserGender(com.java.rollercoaster.service.model.enumeration.UserGender userGender) {
+        UserGender = userGender;
     }
 
     public Integer getUserAge() {
@@ -39,13 +48,5 @@ public class UserVo {
 
     public void setUserAge(Integer userAge) {
         this.userAge = userAge;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

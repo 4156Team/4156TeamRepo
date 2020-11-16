@@ -1,7 +1,7 @@
 package com.java.rollercoaster.service.model;
 
-import com.java.rollercoaster.pojo.enumeration.Role;
-import com.java.rollercoaster.pojo.enumeration.UserGender;
+import com.java.rollercoaster.service.model.enumeration.Role;
+import com.java.rollercoaster.service.model.enumeration.UserGender;
 
 public class UserModel {
 
@@ -49,11 +49,11 @@ public class UserModel {
         this.userName = userName;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.UserGender getUserGender() {
+    public com.java.rollercoaster.service.model.enumeration.UserGender getUserGender() {
         return userGender;
     }
 
-    public void setUserGender(com.java.rollercoaster.pojo.enumeration.UserGender userGender) {
+    public void setUserGender(com.java.rollercoaster.service.model.enumeration.UserGender userGender) {
         this.userGender = userGender;
     }
 
@@ -65,11 +65,11 @@ public class UserModel {
         this.userAge = userAge;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.Role getRole() {
+    public com.java.rollercoaster.service.model.enumeration.Role getRole() {
         return role;
     }
 
-    public void setRole(com.java.rollercoaster.pojo.enumeration.Role role) {
+    public void setRole(com.java.rollercoaster.service.model.enumeration.Role role) {
         this.role = role;
     }
 

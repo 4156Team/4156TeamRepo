@@ -1,6 +1,6 @@
 package com.java.rollercoaster.pojo;
 
-import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;

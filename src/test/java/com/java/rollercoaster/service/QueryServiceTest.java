@@ -8,7 +8,7 @@ import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
-import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
 import org.junit.jupiter.api.Test;

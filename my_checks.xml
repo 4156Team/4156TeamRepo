@@ -206,10 +206,6 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
-<!--        <module name="SuppressionFilter">-->
-<!--            <property name="file" value="my_suppression.xml"/>-->
-<!--            <property name="optional" value="false"/>-->
-<!--        </module>-->
     </module>
     <module name="SuppressionFilter">
         <property name="file" value="my_suppression.xml"/>

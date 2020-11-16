@@ -5,7 +5,7 @@ import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Ticket;
-import com.java.rollercoaster.pojo.enumeration.Status;
+import com.java.rollercoaster.service.model.enumeration.Status;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

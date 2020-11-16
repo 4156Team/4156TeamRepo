@@ -1,7 +1,7 @@
 package com.java.rollercoaster.pojo;
 
-import com.java.rollercoaster.pojo.enumeration.Role;
-import com.java.rollercoaster.pojo.enumeration.UserGender;
+import com.java.rollercoaster.service.model.enumeration.Role;
+import com.java.rollercoaster.service.model.enumeration.UserGender;
 
 public class UserAccount {
     /**

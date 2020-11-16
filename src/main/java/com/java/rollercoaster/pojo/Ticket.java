@@ -1,6 +1,6 @@
 package com.java.rollercoaster.pojo;
 
-import com.java.rollercoaster.pojo.enumeration.Status;
+import com.java.rollercoaster.service.model.enumeration.Status;
 import java.util.Date;
 
 public class Ticket {

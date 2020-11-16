@@ -1,6 +1,6 @@
 package com.java.rollercoaster.service.model;
 
-import com.java.rollercoaster.pojo.enumeration.Status;
+import com.java.rollercoaster.service.model.enumeration.Status;
 
 import java.util.Date;
 
@@ -27,11 +27,11 @@ public class TicketModel {
         this.userId = userId;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.Status getStatus() {
+    public com.java.rollercoaster.service.model.enumeration.Status getStatus() {
         return status;
     }
 
-    public void setStatus(com.java.rollercoaster.pojo.enumeration.Status status) {
+    public void setStatus(com.java.rollercoaster.service.model.enumeration.Status status) {
         this.status = status;
     }
 

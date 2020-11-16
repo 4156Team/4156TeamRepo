@@ -1,7 +1,7 @@
 package com.java.rollercoaster.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import java.util.Date;
 
 public class Facility {
