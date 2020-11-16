@@ -5,10 +5,15 @@ import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.pojo.AppointmentExample;
 import com.java.rollercoaster.pojo.Event;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -98,5 +103,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return ErrorEnum.OK;
     }
+
+    @Override
+    public List<Appointment> getAppointmentsByUserId(Integer userId) {
+        AppointmentExample appointmentExample = new AppointmentExample();
+        AppointmentExample.Criteria criteria = appointmentExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<Appointment> appointmentList = appointmentMapper.selectByExample(appointmentExample);
+        return appointmentList;
+    }
+
 
 }

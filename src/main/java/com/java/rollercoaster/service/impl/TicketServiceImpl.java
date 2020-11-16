@@ -4,8 +4,11 @@ import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.service.TicketService;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +57,15 @@ public class TicketServiceImpl implements TicketService {
         }
         ticketMapper.deleteByPrimaryKey(ticketId);
         return ErrorEnum.OK;
+    }
+
+    @Override
+    public List<Ticket> getTicketsByUserId(Integer userId) {
+        TicketExample ticketExample = new TicketExample();
+        TicketExample.Criteria criteria = ticketExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        return ticketList;
     }
 
 }

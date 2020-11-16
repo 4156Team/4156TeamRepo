@@ -74,7 +74,7 @@ public class UserController extends BaseController {
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", (Serializable) userModel);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         Role role = userModel.getRole();
         return CommonReturnType.create(role);
     }
@@ -127,27 +127,6 @@ public class UserController extends BaseController {
         return base64Encoder.encode(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
     }
 
-    /**
-     *Display user's history tickets records.
-     * @return response with common return type
-     * @throws BusinessException exception handler
-     */
-    @RequestMapping("/ticketsRecord")
-    @ResponseBody
-    public CommonReturnType getTickets() throws BusinessException {
-        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (!isLogin)  {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
-        }
-        UserModel userModel = (UserModel) httpServletRequest
-                              .getSession().getAttribute("LOGIN_USER");
-        //if user not exist
-        if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
-        }
-        List<Ticket> ticketList = userService.getTicketsByUserId(userModel.getUserId());
-        return CommonReturnType.create(ticketList);
-    }
 
     private UserVo convertFromModel(UserModel userModel) {
         if (userModel == null) {
