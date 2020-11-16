@@ -53,7 +53,8 @@ public class UserModel {
         return userGender;
     }
 
-    public void setUserGender(com.java.rollercoaster.service.model.enumeration.UserGender userGender) {
+    public void setUserGender(
+            com.java.rollercoaster.service.model.enumeration.UserGender userGender) {
         this.userGender = userGender;
     }
 
