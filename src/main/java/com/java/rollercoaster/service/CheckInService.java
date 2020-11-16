@@ -4,5 +4,6 @@ import com.java.rollercoaster.errorenum.ErrorEnum;
 
 public interface CheckInService {
     ErrorEnum checkTicket(String ticketId);
+
     ErrorEnum checkAppointments(String appointmentId);
 }

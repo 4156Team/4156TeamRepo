@@ -12,6 +12,13 @@ public class CommonReturnType {
     public static CommonReturnType create(Object result) {
         return CommonReturnType.create(result,"success");
     }
+
+    /**
+     * Create unified response.
+     * @param result The result
+     * @param status success or fail
+     * @return CommonReturnType
+     */
     public static CommonReturnType create(Object result, String status) {
         CommonReturnType type = new CommonReturnType();
         type.setStatus(status);
@@ -19,10 +26,15 @@ public class CommonReturnType {
         return type;
     }
 
-    public static CommonReturnType autoCreate(ErrorEnum errorEnum){
-        if (ErrorEnum.OK == errorEnum){
+    /**
+     * Auto create the unified response.
+     * @param errorEnum ErrorEnum
+     * @return response
+     */
+    public static CommonReturnType autoCreate(ErrorEnum errorEnum) {
+        if (ErrorEnum.OK == errorEnum) {
             return create(errorEnum);
-        } else{
+        } else {
             return create(errorEnum, "fail");
         }
     }

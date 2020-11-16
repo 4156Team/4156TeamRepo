@@ -4,7 +4,7 @@ public enum FacilityStatus {
     repairing("repairing"),
     normal("normal");
     private String status;
-    FacilityStatus(String status){
+    FacilityStatus(String status) {
         this.status = status;
     }
 }
