@@ -4,18 +4,20 @@ import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
-import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.enumeration.Role;
 import com.java.rollercoaster.pojo.enumeration.UserGender;
-import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
+
+
 
 
 @Controller
