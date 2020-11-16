@@ -2,6 +2,7 @@ package com.java.rollercoaster.service.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class EventModel {
@@ -71,7 +72,7 @@ public class EventModel {
      * Set event end time with null check.
      *
      */
-    public void setEndTime(Date endTime) {
+    public void setEndTime(final Date endTime) {
         if (endTime == null) {
             this.endTime = null;
         } else {
@@ -93,7 +94,7 @@ public class EventModel {
         return eventRemainPositions;
     }
 
-    public void setEventRemainPositions(Integer eventRemainPositions) {
-        this.eventRemainPositions = eventRemainPositions;
+    public void setEventRemainPositions(final Integer newEventRemainPositions) {
+        this.eventRemainPositions = newEventRemainPositions;
     }
 }

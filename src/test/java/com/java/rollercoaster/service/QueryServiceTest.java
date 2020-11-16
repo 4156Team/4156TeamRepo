@@ -1,15 +1,17 @@
 package com.java.rollercoaster.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
 import org.junit.jupiter.api.Test;
-import com.java.rollercoaster.dao.EventMapper;
-import com.java.rollercoaster.errorenum.BusinessException;
-import com.java.rollercoaster.pojo.Event;
-import com.java.rollercoaster.errorenum.ErrorEnum;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,19 +39,17 @@ class QueryServiceTest {
     @Test
     void queryEvent() {
         //test null input
-        try{
+        try {
             queryService.queryEvent(null);
-        }
-        catch (BusinessException e){
-            assertEquals(e.getErrCode(),ErrorEnum.EMPTY_EVENT_NAME.getErrorCode());
+        } catch (BusinessException err) {
+            assertEquals(err.getErrCode(),ErrorEnum.EMPTY_EVENT_NAME.getErrorCode());
         }
 
         //test event doesn't exist
-        try{
+        try {
             queryService.queryEvent("anNonexistentEvent");
-        }
-        catch (BusinessException e){
-            assertEquals(e.getErrCode(),ErrorEnum.NO_SUCH_EVENT.getErrorCode());
+        } catch (BusinessException err) {
+            assertEquals(err.getErrCode(),ErrorEnum.NO_SUCH_EVENT.getErrorCode());
         }
 
         //test a new event
@@ -61,10 +63,9 @@ class QueryServiceTest {
 
         eventMapper.insert(newEvent);
         EventModel eventQueried;
-        try{
+        try {
             eventQueried = queryService.queryEvent("queryTestEvent");
-        }
-        catch(BusinessException e){
+        } catch (BusinessException err) {
             eventQueried = new EventModel();
         }
         assertEquals(eventQueried.getStartTime().getHours(),4);
@@ -82,19 +83,17 @@ class QueryServiceTest {
     void queryFacility() {
 
         //test null input
-        try{
+        try {
             queryService.queryFacility(null);
-        }
-        catch (BusinessException e){
-            assertEquals(e.getErrCode(),ErrorEnum.EMPTY_FACILITY_NAME.getErrorCode());
+        } catch (BusinessException err) {
+            assertEquals(err.getErrCode(),ErrorEnum.EMPTY_FACILITY_NAME.getErrorCode());
         }
 
         //test event doesn't exist
-        try{
+        try {
             queryService.queryFacility("anNonexistentFacility");
-        }
-        catch (BusinessException e){
-            assertEquals(e.getErrCode(),ErrorEnum.NO_SUCH_FACILITY.getErrorCode());
+        } catch (BusinessException err) {
+            assertEquals(err.getErrCode(),ErrorEnum.NO_SUCH_FACILITY.getErrorCode());
         }
 
         //test a new event
@@ -108,10 +107,9 @@ class QueryServiceTest {
 
         facilityMapper.insert(newFacility);
         FacilityModel facilityQueried;
-        try{
+        try {
             facilityQueried = queryService.queryFacility("queryTestFacility");
-        }
-        catch(BusinessException e){
+        } catch (BusinessException err) {
             facilityQueried = new FacilityModel();
         }
         assertEquals(facilityQueried.getFacilityOpenTime().getHours(),4);
