@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService {
         try {
             userAccountMapper.insertSelective(userAccount);
         } catch (DuplicateKeyException ex) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR,
-                    "This telephone has been registered");
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         userModel.setUserId(userAccount.getUserId());
 
