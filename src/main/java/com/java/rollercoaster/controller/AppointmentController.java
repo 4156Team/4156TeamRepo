@@ -7,6 +7,7 @@ import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.AppointmentService;
 import com.java.rollercoaster.service.model.UserModel;
+import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/appointment")
@@ -30,21 +32,65 @@ public class AppointmentController {
 
     @PostMapping("/addAppointment")
     @ResponseBody
-    public CommonReturnType addAppointment(@RequestBody Appointment appointment){
+    public CommonReturnType addAppointment(@RequestBody Appointment appointment) throws BusinessException{
         System.out.println(appointment.toString());
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (!isLogin)  {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
+        UserModel userModel = (UserModel) httpServletRequest
+                .getSession().getAttribute("LOGIN_USER");
+        //if user not exist
+        if (userModel == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+        appointment.setUserId(userModel.getUserId());
+        long millis = System.currentTimeMillis();
+        //加上四位随机数
+        Random random = new Random();
+        int end4 = random.nextInt(9999);
+        //如果不足两位前面补0，在前加userid
+        String id = userModel.getUserId() + millis + String.format("%04d", end4);
+        appointment.setAppointmentid(id);
         return CommonReturnType.autoCreate(appointmentService.addAppointment(appointment));
     }
 
     @PostMapping("/updateAppointment")
     @ResponseBody
-    public CommonReturnType updateAppointment(@RequestBody Appointment appointment){
+    public CommonReturnType updateAppointment(@RequestBody Appointment appointment) throws BusinessException{
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (!isLogin)  {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
+        UserModel userModel = (UserModel) httpServletRequest
+                .getSession().getAttribute("LOGIN_USER");
+        //if user not exist
+        if (userModel == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+        //only manager or the same visitor can update the appointment
+        if(userModel.getRole() == Role.visitor && userModel.getUserId() != appointment.getUserId()){
+            throw new BusinessException(ErrorEnum.NOT_SAME_VISITOR);
+        }
         return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));
     }
 
     @PostMapping("/deleteAppointment")
     @ResponseBody
-    public CommonReturnType deleteAppointmentId(@RequestBody String appointmentId){
-        return CommonReturnType.autoCreate(appointmentService.deleteAppointment(appointmentId));
+    public CommonReturnType deleteAppointmentId(@RequestBody String appointmentId) throws BusinessException{
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (!isLogin)  {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
+        UserModel userModel = (UserModel) httpServletRequest
+                .getSession().getAttribute("LOGIN_USER");
+        //if user not exist
+        if (userModel == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+
+        //only manager or the same visitor can delete the appointment
+        return CommonReturnType.autoCreate(appointmentService.deleteAppointment(appointmentId, userModel));
     }
 
     /**

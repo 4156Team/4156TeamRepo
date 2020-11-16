@@ -3,6 +3,7 @@ package com.java.rollercoaster.service.impl;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.AppointmentExample;
@@ -10,6 +11,8 @@ import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.service.AppointmentService;
+import com.java.rollercoaster.service.model.UserModel;
+import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,11 +88,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public ErrorEnum deleteAppointment(String appointmentId) {
+    public ErrorEnum deleteAppointment(String appointmentId, UserModel userModel) {
         if (null == appointmentId){
             return ErrorEnum.EMPTY_APPOINTMENT;
         } else if (null == appointmentMapper.selectByPrimaryKey(appointmentId)){
             return ErrorEnum.NO_SUCH_APPOINTMENT;
+        } else if(userModel.getRole() == Role.visitor && userModel.getUserId() !=
+                appointmentMapper
+                        .selectByPrimaryKey(appointmentId).getUserId()){
+            return ErrorEnum.NOT_SAME_VISITOR;
         }
         Event unwantedEvent = eventMapper
                 .selectByPrimaryKey(

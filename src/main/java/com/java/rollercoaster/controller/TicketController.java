@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/ticket")
@@ -41,7 +42,15 @@ public class TicketController {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
         ticket.setUserId(userModel.getUserId());
-        //这里加一下生成ticketID,然后再setTicketID
+
+        //生成ticketID,然后再setTicketID
+        long millis = System.currentTimeMillis();
+        //加上两位随机数
+        Random random = new Random();
+        int end2 = random.nextInt(99);
+        //如果不足两位前面补0,再加上userid
+        String id = millis + String.format("%02d", end2) + userModel.getUserId();
+        ticket.setTicketId(id);
 
 
         return CommonReturnType.autoCreate(ticketService.addTicket(ticket));
@@ -71,9 +80,19 @@ public class TicketController {
 
     @PostMapping("/deleteTicket")
     @ResponseBody
-    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId){
+    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId) throws BusinessException{
         System.out.println(ticketId);
-        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId));
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (!isLogin)  {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
+        UserModel userModel = (UserModel) httpServletRequest
+                .getSession().getAttribute("LOGIN_USER");
+        //if user not exist
+        if (userModel == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
+        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));
     }
 
     /**

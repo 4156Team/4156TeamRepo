@@ -9,6 +9,8 @@ import com.java.rollercoaster.service.TicketService;
 import java.util.Date;
 import java.util.List;
 
+import com.java.rollercoaster.service.model.UserModel;
+import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,11 +51,15 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public ErrorEnum deleteTicket(String ticketId) {
+    public ErrorEnum deleteTicket(String ticketId, UserModel userModel) {
         if (null == ticketId){
             return ErrorEnum.EMPTY_TICKET;
         } else if (null == ticketMapper.selectByPrimaryKey(ticketId)){
             return ErrorEnum.NO_SUCH_TICKET;
+        } else if(userModel.getRole() == Role.visitor && userModel.getUserId() !=
+                ticketMapper
+                        .selectByPrimaryKey(ticketId).getUserId()){
+            return ErrorEnum.NOT_SAME_VISITOR;
         }
         ticketMapper.deleteByPrimaryKey(ticketId);
         return ErrorEnum.OK;

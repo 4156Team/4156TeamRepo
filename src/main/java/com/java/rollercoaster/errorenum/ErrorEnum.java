@@ -29,7 +29,8 @@ public enum ErrorEnum implements CommonError {
     EMPTY_APPOINTMENT(251, "Try to operate empty appointment."),
     DUPLICATE_APPOINTMENT(252, "The appointment is duplicate."),
     EVENT_NO_POSITION(253, "This event has no remaining position."),
-    NO_SUCH_APPOINTMENT(254, "The appointment does not exist.");
+    NO_SUCH_APPOINTMENT(254, "The appointment does not exist."),
+    NOT_SAME_VISITOR(255, "Try to modify other visitor's information.");
 
     private int errorCode;
     private String errorMessage;
