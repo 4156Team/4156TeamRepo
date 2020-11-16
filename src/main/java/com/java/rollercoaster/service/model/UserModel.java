@@ -9,17 +9,9 @@ public class UserModel {
     private Integer userId;
     private String phoneNumber;
     private String userName;
-    private UserGender UserGender;
+    private UserGender userGender;
     private Integer userAge;
-    private Role Role;
-
-    public String getThirdPartyId() {
-        return thirdPartyId;
-    }
-
-    public void setThirdPartyId(String thirdPartyId) {
-        this.thirdPartyId = thirdPartyId;
-    }
+    private Role role;
 
     private String thirdPartyId;
 
@@ -49,12 +41,12 @@ public class UserModel {
         this.userName = userName;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.UserGender getUserGender() {
-        return UserGender;
+    public UserGender getUserGender() {
+        return userGender;
     }
 
-    public void setUserGender(com.java.rollercoaster.pojo.enumeration.UserGender userGender) {
-        UserGender = userGender;
+    public void setUserGender(UserGender userGender) {
+        this.userGender = userGender;
     }
 
     public Integer getUserAge() {
@@ -65,12 +57,20 @@ public class UserModel {
         this.userAge = userAge;
     }
 
-    public com.java.rollercoaster.pojo.enumeration.Role getRole() {
-        return Role;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole(com.java.rollercoaster.pojo.enumeration.Role role) {
-        Role = role;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getThirdPartyId() {
+        return thirdPartyId;
+    }
+
+    public void setThirdPartyId(String thirdPartyId) {
+        this.thirdPartyId = thirdPartyId;
     }
 
     public String getPassword() {

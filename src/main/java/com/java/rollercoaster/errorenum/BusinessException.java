@@ -1,6 +1,6 @@
 package com.java.rollercoaster.errorenum;
 
-public class BusinessException extends Exception implements CommonError{
+public class BusinessException extends Exception implements CommonError {
     private CommonError commonError;
 
     public BusinessException(CommonError commonError) {
@@ -8,7 +8,12 @@ public class BusinessException extends Exception implements CommonError{
         this.commonError = commonError;
     }
 
-    public BusinessException(CommonError commonError, String errMsg){
+    /**
+     * Business exception constructor.
+     * @param commonError common error
+     * @param errMsg error message
+     */
+    public BusinessException(CommonError commonError, String errMsg) {
         super();
         this.commonError = commonError;
         this.commonError.setErrMsg(errMsg);
