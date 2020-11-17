@@ -42,7 +42,7 @@ public class TicketController {
     @PostMapping("/addTicket")
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException {
-        System.out.println(ticket.toString());
+        System.out.println("**************");
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
@@ -61,9 +61,12 @@ public class TicketController {
         Random random = new Random();
         int end2 = random.nextInt(99);
         //如果不足两位前面补0,再加上userid
+        System.out.println(millis);
+        System.out.println(end2);
         String id = millis + String.format("%02d", end2) + userModel.getUserId();
-        ticket.setTicketId(id);
+        System.out.println("generate id is " + id);
 
+        ticket.setTicketId(id);
 
         return CommonReturnType.autoCreate(ticketService.addTicket(ticket));
     }
