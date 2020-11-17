@@ -62,8 +62,8 @@ public class TicketController {
         //加上两位随机数
         Random random = new Random();
         int end2 = random.nextInt(99);
-        //如果不足两位前面补0,再加上userid
-        String id = millis + String.format("%02d", end2) + userModel.getUserId();
+        //如果不足两位前面补0
+        String id = millis + String.format("%02d", end2);
         ticket.setTicketId(id);
 
 

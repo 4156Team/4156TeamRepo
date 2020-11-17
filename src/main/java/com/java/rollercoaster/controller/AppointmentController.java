@@ -57,8 +57,8 @@ public class AppointmentController {
         //加上四位随机数
         Random random = new Random();
         int end4 = random.nextInt(9999);
-        //如果不足两位前面补0，在前加userid
-        String id = userModel.getUserId() + millis + String.format("%04d", end4);
+        //如果不足两位前面补0
+        String id = millis + String.format("%04d", end4);
         appointment.setAppointmentid(id);
         return CommonReturnType.autoCreate(appointmentService.addAppointment(appointment));
     }
