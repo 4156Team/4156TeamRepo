@@ -74,7 +74,7 @@ public class UserController extends BaseController {
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", (Serializable) userModel);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         Role role = userModel.getRole();
         return CommonReturnType.create(role);
     }

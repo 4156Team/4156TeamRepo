@@ -49,6 +49,7 @@ public class ManagerController {
     @PostMapping("/updateEvent")
     @ResponseBody
     public CommonReturnType updateEvent(@RequestBody final Event event) {
+        System.out.println(event.toString());
         return CommonReturnType.autoCreate(
                 manageParkService.updateEvent(event));
     }

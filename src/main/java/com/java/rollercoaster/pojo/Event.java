@@ -29,7 +29,7 @@ public class Event {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8:00")
     private Date startTime;
 
     /**
@@ -38,7 +38,7 @@ public class Event {
      *
      * @mbggenerated Mon Nov 09 19:59:54 CST 2020
      */
-    @JsonFormat(pattern = "HH:mm:ss")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8:00")
     private Date endTime;
 
     /**
