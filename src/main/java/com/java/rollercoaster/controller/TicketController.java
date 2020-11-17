@@ -67,7 +67,7 @@ public class TicketController {
                 + String.format("%02d", end2);
         System.out.println(id);
         ticket.setTicketId(id);
-        return CommonReturnType.autoCreate(ticketService.addTicket(ticket));
+        return CommonReturnType.create(ticketService.addTicket(ticket));
     }
 
     /**

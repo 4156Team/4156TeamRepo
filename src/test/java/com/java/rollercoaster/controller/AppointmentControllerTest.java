@@ -30,10 +30,6 @@ public class AppointmentControllerTest {
     @Autowired
     private EventMapper eventMapper;
     @Autowired
-    private FacilityMapper facilityMapper;
-    @Autowired
-    private TicketMapper ticketMapper;
-    @Autowired
     private AppointmentMapper appointmentMapper;
     @Autowired
     private UserService userService;

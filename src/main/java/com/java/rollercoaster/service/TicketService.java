@@ -1,5 +1,6 @@
 package com.java.rollercoaster.service;
 
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.model.UserModel;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface TicketService {
 
-    ErrorEnum addTicket(Ticket ticket) throws ParseException;
+    String addTicket(Ticket ticket) throws ParseException, BusinessException;
 
     ErrorEnum updateTicket(Ticket ticket);
 
