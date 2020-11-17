@@ -3,6 +3,7 @@ package com.java.rollercoaster.service.impl;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.AppointmentExample;
@@ -25,26 +26,26 @@ public class AppointmentServiceImpl implements AppointmentService {
     private UserAccountMapper userAccountMapper;
 
     @Override
-    public ErrorEnum addAppointment(Appointment appointment) {
+    public String addAppointment(Appointment appointment) throws BusinessException {
         if (null == appointment) {
-            return ErrorEnum.EMPTY_APPOINTMENT;
+            throw new BusinessException(ErrorEnum.EMPTY_APPOINTMENT);
         } else if (null != appointmentMapper.selectByPrimaryKey(appointment
                 .getAppointmentid())) {
-            return ErrorEnum.DUPLICATE_APPOINTMENT;
+            throw new BusinessException(ErrorEnum.DUPLICATE_APPOINTMENT);
         } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())) {
-            return ErrorEnum.NO_SUCH_EVENT;
+            throw new BusinessException(ErrorEnum.NO_SUCH_EVENT);
         } else if (null == userAccountMapper.selectByPrimaryKey(appointment.getUserId())) {
-            return ErrorEnum.USER_NOT_EXIST;
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         } else if (0 >= eventMapper.selectByPrimaryKey(appointment.getEventName())
                 .getEventRemainPositions()) {
-            return ErrorEnum.EVENT_NO_POSITION;
+            throw new BusinessException(ErrorEnum.EVENT_NO_POSITION);
         }
         Event event = eventMapper.selectByPrimaryKey(appointment.getEventName());
         Integer currentPosition = event.getEventRemainPositions() - 1;
         event.setEventRemainPositions(currentPosition);
         eventMapper.updateByPrimaryKeySelective(event);
         appointmentMapper.insert(appointment);
-        return ErrorEnum.OK;
+        return appointment.getAppointmentid();
 
     }
 

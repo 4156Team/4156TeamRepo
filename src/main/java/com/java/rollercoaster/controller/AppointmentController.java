@@ -58,9 +58,12 @@ public class AppointmentController {
         Random random = new Random();
         int end4 = random.nextInt(9999);
         //如果不足两位前面补0
-        String id = millis + String.format("%04d", end4);
+        String timestamp = String.valueOf(millis);
+        String id = timestamp.substring(timestamp.length() - 6)
+                + String.format("%04d", end4);
+        System.out.println(id);
         appointment.setAppointmentid(id);
-        return CommonReturnType.autoCreate(appointmentService.addAppointment(appointment));
+        return CommonReturnType.create(appointmentService.addAppointment(appointment));
     }
 
     /**
@@ -125,7 +128,7 @@ public class AppointmentController {
      */
     @RequestMapping("/appointmentsRecord")
     @ResponseBody
-    public CommonReturnType getTickets() throws BusinessException {
+    public CommonReturnType getAppointments() throws BusinessException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);

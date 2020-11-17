@@ -65,7 +65,7 @@ public class AppointmentServiceTest {
         appointment.setEventName("event test");
 
 
-        ErrorEnum addAppointmentReturn = appointmentService.addAppointment(appointment);
+        String addAppointmentReturn = appointmentService.addAppointment(appointment);
         System.out.println(addAppointmentReturn);
 
         Appointment appointmentGetBack = appointmentMapper.selectByPrimaryKey("1");
