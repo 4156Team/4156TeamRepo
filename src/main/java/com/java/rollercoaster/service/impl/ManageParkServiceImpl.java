@@ -30,7 +30,6 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum updateEvent(Event event) {
-        System.out.println(event.getStartTime().getTime());
         if (null == event.getEventName()) {
             return ErrorEnum.EMPTY_EVENT_NAME;
         } else if (null == eventMapper.selectByPrimaryKey(event.getEventName())) {
