@@ -3,7 +3,9 @@ package com.java.rollercoaster.service.model;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
 
 
     private Integer userId;
