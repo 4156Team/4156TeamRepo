@@ -11,6 +11,8 @@ import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,14 +24,20 @@ public class TicketServiceImpl implements TicketService {
     private UserAccountMapper userAccountMapper;
 
     @Override
-    public ErrorEnum addTicket(Ticket ticket) {
+    public ErrorEnum addTicket(Ticket ticket) throws ParseException {
         if (null == ticket) {
             return ErrorEnum.EMPTY_TICKET;
         } else if (null != ticketMapper.selectByPrimaryKey(ticket.getTicketId())) {
             return ErrorEnum.DUPLICATE_TICKET;
         } else if (null == userAccountMapper.selectByPrimaryKey(ticket.getUserId())) {
             return ErrorEnum.USER_NOT_EXIST;
-        } else if (!ticket.getValidDate().after(new Date())) {
+        }
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        date = sdf.parse(sdf.format(date));
+        if (!ticket.getValidDate().after(date)) {
+            //You cannot buy past date ticket.
             return ErrorEnum.DATE_PASSED;
         }
         ticketMapper.insert(ticket);
