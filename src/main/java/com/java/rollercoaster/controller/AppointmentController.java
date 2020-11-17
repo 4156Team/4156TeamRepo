@@ -85,8 +85,8 @@ public class AppointmentController {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
         //only manager or the same visitor can update the appointment
-        if (userModel.getRole() == Role.visitor && userModel.getUserId()
-                != appointment.getUserId()) {
+        if (userModel.getRole() == Role.visitor && !userModel.getUserId()
+                .equals(appointment.getUserId()) ) {
             throw new BusinessException(ErrorEnum.NOT_SAME_VISITOR);
         }
         return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));

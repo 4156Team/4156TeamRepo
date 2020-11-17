@@ -96,9 +96,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ErrorEnum.EMPTY_APPOINTMENT;
         } else if (null == appointmentMapper.selectByPrimaryKey(appointmentId)) {
             return ErrorEnum.NO_SUCH_APPOINTMENT;
-        } else if (userModel.getRole() == Role.visitor && userModel.getUserId()
-                != appointmentMapper
-                        .selectByPrimaryKey(appointmentId).getUserId()) {
+        } else if (userModel.getRole() == Role.visitor && !userModel.getUserId()
+                .equals(appointmentMapper
+                        .selectByPrimaryKey(appointmentId).getUserId()) ) {
             return ErrorEnum.NOT_SAME_VISITOR;
         }
         Event unwantedEvent = eventMapper

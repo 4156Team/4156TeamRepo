@@ -56,9 +56,9 @@ public class TicketServiceImpl implements TicketService {
             return ErrorEnum.EMPTY_TICKET;
         } else if (null == ticketMapper.selectByPrimaryKey(ticketId)) {
             return ErrorEnum.NO_SUCH_TICKET;
-        } else if (userModel.getRole() == Role.visitor && userModel.getUserId()
-                != ticketMapper
-                        .selectByPrimaryKey(ticketId).getUserId()) {
+        } else if (userModel.getRole() == Role.visitor && !userModel.getUserId()
+                .equals(ticketMapper
+                        .selectByPrimaryKey(ticketId).getUserId()) ) {
             return ErrorEnum.NOT_SAME_VISITOR;
         }
         ticketMapper.deleteByPrimaryKey(ticketId);
