@@ -146,6 +146,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
     @ResponseBody
     public void verifyToken(String idtokenstr) throws BusinessException {
+        System.out.println(idtokenstr);
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), JacksonFactory.getDefaultInstance())
                 .setAudience(
