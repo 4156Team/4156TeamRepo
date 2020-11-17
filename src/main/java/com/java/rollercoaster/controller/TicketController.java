@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class TicketController {
      */
     @PostMapping("/addTicket")
     @ResponseBody
-    public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException {
+    public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException, ParseException {
         System.out.println(ticket.toString());
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
