@@ -42,7 +42,8 @@ public class TicketController {
      */
     @PostMapping("/addTicket")
     @ResponseBody
-    public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException, ParseException {
+    public CommonReturnType addTicket(@RequestBody Ticket ticket)
+            throws BusinessException, ParseException {
         System.out.println(ticket.toString());
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
