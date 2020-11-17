@@ -80,31 +80,7 @@ public class UserServiceTest {
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 
-    @Test
-    public void ticketsRecordsTest() throws BusinessException {
-        UserModel userModel = new UserModel();
-        userModel.setUserName("Alice");
-        userModel.setUserGender(UserGender.female);
-        userModel.setRole(Role.visitor);
-        userModel.setPhoneNumber("212121");
-        userModel.setPassword("12345");
-        userService.register(userModel);
 
-        Ticket ticket = new Ticket();
-        ticket.setUserId(userModel.getUserId());
-        ticket.setStatus(Status.used);
-        ticket.setPrice((float) 124);
-        ticket.setTicketId("1");
-        ticket.setValidDate(new Date());
-        ticketMapper.insertSelective(ticket);
-        List<Ticket> ticketList = userService.getTicketsByUserId(userModel.getUserId());
-        assertEquals(Status.used, ticketList.get(0).getStatus());
-        assertEquals((float) 124, ticketList.get(0).getPrice());
-
-        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
-        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
-        ticketMapper.deleteByPrimaryKey("1");
-    }
 
     @Test
     public void verifyTokenWithoutExistedAccountTest() throws BusinessException {

@@ -103,15 +103,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public List<Ticket> getTicketsByUserId(Integer userId) {
-        TicketExample ticketExample = new TicketExample();
-        TicketExample.Criteria criteria = ticketExample.createCriteria();
-        criteria.andUserIdEqualTo(userId);
-        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
-        return ticketList;
-    }
-
     private UserPassword convertPasswordFromModel(UserModel userModel) {
         if (userModel == null) {
             return  null;

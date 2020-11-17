@@ -15,5 +15,5 @@ public interface UserService {
 
     UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException;
 
-    List<Ticket> getTicketsByUserId(Integer userId);
+
 }
