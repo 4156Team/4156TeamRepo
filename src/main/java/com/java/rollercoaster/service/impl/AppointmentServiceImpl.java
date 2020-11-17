@@ -3,13 +3,10 @@ package com.java.rollercoaster.service.impl;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
-import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.AppointmentExample;
 import com.java.rollercoaster.pojo.Event;
-import com.java.rollercoaster.pojo.Ticket;
-import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.service.AppointmentService;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
@@ -31,13 +28,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     public ErrorEnum addAppointment(Appointment appointment) {
         if (null == appointment) {
             return ErrorEnum.EMPTY_APPOINTMENT;
-        } else if (null != appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid())){
+        } else if (null != appointmentMapper.selectByPrimaryKey(appointment
+                .getAppointmentid())) {
             return ErrorEnum.DUPLICATE_APPOINTMENT;
         } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())) {
             return ErrorEnum.NO_SUCH_EVENT;
-        } else if(null == userAccountMapper.selectByPrimaryKey(appointment.getUserId())) {
+        } else if (null == userAccountMapper.selectByPrimaryKey(appointment.getUserId())) {
             return ErrorEnum.USER_NOT_EXIST;
-        }else if(0 >= eventMapper.selectByPrimaryKey(appointment.getEventName()).getEventRemainPositions()) {
+        } else if (0 >= eventMapper.selectByPrimaryKey(appointment.getEventName())
+                .getEventRemainPositions()) {
             return ErrorEnum.EVENT_NO_POSITION;
         }
         Event event = eventMapper.selectByPrimaryKey(appointment.getEventName());
@@ -51,23 +50,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public ErrorEnum updateAppointment(Appointment appointment) {
-        if (null == appointment){
+        if (null == appointment) {
             return ErrorEnum.EMPTY_APPOINTMENT;
-        } else if (null == appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid())){
+        } else if (null == appointmentMapper
+                .selectByPrimaryKey(appointment
+                        .getAppointmentid())) {
             return ErrorEnum.NO_SUCH_APPOINTMENT;
-        } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())){
+        } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())) {
             return ErrorEnum.NO_SUCH_EVENT;
-        } else if (null == userAccountMapper.selectByPrimaryKey(appointment.getUserId())){
+        } else if (null == userAccountMapper.selectByPrimaryKey(appointment.getUserId())) {
             return ErrorEnum.USER_NOT_EXIST;
         }
-        Appointment prevAppoint = appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid());
-        if(prevAppoint.getEventName().equals(appointment.getEventName())){
+        Appointment prevAppoint = appointmentMapper
+                .selectByPrimaryKey(appointment.getAppointmentid());
+        if (prevAppoint.getEventName().equals(appointment.getEventName())) {
             appointmentMapper.updateByPrimaryKeySelective(appointment);
             return ErrorEnum.OK;
-        } else{
-            if(0 >= eventMapper.selectByPrimaryKey(appointment.getEventName()).getEventRemainPositions()){
+        } else {
+            if (0 >= eventMapper.selectByPrimaryKey(appointment.getEventName())
+                    .getEventRemainPositions()) {
                 return ErrorEnum.EVENT_NO_POSITION;
-            }else{
+            } else {
                 Event newEvent = eventMapper
                         .selectByPrimaryKey(appointment.getEventName());
                 Integer currentNewEventPosition = newEvent.getEventRemainPositions() - 1;
@@ -89,13 +92,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public ErrorEnum deleteAppointment(String appointmentId, UserModel userModel) {
-        if (null == appointmentId){
+        if (null == appointmentId) {
             return ErrorEnum.EMPTY_APPOINTMENT;
-        } else if (null == appointmentMapper.selectByPrimaryKey(appointmentId)){
+        } else if (null == appointmentMapper.selectByPrimaryKey(appointmentId)) {
             return ErrorEnum.NO_SUCH_APPOINTMENT;
-        } else if(userModel.getRole() == Role.visitor && userModel.getUserId() !=
-                appointmentMapper
-                        .selectByPrimaryKey(appointmentId).getUserId()){
+        } else if (userModel.getRole() == Role.visitor && userModel.getUserId()
+                != appointmentMapper
+                        .selectByPrimaryKey(appointmentId).getUserId()) {
             return ErrorEnum.NOT_SAME_VISITOR;
         }
         Event unwantedEvent = eventMapper

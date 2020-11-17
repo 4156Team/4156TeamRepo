@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/appointment")
@@ -29,12 +30,19 @@ public class AppointmentController {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-
+    /**
+     * End point to add a new appointment given appointment object.
+     * @param appointment an appointment object
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
     @PostMapping("/addAppointment")
     @ResponseBody
-    public CommonReturnType addAppointment(@RequestBody Appointment appointment) throws BusinessException{
+    public CommonReturnType addAppointment(@RequestBody Appointment appointment)
+            throws BusinessException {
         System.out.println(appointment.toString());
-        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        Boolean isLogin = (Boolean) httpServletRequest
+                .getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
         }
@@ -55,10 +63,18 @@ public class AppointmentController {
         return CommonReturnType.autoCreate(appointmentService.addAppointment(appointment));
     }
 
+    /**
+     * End point to update an appointment given an appointment object.
+     * @param appointment an appointment object
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
     @PostMapping("/updateAppointment")
     @ResponseBody
-    public CommonReturnType updateAppointment(@RequestBody Appointment appointment) throws BusinessException{
-        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+    public CommonReturnType updateAppointment(@RequestBody Appointment appointment)
+            throws BusinessException {
+        Boolean isLogin = (Boolean) httpServletRequest
+                .getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
         }
@@ -69,15 +85,23 @@ public class AppointmentController {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
         //only manager or the same visitor can update the appointment
-        if(userModel.getRole() == Role.visitor && userModel.getUserId() != appointment.getUserId()){
+        if (userModel.getRole() == Role.visitor && userModel.getUserId()
+                != appointment.getUserId()) {
             throw new BusinessException(ErrorEnum.NOT_SAME_VISITOR);
         }
         return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));
     }
 
+    /**
+     * End point to delete an appointment.
+     * @param appointmentId the appointmentId of the appointment you want to delete
+     * @return CommonReturnType
+     * @throws BusinessException A BusinessException object
+     */
     @PostMapping("/deleteAppointment")
     @ResponseBody
-    public CommonReturnType deleteAppointmentId(@RequestBody String appointmentId) throws BusinessException{
+    public CommonReturnType deleteAppointmentId(@RequestBody String appointmentId)
+            throws BusinessException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
@@ -90,7 +114,8 @@ public class AppointmentController {
         }
 
         //only manager or the same visitor can delete the appointment
-        return CommonReturnType.autoCreate(appointmentService.deleteAppointment(appointmentId, userModel));
+        return CommonReturnType.autoCreate(appointmentService
+                .deleteAppointment(appointmentId, userModel));
     }
 
     /**
@@ -111,7 +136,8 @@ public class AppointmentController {
         if (userModel == null) {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
-        List<Appointment> appointmentList = appointmentService.getAppointmentsByUserId(userModel.getUserId());
+        List<Appointment> appointmentList = appointmentService
+                .getAppointmentsByUserId(userModel.getUserId());
         return CommonReturnType.create(appointmentList);
     }
 

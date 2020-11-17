@@ -10,11 +10,17 @@ import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/ticket")
@@ -27,6 +33,12 @@ public class TicketController {
     @Autowired
     UserService userService;
 
+    /**
+     * End point to add a ticket given a ticket object.
+     * @param ticket a ticket obejct containing information of the ticket you try to add
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
     @PostMapping("/addTicket")
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException {
@@ -56,6 +68,12 @@ public class TicketController {
         return CommonReturnType.autoCreate(ticketService.addTicket(ticket));
     }
 
+    /**
+     * End point to update a ticket given a ticket object.
+     * @param ticket a ticket object containing information try to update
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
     @PostMapping("/updateTicket")
     @ResponseBody
     public CommonReturnType updateTicket(@RequestBody Ticket ticket) throws BusinessException {
@@ -78,9 +96,16 @@ public class TicketController {
         return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));
     }
 
+    /**
+     * End point to delete a ticket given ticketId.
+     * @param ticketId the ticketId of the ticket try to delete
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException obejct
+     */
     @PostMapping("/deleteTicket")
     @ResponseBody
-    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId) throws BusinessException{
+    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId)
+            throws BusinessException {
         System.out.println(ticketId);
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
