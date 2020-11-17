@@ -41,7 +41,6 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum deleteEvent(String eventName) {
-        System.out.println(eventMapper.selectByPrimaryKey(eventName).getEventName());
         if (null == eventName) {
             return ErrorEnum.EMPTY_EVENT_NAME;
         } else if (null == eventMapper.selectByPrimaryKey(eventName)) {
