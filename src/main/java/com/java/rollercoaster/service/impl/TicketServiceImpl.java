@@ -2,6 +2,7 @@ package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
@@ -24,13 +25,13 @@ public class TicketServiceImpl implements TicketService {
     private UserAccountMapper userAccountMapper;
 
     @Override
-    public ErrorEnum addTicket(Ticket ticket) throws ParseException {
+    public String addTicket(Ticket ticket) throws ParseException, BusinessException {
         if (null == ticket) {
-            return ErrorEnum.EMPTY_TICKET;
+            throw new BusinessException(ErrorEnum.EMPTY_TICKET);
         } else if (null != ticketMapper.selectByPrimaryKey(ticket.getTicketId())) {
-            return ErrorEnum.DUPLICATE_TICKET;
+            throw new BusinessException(ErrorEnum.DUPLICATE_TICKET);
         } else if (null == userAccountMapper.selectByPrimaryKey(ticket.getUserId())) {
-            return ErrorEnum.USER_NOT_EXIST;
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
 
         Date date = new Date();
@@ -38,10 +39,10 @@ public class TicketServiceImpl implements TicketService {
         date = sdf.parse(sdf.format(date));
         if (!ticket.getValidDate().after(date)) {
             //You cannot buy past date ticket.
-            return ErrorEnum.DATE_PASSED;
+            throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
         ticketMapper.insert(ticket);
-        return ErrorEnum.OK;
+        return ticket.getTicketId();
 
     }
 

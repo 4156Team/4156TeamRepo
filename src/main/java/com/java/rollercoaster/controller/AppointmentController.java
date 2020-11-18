@@ -10,11 +10,7 @@ import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Random;
@@ -57,10 +53,13 @@ public class AppointmentController {
         //加上四位随机数
         Random random = new Random();
         int end4 = random.nextInt(9999);
-        //如果不足两位前面补0，在前加userid
-        String id = userModel.getUserId() + millis + String.format("%04d", end4);
+        //如果不足两位前面补0
+        String timestamp = String.valueOf(millis);
+        String id = timestamp.substring(timestamp.length() - 6)
+                + String.format("%04d", end4);
+        System.out.println(id);
         appointment.setAppointmentid(id);
-        return CommonReturnType.autoCreate(appointmentService.addAppointment(appointment));
+        return CommonReturnType.create(appointmentService.addAppointment(appointment));
     }
 
     /**
@@ -100,7 +99,7 @@ public class AppointmentController {
      */
     @PostMapping("/deleteAppointment")
     @ResponseBody
-    public CommonReturnType deleteAppointmentId(@RequestBody String appointmentId)
+    public CommonReturnType deleteAppointmentId(@RequestParam(name = "appointmentId") String appointmentId)
             throws BusinessException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
@@ -125,7 +124,7 @@ public class AppointmentController {
      */
     @RequestMapping("/appointmentsRecord")
     @ResponseBody
-    public CommonReturnType getTickets() throws BusinessException {
+    public CommonReturnType getAppointments() throws BusinessException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);

@@ -57,7 +57,7 @@ public class TicketServiceTest {
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
 
-        ErrorEnum addTicketReturn = ticketService.addTicket(ticket);
+        String addTicketReturn = ticketService.addTicket(ticket);
         System.out.println(addTicketReturn);
 
         Ticket ticketGetBack = ticketMapper.selectByPrimaryKey("1");

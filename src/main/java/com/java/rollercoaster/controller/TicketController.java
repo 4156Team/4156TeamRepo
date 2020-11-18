@@ -42,8 +42,8 @@ public class TicketController {
      */
     @PostMapping("/addTicket")
     @ResponseBody
-    public CommonReturnType addTicket(@RequestBody Ticket ticket) throws BusinessException, ParseException {
-        System.out.println(ticket.toString());
+    public CommonReturnType addTicket(@RequestBody Ticket ticket)
+            throws BusinessException, ParseException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
@@ -61,12 +61,13 @@ public class TicketController {
         //加上两位随机数
         Random random = new Random();
         int end2 = random.nextInt(99);
-        //如果不足两位前面补0,再加上userid
-        String id = millis + String.format("%02d", end2) + userModel.getUserId();
+        //如果不足两位前面补0
+        String timestamp = String.valueOf(millis);
+        String id = timestamp.substring(timestamp.length() - 8)
+                + String.format("%02d", end2);
+        System.out.println(id);
         ticket.setTicketId(id);
-
-
-        return CommonReturnType.autoCreate(ticketService.addTicket(ticket));
+        return CommonReturnType.create(ticketService.addTicket(ticket));
     }
 
     /**

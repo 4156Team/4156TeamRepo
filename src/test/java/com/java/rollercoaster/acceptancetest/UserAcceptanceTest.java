@@ -1,19 +1,31 @@
 package com.java.rollercoaster.acceptancetest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.UserAccountExample;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.model.enumeration.Role;
+import com.java.rollercoaster.service.model.enumeration.Status;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,6 +36,8 @@ public class UserAcceptanceTest {
     private RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private UserAccountMapper userAccountMapper;
+    @Autowired
+    private TicketMapper ticketMapper;
 
     @Test
     public void registerTest() {
@@ -70,6 +84,8 @@ public class UserAcceptanceTest {
         criteria.andPhoneNumberEqualTo("6789");
         userAccountMapper.deleteByExample(example);
     }
+
+
 
 
 }
