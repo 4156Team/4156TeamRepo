@@ -3,13 +3,8 @@ package com.java.rollercoaster.acceptancetest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.java.rollercoaster.dao.TicketMapper;
-import com.java.rollercoaster.dao.UserAccountMapper;
-import com.java.rollercoaster.dao.UserPasswordMapper;
-import com.java.rollercoaster.pojo.Ticket;
-import com.java.rollercoaster.pojo.TicketExample;
-import com.java.rollercoaster.pojo.UserAccount;
-import com.java.rollercoaster.pojo.UserAccountExample;
+import com.java.rollercoaster.dao.*;
+import com.java.rollercoaster.pojo.*;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import org.junit.Test;
@@ -28,21 +23,23 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TicketServiceAcceptanceTest {
+public class AppointmentServiceAcceptanceTest {
     private RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private UserAccountMapper userAccountMapper;
     @Autowired
-    private TicketMapper ticketMapper;
+    private AppointmentMapper appointmentMapper;
+    @Autowired
+    private EventMapper eventMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
 
     @Test
-    public void buyTicketsTest() {
+    public void makeAppointment(){
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -65,15 +62,16 @@ public class TicketServiceAcceptanceTest {
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
 
-        //buy tickets
-        Ticket ticket = new Ticket();
-        ticket.setValidDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
-        ticket.setPrice((float) 100);
-        ticket.setStatus(Status.unused);
-        String url2 = "http://localhost:8080/ticket/addTicket";
+        //insert event test to the table
+        Event event = initEvent(10, "event test");
+        //add appointments
+        Appointment appointment = new Appointment();
+        appointment.setEventName("event test");
+
+        String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
-        HttpEntity<Ticket> httpEntity1 = new HttpEntity<>(ticket, headers1);
+        HttpEntity<Appointment> httpEntity1 = new HttpEntity<>(appointment, headers1);
         ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
 
         assertEquals("success", response.getBody().getStatus());
@@ -84,17 +82,30 @@ public class TicketServiceAcceptanceTest {
         List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
         int userId = userAccount.get(0).getUserId();
-        TicketExample ticketExample = new TicketExample();
-        TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
-        ticketCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
-        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
-        assertEquals(100, ticketList.get(0).getPrice());
+        AppointmentExample appointmentExample = new AppointmentExample();
+        AppointmentExample.Criteria appointmentCriteria = appointmentExample.createCriteria();
+        appointmentCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
+        List<Appointment> appointmentsList = appointmentMapper.selectByExample(appointmentExample);
+        assertEquals("event test", appointmentsList.get(0).getEventName());
+        assertEquals(9, eventMapper.selectByPrimaryKey("event test").getEventRemainPositions());
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
         userPasswordMapper.deleteByPrimaryKey(userId);
-        ticketMapper.deleteByExample(ticketExample);
+        eventMapper.deleteByPrimaryKey("event test");
+        appointmentMapper.deleteByExample(appointmentExample);
 
+
+    }
+
+    private Event initEvent(int position, String eventName) {
+        Event event = new Event();
+        event.setEventRemainPositions(position);
+        //event.setEndTime();
+        //event.setStartTime();
+        event.setEventName(eventName);
+        eventMapper.insertSelective(event);
+        return event;
     }
 
     private String getCookie(ResponseEntity responseEntity) {
@@ -104,7 +115,7 @@ public class TicketServiceAcceptanceTest {
     }
 
     @Test
-    public void displayTicketsTest() throws JsonProcessingException {
+    public void displayAppointmentsTest() throws JsonProcessingException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -127,52 +138,57 @@ public class TicketServiceAcceptanceTest {
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
 
-        //buy tickets
-        Ticket ticket = new Ticket();
-        ticket.setValidDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
-        ticket.setPrice((float) 100);
-        ticket.setStatus(Status.unused);
-        String url2 = "http://localhost:8080/ticket/addTicket";
+        //add appointments
+        Event event = initEvent(10, "event test");
+        Appointment appointment = new Appointment();
+        appointment.setEventName("event test");
+
+        String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
-        HttpEntity<Ticket> httpEntity1 = new HttpEntity<>(ticket, headers1);
-        restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
+        HttpEntity<Appointment> httpEntity1 = new HttpEntity<>(appointment, headers1);
+        ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
+
+        assertEquals("success", response.getBody().getStatus());
 
         UserAccountExample userAccountExample = new UserAccountExample();
         UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
         userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
         List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
-        TicketExample ticketExample = new TicketExample();
-        TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
-        ticketCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
-        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        int userId = userAccount.get(0).getUserId();
+        AppointmentExample appointmentExample = new AppointmentExample();
+        AppointmentExample.Criteria appointmentCriteria = appointmentExample.createCriteria();
+        appointmentCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
+        List<Appointment> appointmentsList = appointmentMapper.selectByExample(appointmentExample);
 
-        //display tickets
-        String url3 = "http://localhost:8080/ticket/ticketsRecord";
+        //display appointments
+        String url3 = "http://localhost:8080/appointment/appointmentsRecord";
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity httpEntity2 = new HttpEntity(headers2);
-        ResponseEntity<CommonReturnType> response = restTemplate.exchange(url3, HttpMethod.GET,httpEntity2,CommonReturnType.class);
+        response = restTemplate.exchange(url3, HttpMethod.GET,httpEntity2,CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         System.out.println(response.getBody());
         System.out.println(response.getBody().getData().toString());
         ObjectMapper objectMapper = new ObjectMapper();
         String res = objectMapper.writeValueAsString(response.getBody().getData());
         System.out.println(res);
-        List<Ticket> tickets = objectMapper.readValue(res, new TypeReference<List<Ticket>>() {
+        List<Appointment> appointments = objectMapper.readValue(res, new TypeReference<List<Appointment>>() {
         });
 
-//        List<Ticket> tickets = (List<Ticket>) response.getBody().getData();
-        assertEquals(100, tickets.get(0).getPrice());
+        assertEquals("event test", appointments.get(0).getEventName());
+        assertEquals(userId, appointments.get(0).getUserId());
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
-        ticketMapper.deleteByExample(ticketExample);
+        userPasswordMapper.deleteByPrimaryKey(userId);
+        eventMapper.deleteByPrimaryKey("event test");
+        appointmentMapper.deleteByExample(appointmentExample);
     }
 
     @Test
-    public void cancelTicketsTest() throws JsonProcessingException {
+    public void cancelAppointmentsTest() throws JsonProcessingException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -195,40 +211,45 @@ public class TicketServiceAcceptanceTest {
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
 
-        //buy tickets
-        Ticket ticket = new Ticket();
-        ticket.setValidDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
-        ticket.setPrice((float) 100);
-        ticket.setStatus(Status.unused);
-        String url2 = "http://localhost:8080/ticket/addTicket";
+
+        //insert event test to the table
+        Event event = initEvent(10, "event test");
+        //add appointments
+        Appointment appointment = new Appointment();
+        appointment.setEventName("event test");
+        String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
-        HttpEntity<Ticket> httpEntity1 = new HttpEntity<>(ticket, headers1);
-        restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
+        HttpEntity<Appointment> httpEntity1 = new HttpEntity<>(appointment, headers1);
+        ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
+        assertEquals("success", response.getBody().getStatus());
 
         UserAccountExample userAccountExample = new UserAccountExample();
         UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
         userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
         List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
-        TicketExample ticketExample = new TicketExample();
-        TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
-        ticketCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
-        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        int userId = userAccount.get(0).getUserId();
+        AppointmentExample appointmentExample = new AppointmentExample();
+        AppointmentExample.Criteria appointmentCriteria = appointmentExample.createCriteria();
+        appointmentCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
+        List<Appointment> appointmentsList = appointmentMapper.selectByExample(appointmentExample);
 
-        //cancel ticket orders
-        String url3 = "http://localhost:8080/ticket/deleteTicket";
-        Ticket ticket1 = ticketList.get(0);
+        //cancel appointments
+        String url3 = "http://localhost:8080/appointment/deleteAppointment";
+        Appointment appointment1 = appointmentsList.get(0);
         MultiValueMap<String, Object> paramMap2 = new LinkedMultiValueMap<String, Object>();
-        paramMap2.add("ticketId", ticket1.getTicketId());
+        paramMap2.add("appointmentId", appointment1.getAppointmentid());
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity httpEntity2 = new HttpEntity(paramMap2,headers2);
-        ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
-        assertEquals(null, ticketMapper.selectByPrimaryKey(ticket1.getTicketId()));
+        response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
+        assertEquals(null, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentid()));
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
-        ticketMapper.deleteByExample(ticketExample);
+        userPasswordMapper.deleteByPrimaryKey(userId);
+        eventMapper.deleteByPrimaryKey("event test");
     }
+
 }
