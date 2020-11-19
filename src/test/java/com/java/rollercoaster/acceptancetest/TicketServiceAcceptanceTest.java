@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.pojo.UserAccount;
@@ -230,5 +231,59 @@ public class TicketServiceAcceptanceTest {
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
         ticketMapper.deleteByExample(ticketExample);
+    }
+
+    @Test
+    public void testNotSameVisitor() {
+        //register
+        String url = "http://localhost:8080/user/register";
+        MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+        paramMap.add("telephone", "6789");
+        paramMap.add("name", "James");
+        paramMap.add("gender", "male");
+        paramMap.add("age", 18);
+        paramMap.add("password", "6789");
+        restTemplate.postForObject(url, paramMap, CommonReturnType.class);
+
+        //log in
+        MultiValueMap<String, Object> paramMap1 = new LinkedMultiValueMap<String, Object>();
+        String url1 = "http://localhost:8080/user/login";
+        paramMap1.add("telephone", "6789");
+        paramMap1.add("password", "6789");
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<MultiValueMap<String, Object>> httpEntity =
+                new HttpEntity<MultiValueMap<String, Object>>(paramMap1, headers);
+        //restTemplate.postForObject(url1, paramMap1, CommonReturnType.class);
+        ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
+        String cookie = getCookie(responseEntity);
+
+        //add tickets
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("1");
+        ticket.setUserId(100000);
+        ticket.setPrice((float) 100);
+        ticket.setStatus(Status.unused);
+        ticket.setValidDate(new Date());
+        ticketMapper.insert(ticket);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
+        //cancel ticket orders
+        String url3 = "http://localhost:8080/ticket/deleteTicket";
+
+        MultiValueMap<String, Object> paramMap2 = new LinkedMultiValueMap<String, Object>();
+        paramMap2.add("ticketId", ticket.getTicketId());
+        HttpHeaders headers2 = new HttpHeaders();
+        headers2.add("Cookie",cookie );
+        HttpEntity httpEntity2 = new HttpEntity(paramMap2,headers2);
+        ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
+        assertEquals(ErrorEnum.NOT_SAME_VISITOR, ErrorEnum.valueOf((String) response.getBody().getData()));
+        assertEquals("fail", response.getBody().getStatus());
+        //delete record
+        userAccountMapper.deleteByExample(userAccountExample);
+        ticketMapper.deleteByPrimaryKey("1");
     }
 }

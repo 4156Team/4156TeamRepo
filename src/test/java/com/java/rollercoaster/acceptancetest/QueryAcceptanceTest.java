@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -218,6 +219,22 @@ public class QueryAcceptanceTest {
         System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals(100, rs.get("queueStatus"));
+        finish();
+    }
+
+    @Test
+    public void testWrongEventName() throws ParseException {
+        finish();
+        init();
+        String url = "http://localhost:8080/query/Event";
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(url)
+                .queryParam("eventName","kkkk");
+        ResponseEntity<CommonReturnType> response =
+                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+        CommonReturnType result = response.getBody();
+        assertEquals("fail", result.getStatus());
+        assertEquals(ErrorEnum.NO_SUCH_EVENT, ErrorEnum.valueOf((String) result.getData()));
         finish();
     }
 
