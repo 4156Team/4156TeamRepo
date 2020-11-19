@@ -38,21 +38,21 @@ public class TicketController {
      * End point to add a ticket given a ticket object.
      * @param ticket a ticket obejct containing information of the ticket you try to add
      * @return CommonReturnType
-     * @throws BusinessException a BusinessException object
+     * @throws ParseException a ParseException object
      */
     @PostMapping("/addTicket")
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket)
-            throws BusinessException, ParseException {
+            throws ParseException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (!isLogin)  {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        if (isLogin == null || !isLogin)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
         ticket.setUserId(userModel.getUserId());
 
@@ -67,33 +67,49 @@ public class TicketController {
                 + String.format("%02d", end2);
         System.out.println(id);
         ticket.setTicketId(id);
-        return CommonReturnType.create(ticketService.addTicket(ticket));
+        try{
+            CommonReturnType result = CommonReturnType.create(ticketService.addTicket(ticket));
+            return result;
+        } catch (BusinessException businessException) {
+            int errCode = businessException.getErrCode();
+            switch (errCode) {
+                case 241:
+                    return CommonReturnType.autoCreate(ErrorEnum.EMPTY_TICKET);
+                case 242:
+                    return CommonReturnType.autoCreate(ErrorEnum.DUPLICATE_TICKET);
+                case 20001:
+                    return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
+                case 243:
+                    return CommonReturnType.autoCreate(ErrorEnum.DATE_PASSED);
+                default:
+                    return CommonReturnType.autoCreate(ErrorEnum.UNKNOWN_ERROR);
+            }
+        }
     }
 
     /**
      * End point to update a ticket given a ticket object.
      * @param ticket a ticket object containing information try to update
      * @return CommonReturnType
-     * @throws BusinessException a BusinessException object
      */
     @PostMapping("/updateTicket")
     @ResponseBody
-    public CommonReturnType updateTicket(@RequestBody Ticket ticket) throws BusinessException {
+    public CommonReturnType updateTicket(@RequestBody Ticket ticket) {
         System.out.println(ticket.toString());
         //only manager can update the tickets status
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (!isLogin)  {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        if (isLogin == null || !isLogin)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
 
         if (userModel.getRole().equals(Role.visitor)) {
-            throw new BusinessException(ErrorEnum.NO_AUTHORIZATION);
+            return CommonReturnType.autoCreate(ErrorEnum.NO_AUTHORIZATION);
         }
         return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));
     }
@@ -102,22 +118,20 @@ public class TicketController {
      * End point to delete a ticket given ticketId.
      * @param ticketId the ticketId of the ticket try to delete
      * @return CommonReturnType
-     * @throws BusinessException a BusinessException obejct
      */
     @PostMapping("/deleteTicket")
     @ResponseBody
-    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId)
-            throws BusinessException {
+    public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId) {
         System.out.println(ticketId);
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (!isLogin)  {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        if (isLogin == null || !isLogin)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
         return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));
     }
@@ -125,20 +139,19 @@ public class TicketController {
     /**
      *Display user's history tickets records.
      * @return response with common return type
-     * @throws BusinessException exception handler
      */
     @RequestMapping("/ticketsRecord")
     @ResponseBody
-    public CommonReturnType getTickets() throws BusinessException {
+    public CommonReturnType getTickets() {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (!isLogin)  {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        if (isLogin == null || !isLogin)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
         List<Ticket> ticketList = ticketService.getTicketsByUserId(userModel.getUserId());
         return CommonReturnType.create(ticketList);
