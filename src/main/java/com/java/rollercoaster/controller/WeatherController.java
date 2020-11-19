@@ -8,13 +8,18 @@ import com.java.rollercoaster.service.WeatherService;
 import com.java.rollercoaster.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/weather")
@@ -22,9 +27,16 @@ import java.util.Random;
 public class WeatherController {
     @Autowired
     private HttpServletRequest httpServletRequest;
-
     @Autowired
     private WeatherService weatherService;
+
+    /**
+     * End point to query the weather for a certain date.
+     * @param date the date you want to know the weather of
+     * @return a CommonReturnType with weather model contained if succeed
+     * @throws ParseException throw exception for date parse
+     * @throws BusinessException throw Business exception for login issue
+     */
     @PostMapping("/query")
     @ResponseBody
     public CommonReturnType queryWeather(@RequestBody Date date)

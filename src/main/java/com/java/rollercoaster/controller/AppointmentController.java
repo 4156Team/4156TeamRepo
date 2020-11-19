@@ -10,7 +10,12 @@ import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Random;
@@ -99,7 +104,8 @@ public class AppointmentController {
      */
     @PostMapping("/deleteAppointment")
     @ResponseBody
-    public CommonReturnType deleteAppointmentId(@RequestParam(name = "appointmentId") String appointmentId)
+    public CommonReturnType deleteAppointmentId(@RequestParam(name = "appointmentId")
+                                                            String appointmentId)
             throws BusinessException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (!isLogin)  {
