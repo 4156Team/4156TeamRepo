@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.pojo.UserAccount;
@@ -40,7 +41,7 @@ public class UserAcceptanceTest {
     private TicketMapper ticketMapper;
 
     @Test
-    public void registerTest() {
+    public void registerTestWithValidInput() {
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
         paramMap.add("telephone", "6789");
@@ -59,9 +60,29 @@ public class UserAcceptanceTest {
         userAccountMapper.deleteByExample(example);
 
     }
+    @Test
+    public void registerTestWithInvalidInput() {
+        String url = "http://localhost:8080/user/register";
+        MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+        paramMap.add("telephone", "");
+        paramMap.add("name", "James");
+        paramMap.add("gender", "male");
+        paramMap.add("age", 18);
+        paramMap.add("password", "6789");
+        CommonReturnType response = restTemplate.postForObject(url, paramMap, CommonReturnType.class);
+        System.out.println(response.getStatus());
+        UserAccountExample example = new UserAccountExample();
+        UserAccountExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneNumberEqualTo("6789");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(example);
+        assertEquals("fail", response.getStatus());
+        assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, ErrorEnum.valueOf((String) response.getData()));
+        userAccountMapper.deleteByExample(example);
+
+    }
 
     @Test
-    public void loginTest() {
+    public void loginWithValidInputTest() {
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
         paramMap.add("telephone", "6789");
@@ -78,6 +99,31 @@ public class UserAcceptanceTest {
         CommonReturnType response = restTemplate.postForObject(url1, paramMap1, CommonReturnType.class);
         assertEquals("success", response.getStatus());
         assertEquals(Role.visitor, Role.valueOf((String) response.getData()));
+
+        UserAccountExample example = new UserAccountExample();
+        UserAccountExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneNumberEqualTo("6789");
+        userAccountMapper.deleteByExample(example);
+    }
+
+    @Test
+    public void loginWithInvalidInputTest() {
+        String url = "http://localhost:8080/user/register";
+        MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+        paramMap.add("telephone", "6789");
+        paramMap.add("name", "James");
+        paramMap.add("gender", "male");
+        paramMap.add("age", 18);
+        paramMap.add("password", "6789");
+        restTemplate.postForObject(url, paramMap, CommonReturnType.class);
+
+        MultiValueMap<String, Object> paramMap1 = new LinkedMultiValueMap<String, Object>();
+        String url1 = "http://localhost:8080/user/login";
+        paramMap1.add("telephone", "");
+        paramMap1.add("password", "6789");
+        CommonReturnType response = restTemplate.postForObject(url1, paramMap1, CommonReturnType.class);
+        assertEquals("fail", response.getStatus());
+        assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, ErrorEnum.valueOf((String) response.getData()));
 
         UserAccountExample example = new UserAccountExample();
         UserAccountExample.Criteria criteria = example.createCriteria();

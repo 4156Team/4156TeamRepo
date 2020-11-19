@@ -75,10 +75,10 @@ public class UserController extends BaseController {
                                   @RequestParam(name = "password")String password)
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
-        //入参校验
+        //parameter verification
         if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
                 || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
@@ -108,6 +108,13 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "age")Integer age,
                                      @RequestParam(name = "password")String password
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //parameter verification
+        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
+                || org.apache.commons.lang3.StringUtils.isEmpty(password)
+                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
+                || org.apache.commons.lang3.StringUtils.isEmpty(name)) {
+            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+        }
         //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);
