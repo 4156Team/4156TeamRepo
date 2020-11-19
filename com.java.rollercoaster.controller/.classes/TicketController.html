@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TicketController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TicketController (com.java.rollercoaster.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TicketController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.9%
+  </span>
+  <span class="absValue">
+    (38/ 47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>6</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.TicketService;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.UserService;
+<i>9</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.Role;
+<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>12</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+<i>14</i>&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+<i>15</i>&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+<i>16</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>17</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+<i>18</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.text.ParseException;
+<i>21</i>&nbsp;import java.util.List;
+<i>22</i>&nbsp;import java.util.Random;
+<i>23</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;@Controller
+<i>27</i>&nbsp;@RequestMapping(&quot;/ticket&quot;)
+<i>28</i>&nbsp;@CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
+<b class="fc"><i>29</i>&nbsp;public class TicketController {</b>
+<i>30</i>&nbsp;    @Autowired
+<i>31</i>&nbsp;    TicketService ticketService;
+<i>32</i>&nbsp;    @Autowired
+<i>33</i>&nbsp;    private HttpServletRequest httpServletRequest;
+<i>34</i>&nbsp;    @Autowired
+<i>35</i>&nbsp;    UserService userService;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * End point to add a ticket given a ticket object.
+<i>39</i>&nbsp;     * @param ticket a ticket obejct containing information of the ticket you try to add
+<i>40</i>&nbsp;     * @return CommonReturnType
+<i>41</i>&nbsp;     * @throws BusinessException a BusinessException object
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    @PostMapping(&quot;/addTicket&quot;)
+<i>44</i>&nbsp;    @ResponseBody
+<i>45</i>&nbsp;    public CommonReturnType addTicket(@RequestBody Ticket ticket)
+<i>46</i>&nbsp;            throws BusinessException, ParseException {
+<b class="fc"><i>47</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;        if (!isLogin)  {</b>
+<b class="nc"><i>49</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>52</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>53</i>&nbsp;        //if user not exist
+<b class="fc"><i>54</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>55</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>56</i>&nbsp;        }
+<b class="fc"><i>57</i>&nbsp;        ticket.setUserId(userModel.getUserId());</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;        //生成ticketID,然后再setTicketID
+<b class="fc"><i>60</i>&nbsp;        long millis = System.currentTimeMillis();</b>
+<i>61</i>&nbsp;        //加上两位随机数
+<b class="fc"><i>62</i>&nbsp;        Random random = new Random();</b>
+<b class="fc"><i>63</i>&nbsp;        int end2 = random.nextInt(99);</b>
+<i>64</i>&nbsp;        //如果不足两位前面补0
+<b class="fc"><i>65</i>&nbsp;        String timestamp = String.valueOf(millis);</b>
+<b class="fc"><i>66</i>&nbsp;        String id = timestamp.substring(timestamp.length() - 8)</b>
+<b class="fc"><i>67</i>&nbsp;                + String.format(&quot;%02d&quot;, end2);</b>
+<b class="fc"><i>68</i>&nbsp;        System.out.println(id);</b>
+<b class="fc"><i>69</i>&nbsp;        ticket.setTicketId(id);</b>
+<b class="fc"><i>70</i>&nbsp;        return CommonReturnType.create(ticketService.addTicket(ticket));</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * End point to update a ticket given a ticket object.
+<i>75</i>&nbsp;     * @param ticket a ticket object containing information try to update
+<i>76</i>&nbsp;     * @return CommonReturnType
+<i>77</i>&nbsp;     * @throws BusinessException a BusinessException object
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    @PostMapping(&quot;/updateTicket&quot;)
+<i>80</i>&nbsp;    @ResponseBody
+<i>81</i>&nbsp;    public CommonReturnType updateTicket(@RequestBody Ticket ticket) throws BusinessException {
+<b class="fc"><i>82</i>&nbsp;        System.out.println(ticket.toString());</b>
+<i>83</i>&nbsp;        //only manager can update the tickets status
+<b class="fc"><i>84</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>85</i>&nbsp;        if (!isLogin)  {</b>
+<b class="nc"><i>86</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>87</i>&nbsp;        }
+<b class="fc"><i>88</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>89</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>90</i>&nbsp;        //if user not exist
+<b class="fc"><i>91</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>92</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>93</i>&nbsp;        }
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;        if (userModel.getRole().equals(Role.visitor)) {</b>
+<b class="nc"><i>96</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_AUTHORIZATION);</b>
+<i>97</i>&nbsp;        }
+<b class="fc"><i>98</i>&nbsp;        return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * End point to delete a ticket given ticketId.
+<i>103</i>&nbsp;     * @param ticketId the ticketId of the ticket try to delete
+<i>104</i>&nbsp;     * @return CommonReturnType
+<i>105</i>&nbsp;     * @throws BusinessException a BusinessException obejct
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    @PostMapping(&quot;/deleteTicket&quot;)
+<i>108</i>&nbsp;    @ResponseBody
+<i>109</i>&nbsp;    public CommonReturnType deleteTicket(@RequestParam(name = &quot;ticketId&quot;) String ticketId)
+<i>110</i>&nbsp;            throws BusinessException {
+<b class="fc"><i>111</i>&nbsp;        System.out.println(ticketId);</b>
+<b class="fc"><i>112</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>113</i>&nbsp;        if (!isLogin)  {</b>
+<b class="nc"><i>114</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>115</i>&nbsp;        }
+<b class="fc"><i>116</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>117</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>118</i>&nbsp;        //if user not exist
+<b class="fc"><i>119</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>120</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>121</i>&nbsp;        }
+<b class="fc"><i>122</i>&nbsp;        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    /**
+<i>126</i>&nbsp;     *Display user&#39;s history tickets records.
+<i>127</i>&nbsp;     * @return response with common return type
+<i>128</i>&nbsp;     * @throws BusinessException exception handler
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    @RequestMapping(&quot;/ticketsRecord&quot;)
+<i>131</i>&nbsp;    @ResponseBody
+<i>132</i>&nbsp;    public CommonReturnType getTickets() throws BusinessException {
+<b class="fc"><i>133</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>134</i>&nbsp;        if (!isLogin)  {</b>
+<b class="nc"><i>135</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>136</i>&nbsp;        }
+<b class="fc"><i>137</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>138</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>139</i>&nbsp;        //if user not exist
+<b class="fc"><i>140</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>141</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>142</i>&nbsp;        }
+<b class="fc"><i>143</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketService.getTicketsByUserId(userModel.getUserId());</b>
+<b class="fc"><i>144</i>&nbsp;        return CommonReturnType.create(ticketList);</b>
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-19 09:51</div>
+</div>
+</body>
+</html>
