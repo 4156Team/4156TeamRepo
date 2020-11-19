@@ -130,6 +130,17 @@
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.4.00</version>
+        </dependency>
 
     </dependencies>
 
