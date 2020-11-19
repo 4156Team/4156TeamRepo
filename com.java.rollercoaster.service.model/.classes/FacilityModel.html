@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: FacilityModel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.service.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: FacilityModel (com.java.rollercoaster.service.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FacilityModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.5%
+  </span>
+  <span class="absValue">
+    (22/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.fasterxml.jackson.annotation.JsonFormat;
+<i>4</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Date;
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;public class FacilityModel {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    private String facilityName;
+<i>11</i>&nbsp;    private FacilityStatus facilityStatus;
+<i>12</i>&nbsp;    private String facilityIntroduction;
+<i>13</i>&nbsp;    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+<i>14</i>&nbsp;    private Date facilityOpenTime;
+<i>15</i>&nbsp;    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+<i>16</i>&nbsp;    private Date facilityCloseTime;
+<i>17</i>&nbsp;    private Integer queueStatus;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public String getFacilityName() {
+<b class="nc"><i>20</i>&nbsp;        return facilityName;</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    public void setFacilityName(String facilityName) {
+<b class="fc"><i>24</i>&nbsp;        this.facilityName = facilityName;</b>
+<b class="fc"><i>25</i>&nbsp;    }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    public com.java.rollercoaster.service.model.enumeration.FacilityStatus getFacilityStatus() {
+<b class="fc"><i>28</i>&nbsp;        return facilityStatus;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public void setFacilityStatus(FacilityStatus facilityStatus) {
+<b class="fc"><i>32</i>&nbsp;        this.facilityStatus = facilityStatus;</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public String getFacilityIntroduction() {
+<b class="fc"><i>36</i>&nbsp;        return facilityIntroduction;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void setFacilityIntroduction(String facilityIntroduction) {
+<b class="fc"><i>40</i>&nbsp;        this.facilityIntroduction = facilityIntroduction;</b>
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Get facility open time with null check.
+<i>45</i>&nbsp;     *
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    public Date getFacilityOpenTime() {
+<b class="fc"><i>48</i>&nbsp;        if (this.facilityOpenTime == null) {</b>
+<b class="nc"><i>49</i>&nbsp;            return null;</b>
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;        return (Date) facilityOpenTime.clone();</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Set facility open time with null check.
+<i>56</i>&nbsp;     *
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public void setFacilityOpenTime(Date facilityOpenTime) {
+<b class="fc"><i>59</i>&nbsp;        if (facilityOpenTime == null) {</b>
+<b class="nc"><i>60</i>&nbsp;            this.facilityOpenTime = null;</b>
+<i>61</i>&nbsp;        } else {
+<b class="fc"><i>62</i>&nbsp;            this.facilityOpenTime = (Date) facilityOpenTime.clone();</b>
+<i>63</i>&nbsp;        }
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;    }</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Get facility close time with null check.
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public Date getFacilityCloseTime() {
+<b class="fc"><i>72</i>&nbsp;        if (this.facilityCloseTime == null) {</b>
+<b class="nc"><i>73</i>&nbsp;            return null;</b>
+<i>74</i>&nbsp;        }
+<b class="fc"><i>75</i>&nbsp;        return (Date) facilityCloseTime.clone();</b>
+<i>76</i>&nbsp;    }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Set facility close time with null check.
+<i>80</i>&nbsp;     *
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    public void setFacilityCloseTime(Date facilityCloseTime) {
+<b class="fc"><i>83</i>&nbsp;        if (facilityCloseTime == null) {</b>
+<b class="nc"><i>84</i>&nbsp;            this.facilityCloseTime = null;</b>
+<i>85</i>&nbsp;        } else {
+<b class="fc"><i>86</i>&nbsp;            this.facilityCloseTime = (Date) facilityCloseTime.clone();</b>
+<i>87</i>&nbsp;        }
+<b class="fc"><i>88</i>&nbsp;    }</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    public Integer getQueueStatus() {
+<b class="fc"><i>91</i>&nbsp;        return queueStatus;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    public void setQueueStatus(Integer queueStatus) {
+<b class="fc"><i>95</i>&nbsp;        this.queueStatus = queueStatus;</b>
+<b class="fc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-19 09:51</div>
+</div>
+</body>
+</html>
