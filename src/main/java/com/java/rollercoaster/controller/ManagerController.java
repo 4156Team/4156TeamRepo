@@ -57,14 +57,14 @@ public class ManagerController {
     /**
      * Delete event.
      *
-     * @param eventName eventName
+     * @param event event
      * @return CommonReturnType
      */
     @PostMapping("/deleteEvent")
     @ResponseBody
-    public CommonReturnType deleteEvent(@RequestBody final String eventName) {
+    public CommonReturnType deleteEvent(@RequestBody Event event) {
         return CommonReturnType.autoCreate(
-                manageParkService.deleteEvent(eventName));
+                manageParkService.deleteEvent(event.getEventName()));
     }
 
     /**
@@ -97,15 +97,15 @@ public class ManagerController {
     /**
      * Delete facility.
      *
-     * @param facilityName facilityName
+     * @param facility facility
      * @return CommonReturnType
      */
     @PostMapping("/deleteFacility")
     @ResponseBody
     public CommonReturnType deleteFacility(@RequestBody
-                                               final String facilityName) {
+                                               Facility facility) {
         return CommonReturnType.autoCreate(
-                manageParkService.deleteFacility(facilityName));
+                manageParkService.deleteFacility(facility.getFacilityName()));
     }
 
     /**

@@ -115,9 +115,11 @@ public class ManagerAcceptanceTest {
     @Test
     public void test2() throws ParseException {
         init();
+        Event event = new Event();
+        event.setEventName("test");
         String url = "http://localhost:8080/manager/deleteEvent";
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "test", CommonReturnType.class);
+                restTemplate.postForEntity(url, event, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
         finish();
@@ -213,8 +215,10 @@ public class ManagerAcceptanceTest {
     public void test7() throws ParseException {
         init();
         String url = "http://localhost:8080/manager/deleteFacility";
+        Facility facility = new Facility();
+        facility.setFacilityName("testFacility");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "testFacility", CommonReturnType.class);
+                restTemplate.postForEntity(url, facility, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         assertEquals(null, facilityMapper.selectByPrimaryKey("testFacility"));
         finish();

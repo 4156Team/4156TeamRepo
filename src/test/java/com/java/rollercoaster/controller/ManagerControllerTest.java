@@ -105,7 +105,9 @@ public class ManagerControllerTest {
     @Test
     public void testDeleteEvents() throws ParseException{
         init();
-        CommonReturnType response = managerController.deleteEvent("test");
+        Event event = new Event();
+        event.setEventName("test");
+        CommonReturnType response = managerController.deleteEvent(event);
         assertEquals("success", response.getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
         finish();
@@ -155,7 +157,9 @@ public class ManagerControllerTest {
     @Test
     public void testDeleteFacility() throws ParseException {
         init();
-        CommonReturnType response = managerController.deleteFacility("testFacility");
+        Facility facility = new Facility();
+        facility.setFacilityName("testFacility");
+        CommonReturnType response = managerController.deleteFacility(facility);
         assertEquals("success", response.getStatus());
         assertEquals(null, facilityMapper.selectByPrimaryKey("testFacility"));
         finish();
