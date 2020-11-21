@@ -50,15 +50,6 @@ public class UserController extends BaseController {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-    private GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-            new NetHttpTransport(), JacksonFactory.getDefaultInstance())
-            .setAudience(
-                    Collections.singletonList(
-                            "66670440653-9ooesmgkcr05a37k224mr3sjsctis262"
-                                    + ".apps.googleusercontent.com"
-                    ))
-            .build();
-
     /**
      * Log in endpoint.
      * @param telephone user telephone number
@@ -75,10 +66,10 @@ public class UserController extends BaseController {
                                   @RequestParam(name = "password")String password)
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
-        //parameter verification
+        //入参校验
         if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
                 || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
@@ -108,13 +99,6 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "age")Integer age,
                                      @RequestParam(name = "password")String password
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        //parameter verification
-        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-                || org.apache.commons.lang3.StringUtils.isEmpty(password)
-                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
-                || org.apache.commons.lang3.StringUtils.isEmpty(name)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
         //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);
@@ -162,34 +146,22 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
     @ResponseBody
     public void verifyToken(String idtokenstr) throws BusinessException {
-        UserAccount userAccount = googleVerifyApi(idtokenstr);
-        if (userAccount.getThirdPartyId() != null) {
-            UserModel userModel = userService.loginWithGoogle(userAccount);
-            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-            System.out.println("It's here.");
-        } else {
-            System.out.println("Invalid ID token.");
-        }
-    }
-
-    /**
-     * Google Verify Api.
-     * @param idTokenStr idTokenStr
-     * @return The information about google user.
-     */
-    public UserAccount googleVerifyApi(String idTokenStr) {
-        UserAccount userAccount = new UserAccount();
-        System.out.println(idTokenStr);
+        System.out.println(idtokenstr);
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+                .setAudience(
+                        Collections.singletonList(
+                                "99250321813-sudhjlbktd5gvc13cf5medguum3oe3c5"
+                                + ".apps.googleusercontent.com"
+                        ))
+                .build();
         GoogleIdToken idToken = null;
         try {
-            idToken = verifier.verify(idTokenStr);
+            idToken = verifier.verify(idtokenstr);
         } catch (GeneralSecurityException ex) {
             System.out.println("GeneralSecurityException Exception");
         } catch (IOException ex) {
             System.out.println("IOException");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
         if (idToken != null) {
             System.out.println("Verified");
@@ -198,9 +170,18 @@ public class UserController extends BaseController {
             System.out.println("User ID: " + userId);
             String name = (String) payload.get("name");
             System.out.println("User name:" + name);
+
+            UserAccount userAccount = new UserAccount();
             userAccount.setThirdPartyId(userId);
             userAccount.setUserName(name);
+            UserModel userModel = userService.loginWithGoogle(userAccount);
+
+            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+            System.out.println("It's here.");
+        } else {
+            System.out.println("Invalid ID token.");
         }
-        return userAccount;
     }
+
 }
