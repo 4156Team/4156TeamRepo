@@ -192,7 +192,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckInTicket() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkTicket("1");
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("1");
+        CommonReturnType response = managerController.checkTicket(ticket);
         assertEquals("success", response.getStatus());
         assertEquals(Status.used, ticketMapper.selectByPrimaryKey("1").getStatus());
         finish();
@@ -201,7 +203,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckAppointment() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkAppointment("1");
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentid("1");
+        CommonReturnType response = managerController.checkAppointment(appointment);
         ErrorEnum errorEnum = (ErrorEnum) response.getData();
         assertEquals("success", response.getStatus());
         assertEquals(ErrorEnum.OK, errorEnum);
