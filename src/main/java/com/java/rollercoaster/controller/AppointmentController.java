@@ -62,7 +62,7 @@ public class AppointmentController {
         String id = timestamp.substring(timestamp.length() - 6)
                 + String.format("%04d", end4);
         System.out.println(id);
-        appointment.setAppointmentid(id);
+        appointment.setAppointmentId(id);
         try{
             CommonReturnType result = CommonReturnType.create(appointmentService.addAppointment(appointment));
             return result;

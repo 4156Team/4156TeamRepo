@@ -83,7 +83,7 @@ public class ManagerAcceptanceTest {
 
         Appointment appointment = new Appointment();
         appointment.setUserId(1);
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setEventName("test");
         appointmentMapper.insert(appointment);
         System.out.println("start test");
@@ -331,7 +331,7 @@ public class ManagerAcceptanceTest {
         init();
         String url = "http://localhost:8080/manager/checkAppointment";
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(url, appointment, CommonReturnType.class);
         CommonReturnType result = response.getBody();
@@ -348,7 +348,7 @@ public class ManagerAcceptanceTest {
     public void test14() throws ParseException{
         init();
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("200");
+        appointment.setAppointmentId("200");
         String url = "http://localhost:8080/manager/checkAppointment";
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(url, appointment, CommonReturnType.class);

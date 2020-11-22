@@ -78,7 +78,7 @@ public class ManagerControllerTest {
 
         Appointment appointment = new Appointment();
         appointment.setUserId(1);
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setEventName("test");
         appointmentMapper.insert(appointment);
         System.out.println("start test");
@@ -204,7 +204,7 @@ public class ManagerControllerTest {
     public void testCheckAppointment() throws ParseException {
         init();
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         CommonReturnType response = managerController.checkAppointment(appointment);
         ErrorEnum errorEnum = (ErrorEnum) response.getData();
         assertEquals("success", response.getStatus());

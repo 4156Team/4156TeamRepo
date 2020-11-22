@@ -135,7 +135,7 @@ public class ManagerController {
     public CommonReturnType checkAppointment(@RequestBody
                                              Appointment appointment) {
         return CommonReturnType.autoCreate(
-                checkInService.checkAppointments(appointment.getAppointmentid()));
+                checkInService.checkAppointments(appointment.getAppointmentId()));
     }
 
 }
