@@ -42,7 +42,8 @@ public class TicketServiceImpl implements TicketService {
 //            //You cannot buy past date ticket.
 //            throw new BusinessException(ErrorEnum.DATE_PASSED);
 //        }
-        if (ticket.getValidDate().getTime() < date.getTime()) {
+        int days = (int) date.getTime() / 1000 / 3600 / 24;
+        if (ticket.getValidDate().getTime() / 1000 / 3600 / 24 < days) {
             //You cannot buy past date ticket.
             throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
@@ -87,5 +88,4 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
         return ticketList;
     }
-
 }
