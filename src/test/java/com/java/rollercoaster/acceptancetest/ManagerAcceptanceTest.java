@@ -102,6 +102,7 @@ public class ManagerAcceptanceTest {
         event.setStartTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
         event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         event.setEventName("test-test");
+
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(url, event, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());

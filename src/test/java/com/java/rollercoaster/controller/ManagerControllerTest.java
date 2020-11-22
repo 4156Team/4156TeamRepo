@@ -107,6 +107,7 @@ public class ManagerControllerTest {
         init();
         Event event = new Event();
         event.setEventName("test");
+
         CommonReturnType response = managerController.deleteEvent(event);
         assertEquals("success", response.getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
