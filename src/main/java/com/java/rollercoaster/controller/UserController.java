@@ -8,10 +8,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.java.rollercoaster.controller.viewobject.UserVo;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.IdTokenStr;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,14 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -140,13 +139,13 @@ public class UserController extends BaseController {
 
     /**
      *Implement google login as third party login.
-     * @param idtokenstr google login account token
+     * @param idTokenStr google login account token
      * @throws BusinessException exception handler
      */
     @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
     @ResponseBody
-    public void verifyToken(String idtokenstr) throws BusinessException {
-        System.out.println(idtokenstr);
+    public void verifyToken(@RequestBody IdTokenStr idTokenStr) throws BusinessException {
+        System.out.println(idTokenStr.getToken());
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), JacksonFactory.getDefaultInstance())
                 .setAudience(
@@ -157,7 +156,7 @@ public class UserController extends BaseController {
                 .build();
         GoogleIdToken idToken = null;
         try {
-            idToken = verifier.verify(idtokenstr);
+            idToken = verifier.verify(idTokenStr.getToken());
         } catch (GeneralSecurityException ex) {
             System.out.println("GeneralSecurityException Exception");
         } catch (IOException ex) {
