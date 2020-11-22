@@ -81,7 +81,12 @@ public class UserController extends BaseController {
             return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //Determine if login is valid
-        UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
+        UserModel userModel;
+        try {
+            userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
+        } catch (BusinessException exception) {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_LOGIN_FAIL);
+        }
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         Role role = userModel.getRole();
