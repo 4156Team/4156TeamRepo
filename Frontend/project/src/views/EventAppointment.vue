@@ -16,6 +16,7 @@ import TicketCheck from "../components/AppointmentShow.vue";
 import qs from "qs";
 export default {
   name: "appointment",
+  inject:['reload'],
   data() {
     return {
       // date_select: "",
@@ -30,30 +31,19 @@ export default {
     TicketCheck,
   },
   methods: {
-    // date_se(e) {
-    //   this.date_select = e;
-    // },
-    // time_se(t) {
-    //   this.time_select = t;
-    //   console.log(this.time_select);
-    // },
     appointment_se(t) {
       this.appoint_select = t;
-    //   console.log("test",this.appoint_select.appointmentid);
+      console.log("test",this.appoint_select.appointmentid);
     },
     deleteAppointment() {
       var book = this;
       if (this.appoint_select != null) {
         var param = qs.stringify({
-          appointmentId: book.appoint_select.appointmentid,
+          appointmentId: book.appoint_select.appointmentId,
         });
         console.log("pp",param)
         this.$axios
-          .post("/api/appointment/deleteAppointment", param, {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          })
+          .post("/api/appointment/deleteAppointment", param)
           .then((response) => {
             console.log(response.data);
             if (response.data.status == "success") {
@@ -62,6 +52,7 @@ export default {
                 title: "Important message",
                 text: "Hello user! You have dropped a appointment",
               });
+              this.reload()
             } else {
               this.$notify({
                 group: "foo",

@@ -1,13 +1,13 @@
 <template>
   <b-container class="bv-example-row">
-    <el-row :gutter="10">
-      <el-col :span="8"
-        ><div class="grid-content bg-purple">
+    <!-- <el-row :gutter="10"> -->
+      <!-- <el-col :span="8"> -->
+        <div class="grid-content bg-purple">
           <DatePicker v-on:DateSelected="date_se" />
           <!-- <h2>{{ date_select }}</h2> -->
         </div>
-      </el-col>
-    </el-row>
+      <!-- </el-col> -->
+    <!-- </el-row> -->
 
     <b-row class="box"> 
       <b-col sm="6" offset="3">
@@ -39,14 +39,14 @@ export default {
           category: "Adult",
           description: "One day ticket for adult",
           price: "20",
-          featuredImage: "https://placekitten.com/500/500",
+          imgSrc: require("../assets/img/ticket/adult.jpeg"),
         },
         {
           Type: 1,
           category: "Teenager",
           description: "One day ticket for teenager",
           price: "10",
-          featuredImage: "https://placekitten.com/500/500",
+          imgSrc: require("../assets/img/ticket/teen.jpeg"),
         },
       ],
       index: 0,

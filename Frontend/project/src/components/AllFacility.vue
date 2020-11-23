@@ -5,7 +5,7 @@
     <el-table-column
       prop="facilityName"
       label="Name"
-      width="120">
+      width="300">
     </el-table-column>
     <el-table-column
       prop="facilityOpenTime"
@@ -49,7 +49,7 @@
       handleClick(row) {
       this.$notify({
       group: "info",
-      title: "Facility Introduction",
+      title: "Facility Introduction " + row.facilityName,
       type: "success",
       text: row.facilityIntroduction,
     });

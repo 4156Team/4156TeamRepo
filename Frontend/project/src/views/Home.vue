@@ -10,14 +10,15 @@
             Make sure you check out our upcoming events below
           </h2>
           <div class="button-block">
-            <button
+            <el-button
               v-if="!this.isLogin"
               @click="handleLogin"
-              class="button is-xl is-dark"
+              type = "success"
+              icon="el-icon-user"
             >
               Sign Up to Browse Events
-            </button>
-            <h3 v-if="isLogin" class="is-size-3 has-background-dark welcome">
+            </el-button>
+            <h3 v-if="isLogin" class="is-size-3 welcome" border>
               Welcome 
               <el-button v-show="this.isAdimin"
               @click="handleAdmin">
@@ -50,8 +51,6 @@ export default {
   mounted() {
     this.isLogin = window.sessionStorage.getItem("isLogin");
     this.isAdimin = window.sessionStorage.getItem("isAdmin");
-    console.log("this.isAdimin", this.isAdimin);
-    // setTimeout(()=>{self.reload},1500)
   },
   name: "home",
   components: {
@@ -75,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .hero {
   text-align: center;
-  background-image: url("https://media.socastsrm.com/wordpress/wp-content/blogs.dir/684/files/2018/02/Wreck-It-Ralph-2-Ralph-Breaks-The-Internet-Trailer.jpg");
+  background-image: url("../assets/img/banner/cropped-banner.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -87,7 +86,7 @@ export default {
   font-size: 60px;
 }
 .subtitle {
-  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
+  text-shadow: 4px 4px 4px rgba(45, 204, 106, 0.699);
   font-size: 30px;
 }
 .button-block {
@@ -119,8 +118,10 @@ export default {
 }
 .topic {
   margin-top: 50px;
-  text-shadow: 4px 4px 4px rgba(9, 39, 48, 0.7);
+  text-align: center;
+  color: darkolivegreen;
+  text-shadow: 4px 4px 4px rgba(9, 75, 9, 0.7);
   font-size: 40px;
-  font-family: "Helvetica Neue";
+  font-family: 'Lucida Sans';
 }
 </style>

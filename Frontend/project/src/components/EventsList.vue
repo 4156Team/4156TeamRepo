@@ -28,12 +28,9 @@ export default {
     };
   },
     mounted: function () {
-    // GET /someUrl
+    console.log("start!")
     this.$axios
       .get("/api/query/AllEvent")
-      .then((response) => {
-        return response;
-      })
       .then((response) => {
         if (response.data.status == "success") {
           this.events = response.data.data;

@@ -46,6 +46,10 @@
           <strong>Location:</strong>
           {{ event.eventLocation }}
         </p>
+        <p class="is-size-5">
+          <strong>Event Introduction:</strong>
+          {{ event.eventIntroduction }}
+        </p>
         <p class="is-size-5" style="margin-top:20px; margin-bottom:30px">
           <strong>StartTime:</strong>
           {{ event.startTime }}
@@ -58,12 +62,12 @@
           <strong>RemainPositions:</strong>
           {{ event.eventRemainPositions }}
         </p>
-        <!-- <div class="event-images columns is-multiline has-text-centered">
+        <div class="event-images">
           <img
-            :src="`${event[0].Event_image}`"
-            :alt="`${event[0].Event_name}`"
+            src="https://www.kiro7.com/resizer/nHPv7HlV0bPIDFRNOUq3dEg670c=/1200x675/cloudfront-us-east-1.images.arcpublishing.com/cmg/H3KH4Z5EKJBNHMMLYCRWZZ5PXU.jpg"
+            :alt="`${event.eventName}`"
           />
-        </div> -->
+        </div>
       </div>
     </section>
   </div>
@@ -136,5 +140,11 @@ export default {
   margin-top: 100px;
   margin-bottom: 30px;
   padding: 40px 0 20px 0;
+}
+.event-images{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 40px 0 20px 0;
+
 }
 </style>

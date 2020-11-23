@@ -1,28 +1,24 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <el-button @click="back" style="float: left; padding: 3px 3px" type="text"
-        >Back</el-button
-      >
+      <el-button @click="back" style="float: left; padding: 3px 3px" type="text">Back</el-button>
       <span> {{ currentEvent.category }}</span>
-      <el-button @click="next" style="float: right; padding: 3px 0" type="text"
-        >Next</el-button
-      >
+      <el-button @click="next" style="float: right; padding: 3px 0" type="text">Next</el-button>
     </div>
     <div class="text item">
-      {{ "price: " + currentEvent.price }}
+      {{ "Price: $" + currentEvent.price}}
     </div>
     <div class="text item">
-      {{ "description: " + currentEvent.description }}
+      {{ "Description: " + currentEvent.description }}
     </div>
     <div class="text item">
       <el-button
         @click.prevent="register"
         style="center; padding: 3px 0"
-        type="text"
-        >Register</el-button
-      >
+        type="text">Register
+      </el-button>
     </div>
+  <img :src="currentEvent.imgSrc" class="image">
   </el-card>
 </template>
 <script>
@@ -46,7 +42,7 @@ export default {
           validDate: this.selectedTime,
           status: "unused",
         };
-
+        console.log("ticket!",param)
         this.$axios
           .post("/api/ticket/addTicket", JSON.stringify(param), {
             headers: {
@@ -95,8 +91,8 @@ export default {
 
 .box-card {
   margin-left: 40px;
-  width: 600px;
+  width: 400px;
   text-align: center;
-  padding: 3px 3px;
+  padding: 14px 14px;
 }
 </style>

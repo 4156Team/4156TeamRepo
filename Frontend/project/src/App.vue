@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    {{$route.name}}
-    <div v-if="!($route.name === 'adminhome')">
+    <!-- {{$route.name}} -->
+    <div v-if="!($route.name === 'adminhome') && !($route.name === 'Login')">
       <Nav :name="$route.name" />
       <router-view v-if="isRouterAlive"/>
       <notifications group="foo" />
       <notifications group="info" />
       <el-alert />
+    </div>
+    <div v-else-if="($route.name === 'Login')">
+      <!-- <AdminNav /> -->
+      <router-view />
+      <notifications group="foo" />
     </div>
     <div v-else-if="($route.name === 'adminhome')">
       <AdminNav />
@@ -14,6 +19,7 @@
       <notifications group="foo" />
     </div>
   </div>
+  
 </template>
 <script>
 import Nav from "./components/partials/Nav.vue";

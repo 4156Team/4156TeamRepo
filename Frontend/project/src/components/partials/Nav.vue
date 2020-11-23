@@ -1,6 +1,9 @@
 <template>
   <nav class="navbar container" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
+      <a href="#" class="navbar-left">
+        <img :src="logoSrc" style="max-width:80px;margin-top:-0px;">
+    </a>
       <a class="navbar-item" href="/">
         <strong class="is-size-4">Roller Coaster</strong>
       </a>
@@ -32,7 +35,7 @@
           <a v-show="!this.isLogin" class="button is-primary" @click="login">
             Log in
           </a>
-          <a v-show="this.isLogin" class="button is-primary" @click="login">
+          <a v-show="this.isLogin" class="button is-primary" @click="logout">
             Log out
           </a>
         </div>
@@ -45,11 +48,13 @@
 export default {
   data() {
     return {
+      logoSrc: require("@/assets/img/logo/logo.png"),
       isLogin: false,
       isAdmin: false,
     };
   },
   name: "Nav",
+  inject:['reload'],
   created() {
     this.isLogin = window.sessionStorage.getItem("isLogin");
     this.isAdmin = window.sessionStorage.getItem("isAdmin");
@@ -57,13 +62,12 @@ export default {
   methods: {
     // Log the user in
     login() {
-      this.$router.push("/login");
-      
+      this.$router.push("/login");  
     },
     // Log the user out
     logout() {
       window.sessionStorage.clear();
-      this.$router.push("/");
+      this.$router.push("/login");  
     },
   },
 };

@@ -60,6 +60,8 @@ import "element-ui/lib/theme-chalk/index.css";
 import lang from "element-ui/lib/locale/lang/en";
 import locale from "element-ui/lib/locale";
 import GoogleAuth from 'vue-google-oauth'
+import GSignInButton from 'vue-google-signin-button'
+
 
 
 // 设置语言
@@ -88,6 +90,7 @@ Vue.use(Button).use(Alert)
   .use(TimePicker);
 
 Vue.use(GoogleAuth, { client_id: '99250321813-sudhjlbktd5gvc13cf5medguum3oe3c5.apps.googleusercontent.com' })
+Vue.use(GSignInButton)
 Vue.googleAuth().load()
 Vue.use(Notifications);
 Vue.use(VueResource);

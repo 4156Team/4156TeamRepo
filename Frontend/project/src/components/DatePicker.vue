@@ -1,16 +1,17 @@
 <template>
   <div class="date">
-  <el-row :gutter="24">
-    <el-col :span="10" :offset="0">
+  <el-row :gutter="10">
+    <!-- <el-col :span="10" :offset="0"> -->
     <el-date-picker
       v-model="date_value"
+      format="yyyy/MM/dd"
       value-format="yyyy-MM-dd"
       @change="dateChangebirthday1"
       type="date"
       placeholder="Select your day">
     </el-date-picker>
     
-  </el-col>
+  <!-- </el-col> -->
   </el-row>
   </div>
 </template>
@@ -19,11 +20,11 @@
 export default {
   data() {
     return {
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-      },
+      // pickerOptions: {
+      //   disabledDate(time) {
+      //     return time.getTime() > Date.now();
+      //   },
+      // },
       date_value: "",
     };
   },
@@ -40,8 +41,7 @@ export default {
 </script>
 <style scoped>
 .date{
-  margin-left: 60px;
-  margin-top: 20px;
+  margin-left: 64px;
 }
 
 </style>

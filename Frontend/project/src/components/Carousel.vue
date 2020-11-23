@@ -18,11 +18,12 @@ export default {
           imgSrc: require("../assets/img/banner/cooking.png"),
         },
         {id:2,
-          imgSrc: require("../assets/img/banner/christmas.jpg"),
+          imgSrc: require("../assets/img/banner/Fireworks.jpg"),
         },
         {id:3,
-          imgSrc: require("../assets/img/banner/christmas.jpg"),
+          imgSrc: require("../assets/img/banner/cooking-1.jpg"),
         },
+        
       ],
     };
   },

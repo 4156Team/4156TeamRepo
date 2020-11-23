@@ -32,6 +32,9 @@
         <a>
         <Googlelogin />
         </a>
+
+        <!-- <GoogleLoginButton /> -->
+
       </div>
     </form>
   </div>
@@ -39,9 +42,12 @@
 <script>
 import qs from "qs";
 import Googlelogin from "../components/Googlelogin"
+// import GoogleLoginButton from "../components/GoogleLoginBottom.vue"
 
 export default {
-  components: { Googlelogin },
+  components: {Googlelogin},
+  name:"Loginpage",
+  inject:['reload'],
   data() {
     return {
       telephone: "",
@@ -49,7 +55,6 @@ export default {
       type: "",
     };
   },
-  // inject:['reload'],
   methods: {
     signup() {
       // window.sessionStorage.clear();

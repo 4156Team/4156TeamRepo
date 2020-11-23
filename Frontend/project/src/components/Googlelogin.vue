@@ -8,7 +8,6 @@ Google
 </template>
 <script>
 import Vue from 'vue'
-import qs from 'qs'
 export default {
   name: 'Login',
   data: function () {
@@ -20,39 +19,36 @@ export default {
   },
   methods: {
     signIn: function () {
+      Vue.googleAuth().directAccess()
       Vue.googleAuth().signIn(this.onSignInSuccess, this.onSignInError)
     },
-    onSignInSuccess: function (authorizationCode) {
+    onSignInSuccess: function (googleUser) {
       this.toggleLoading()
       this.resetResponse()
-      console.log(authorizationCode)
-      this.$axios.post("/api/user/googleVerify", qs.stringify({idtokenstr: authorizationCode}), {
+      const param = {token:googleUser.xc.id_token}
+      console.log(googleUser.xc.id_token)
+      this.$axios.post("/api/user/googleVerify", JSON.stringify(param),{
             headers: {
               "Access-Control-Allow-Credentials": "true",
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            })
-      .then(function (response) {
-        if (response.body) {
-          var data = response.body
-          // Save to vuex
-          var token = data.token
-          console.log(token)
-          // Save to local storage as well 
-          // ( or you can install the vuex-persistedstate plugin so that you won't have to do this step, only store to Vuex is sufficient )
-          if (window.localStorage) {
-            window.localStorage.setItem('user', JSON.stringify(data.user_data))
-            window.localStorage.setItem('token', token)
-          }
-
-          // redirect to the dashboard
-          this.$router.push({ name: 'home' })
-        }
-      }, function (response) {
-        var data = response.body
-        this.response = data.error
-        console.log('BACKEND SERVER - SIGN-IN ERROR', data)
-      })
+              "Content-Type": "application/json",
+            },}).then((response) => {
+              window.sessionStorage.clear();
+              if(response.status == "200"){
+                window.sessionStorage.setItem("isLogin", true)
+                window.sessionStorage.setItem("type", "vistor")
+                 this.$notify({
+                group: "foo",
+                title: "Important message",
+                text: "Hello user! You success login with Google account!",
+              });
+              this.$router.push("/");
+              }else{
+                window.alert("Failed to verfiy ")
+              }
+            }).catch(function(error) {
+          console.error(error.response);
+          window.alert("Backend service error!")
+        });
     },
     onSignInError: function (error) {
       this.response = 'Failed to sign-in'

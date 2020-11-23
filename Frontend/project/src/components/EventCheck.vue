@@ -17,7 +17,7 @@
     <el-table-column label="id" width="120">
       <template slot-scope="scope">{{ scope.row.id }}</template>
     </el-table-column>
-    <el-table-column prop="name" label="name" width="120"></el-table-column>
+    <el-table-column prop="name" label="name" width="200"></el-table-column>
     <el-table-column
       prop="description"
       label="description"

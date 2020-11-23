@@ -17,7 +17,7 @@
     </el-form-item>
 
     <el-form-item label="Open/Close">
-      <el-switch v-model="form.FacilityStatus"></el-switch>
+      <el-switch v-model="form.facilityStatus"></el-switch>
     </el-form-item>
     <el-form-item disabled label="Activity type">
       <el-checkbox-group v-model="form.type">
@@ -51,7 +51,7 @@ export default {
         facilityLocation: null,
         facilityOpenTime: null,
         facilityCloseTime: null,
-        FacilityStatus:null,
+        facilityStatus:null,
         queueStatus:null,
         facilityIntroduction: null,
       },
@@ -62,6 +62,13 @@ export default {
     onCreate() {
       console.log("create!", this.form);
       let param = this.form
+      if(param.facilityStatus){
+        console.log(param.facilityStatus)
+        param.facilityStatus = "normal"
+      }else{param.facilityStatus = "repair"
+      console.log(param.facilityStatus)}
+
+
       this.$axios
           .post("/api/manager/addFacility", JSON.stringify(param), {
               headers: {
@@ -89,6 +96,12 @@ export default {
   onUpdate() {
       console.log("update!", this.form);
       let param = this.form
+      if(param.facilityStatus){
+        console.log(param.facilityStatus)
+        param.facilityStatus = "normal"
+      }else{param.facilityStatus = "repair"
+      
+      console.log(param.facilityStatus)}
       this.$axios
           .post("/api/manager/updateFacility", JSON.stringify(param), {
               headers: {
@@ -101,7 +114,7 @@ export default {
               this.$notify({
                   group: "foo",
                   title: "Important message",
-                  text: "Hello manager! create facility successed",
+                  text: "Hello manager! update facility successed",
               });
               console.log(response);
               } else {
@@ -115,6 +128,7 @@ export default {
      onCancel() {
       console.log("Cancel!", this.form);
       let param = this.form
+
       this.$axios
           .post("/api/manager/deleteFacility", JSON.stringify(param), {
               headers: {
@@ -127,7 +141,7 @@ export default {
               this.$notify({
                   group: "foo",
                   title: "Important message",
-                  text: "Hello manager! create facility successed",
+                  text: "Hello manager! delete facility successed",
               });
               console.log(response);
               } else {

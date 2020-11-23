@@ -129,7 +129,7 @@ export default {
               this.$notify({
                   group: "foo",
                   title: "Important message",
-                  text: "Hello manager! create event successed",
+                  text: "Hello manager! update event successed",
               });
               console.log(response);
               } else {
@@ -155,7 +155,7 @@ export default {
               this.$notify({
                   group: "foo",
                   title: "Important message",
-                  text: "Hello manager! create event successed",
+                  text: "Hello manager! delete event successed",
               });
               console.log(response);
               } else {

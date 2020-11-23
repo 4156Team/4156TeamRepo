@@ -20,7 +20,7 @@
     <el-table-column
       prop="validDate"
       label="validDate"
-      width="150"
+      width="250"
     ></el-table-column>
     <el-table-column
       prop="ticketId"

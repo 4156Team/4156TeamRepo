@@ -1,31 +1,11 @@
 <template>
   <el-table
-    ref="singleTable"
-    :data="tableData"
-    highlight-current-row
-    @current-change="getCurrentRow"
-    style="width: 80%">
-    <el-table-column
-      type="index"
-      width="50">
-    </el-table-column>
-   <el-table-column prop="eventName" label="eventName" width="120"></el-table-column>
-     <el-table-column
-      prop="appointmentid"
-      label="appointmentID"
-      width="150"
-    ></el-table-column>
-  </el-table>
-</template>
-
-<!--<template>
-  <el-table border
     ref="multipleTable"
     :data="tableData"
     tooltip-effect="dark"
-    style="width: 60%; margin-left:100px"
+    style="width: 100%"
   >
-     <el-table-column label="choose" width="100">
+    <el-table-column label="choose" width="100">
       <template scope="scope">
         <el-radio
           :label="scope.$index"
@@ -33,27 +13,36 @@
           @change="getCurrentRow(scope.row)"
         ></el-radio>
       </template>
-    </el-table-column> -->
+    </el-table-column>
 
-    <!-- <el-table-column prop="eventName" label="eventName" width="120"></el-table-column> -->
+    <el-table-column prop="eventName" label="eventName" width="200"></el-table-column>
 
-    <!-- <el-table-column
-      prop="startTime"
-      label="startTime"
-      width="150"
-    ></el-table-column> -->
-    <!-- <el-table-column
-      prop="appointmentid"
+    <el-table-column
+      prop="appointmentId"
+      label="appointmentId"
+      width="250"></el-table-column>
+  </el-table>
+</template>
+  <!-- <el-table
+    ref="singleTable"
+    :data="tableData"
+    highlight-current-row
+    @current-change="getCurrentRow"
+    style="width: 100%"
+    size="medium">
+    <el-table-column
+      type="index"
+      label="Index"
+      width="100">
+    </el-table-column>
+   <el-table-column prop="eventName" label="eventName" width="120"></el-table-column>
+     <el-table-column
+      prop="appointmentId"
       label="appointmentID"
       width="150"
-    ></el-table-column> -->
-    <!-- <el-table-column
-      prop="price"
-      label="price($)"
-      show-overflow-tooltip
-    ></el-table-column> -->
-  <!-- </el-table>
-</template> -->
+    ></el-table-column>
+  </el-table> -->
+
 
 
 <script>
