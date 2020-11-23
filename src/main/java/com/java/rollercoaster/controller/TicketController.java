@@ -67,7 +67,7 @@ public class TicketController {
                 + String.format("%02d", end2);
         System.out.println(id);
         ticket.setTicketId(id);
-        try{
+        try {
             CommonReturnType result = CommonReturnType.create(ticketService.addTicket(ticket));
             return result;
         } catch (BusinessException businessException) {
