@@ -32,7 +32,7 @@ class CheckInServiceTest {
     @BeforeEach
     void init() throws ParseException {
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("10");
+        appointment.setAppointmentId("10");
         appointment.setEventName("test");
         appointment.setUserId(1);
         appointmentMapper.insertSelective(appointment);

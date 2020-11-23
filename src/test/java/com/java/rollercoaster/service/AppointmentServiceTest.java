@@ -60,7 +60,7 @@ public class AppointmentServiceTest {
         eventMapper.insertSelective(event);
 
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
 
@@ -111,7 +111,7 @@ public class AppointmentServiceTest {
         eventMapper.insertSelective(anotherEvent);
 
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
 
@@ -161,13 +161,13 @@ public class AppointmentServiceTest {
         eventMapper.insertSelective(event);
 
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
 
         appointmentMapper.insertSelective(appointment);
 
-        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment(appointment.getAppointmentid(),userModel);
+        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment(appointment.getAppointmentId(),userModel);
         System.out.println(deleteAppointmentReturn);
 
         Appointment appointmentGetBack = appointmentMapper.selectByPrimaryKey("1");
@@ -203,7 +203,7 @@ public class AppointmentServiceTest {
         eventMapper.insertSelective(event);
 
         Appointment appointment = new Appointment();
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
 
@@ -211,7 +211,7 @@ public class AppointmentServiceTest {
 
         List<Appointment> appointmentsList = appointmentService.getAppointmentsByUserId(userModel.getUserId());
         assertEquals("event test", appointmentsList.get(0).getEventName());
-        assertEquals("1", appointmentsList.get(0).getAppointmentid());
+        assertEquals("1", appointmentsList.get(0).getAppointmentId());
         assertEquals(userModel.getUserId(), appointmentsList.get(0).getUserId());
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());

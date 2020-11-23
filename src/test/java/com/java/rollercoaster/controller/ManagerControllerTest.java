@@ -78,7 +78,7 @@ public class ManagerControllerTest {
 
         Appointment appointment = new Appointment();
         appointment.setUserId(1);
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setEventName("test");
         appointmentMapper.insert(appointment);
         System.out.println("start test");
@@ -107,6 +107,7 @@ public class ManagerControllerTest {
         init();
         Event event = new Event();
         event.setEventName("test");
+
         CommonReturnType response = managerController.deleteEvent(event);
         assertEquals("success", response.getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
@@ -191,7 +192,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckInTicket() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkTicket("1");
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("1");
+        CommonReturnType response = managerController.checkTicket(ticket);
         assertEquals("success", response.getStatus());
         assertEquals(Status.used, ticketMapper.selectByPrimaryKey("1").getStatus());
         finish();
@@ -200,7 +203,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckAppointment() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkAppointment("1");
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        CommonReturnType response = managerController.checkAppointment(appointment);
         ErrorEnum errorEnum = (ErrorEnum) response.getData();
         assertEquals("success", response.getStatus());
         assertEquals(ErrorEnum.OK, errorEnum);

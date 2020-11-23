@@ -1,8 +1,10 @@
 package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
@@ -111,30 +113,29 @@ public class ManagerController {
     /**
      * Check ticket.
      *
-     * @param ticketId ticketId
+     * @param ticket ticket
      * @return CommonReturnType
      */
     @PostMapping("/checkTicket")
     @ResponseBody
     public CommonReturnType checkTicket(@RequestBody
-                                            final String ticketId) {
-        ErrorEnum errorEnum = checkInService.checkTicket(ticketId);
+                                        Ticket ticket) {
+        ErrorEnum errorEnum = checkInService.checkTicket(ticket.getTicketId());
         return CommonReturnType.autoCreate(errorEnum);
     }
 
     /**
      * Check appointment.
      *
-     * @param appointmentId appointmentId
+     * @param appointment appointment
      * @return CommonReturnType
      */
     @PostMapping("/checkAppointment")
     @ResponseBody
     public CommonReturnType checkAppointment(@RequestBody
-                                                 final String appointmentId) {
-        System.out.println(appointmentId);
+                                             Appointment appointment) {
         return CommonReturnType.autoCreate(
-                checkInService.checkAppointments(appointmentId));
+                checkInService.checkAppointments(appointment.getAppointmentId()));
     }
 
 }

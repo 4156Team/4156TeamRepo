@@ -8,10 +8,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.java.rollercoaster.controller.viewobject.UserVo;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.IdTokenStr;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,14 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -49,15 +48,6 @@ public class UserController extends BaseController {
     UserService userService;
     @Autowired
     private HttpServletRequest httpServletRequest;
-
-    private GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-            new NetHttpTransport(), JacksonFactory.getDefaultInstance())
-            .setAudience(
-                    Collections.singletonList(
-                            "66670440653-9ooesmgkcr05a37k224mr3sjsctis262"
-                                    + ".apps.googleusercontent.com"
-                    ))
-            .build();
 
     /**
      * Log in endpoint.
@@ -75,10 +65,10 @@ public class UserController extends BaseController {
                                   @RequestParam(name = "password")String password)
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
-        //parameter verification
+        //入参校验
         if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
                 || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //Determine if login is valid
         UserModel userModel;
@@ -113,13 +103,6 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "age")Integer age,
                                      @RequestParam(name = "password")String password
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        //parameter verification
-        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-                || org.apache.commons.lang3.StringUtils.isEmpty(password)
-                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
-                || org.apache.commons.lang3.StringUtils.isEmpty(name)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
         //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);
@@ -161,40 +144,28 @@ public class UserController extends BaseController {
 
     /**
      *Implement google login as third party login.
-     * @param idtokenstr google login account token
+     * @param idTokenStr google login account token
      * @throws BusinessException exception handler
      */
     @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
     @ResponseBody
-    public void verifyToken(String idtokenstr) throws BusinessException {
-        UserAccount userAccount = googleVerifyApi(idtokenstr);
-        if (userAccount.getThirdPartyId() != null) {
-            UserModel userModel = userService.loginWithGoogle(userAccount);
-            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-            System.out.println("It's here.");
-        } else {
-            System.out.println("Invalid ID token.");
-        }
-    }
-
-    /**
-     * Google Verify Api.
-     * @param idTokenStr idTokenStr
-     * @return The information about google user.
-     */
-    public UserAccount googleVerifyApi(String idTokenStr) {
-        UserAccount userAccount = new UserAccount();
-        System.out.println(idTokenStr);
+    public void verifyToken(@RequestBody IdTokenStr idTokenStr) throws BusinessException {
+        System.out.println(idTokenStr.getToken());
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+                .setAudience(
+                        Collections.singletonList(
+                                "99250321813-sudhjlbktd5gvc13cf5medguum3oe3c5"
+                                + ".apps.googleusercontent.com"
+                        ))
+                .build();
         GoogleIdToken idToken = null;
         try {
-            idToken = verifier.verify(idTokenStr);
+            idToken = verifier.verify(idTokenStr.getToken());
         } catch (GeneralSecurityException ex) {
             System.out.println("GeneralSecurityException Exception");
         } catch (IOException ex) {
             System.out.println("IOException");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
         if (idToken != null) {
             System.out.println("Verified");
@@ -203,9 +174,18 @@ public class UserController extends BaseController {
             System.out.println("User ID: " + userId);
             String name = (String) payload.get("name");
             System.out.println("User name:" + name);
+
+            UserAccount userAccount = new UserAccount();
             userAccount.setThirdPartyId(userId);
             userAccount.setUserName(name);
+            UserModel userModel = userService.loginWithGoogle(userAccount);
+
+            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+            System.out.println("It's here.");
+        } else {
+            System.out.println("Invalid ID token.");
         }
-        return userAccount;
     }
+
 }

@@ -239,12 +239,12 @@ public class AppointmentServiceAcceptanceTest {
         String url3 = "http://localhost:8080/appointment/deleteAppointment";
         Appointment appointment1 = appointmentsList.get(0);
         MultiValueMap<String, Object> paramMap2 = new LinkedMultiValueMap<String, Object>();
-        paramMap2.add("appointmentId", appointment1.getAppointmentid());
+        paramMap2.add("appointmentId", appointment1.getAppointmentId());
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity httpEntity2 = new HttpEntity(paramMap2,headers2);
         response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
-        assertEquals(null, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentid()));
+        assertEquals(null, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()));
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
@@ -307,21 +307,21 @@ public class AppointmentServiceAcceptanceTest {
         String url3 = "http://localhost:8080/appointment/updateAppointment";
 
         MultiValueMap<String, Object> paramMap2 = new LinkedMultiValueMap<String, Object>();
-        paramMap2.add("appointmentId", appointment1.getAppointmentid());
+        paramMap2.add("appointmentId", appointment1.getAppointmentId());
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity<Appointment> httpEntity2 = new HttpEntity<>(appointment1, headers2);
         response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
         assertEquals("event another",
-                appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentid()).getEventName());
-        assertEquals(userId, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentid()).getUserId());
+                appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()).getEventName());
+        assertEquals(userId, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()).getUserId());
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
         userPasswordMapper.deleteByPrimaryKey(userId);
         eventMapper.deleteByPrimaryKey("event test");
         eventMapper.deleteByPrimaryKey("event another");
-        appointmentMapper.deleteByPrimaryKey(appointment1.getAppointmentid());
+        appointmentMapper.deleteByPrimaryKey(appointment1.getAppointmentId());
     }
 
 }

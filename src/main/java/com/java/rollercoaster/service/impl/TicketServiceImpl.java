@@ -37,7 +37,13 @@ public class TicketServiceImpl implements TicketService {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         date = sdf.parse(sdf.format(date));
-        if (!ticket.getValidDate().after(date)) {
+//        date.after()
+//        if (!ticket.getValidDate().after(date)) {
+//            //You cannot buy past date ticket.
+//            throw new BusinessException(ErrorEnum.DATE_PASSED);
+//        }
+        int days = (int) date.getTime() / 1000 / 3600 / 24;
+        if (ticket.getValidDate().getTime() / 1000 / 3600 / 24 < days) {
             //You cannot buy past date ticket.
             throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
@@ -82,5 +88,4 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
         return ticketList;
     }
-
 }
