@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ public class AppointmentServiceTest {
         appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
 
         String addAppointmentReturn = appointmentService.addAppointment(appointment);
         System.out.println(addAppointmentReturn);
@@ -113,7 +114,7 @@ public class AppointmentServiceTest {
         appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         appointment.setEventName("event another");
@@ -163,7 +164,7 @@ public class AppointmentServiceTest {
         appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment(appointment.getAppointmentId(),userModel);
@@ -205,7 +206,7 @@ public class AppointmentServiceTest {
         appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         List<Appointment> appointmentsList = appointmentService.getAppointmentsByUserId(userModel.getUserId());

@@ -85,6 +85,7 @@ public class ManagerAcceptanceTest {
         appointment.setUserId(1);
         appointment.setAppointmentId("1");
         appointment.setEventName("test");
+        appointment.setValidDate(new Date());
         appointmentMapper.insert(appointment);
         System.out.println("start test");
     }

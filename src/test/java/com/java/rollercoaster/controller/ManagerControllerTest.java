@@ -1,15 +1,22 @@
 package com.java.rollercoaster.controller;
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.AnnouncementService;
+import com.java.rollercoaster.service.TicketPriceService;
 import com.java.rollercoaster.service.model.MyCalendar;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.enumeration.Status;
@@ -43,6 +50,10 @@ public class ManagerControllerTest {
     private TicketMapper ticketMapper;
     @Autowired
     private AppointmentMapper appointmentMapper;
+    @Autowired
+    private AnnouncementMapper announcementMapper;
+    @Autowired
+    private TypeMapper typeMapper;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
@@ -351,4 +362,37 @@ public class ManagerControllerTest {
         ticketMapper.deleteByPrimaryKey("1551");
         ticketMapper.deleteByPrimaryKey("1661");
     }
+
+
+    @Test
+    public void testPushAnnouncement() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        CommonReturnType response = managerController.pushAnnouncement(announcement);
+        assertEquals("success", response.getStatus());
+        assertEquals(ErrorEnum.OK, response.getData());
+        AnnouncementExample announcementExample = new AnnouncementExample();
+        announcementExample.createCriteria().andTextEqualTo("test Announcement");
+        List<Announcement> announcements = announcementMapper.selectByExample(announcementExample);
+        assertEquals(1, announcements.size());
+        announcementMapper.deleteByExample(announcementExample);
+    }
+
+    @Test
+    public void testChangeTicketPrice() {
+        Type type = new Type();
+        type.setTicketType(TicketType.adult);
+        type.setTicketPrice(50f);
+        typeMapper.insert(type);
+
+        type.setTicketPrice(10f);
+        CommonReturnType response = managerController.changeTicketPrice(type);
+        assertEquals("success", response.getStatus());
+        assertEquals(ErrorEnum.OK, response.getData());
+        assertEquals(10, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
+
+
 }

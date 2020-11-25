@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -71,6 +72,7 @@ public class AppointmentControllerTest {
         Appointment appointment = new Appointment();
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
 
         CommonReturnType response = appointmentController.addAppointment(appointment);
         assertEquals("success", response.getStatus());
@@ -99,6 +101,7 @@ public class AppointmentControllerTest {
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
         appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         appointment.setEventName("event another");
@@ -128,6 +131,7 @@ public class AppointmentControllerTest {
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
         appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         CommonReturnType response = appointmentController.deleteAppointmentId("1");
@@ -149,6 +153,7 @@ public class AppointmentControllerTest {
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
         appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         CommonReturnType response = appointmentController.getAppointments();

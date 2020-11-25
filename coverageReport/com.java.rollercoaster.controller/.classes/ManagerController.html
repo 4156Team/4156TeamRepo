@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ManagerController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ManagerController (com.java.rollercoaster.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ManagerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/ 15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (35/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Announcement;
+<i>6</i>&nbsp;import com.java.rollercoaster.pojo.Appointment;
+<i>7</i>&nbsp;import com.java.rollercoaster.pojo.Event;
+<i>8</i>&nbsp;import com.java.rollercoaster.pojo.Facility;
+<i>9</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>10</i>&nbsp;import com.java.rollercoaster.pojo.Type;
+<i>11</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
+<i>12</i>&nbsp;import com.java.rollercoaster.service.AnnouncementService;
+<i>13</i>&nbsp;import com.java.rollercoaster.service.CheckInService;
+<i>14</i>&nbsp;import com.java.rollercoaster.service.ManageParkService;
+<i>15</i>&nbsp;import com.java.rollercoaster.service.StatisticCollectionService;
+<i>16</i>&nbsp;import com.java.rollercoaster.service.TicketPriceService;
+<i>17</i>&nbsp;import com.java.rollercoaster.service.model.MyCalendar;
+<i>18</i>&nbsp;import org.apache.ibatis.annotations.Param;
+<i>19</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>20</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>21</i>&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+<i>22</i>&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+<i>23</i>&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+<i>24</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>25</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+<i>26</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.util.Calendar;
+<i>29</i>&nbsp;import java.util.Date;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;@Controller
+<i>32</i>&nbsp;@RequestMapping(&quot;/manager&quot;)
+<b class="fc"><i>33</i>&nbsp;public class ManagerController {</b>
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Service for managePark.
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    @Autowired
+<i>38</i>&nbsp;    private ManageParkService manageParkService;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Service for checkIn.
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    @Autowired
+<i>43</i>&nbsp;    private CheckInService checkInService;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @Autowired
+<i>46</i>&nbsp;    private StatisticCollectionService statisticCollectionService;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Autowired
+<i>49</i>&nbsp;    private AnnouncementService announcementService;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Autowired
+<i>52</i>&nbsp;    private TicketPriceService ticketPriceService;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Add event.
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @param event event
+<i>57</i>&nbsp;     * @return CommonReturnType
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    @PostMapping(&quot;/addEvent&quot;)
+<i>60</i>&nbsp;    @ResponseBody
+<i>61</i>&nbsp;    public CommonReturnType addEvent(@RequestBody final Event event) {
+<b class="fc"><i>62</i>&nbsp;        System.out.println(event.toString());</b>
+<b class="fc"><i>63</i>&nbsp;        return CommonReturnType.autoCreate(manageParkService.addEvent(event));</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Update event.
+<i>68</i>&nbsp;     *
+<i>69</i>&nbsp;     * @param event event
+<i>70</i>&nbsp;     * @return CommonReturnType
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    @PostMapping(&quot;/updateEvent&quot;)
+<i>73</i>&nbsp;    @ResponseBody
+<i>74</i>&nbsp;    public CommonReturnType updateEvent(@RequestBody final Event event) {
+<b class="fc"><i>75</i>&nbsp;        System.out.println(event.toString());</b>
+<b class="fc"><i>76</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>77</i>&nbsp;                manageParkService.updateEvent(event));</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Delete event.
+<i>82</i>&nbsp;     *
+<i>83</i>&nbsp;     * @param event event
+<i>84</i>&nbsp;     * @return CommonReturnType
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    @PostMapping(&quot;/deleteEvent&quot;)
+<i>87</i>&nbsp;    @ResponseBody
+<i>88</i>&nbsp;    public CommonReturnType deleteEvent(@RequestBody Event event) {
+<b class="fc"><i>89</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>90</i>&nbsp;                manageParkService.deleteEvent(event.getEventName()));</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /**
+<i>94</i>&nbsp;     * Add facility.
+<i>95</i>&nbsp;     *
+<i>96</i>&nbsp;     * @param facility facility
+<i>97</i>&nbsp;     * @return CommonReturnType
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    @PostMapping(&quot;/addFacility&quot;)
+<i>100</i>&nbsp;    @ResponseBody
+<i>101</i>&nbsp;    public CommonReturnType addFacility(@RequestBody final Facility facility) {
+<b class="fc"><i>102</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>103</i>&nbsp;                manageParkService.addFacility(facility));</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * Update facility.
+<i>108</i>&nbsp;     *
+<i>109</i>&nbsp;     * @param facility facility
+<i>110</i>&nbsp;     * @return CommonReturnType
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    @PostMapping(&quot;/updateFacility&quot;)
+<i>113</i>&nbsp;    @ResponseBody
+<i>114</i>&nbsp;    public CommonReturnType updateFacility(@RequestBody final Facility facility) {
+<b class="fc"><i>115</i>&nbsp;        System.out.println(facility.toString());</b>
+<b class="fc"><i>116</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>117</i>&nbsp;                manageParkService.updateFacility(facility));</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    /**
+<i>121</i>&nbsp;     * Delete facility.
+<i>122</i>&nbsp;     *
+<i>123</i>&nbsp;     * @param facility facility
+<i>124</i>&nbsp;     * @return CommonReturnType
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    @PostMapping(&quot;/deleteFacility&quot;)
+<i>127</i>&nbsp;    @ResponseBody
+<i>128</i>&nbsp;    public CommonReturnType deleteFacility(@RequestBody
+<i>129</i>&nbsp;                                               Facility facility) {
+<b class="fc"><i>130</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>131</i>&nbsp;                manageParkService.deleteFacility(facility.getFacilityName()));</b>
+<i>132</i>&nbsp;    }
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Check ticket.
+<i>136</i>&nbsp;     *
+<i>137</i>&nbsp;     * @param ticket ticket
+<i>138</i>&nbsp;     * @return CommonReturnType
+<i>139</i>&nbsp;     */
+<i>140</i>&nbsp;    @PostMapping(&quot;/checkTicket&quot;)
+<i>141</i>&nbsp;    @ResponseBody
+<i>142</i>&nbsp;    public CommonReturnType checkTicket(@RequestBody
+<i>143</i>&nbsp;                                        Ticket ticket) {
+<b class="fc"><i>144</i>&nbsp;        ErrorEnum errorEnum = checkInService.checkTicket(ticket.getTicketId());</b>
+<b class="fc"><i>145</i>&nbsp;        return CommonReturnType.autoCreate(errorEnum);</b>
+<i>146</i>&nbsp;    }
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**
+<i>149</i>&nbsp;     * Check appointment.
+<i>150</i>&nbsp;     *
+<i>151</i>&nbsp;     * @param appointment appointment
+<i>152</i>&nbsp;     * @return CommonReturnType
+<i>153</i>&nbsp;     */
+<i>154</i>&nbsp;    @PostMapping(&quot;/checkAppointment&quot;)
+<i>155</i>&nbsp;    @ResponseBody
+<i>156</i>&nbsp;    public CommonReturnType checkAppointment(@RequestBody
+<i>157</i>&nbsp;                                             Appointment appointment) {
+<b class="fc"><i>158</i>&nbsp;        return CommonReturnType.autoCreate(</b>
+<b class="fc"><i>159</i>&nbsp;                checkInService.checkAppointments(appointment.getAppointmentId()));</b>
+<i>160</i>&nbsp;    }
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    @PostMapping(&quot;/peopleInThatDay&quot;)
+<i>163</i>&nbsp;    @ResponseBody
+<i>164</i>&nbsp;    public CommonReturnType peopleInThatDay(@RequestBody MyCalendar myCalendar) {
+<i>165</i>&nbsp;        try {
+<b class="fc"><i>166</i>&nbsp;            return CommonReturnType.create(</b>
+<b class="fc"><i>167</i>&nbsp;                    statisticCollectionService.peopleInThatDay(myCalendar),&quot;success&quot;);</b>
+<b class="fc"><i>168</i>&nbsp;        } catch (BusinessException businessException) {</b>
+<b class="fc"><i>169</i>&nbsp;            return CommonReturnType.create(businessException.getCommonError(), &quot;fail&quot;);</b>
+<i>170</i>&nbsp;        }
+<i>171</i>&nbsp;    }
+<i>172</i>&nbsp;
+<i>173</i>&nbsp;    @PostMapping(&quot;/peopleInThatMonth&quot;)
+<i>174</i>&nbsp;    @ResponseBody
+<i>175</i>&nbsp;    public CommonReturnType peopleInThatMonth(@RequestBody MyCalendar myCalendar) {
+<i>176</i>&nbsp;        try {
+<b class="fc"><i>177</i>&nbsp;            return CommonReturnType.create(</b>
+<b class="fc"><i>178</i>&nbsp;                    statisticCollectionService.peopleInThatMonth(myCalendar),&quot;success&quot;);</b>
+<b class="fc"><i>179</i>&nbsp;        } catch (BusinessException businessException) {</b>
+<b class="fc"><i>180</i>&nbsp;            return CommonReturnType.create(businessException.getCommonError(), &quot;fail&quot;);</b>
+<i>181</i>&nbsp;        }
+<i>182</i>&nbsp;    }
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;    @PostMapping(&quot;/peopleInThatYear&quot;)
+<i>185</i>&nbsp;    @ResponseBody
+<i>186</i>&nbsp;    public CommonReturnType peopleInThatYear(@RequestBody MyCalendar myCalendar) {
+<i>187</i>&nbsp;        try {
+<b class="fc"><i>188</i>&nbsp;            return CommonReturnType.create(</b>
+<b class="fc"><i>189</i>&nbsp;                    statisticCollectionService.peopleInThatYear(myCalendar),&quot;success&quot;);</b>
+<b class="fc"><i>190</i>&nbsp;        } catch (BusinessException businessException) {</b>
+<b class="fc"><i>191</i>&nbsp;            return CommonReturnType.create(businessException.getCommonError(), &quot;fail&quot;);</b>
+<i>192</i>&nbsp;        }
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    @PostMapping(&quot;/whichDaysVisited&quot;)
+<i>196</i>&nbsp;    @ResponseBody
+<i>197</i>&nbsp;    public CommonReturnType whichDaysVisited(@RequestParam(&quot;userId&quot;) int userId) {
+<b class="fc"><i>198</i>&nbsp;        return CommonReturnType.create(</b>
+<b class="fc"><i>199</i>&nbsp;                statisticCollectionService.whichDaysVisited(userId),&quot;success&quot;);</b>
+<i>200</i>&nbsp;    }
+<i>201</i>&nbsp;
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    @PostMapping(&quot;/changeTicketPrice&quot;)
+<i>204</i>&nbsp;    @ResponseBody
+<i>205</i>&nbsp;    public CommonReturnType changeTicketPrice(@RequestBody Type type) {
+<b class="fc"><i>206</i>&nbsp;        return CommonReturnType.autoCreate(ticketPriceService.changeTicketPrice(type));</b>
+<i>207</i>&nbsp;    }
+<i>208</i>&nbsp;
+<i>209</i>&nbsp;    @PostMapping(&quot;/pushAnnouncement&quot;)
+<i>210</i>&nbsp;    @ResponseBody
+<i>211</i>&nbsp;    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) {
+<b class="fc"><i>212</i>&nbsp;        return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));</b>
+<i>213</i>&nbsp;    }
+<i>214</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-26 00:20</div>
+</div>
+</body>
+</html>

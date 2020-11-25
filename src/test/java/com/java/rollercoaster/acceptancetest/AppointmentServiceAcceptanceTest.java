@@ -67,7 +67,7 @@ public class AppointmentServiceAcceptanceTest {
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
         String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
@@ -142,7 +142,7 @@ public class AppointmentServiceAcceptanceTest {
         Event event = initEvent(10, "event test");
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
-
+        appointment.setValidDate(new Date());
         String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
@@ -217,6 +217,7 @@ public class AppointmentServiceAcceptanceTest {
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
         String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
@@ -283,6 +284,7 @@ public class AppointmentServiceAcceptanceTest {
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
         String url2 = "http://localhost:8080/appointment/addAppointment";
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
