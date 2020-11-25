@@ -100,19 +100,22 @@ public class UserController extends BaseController {
      * @throws UnsupportedEncodingException exception related to encrypt password
      * @throws NoSuchAlgorithmException exception related to encrypt password
      */
+    @SuppressWarnings("checkstyle:WhitespaceAround")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "telephone") String telephone,
                                      @RequestParam(name = "name") String name,
                                      @RequestParam(name = "gender") String gender,
                                      @RequestParam(name = "age")Integer age,
-                                     @RequestParam(name = "password")String password
+                                     @RequestParam(name = "password")String password,
+                                     @RequestParam(name = "email")String email
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         //parameter verification
         if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
                 || org.apache.commons.lang3.StringUtils.isEmpty(password)
                 || org.apache.commons.lang3.StringUtils.isEmpty(gender)
-                || org.apache.commons.lang3.StringUtils.isEmpty(name)) {
+                || org.apache.commons.lang3.StringUtils.isEmpty(name)
+                || org.apache.commons.lang3.StringUtils.isEmpty(email)){
             return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //user register process
@@ -123,6 +126,7 @@ public class UserController extends BaseController {
         userModel.setPhoneNumber(telephone);
         userModel.setPassword(this.encodeByMd5(password));
         userModel.setRole(Role.visitor);
+        userModel.setEmail(email);
         userService.register(userModel);
         return CommonReturnType.create(null);
     }

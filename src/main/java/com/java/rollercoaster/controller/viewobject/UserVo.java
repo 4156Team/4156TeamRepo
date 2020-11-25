@@ -9,6 +9,16 @@ public class UserVo {
     private Integer userAge;
     private Integer userId;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     public String getPhoneNumber() {
         return phoneNumber;
     }

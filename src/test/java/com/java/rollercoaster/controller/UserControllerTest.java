@@ -82,7 +82,7 @@ public class UserControllerTest {
     public void testRegister() throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         init();
         CommonReturnType commonReturnType = userController.register(
-                "120120120", "m", "male", 29, "1234"
+                "120120120", "m", "male", 29, "1234","yl4225@columbia.edu"
         );
         assertEquals("success", commonReturnType.getStatus());
         UserAccountExample example = new UserAccountExample();
