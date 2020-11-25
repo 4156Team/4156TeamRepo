@@ -32,7 +32,9 @@ public enum ErrorEnum implements CommonError {
     NO_SUCH_APPOINTMENT(254, "The appointment does not exist."),
     NOT_SAME_VISITOR(255, "Try to modify other visitor's information."),
 
-    EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing");
+    EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing."),
+    EMPTY_TYPE_ATTRIBUTE(262, "The ticket type or ticket price is missing."),
+    EMPTY_ANNOUNCEMENT_ATTRIBUTE(263, "The text or date is missing.");
 
     private int errorCode;
     private String errorMessage;

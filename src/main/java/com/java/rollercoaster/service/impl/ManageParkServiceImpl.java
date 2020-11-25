@@ -1,13 +1,21 @@
 package com.java.rollercoaster.service.impl;
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.service.ManageParkService;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ManageParkServiceImpl implements ManageParkService {
@@ -15,6 +23,10 @@ public class ManageParkServiceImpl implements ManageParkService {
     private EventMapper eventMapper;
     @Autowired
     private FacilityMapper facilityMapper;
+    @Autowired
+    private TypeMapper typeMapper;
+    @Autowired
+    private AnnouncementMapper announcementMapper;
 
     @Override
     public ErrorEnum addEvent(Event event) {
@@ -83,5 +95,33 @@ public class ManageParkServiceImpl implements ManageParkService {
         }
         facilityMapper.deleteByPrimaryKey(facilityName);
         return ErrorEnum.OK;
+    }
+
+    @Override
+    public float getTicketPrice(TicketType ticketType) {
+        return typeMapper.selectByPrimaryKey(ticketType).getTicketPrice();
+    }
+
+    @Override
+    public ErrorEnum changeTicketPrice(Type type) {
+        if (null == type.getTicketPrice() || null == type.getTicketType()) {
+            return ErrorEnum.EMPTY_TYPE_ATTRIBUTE;
+        }
+        typeMapper.updateByPrimaryKey(type);
+        return ErrorEnum.OK;
+    }
+
+    @Override
+    public ErrorEnum pushAnnouncement(Announcement announcement) {
+        if ("".equals(announcement.getText()) || null == announcement.getText()) {
+            return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
+        }
+        announcementMapper.insert(announcement);
+        return ErrorEnum.OK;
+    }
+
+    @Override
+    public List<Announcement> getAnnouncements() {
+        return announcementMapper.selectByExample(new AnnouncementExample());
     }
 }

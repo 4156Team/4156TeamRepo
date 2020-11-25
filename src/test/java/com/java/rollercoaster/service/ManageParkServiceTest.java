@@ -1,12 +1,18 @@
 package com.java.rollercoaster.service;
 
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +21,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
@@ -27,6 +36,10 @@ class ManageParkServiceTest {
     EventMapper eventMapper;
     @Autowired
     ManageParkService manageParkService;
+    @Autowired
+    TypeMapper typeMapper;
+    @Autowired
+    AnnouncementMapper announcementMapper;
 
     @Test
     void addFacility() throws ParseException {
@@ -77,6 +90,9 @@ class ManageParkServiceTest {
         facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         facility.setQueueStatus(100);
         facility.setFacilityName("roller coaster");
+
+        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.deleteFacility(null));
+
         assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
 
         assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.deleteFacility("test"));
@@ -137,5 +153,86 @@ class ManageParkServiceTest {
         assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.deleteEvent(null));
         assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.deleteEvent("tttt"));
         assertEquals(ErrorEnum.OK, manageParkService.deleteEvent("testEvent"));
+    }
+
+
+    @Test
+    public void testGetTicketPrice() {
+        Type type = new Type();
+        type.setTicketType(TicketType.adult);
+        type.setTicketPrice(50f);
+        typeMapper.insert(type);
+
+        assertEquals(50, manageParkService.getTicketPrice(TicketType.adult));
+
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
+
+    @Test
+    public void testChangeTicketPrice() {
+        Type type = new Type();
+        type.setTicketType(TicketType.adult);
+        type.setTicketPrice(50f);
+        typeMapper.insert(type);
+
+        type.setTicketPrice(10f);
+        assertEquals(ErrorEnum.OK, manageParkService.changeTicketPrice(type));
+        assertEquals(10, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
+
+    @Test
+    public void testChangeTicketPriceFail() {
+        Type type = new Type();
+        type.setTicketType(TicketType.adult);
+        type.setTicketPrice(50f);
+        typeMapper.insert(type);
+
+        type.setTicketPrice(null);
+        assertEquals(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, manageParkService.changeTicketPrice(type));
+        assertEquals(50, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
+
+    @Test
+    public void testPushAnnouncement() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        assertEquals(ErrorEnum.OK, manageParkService.pushAnnouncement(announcement));
+        AnnouncementExample announcementExample = new AnnouncementExample();
+        announcementExample.createCriteria().andTextEqualTo("test Announcement");
+        List<Announcement> announcements = announcementMapper.selectByExample(announcementExample);
+        assertEquals(1, announcements.size());
+        announcementMapper.deleteByExample(announcementExample);
+    }
+
+    @Test
+    public void testPushAnnouncementFail() {
+        Announcement announcement = new Announcement();
+        announcement.setText("");
+        announcement.setDate(new Date());
+        assertEquals(ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE, manageParkService.pushAnnouncement(announcement));
+    }
+
+    @Test
+    public void testGetAnnouncements() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        announcementMapper.insert(announcement);
+        int id = announcement.getAnnouncementId();
+        announcement.setAnnouncementId(id);
+        List<Announcement> announcementList = manageParkService.getAnnouncements();
+        boolean flag = false;
+        for (Announcement result : announcementList) {
+            if (result.getText().equals(announcement.getText()) &&
+            result.getAnnouncementId() == id) {
+                flag = true;
+                break;
+            }
+        }
+        assertTrue(flag);
+        announcementMapper.deleteByPrimaryKey(id);
     }
 }

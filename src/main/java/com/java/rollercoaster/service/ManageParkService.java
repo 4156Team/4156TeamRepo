@@ -1,8 +1,13 @@
 package com.java.rollercoaster.service;
 
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
+
+import java.util.List;
 
 public interface ManageParkService {
     ErrorEnum addFacility(Facility facility);
@@ -17,4 +22,13 @@ public interface ManageParkService {
     ErrorEnum updateEvent(Event event);
 
     ErrorEnum deleteEvent(String eventName);
+
+    float getTicketPrice(TicketType ticketType);
+
+    ErrorEnum changeTicketPrice(Type type);
+
+    List<Announcement> getAnnouncements();
+
+    ErrorEnum pushAnnouncement(Announcement announcement);
+
 }

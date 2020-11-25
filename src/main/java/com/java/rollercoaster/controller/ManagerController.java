@@ -2,10 +2,12 @@ package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
@@ -14,6 +16,7 @@ import com.java.rollercoaster.service.model.MyCalendar;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -189,4 +192,31 @@ public class ManagerController {
                 statisticCollectionService.whichDaysVisited(userId),"success");
     }
 
+    @PostMapping("getTicketPrice")
+    @ResponseBody
+    public CommonReturnType getTicketPrice(@RequestBody Type type) {
+        if (null == type.getTicketType()) {
+            return CommonReturnType.create(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, "fail");
+        }
+        float price = manageParkService.getTicketPrice(type.getTicketType());
+        return CommonReturnType.create(price, "success");
+    }
+
+    @PostMapping("changeTicketPrice")
+    @ResponseBody
+    public CommonReturnType changeTicketPrice(@RequestBody Type type) {
+        return CommonReturnType.autoCreate(manageParkService.changeTicketPrice(type));
+    }
+
+    @PostMapping("pushAnnouncement")
+    @ResponseBody
+    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) {
+        return CommonReturnType.autoCreate(manageParkService.pushAnnouncement(announcement));
+    }
+
+    @GetMapping("getAnnouncements")
+    @ResponseBody
+    public CommonReturnType getAnnouncements() {
+        return CommonReturnType.create(manageParkService.getAnnouncements(), "success");
+    }
 }
