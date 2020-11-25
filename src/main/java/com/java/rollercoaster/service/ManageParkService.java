@@ -23,12 +23,4 @@ public interface ManageParkService {
 
     ErrorEnum deleteEvent(String eventName);
 
-    float getTicketPrice(TicketType ticketType);
-
-    ErrorEnum changeTicketPrice(Type type);
-
-    List<Announcement> getAnnouncements();
-
-    ErrorEnum pushAnnouncement(Announcement announcement);
-
 }

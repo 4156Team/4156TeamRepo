@@ -23,10 +23,6 @@ public class ManageParkServiceImpl implements ManageParkService {
     private EventMapper eventMapper;
     @Autowired
     private FacilityMapper facilityMapper;
-    @Autowired
-    private TypeMapper typeMapper;
-    @Autowired
-    private AnnouncementMapper announcementMapper;
 
     @Override
     public ErrorEnum addEvent(Event event) {
@@ -97,31 +93,4 @@ public class ManageParkServiceImpl implements ManageParkService {
         return ErrorEnum.OK;
     }
 
-    @Override
-    public float getTicketPrice(TicketType ticketType) {
-        return typeMapper.selectByPrimaryKey(ticketType).getTicketPrice();
-    }
-
-    @Override
-    public ErrorEnum changeTicketPrice(Type type) {
-        if (null == type.getTicketPrice() || null == type.getTicketType()) {
-            return ErrorEnum.EMPTY_TYPE_ATTRIBUTE;
-        }
-        typeMapper.updateByPrimaryKey(type);
-        return ErrorEnum.OK;
-    }
-
-    @Override
-    public ErrorEnum pushAnnouncement(Announcement announcement) {
-        if ("".equals(announcement.getText()) || null == announcement.getText()) {
-            return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
-        }
-        announcementMapper.insert(announcement);
-        return ErrorEnum.OK;
-    }
-
-    @Override
-    public List<Announcement> getAnnouncements() {
-        return announcementMapper.selectByExample(new AnnouncementExample());
-    }
 }

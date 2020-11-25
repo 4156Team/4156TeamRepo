@@ -9,9 +9,11 @@ import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.AnnouncementService;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
 import com.java.rollercoaster.service.StatisticCollectionService;
+import com.java.rollercoaster.service.TicketPriceService;
 import com.java.rollercoaster.service.model.MyCalendar;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,11 @@ public class ManagerController {
     @Autowired
     private StatisticCollectionService statisticCollectionService;
 
+    @Autowired
+    private AnnouncementService announcementService;
+
+    @Autowired
+    private TicketPriceService ticketPriceService;
     /**
      * Add event.
      *
@@ -185,38 +192,23 @@ public class ManagerController {
         }
     }
 
-    @PostMapping("whichDaysVisited")
+    @PostMapping("/whichDaysVisited")
     @ResponseBody
     public CommonReturnType whichDaysVisited(@RequestParam("userId") int userId) {
         return CommonReturnType.create(
                 statisticCollectionService.whichDaysVisited(userId),"success");
     }
 
-    @PostMapping("getTicketPrice")
-    @ResponseBody
-    public CommonReturnType getTicketPrice(@RequestBody Type type) {
-        if (null == type.getTicketType()) {
-            return CommonReturnType.create(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, "fail");
-        }
-        float price = manageParkService.getTicketPrice(type.getTicketType());
-        return CommonReturnType.create(price, "success");
-    }
 
-    @PostMapping("changeTicketPrice")
+    @PostMapping("/changeTicketPrice")
     @ResponseBody
     public CommonReturnType changeTicketPrice(@RequestBody Type type) {
-        return CommonReturnType.autoCreate(manageParkService.changeTicketPrice(type));
+        return CommonReturnType.autoCreate(ticketPriceService.changeTicketPrice(type));
     }
 
-    @PostMapping("pushAnnouncement")
+    @PostMapping("/pushAnnouncement")
     @ResponseBody
     public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) {
-        return CommonReturnType.autoCreate(manageParkService.pushAnnouncement(announcement));
-    }
-
-    @GetMapping("getAnnouncements")
-    @ResponseBody
-    public CommonReturnType getAnnouncements() {
-        return CommonReturnType.create(manageParkService.getAnnouncements(), "success");
+        return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));
     }
 }

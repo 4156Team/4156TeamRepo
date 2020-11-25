@@ -38,8 +38,6 @@ class ManageParkServiceTest {
     ManageParkService manageParkService;
     @Autowired
     TypeMapper typeMapper;
-    @Autowired
-    AnnouncementMapper announcementMapper;
 
     @Test
     void addFacility() throws ParseException {
@@ -156,83 +154,4 @@ class ManageParkServiceTest {
     }
 
 
-    @Test
-    public void testGetTicketPrice() {
-        Type type = new Type();
-        type.setTicketType(TicketType.adult);
-        type.setTicketPrice(50f);
-        typeMapper.insert(type);
-
-        assertEquals(50, manageParkService.getTicketPrice(TicketType.adult));
-
-        typeMapper.deleteByPrimaryKey(TicketType.adult);
-    }
-
-    @Test
-    public void testChangeTicketPrice() {
-        Type type = new Type();
-        type.setTicketType(TicketType.adult);
-        type.setTicketPrice(50f);
-        typeMapper.insert(type);
-
-        type.setTicketPrice(10f);
-        assertEquals(ErrorEnum.OK, manageParkService.changeTicketPrice(type));
-        assertEquals(10, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
-        typeMapper.deleteByPrimaryKey(TicketType.adult);
-    }
-
-    @Test
-    public void testChangeTicketPriceFail() {
-        Type type = new Type();
-        type.setTicketType(TicketType.adult);
-        type.setTicketPrice(50f);
-        typeMapper.insert(type);
-
-        type.setTicketPrice(null);
-        assertEquals(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, manageParkService.changeTicketPrice(type));
-        assertEquals(50, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
-        typeMapper.deleteByPrimaryKey(TicketType.adult);
-    }
-
-    @Test
-    public void testPushAnnouncement() {
-        Announcement announcement = new Announcement();
-        announcement.setText("test Announcement");
-        announcement.setDate(new Date());
-        assertEquals(ErrorEnum.OK, manageParkService.pushAnnouncement(announcement));
-        AnnouncementExample announcementExample = new AnnouncementExample();
-        announcementExample.createCriteria().andTextEqualTo("test Announcement");
-        List<Announcement> announcements = announcementMapper.selectByExample(announcementExample);
-        assertEquals(1, announcements.size());
-        announcementMapper.deleteByExample(announcementExample);
-    }
-
-    @Test
-    public void testPushAnnouncementFail() {
-        Announcement announcement = new Announcement();
-        announcement.setText("");
-        announcement.setDate(new Date());
-        assertEquals(ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE, manageParkService.pushAnnouncement(announcement));
-    }
-
-    @Test
-    public void testGetAnnouncements() {
-        Announcement announcement = new Announcement();
-        announcement.setText("test Announcement");
-        announcement.setDate(new Date());
-        announcementMapper.insert(announcement);
-        int id = announcement.getAnnouncementId();
-        announcement.setAnnouncementId(id);
-        List<Announcement> announcementList = manageParkService.getAnnouncements();
-        boolean flag = false;
-        for (Announcement result : announcementList) {
-            if (result.getText().equals(announcement.getText()) &&
-            result.getAnnouncementId() == id) {
-                flag = true;
-                break;
-            }
-        }
-        assertTrue(flag);
-        announcementMapper.deleteByPrimaryKey(id);
-    }
 }
