@@ -30,7 +30,9 @@ public enum ErrorEnum implements CommonError {
     DUPLICATE_APPOINTMENT(252, "The appointment is duplicate."),
     EVENT_NO_POSITION(253, "This event has no remaining position."),
     NO_SUCH_APPOINTMENT(254, "The appointment does not exist."),
-    NOT_SAME_VISITOR(255, "Try to modify other visitor's information.");
+    NOT_SAME_VISITOR(255, "Try to modify other visitor's information."),
+
+    EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing");
 
     private int errorCode;
     private String errorMessage;

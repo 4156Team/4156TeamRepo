@@ -41,12 +41,12 @@
 <!--            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.service.model.enumeration.Status"/>-->
 <!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
 <!--        </table>-->
-        <table tableName="userAccount" domainObjectName="UserAccount" >
-            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>
-            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>
-            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>
-        </table>
-        <table tableName="type" domainObjectName="Type" />
-        <table tableName="announcement" domainObjectName="Announcement" />
+<!--        <table tableName="userAccount" domainObjectName="UserAccount" >-->
+<!--            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>-->
+<!--            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>-->
+<!--        </table>-->
+<!--        <table tableName="type" domainObjectName="Type" />-->
+<!--        <table tableName="announcement" domainObjectName="Announcement" />-->
     </context>
 </generatorConfiguration>

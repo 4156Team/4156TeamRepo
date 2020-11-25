@@ -1,5 +1,6 @@
 package com.java.rollercoaster.controller;
 
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
@@ -8,12 +9,19 @@ import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.ManageParkService;
+import com.java.rollercoaster.service.StatisticCollectionService;
+import com.java.rollercoaster.service.model.MyCalendar;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/manager")
@@ -28,6 +36,9 @@ public class ManagerController {
      */
     @Autowired
     private CheckInService checkInService;
+
+    @Autowired
+    private StatisticCollectionService statisticCollectionService;
 
     /**
      * Add event.
@@ -136,6 +147,46 @@ public class ManagerController {
                                              Appointment appointment) {
         return CommonReturnType.autoCreate(
                 checkInService.checkAppointments(appointment.getAppointmentId()));
+    }
+
+    @PostMapping("/peopleInThatDay")
+    @ResponseBody
+    public CommonReturnType peopleInThatDay(@RequestBody MyCalendar myCalendar) {
+        try {
+            return CommonReturnType.create(
+                    statisticCollectionService.peopleInThatDay(myCalendar),"success");
+        } catch (BusinessException businessException) {
+            return CommonReturnType.create(businessException.getCommonError(), "fail");
+        }
+    }
+
+    @PostMapping("/peopleInThatMonth")
+    @ResponseBody
+    public CommonReturnType peopleInThatMonth(@RequestBody MyCalendar myCalendar) {
+        try {
+            return CommonReturnType.create(
+                    statisticCollectionService.peopleInThatMonth(myCalendar),"success");
+        } catch (BusinessException businessException) {
+            return CommonReturnType.create(businessException.getCommonError(), "fail");
+        }
+    }
+
+    @PostMapping("/peopleInThatYear")
+    @ResponseBody
+    public CommonReturnType peopleInThatYear(@RequestBody MyCalendar myCalendar) {
+        try {
+            return CommonReturnType.create(
+                    statisticCollectionService.peopleInThatYear(myCalendar),"success");
+        } catch (BusinessException businessException) {
+            return CommonReturnType.create(businessException.getCommonError(), "fail");
+        }
+    }
+
+    @PostMapping("whichDaysVisited")
+    @ResponseBody
+    public CommonReturnType whichDaysVisited(@RequestParam("userId") int userId) {
+        return CommonReturnType.create(
+                statisticCollectionService.whichDaysVisited(userId),"success");
     }
 
 }
