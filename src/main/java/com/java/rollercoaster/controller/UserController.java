@@ -115,7 +115,7 @@ public class UserController extends BaseController {
                 || org.apache.commons.lang3.StringUtils.isEmpty(password)
                 || org.apache.commons.lang3.StringUtils.isEmpty(gender)
                 || org.apache.commons.lang3.StringUtils.isEmpty(name)
-                || org.apache.commons.lang3.StringUtils.isEmpty(email)){
+                || org.apache.commons.lang3.StringUtils.isEmpty(email)) {
             return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         //user register process

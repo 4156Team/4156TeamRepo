@@ -13,6 +13,7 @@ import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ public class TicketControllerTest {
         userModel.setRole(role);
         userModel.setPhoneNumber("212121");
         userModel.setPassword("12345");
+        userModel.setEmail("yl4225@columbia.edu");
         userService.register(userModel);
 
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
@@ -68,7 +70,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketControllerTest() throws BusinessException, ParseException {
+    public void addTicketControllerTest() throws BusinessException, ParseException, UnirestException {
         UserModel userModel = initUser(Role.visitor);
         Ticket ticket = initTicket(userModel);
 

@@ -4,10 +4,12 @@ import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.MailService;
 import com.java.rollercoaster.service.TicketService;
 import com.java.rollercoaster.service.UserService;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,6 +35,8 @@ public class TicketController {
     private HttpServletRequest httpServletRequest;
     @Autowired
     UserService userService;
+    @Autowired
+    MailService mailService;
 
     /**
      * End point to add a ticket given a ticket object.
@@ -43,7 +47,7 @@ public class TicketController {
     @PostMapping("/addTicket")
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket)
-            throws ParseException {
+            throws ParseException, UnirestException {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null || !isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
@@ -69,6 +73,11 @@ public class TicketController {
         ticket.setTicketId(id);
         try {
             CommonReturnType result = CommonReturnType.create(ticketService.addTicket(ticket));
+            mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
+                                            + userModel.getUserName()
+                                            + "! Here is your ticket! And your ticket number is "
+                                            + ticket.getTicketId()
+                                            + ". Welcome to Roller Coaster Amusement part!");
             return result;
         } catch (BusinessException businessException) {
             int errCode = businessException.getErrCode();
@@ -84,6 +93,7 @@ public class TicketController {
                 default:
                     return CommonReturnType.autoCreate(ErrorEnum.UNKNOWN_ERROR);
             }
+
         }
     }
 
