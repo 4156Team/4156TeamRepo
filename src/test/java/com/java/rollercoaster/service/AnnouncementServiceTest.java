@@ -1,9 +1,14 @@
 package com.java.rollercoaster.service;
 
 import com.java.rollercoaster.dao.AnnouncementMapper;
+import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Announcement;
 import com.java.rollercoaster.pojo.AnnouncementExample;
+import com.java.rollercoaster.pojo.UserAccount;
+import com.java.rollercoaster.service.model.enumeration.Role;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +28,20 @@ public class AnnouncementServiceTest {
     private AnnouncementMapper announcementMapper;
     @Autowired
     private AnnouncementService announcementService;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
     @Test
-    public void testPushAnnouncement() {
+    public void testPushAnnouncement() throws UnirestException, BusinessException {
+        UserAccount userAccount1 = new UserAccount();
+        userAccount1.setRole(Role.visitor);
+        userAccount1.setEmail("yy2979@columbia.edu");
+        userAccountMapper.insert(userAccount1);
+
+        UserAccount userAccount2 = new UserAccount();
+        userAccount2.setRole(Role.manager);
+        userAccountMapper.insert(userAccount2);
+
         Announcement announcement = new Announcement();
         announcement.setText("test Announcement");
         announcement.setDate(new Date());
@@ -35,10 +51,12 @@ public class AnnouncementServiceTest {
         List<Announcement> announcements = announcementMapper.selectByExample(announcementExample);
         assertEquals(1, announcements.size());
         announcementMapper.deleteByExample(announcementExample);
+        userAccountMapper.deleteByPrimaryKey(userAccount1.getUserId());
+        userAccountMapper.deleteByPrimaryKey(userAccount2.getUserId());
     }
 
     @Test
-    public void testPushAnnouncementFail() {
+    public void testPushAnnouncementFail() throws UnirestException, BusinessException {
         Announcement announcement = new Announcement();
         announcement.setText("");
         announcement.setDate(new Date());

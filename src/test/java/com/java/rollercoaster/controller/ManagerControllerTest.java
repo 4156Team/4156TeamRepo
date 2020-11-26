@@ -6,6 +6,8 @@ import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.TypeMapper;
+import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Announcement;
 import com.java.rollercoaster.pojo.AnnouncementExample;
@@ -14,13 +16,16 @@ import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.Type;
+import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.AnnouncementService;
 import com.java.rollercoaster.service.TicketPriceService;
 import com.java.rollercoaster.service.model.MyCalendar;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import com.java.rollercoaster.service.model.enumeration.TicketType;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +59,8 @@ public class ManagerControllerTest {
     private AnnouncementMapper announcementMapper;
     @Autowired
     private TypeMapper typeMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
@@ -365,7 +372,7 @@ public class ManagerControllerTest {
 
 
     @Test
-    public void testPushAnnouncement() {
+    public void testPushAnnouncement() throws BusinessException, UnirestException {
         Announcement announcement = new Announcement();
         announcement.setText("test Announcement");
         announcement.setDate(new Date());

@@ -15,6 +15,7 @@ import com.java.rollercoaster.service.ManageParkService;
 import com.java.rollercoaster.service.StatisticCollectionService;
 import com.java.rollercoaster.service.TicketPriceService;
 import com.java.rollercoaster.service.model.MyCalendar;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -208,7 +209,7 @@ public class ManagerController {
 
     @PostMapping("/pushAnnouncement")
     @ResponseBody
-    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) {
+    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) throws UnirestException, BusinessException {
         return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));
     }
 }
