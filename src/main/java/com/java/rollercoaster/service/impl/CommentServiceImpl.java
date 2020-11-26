@@ -12,6 +12,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
@@ -43,6 +45,12 @@ public class CommentServiceImpl implements CommentService {
         }
         commentMapper.deleteByPrimaryKey(commentModel.getCommentId());
         return ErrorEnum.OK;
+    }
+
+    @Override
+    public List<Comment> showAllComments() {
+        List<Comment> commentList = commentMapper.listAllComments();
+        return commentList;
     }
 
     private Comment convertFromModel(CommentModel commentModel) {

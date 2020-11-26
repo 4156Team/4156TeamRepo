@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -84,6 +85,20 @@ public class CommentServiceTest {
         UserModel userModel = new UserModel();
         CommentModel commentModel = null;
         assertEquals(ErrorEnum.INVALID_COMMENT, commentService.addComment(userModel, commentModel));
+
+    }
+
+    @Test
+    public void showCommentsTest() {
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Mike");
+        userModel.setUserId(3);
+        CommentModel commentModel = new CommentModel();
+        commentModel.setCommentContent("test comment");
+        commentModel.setCommentTime(new Date());
+        commentService.addComment(userModel, commentModel);
+        List<Comment> commentList = commentService.showAllComments();
+        assertEquals("Mike", commentList.get(commentList.size() - 1).getUserName());
 
     }
 }

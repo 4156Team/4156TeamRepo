@@ -125,6 +125,11 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="listAllComments" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+  </select>
   <select id="selectByExample" parameterType="com.java.rollercoaster.pojo.CommentExample" resultMap="BaseResultMap">
     <!--
       WARNING - @mbggenerated

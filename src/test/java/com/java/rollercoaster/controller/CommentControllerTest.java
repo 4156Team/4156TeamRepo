@@ -76,4 +76,9 @@ public class CommentControllerTest {
         assertEquals(ErrorEnum.USER_NOT_EXIST, commentController.deleteComment(commentModel).getData());
     }
 
+    @Test
+    public void showRecordsTest() {
+        assertEquals("success", commentController.showComments().getStatus());
+    }
+
 }

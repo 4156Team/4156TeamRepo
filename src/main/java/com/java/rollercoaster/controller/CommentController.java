@@ -1,6 +1,7 @@
 package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Comment;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CommentService;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller("comment")
 @RequestMapping("/comment")
@@ -58,6 +62,15 @@ public class CommentController {
         }
         return CommonReturnType.autoCreate(commentService.deleteComment(userModel, commentModel));
     }
+
+    @RequestMapping(value = "/showComments", method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType showComments() {
+        List<Comment> commentList = commentService.showAllComments();
+        return CommonReturnType.create(commentList);
+    }
+
+
 
 
 }

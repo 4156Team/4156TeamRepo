@@ -148,14 +148,14 @@ public class UserController extends BaseController {
     }
 
 
-    private UserVo convertFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return  null;
-        }
-        UserVo userVo = new UserVo();
-        BeanUtils.copyProperties(userModel, userVo);
-        return userVo;
-    }
+//    private UserVo convertFromModel(UserModel userModel) {
+//        if (userModel == null) {
+//            return  null;
+//        }
+//        UserVo userVo = new UserVo();
+//        BeanUtils.copyProperties(userModel, userVo);
+//        return userVo;
+//    }
 
 
     /**
