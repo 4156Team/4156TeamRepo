@@ -8,7 +8,10 @@ public enum ErrorEnum implements CommonError {
     USER_NOT_LOGIN(20003, "User Not Login"),
     USER_LOGIN_FAIL(20002, "User or password is incorrect"),
     NO_AUTHORIZATION(20004, "No access authorization"),
-    Send_mail_failed(20005, "Mail sending failed"),
+    SEND_MAIL_FAILED(20005, "Mail sending failed"),
+    COMMENT_POST_FAILED(20006, "Comment post failed"),
+    UNAUTHORIZED_DELETION(20007, "You cannot delete other's comments"),
+    INVALID_COMMENT(20008, "Invalid Comment"),
 
     INVALID_TICKET(201, "The ticket id is invalid in that day."),
     WRONG_TICKET_ID(202, "The ticket id is wrong."),

@@ -34,9 +34,9 @@
 <!--        <table tableName="password" domainObjectName="UserPassword" />-->
 <!--        <table tableName="event" domainObjectName="Event" />-->
 <!--        <table tableName="appointment" domainObjectName="Appointment" />-->
-        <table tableName="facility" domainObjectName="Facility">
-            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.service.model.enumeration.FacilityStatus"/>
-        </table>
+<!--        <table tableName="facility" domainObjectName="Facility">-->
+<!--            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.service.model.enumeration.FacilityStatus"/>-->
+<!--        </table>-->
 <!--        <table tableName="ticket" domainObjectName="Ticket" >-->
 <!--            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.service.model.enumeration.Status"/>-->
 <!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
@@ -52,7 +52,11 @@
 <!--        <table tableName="announcement" domainObjectName="Announcement">-->
 <!--            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="quickPass" domainObjectName="QuickPass" />
-        <table tableName="balance" domainObjectName="Balance" />
+<!--        <table tableName="quickPass" domainObjectName="QuickPass" />-->
+<!--        <table tableName="balance" domainObjectName="Balance" />-->
+<!--        <table tableName="comment" domainObjectName="Comment" />-->
+        <table tableName="comment" domainObjectName="Comment" >
+            <generatedKey column="comment_id" sqlStatement="JDBC" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
