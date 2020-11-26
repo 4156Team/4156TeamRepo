@@ -77,7 +77,7 @@ public class TicketController {
                                             + userModel.getUserName()
                                             + "! Here is your ticket! And your ticket number is "
                                             + ticket.getTicketId()
-                                            + ". Welcome to Roller Coaster Amusement part!");
+                                            + ". Welcome to Roller Coaster Amusement park!");
             return result;
         } catch (BusinessException businessException) {
             int errCode = businessException.getErrCode();

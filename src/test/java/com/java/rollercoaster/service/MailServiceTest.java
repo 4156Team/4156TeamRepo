@@ -28,7 +28,7 @@ public class MailServiceTest {
 
     @Test
     public void sendTicketTest() throws UnirestException, BusinessException {
-        assertEquals(ErrorEnum.OK, mailService.sendAnnouncementMessage("yl4225@columbia.edu", "Ticket test"));
+        assertEquals(ErrorEnum.OK, mailService.sendTicketMessage("yl4225@columbia.edu", "Ticket test"));
 
     }
 
