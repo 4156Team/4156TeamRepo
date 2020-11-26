@@ -1,17 +1,26 @@
 package com.java.rollercoaster.controller;
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.AnnouncementService;
+import com.java.rollercoaster.service.TicketPriceService;
+import com.java.rollercoaster.service.model.MyCalendar;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.enumeration.Status;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +30,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +50,12 @@ public class ManagerControllerTest {
     private TicketMapper ticketMapper;
     @Autowired
     private AppointmentMapper appointmentMapper;
+    @Autowired
+    private AnnouncementMapper announcementMapper;
+    @Autowired
+    private TypeMapper typeMapper;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
     public void init() throws ParseException {
         Event event = new Event();
@@ -78,8 +95,9 @@ public class ManagerControllerTest {
 
         Appointment appointment = new Appointment();
         appointment.setUserId(1);
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setEventName("test");
+        appointment.setValidDate(sdf.parse("2020-10-11"));
         appointmentMapper.insert(appointment);
         System.out.println("start test");
     }
@@ -105,7 +123,10 @@ public class ManagerControllerTest {
     @Test
     public void testDeleteEvents() throws ParseException{
         init();
-        CommonReturnType response = managerController.deleteEvent("test");
+        Event event = new Event();
+        event.setEventName("test");
+
+        CommonReturnType response = managerController.deleteEvent(event);
         assertEquals("success", response.getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
         finish();
@@ -155,7 +176,9 @@ public class ManagerControllerTest {
     @Test
     public void testDeleteFacility() throws ParseException {
         init();
-        CommonReturnType response = managerController.deleteFacility("testFacility");
+        Facility facility = new Facility();
+        facility.setFacilityName("testFacility");
+        CommonReturnType response = managerController.deleteFacility(facility);
         assertEquals("success", response.getStatus());
         assertEquals(null, facilityMapper.selectByPrimaryKey("testFacility"));
         finish();
@@ -187,7 +210,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckInTicket() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkTicket("1");
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("1");
+        CommonReturnType response = managerController.checkTicket(ticket);
         assertEquals("success", response.getStatus());
         assertEquals(Status.used, ticketMapper.selectByPrimaryKey("1").getStatus());
         finish();
@@ -196,7 +221,9 @@ public class ManagerControllerTest {
     @Test
     public void testCheckAppointment() throws ParseException {
         init();
-        CommonReturnType response = managerController.checkAppointment("1");
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        CommonReturnType response = managerController.checkAppointment(appointment);
         ErrorEnum errorEnum = (ErrorEnum) response.getData();
         assertEquals("success", response.getStatus());
         assertEquals(ErrorEnum.OK, errorEnum);
@@ -213,4 +240,159 @@ public class ManagerControllerTest {
         appointmentMapper.deleteByPrimaryKey("1");
         System.out.println("end test");
     }
+
+
+    @Test
+    public void testPeopleInThatDayFail() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setMonth(10);
+        myCalendar.setDay(5);
+        CommonReturnType response = managerController.peopleInThatDay(myCalendar);
+        assertEquals("fail", response.getStatus());
+        assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, response.getData());
+        finish1();
+    }
+
+    @Test
+    public void testPeopleInThatMonthFail() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setMonth(10);
+        CommonReturnType response = managerController.peopleInThatMonth(myCalendar);
+        assertEquals("fail", response.getStatus());
+        assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, response.getData());
+        finish1();
+    }
+
+    @Test
+    public void testPeopleInThatYearFail() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        CommonReturnType response = managerController.peopleInThatYear(myCalendar);
+        assertEquals("fail", response.getStatus());
+        assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, response.getData());
+        finish1();
+    }
+
+    @Test
+    public void testPeopleInThatDayNormal() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setMonth(11);
+        myCalendar.setDay(25);
+        CommonReturnType response = managerController.peopleInThatDay(myCalendar);
+        assertEquals(1, response.getData());
+        assertEquals("success", response.getStatus());
+        finish1();
+    }
+
+    @Test
+    public void testPeopleInThatMonthNormal() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setMonth(11);
+        CommonReturnType response = managerController.peopleInThatMonth(myCalendar);
+        assertEquals(2, response.getData());
+        assertEquals("success", response.getStatus());
+        finish1();
+    }
+
+    @Test
+    public void testPeopleInThatYearNormal() throws ParseException {
+        init1();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        CommonReturnType response = managerController.peopleInThatYear(myCalendar);
+        assertEquals(3, response.getData());
+        assertEquals("success", response.getStatus());
+        finish1();
+    }
+
+    @Test
+    public void testWhichDaysVisited() throws ParseException {
+        init1();
+        List<Date> dates = new ArrayList<>();
+        dates.add(sdf.parse("2019-08-24"));
+        CommonReturnType response = managerController.whichDaysVisited(3);
+        List<Date> result = (List<Date>) response.getData();
+        assertEquals("success", response.getStatus());
+        assertEquals(true, result.containsAll(dates));
+        assertEquals(1, result.size());
+        finish1();
+    }
+
+
+    private Ticket createTicket(String id, int userId, Status status, float price,
+                                String validDate, TicketType ticketType) throws ParseException {
+        Ticket ticket = new Ticket();
+        ticket.setTicketId(id);
+        ticket.setUserId(userId);
+        ticket.setStatus(status);
+        ticket.setPrice(price);
+        ticket.setValidDate(sdf.parse(validDate));
+        ticket.setTicketType(ticketType);
+        return ticket;
+    }
+
+
+    public void init1() throws ParseException {
+        ticketMapper.insert(createTicket("1441",1, Status.used, 100,
+                "2020-11-01", TicketType.adult));
+        ticketMapper.insert(createTicket("1111",1, Status.used, 100,
+                "2020-11-25", TicketType.adult));
+        ticketMapper.insert(createTicket("1551",1, Status.used, 100,
+                "2020-08-01", TicketType.adult));
+
+        ticketMapper.insert(createTicket("1221",2, Status.unused, 100,
+                "2020-11-25", TicketType.adult));
+        ticketMapper.insert(createTicket("1331",3, Status.unused, 100,
+                "2019-11-23", TicketType.adult));
+        ticketMapper.insert(createTicket("1661",3, Status.used, 100,
+                "2019-08-24", TicketType.adult));
+    }
+
+    public void finish1() {
+        ticketMapper.deleteByPrimaryKey("1111");
+        ticketMapper.deleteByPrimaryKey("1221");
+        ticketMapper.deleteByPrimaryKey("1331");
+        ticketMapper.deleteByPrimaryKey("1441");
+        ticketMapper.deleteByPrimaryKey("1551");
+        ticketMapper.deleteByPrimaryKey("1661");
+    }
+
+
+    @Test
+    public void testPushAnnouncement() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        CommonReturnType response = managerController.pushAnnouncement(announcement);
+        assertEquals("success", response.getStatus());
+        assertEquals(ErrorEnum.OK, response.getData());
+        AnnouncementExample announcementExample = new AnnouncementExample();
+        announcementExample.createCriteria().andTextEqualTo("test Announcement");
+        List<Announcement> announcements = announcementMapper.selectByExample(announcementExample);
+        assertEquals(1, announcements.size());
+        announcementMapper.deleteByExample(announcementExample);
+    }
+
+    @Test
+    public void testChangeTicketPrice() {
+        Type type = new Type();
+        type.setTicketType(TicketType.adult);
+        type.setTicketPrice(50f);
+        typeMapper.insert(type);
+
+        type.setTicketPrice(10f);
+        CommonReturnType response = managerController.changeTicketPrice(type);
+        assertEquals("success", response.getStatus());
+        assertEquals(ErrorEnum.OK, response.getData());
+        assertEquals(10, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
+
+
 }

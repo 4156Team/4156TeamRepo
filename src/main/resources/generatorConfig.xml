@@ -31,19 +31,26 @@
 
         <!--要生成哪些表 -->
         <!--其中tableName指的是mysql里面的tableName, domainObjectName指的是转换后的类名 -->
-        <table tableName="password" domainObjectName="UserPassword" />
-        <table tableName="event" domainObjectName="Event" />
-        <table tableName="appointment" domainObjectName="Appointment" />
-        <table tableName="facility" domainObjectName="Facility">
-            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.service.model.enumeration.FacilityStatus"/>
-        </table>
-        <table tableName="ticket" domainObjectName="Ticket" >
-            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.service.model.enumeration.Status"/>
-        </table>
-        <table tableName="userAccount" domainObjectName="UserAccount" >
-            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>
-            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>
-            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>
+<!--        <table tableName="password" domainObjectName="UserPassword" />-->
+<!--        <table tableName="event" domainObjectName="Event" />-->
+<!--        <table tableName="appointment" domainObjectName="Appointment" />-->
+<!--        <table tableName="facility" domainObjectName="Facility">-->
+<!--            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.service.model.enumeration.FacilityStatus"/>-->
+<!--        </table>-->
+<!--        <table tableName="ticket" domainObjectName="Ticket" >-->
+<!--            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.service.model.enumeration.Status"/>-->
+<!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
+<!--        </table>-->
+<!--        <table tableName="userAccount" domainObjectName="UserAccount" >-->
+<!--            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>-->
+<!--            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>-->
+<!--        </table>-->
+<!--        <table tableName="type" domainObjectName="Type">-->
+<!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
+<!--        </table>-->
+        <table tableName="announcement" domainObjectName="Announcement">
+            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -1,13 +1,21 @@
 package com.java.rollercoaster.service.impl;
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.service.ManageParkService;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ManageParkServiceImpl implements ManageParkService {
@@ -84,4 +92,5 @@ public class ManageParkServiceImpl implements ManageParkService {
         facilityMapper.deleteByPrimaryKey(facilityName);
         return ErrorEnum.OK;
     }
+
 }

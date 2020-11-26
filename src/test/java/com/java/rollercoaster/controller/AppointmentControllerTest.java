@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -71,6 +72,7 @@ public class AppointmentControllerTest {
         Appointment appointment = new Appointment();
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
 
         CommonReturnType response = appointmentController.addAppointment(appointment);
         assertEquals("success", response.getStatus());
@@ -98,7 +100,8 @@ public class AppointmentControllerTest {
         Appointment appointment = new Appointment();
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         appointment.setEventName("event another");
@@ -108,11 +111,11 @@ public class AppointmentControllerTest {
         assertEquals(4, eventMapper.selectByPrimaryKey("event another").getEventRemainPositions());
         assertEquals(11, eventMapper.selectByPrimaryKey("event test").getEventRemainPositions());
         assertEquals("event another",
-                appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid()).getEventName());
+                appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getEventName());
         assertEquals(userModel.getUserId(),
-                appointmentMapper.selectByPrimaryKey(appointment.getAppointmentid()).getUserId());
+                appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getUserId());
 
-        appointmentMapper.deleteByPrimaryKey(appointment.getAppointmentid());
+        appointmentMapper.deleteByPrimaryKey(appointment.getAppointmentId());
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         eventMapper.deleteByPrimaryKey(event.getEventName());
@@ -127,7 +130,8 @@ public class AppointmentControllerTest {
         Appointment appointment = new Appointment();
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         CommonReturnType response = appointmentController.deleteAppointmentId("1");
@@ -148,13 +152,14 @@ public class AppointmentControllerTest {
         Appointment appointment = new Appointment();
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
         CommonReturnType response = appointmentController.getAppointments();
 
         assertEquals("success", response.getStatus());
-        assertEquals("1", ((List<Appointment>)response.getData()).get(0).getAppointmentid());
+        assertEquals("1", ((List<Appointment>)response.getData()).get(0).getAppointmentId());
         assertEquals(userModel.getUserId(), ((List<Appointment>)response.getData()).get(0).getUserId());
         assertEquals("event test", ((List<Appointment>)response.getData()).get(0).getEventName());
 

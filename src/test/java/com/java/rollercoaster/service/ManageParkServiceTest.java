@@ -1,12 +1,18 @@
 package com.java.rollercoaster.service;
 
 
+import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +21,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
@@ -27,6 +36,8 @@ class ManageParkServiceTest {
     EventMapper eventMapper;
     @Autowired
     ManageParkService manageParkService;
+    @Autowired
+    TypeMapper typeMapper;
 
     @Test
     void addFacility() throws ParseException {
@@ -77,6 +88,9 @@ class ManageParkServiceTest {
         facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         facility.setQueueStatus(100);
         facility.setFacilityName("roller coaster");
+
+        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.deleteFacility(null));
+
         assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
 
         assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.deleteFacility("test"));
@@ -138,4 +152,6 @@ class ManageParkServiceTest {
         assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.deleteEvent("tttt"));
         assertEquals(ErrorEnum.OK, manageParkService.deleteEvent("testEvent"));
     }
+
+
 }
