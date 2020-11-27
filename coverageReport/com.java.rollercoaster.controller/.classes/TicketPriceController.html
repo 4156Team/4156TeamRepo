@@ -92,22 +92,27 @@
 <i>18</i>&nbsp;    @Autowired
 <i>19</i>&nbsp;    private TicketPriceService ticketPriceService;
 <i>20</i>&nbsp;
-<i>21</i>&nbsp;    @PostMapping(&quot;/getTicketPrice&quot;)
-<i>22</i>&nbsp;    @ResponseBody
-<i>23</i>&nbsp;    public CommonReturnType getTicketPrice(@RequestBody Type type) {
-<b class="fc"><i>24</i>&nbsp;        if (null == type.getTicketType()) {</b>
-<b class="fc"><i>25</i>&nbsp;            return CommonReturnType.create(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, &quot;fail&quot;);</b>
-<i>26</i>&nbsp;        }
-<b class="fc"><i>27</i>&nbsp;        float price = ticketPriceService.getTicketPrice(type.getTicketType());</b>
-<b class="fc"><i>28</i>&nbsp;        return CommonReturnType.create(price, &quot;success&quot;);</b>
-<i>29</i>&nbsp;    }
-<i>30</i>&nbsp;}
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Get the price of ticket.
+<i>23</i>&nbsp;     * @param type ticket type
+<i>24</i>&nbsp;     * @return CommonReturnType
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    @PostMapping(&quot;/getTicketPrice&quot;)
+<i>27</i>&nbsp;    @ResponseBody
+<i>28</i>&nbsp;    public CommonReturnType getTicketPrice(@RequestBody Type type) {
+<b class="fc"><i>29</i>&nbsp;        if (null == type.getTicketType()) {</b>
+<b class="fc"><i>30</i>&nbsp;            return CommonReturnType.create(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, &quot;fail&quot;);</b>
+<i>31</i>&nbsp;        }
+<b class="fc"><i>32</i>&nbsp;        float price = ticketPriceService.getTicketPrice(type.getTicketType());</b>
+<b class="fc"><i>33</i>&nbsp;        return CommonReturnType.create(price, &quot;success&quot;);</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

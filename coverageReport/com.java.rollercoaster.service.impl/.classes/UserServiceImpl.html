@@ -47,18 +47,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    84.4%
+    100%
   </span>
   <span class="absValue">
-    (54/ 64)
+    (56/ 56)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$75d4ff84</td>
+    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$88da7229</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$75d4ff84$$FastClassBySpringCGLIB$$6e23d05a</td>
+    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$88da7229$$FastClassBySpringCGLIB$$771baf4f</td>
   </tr>
   <tr>
     <td class="name">UserServiceImpl$$FastClassBySpringCGLIB$$103a8169</td>
@@ -75,10 +75,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    84.4%
+    100%
   </span>
   <span class="absValue">
-    (54/ 64)
+    (56/ 56)
   </span>
 </td>
 </tr>
@@ -125,29 +125,29 @@
 <i>35</i>&nbsp;
 <i>36</i>&nbsp;    @Override
 <i>37</i>&nbsp;    @Transactional
-<i>38</i>&nbsp;    public void register(UserModel userModel) throws BusinessException {
+<i>38</i>&nbsp;    public ErrorEnum register(UserModel userModel) throws BusinessException {
 <b class="fc"><i>39</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>40</i>&nbsp;            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);</b>
+<b class="fc"><i>40</i>&nbsp;            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</b>
 <i>41</i>&nbsp;        }
 <b class="fc"><i>42</i>&nbsp;        UserAccount userAccount = convertFromModel(userModel);</b>
 <i>43</i>&nbsp;        try {
 <b class="fc"><i>44</i>&nbsp;            userAccountMapper.insertSelective(userAccount);</b>
-<b class="nc"><i>45</i>&nbsp;        } catch (DuplicateKeyException ex) {</b>
-<b class="nc"><i>46</i>&nbsp;            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);</b>
+<b class="fc"><i>45</i>&nbsp;        } catch (DuplicateKeyException ex) {</b>
+<b class="fc"><i>46</i>&nbsp;            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</b>
 <b class="fc"><i>47</i>&nbsp;        }</b>
 <b class="fc"><i>48</i>&nbsp;        userModel.setUserId(userAccount.getUserId());</b>
 <i>49</i>&nbsp;
 <b class="fc"><i>50</i>&nbsp;        UserPassword userPassword = convertPasswordFromModel(userModel);</b>
 <b class="fc"><i>51</i>&nbsp;        System.out.println(userPassword.getPassword());</b>
 <b class="fc"><i>52</i>&nbsp;        userPasswordMapper.insertSelective(userPassword);</b>
-<b class="fc"><i>53</i>&nbsp;        return;</b>
+<b class="fc"><i>53</i>&nbsp;        return ErrorEnum.OK;</b>
 <i>54</i>&nbsp;
 <i>55</i>&nbsp;    }
 <i>56</i>&nbsp;
 <i>57</i>&nbsp;    @Override
 <i>58</i>&nbsp;    public UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException {
 <b class="fc"><i>59</i>&nbsp;        if (userAccount == null) {</b>
-<b class="nc"><i>60</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<b class="fc"><i>60</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
 <i>61</i>&nbsp;        }
 <b class="fc"><i>62</i>&nbsp;        UserAccountExample userAccountExample = new UserAccountExample();</b>
 <b class="fc"><i>63</i>&nbsp;        UserAccountExample.Criteria criteria = userAccountExample.createCriteria();</b>
@@ -179,7 +179,7 @@
 <b class="fc"><i>89</i>&nbsp;        List&lt;UserAccount&gt; results = userAccountMapper.selectByExample(example);</b>
 <b class="fc"><i>90</i>&nbsp;        UserAccount userAccount = results.isEmpty() ? null : results.get(0);</b>
 <b class="fc"><i>91</i>&nbsp;        if (userAccount ==  null) {</b>
-<b class="nc"><i>92</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
+<b class="fc"><i>92</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
 <i>93</i>&nbsp;        }
 <b class="fc"><i>94</i>&nbsp;        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());</b>
 <b class="fc"><i>95</i>&nbsp;        UserModel userModel = convertFromDataObject(userAccount, userPassword);</b>
@@ -187,52 +187,40 @@
 <b class="fc"><i>97</i>&nbsp;        System.out.println(userPassword.getPassword());</b>
 <b class="fc"><i>98</i>&nbsp;        System.out.println(encryptPassword);</b>
 <b class="fc"><i>99</i>&nbsp;        if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {</b>
-<b class="nc"><i>100</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
+<b class="fc"><i>100</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
 <i>101</i>&nbsp;        }
 <b class="fc"><i>102</i>&nbsp;        return userModel;</b>
 <i>103</i>&nbsp;
 <i>104</i>&nbsp;    }
 <i>105</i>&nbsp;
 <i>106</i>&nbsp;    private UserPassword convertPasswordFromModel(UserModel userModel) {
-<b class="fc"><i>107</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>108</i>&nbsp;            return  null;</b>
-<i>109</i>&nbsp;        }
-<b class="fc"><i>110</i>&nbsp;        UserPassword userPassword = new UserPassword();</b>
-<b class="fc"><i>111</i>&nbsp;        userPassword.setPassword(userModel.getPassword());</b>
-<b class="fc"><i>112</i>&nbsp;        if (userModel.getUserId() == null) {</b>
-<b class="nc"><i>113</i>&nbsp;            System.out.println(&quot;no user id&quot;);</b>
-<i>114</i>&nbsp;        }
-<b class="fc"><i>115</i>&nbsp;        userPassword.setUserId(userModel.getUserId());</b>
-<b class="fc"><i>116</i>&nbsp;        return  userPassword;</b>
+<b class="fc"><i>107</i>&nbsp;        UserPassword userPassword = new UserPassword();</b>
+<b class="fc"><i>108</i>&nbsp;        userPassword.setPassword(userModel.getPassword());</b>
+<b class="fc"><i>109</i>&nbsp;        userPassword.setUserId(userModel.getUserId());</b>
+<b class="fc"><i>110</i>&nbsp;        return  userPassword;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    private UserAccount convertFromModel(UserModel userModel) {
+<b class="fc"><i>114</i>&nbsp;        UserAccount userAccount = new UserAccount();</b>
+<b class="fc"><i>115</i>&nbsp;        BeanUtils.copyProperties(userModel,userAccount);</b>
+<b class="fc"><i>116</i>&nbsp;        return  userAccount;</b>
 <i>117</i>&nbsp;    }
 <i>118</i>&nbsp;
-<i>119</i>&nbsp;    private UserAccount convertFromModel(UserModel userModel) {
-<b class="fc"><i>120</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>121</i>&nbsp;            return  null;</b>
-<i>122</i>&nbsp;        }
-<b class="fc"><i>123</i>&nbsp;        UserAccount userAccount = new UserAccount();</b>
-<b class="fc"><i>124</i>&nbsp;        BeanUtils.copyProperties(userModel,userAccount);</b>
-<b class="fc"><i>125</i>&nbsp;        return  userAccount;</b>
+<i>119</i>&nbsp;    private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
+<b class="fc"><i>120</i>&nbsp;        UserModel userModel = new UserModel();</b>
+<b class="fc"><i>121</i>&nbsp;        BeanUtils.copyProperties(userAccount, userModel);</b>
+<b class="fc"><i>122</i>&nbsp;        if (userpassword != null) {</b>
+<b class="fc"><i>123</i>&nbsp;            userModel.setPassword(userpassword.getPassword());</b>
+<i>124</i>&nbsp;        }
+<b class="fc"><i>125</i>&nbsp;        return  userModel;</b>
 <i>126</i>&nbsp;    }
-<i>127</i>&nbsp;
-<i>128</i>&nbsp;    private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
-<b class="fc"><i>129</i>&nbsp;        if (userAccount == null) {</b>
-<b class="nc"><i>130</i>&nbsp;            return  null;</b>
-<i>131</i>&nbsp;        }
-<b class="fc"><i>132</i>&nbsp;        UserModel userModel = new UserModel();</b>
-<b class="fc"><i>133</i>&nbsp;        BeanUtils.copyProperties(userAccount, userModel);</b>
-<b class="fc"><i>134</i>&nbsp;        if (userpassword != null) {</b>
-<b class="fc"><i>135</i>&nbsp;            userModel.setPassword(userpassword.getPassword());</b>
-<i>136</i>&nbsp;        }
-<b class="fc"><i>137</i>&nbsp;        return  userModel;</b>
-<i>138</i>&nbsp;    }
-<i>139</i>&nbsp;}
+<i>127</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

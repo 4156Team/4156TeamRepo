@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    70.5%
+    80%
   </span>
   <span class="absValue">
-    (43/ 61)
+    (44/ 55)
   </span>
 </td>
 </tr>
@@ -137,110 +137,97 @@
 <b class="fc"><i>63</i>&nbsp;                + String.format(&quot;%04d&quot;, end4);</b>
 <b class="fc"><i>64</i>&nbsp;        System.out.println(id);</b>
 <b class="fc"><i>65</i>&nbsp;        appointment.setAppointmentId(id);</b>
-<i>66</i>&nbsp;        try{
-<b class="fc"><i>67</i>&nbsp;            CommonReturnType result = CommonReturnType.create(appointmentService.addAppointment(appointment));</b>
-<b class="fc"><i>68</i>&nbsp;            return result;</b>
-<b class="nc"><i>69</i>&nbsp;        } catch (BusinessException businessException){</b>
-<b class="nc"><i>70</i>&nbsp;            int errCode = businessException.getErrCode();</b>
-<b class="nc"><i>71</i>&nbsp;            switch(errCode){</b>
-<i>72</i>&nbsp;                case 251:
-<b class="nc"><i>73</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.EMPTY_APPOINTMENT);</b>
-<i>74</i>&nbsp;                case 252:
-<b class="nc"><i>75</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.DUPLICATE_APPOINTMENT);</b>
-<i>76</i>&nbsp;                case 223:
-<b class="nc"><i>77</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);</b>
-<i>78</i>&nbsp;                case 20001:
-<b class="nc"><i>79</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
-<i>80</i>&nbsp;                case 253:
-<b class="nc"><i>81</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.EVENT_NO_POSITION);</b>
-<i>82</i>&nbsp;                default:
-<b class="nc"><i>83</i>&nbsp;                    return CommonReturnType.autoCreate(ErrorEnum.UNKNOWN_ERROR);</b>
-<i>84</i>&nbsp;            }
-<i>85</i>&nbsp;        }
-<i>86</i>&nbsp;
-<i>87</i>&nbsp;    }
-<i>88</i>&nbsp;
-<i>89</i>&nbsp;    /**
-<i>90</i>&nbsp;     * End point to update an appointment given an appointment object.
-<i>91</i>&nbsp;     * @param appointment an appointment object
-<i>92</i>&nbsp;     * @return CommonReturnType
-<i>93</i>&nbsp;     */
-<i>94</i>&nbsp;    @PostMapping(&quot;/updateAppointment&quot;)
-<i>95</i>&nbsp;    @ResponseBody
-<i>96</i>&nbsp;    public CommonReturnType updateAppointment(@RequestBody Appointment appointment) {
-<b class="fc"><i>97</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest</b>
-<b class="fc"><i>98</i>&nbsp;                .getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
-<b class="fc"><i>99</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
-<b class="nc"><i>100</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
-<i>101</i>&nbsp;        }
-<b class="fc"><i>102</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
-<b class="fc"><i>103</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
-<i>104</i>&nbsp;        //if user not exist
-<b class="fc"><i>105</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>106</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
-<i>107</i>&nbsp;        }
-<i>108</i>&nbsp;        //only manager or the same visitor can update the appointment
-<b class="fc"><i>109</i>&nbsp;        if (userModel.getRole() == Role.visitor &amp;&amp; !userModel.getUserId()</b>
-<b class="fc"><i>110</i>&nbsp;                .equals(appointment.getUserId()) ) {</b>
-<b class="nc"><i>111</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NOT_SAME_VISITOR);</b>
-<i>112</i>&nbsp;        }
-<b class="fc"><i>113</i>&nbsp;        return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));</b>
-<i>114</i>&nbsp;    }
-<i>115</i>&nbsp;
-<i>116</i>&nbsp;    /**
-<i>117</i>&nbsp;     * End point to delete an appointment.
-<i>118</i>&nbsp;     * @param appointmentId the appointmentId of the appointment you want to delete
-<i>119</i>&nbsp;     * @return CommonReturnType
-<i>120</i>&nbsp;     */
-<i>121</i>&nbsp;    @PostMapping(&quot;/deleteAppointment&quot;)
-<i>122</i>&nbsp;    @ResponseBody
-<i>123</i>&nbsp;    public CommonReturnType deleteAppointmentId(@RequestParam(name = &quot;appointmentId&quot;)
-<i>124</i>&nbsp;                                                            String appointmentId) {
-<b class="fc"><i>125</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
-<b class="fc"><i>126</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
-<b class="nc"><i>127</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
-<i>128</i>&nbsp;        }
-<b class="fc"><i>129</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
-<b class="fc"><i>130</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
-<i>131</i>&nbsp;        //if user not exist
-<b class="fc"><i>132</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>133</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
-<i>134</i>&nbsp;        }
-<i>135</i>&nbsp;
-<i>136</i>&nbsp;        //only manager or the same visitor can delete the appointment
-<b class="fc"><i>137</i>&nbsp;        return CommonReturnType.autoCreate(appointmentService</b>
-<b class="fc"><i>138</i>&nbsp;                .deleteAppointment(appointmentId, userModel));</b>
-<i>139</i>&nbsp;    }
-<i>140</i>&nbsp;
-<i>141</i>&nbsp;    /**
-<i>142</i>&nbsp;     *Display user&#39;s history tickets records.
-<i>143</i>&nbsp;     * @return response with common return type
-<i>144</i>&nbsp;     */
-<i>145</i>&nbsp;    @RequestMapping(&quot;/appointmentsRecord&quot;)
-<i>146</i>&nbsp;    @ResponseBody
-<i>147</i>&nbsp;    public CommonReturnType getAppointments() {
-<b class="fc"><i>148</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
-<b class="fc"><i>149</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
-<b class="nc"><i>150</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
-<i>151</i>&nbsp;        }
-<b class="fc"><i>152</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
-<b class="fc"><i>153</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
-<i>154</i>&nbsp;        //if user not exist
-<b class="fc"><i>155</i>&nbsp;        if (userModel == null) {</b>
-<b class="nc"><i>156</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
-<i>157</i>&nbsp;        }
-<b class="fc"><i>158</i>&nbsp;        List&lt;Appointment&gt; appointmentList = appointmentService</b>
-<b class="fc"><i>159</i>&nbsp;                .getAppointmentsByUserId(userModel.getUserId());</b>
-<b class="fc"><i>160</i>&nbsp;        return CommonReturnType.create(appointmentList);</b>
-<i>161</i>&nbsp;    }
-<i>162</i>&nbsp;
-<i>163</i>&nbsp;}
+<i>66</i>&nbsp;        try {
+<b class="fc"><i>67</i>&nbsp;            CommonReturnType result =</b>
+<b class="fc"><i>68</i>&nbsp;                    CommonReturnType.create(appointmentService.addAppointment(appointment));</b>
+<b class="fc"><i>69</i>&nbsp;            return result;</b>
+<b class="nc"><i>70</i>&nbsp;        } catch (BusinessException businessException) {</b>
+<b class="nc"><i>71</i>&nbsp;            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</b>
+<i>72</i>&nbsp;        }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * End point to update an appointment given an appointment object.
+<i>78</i>&nbsp;     * @param appointment an appointment object
+<i>79</i>&nbsp;     * @return CommonReturnType
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    @PostMapping(&quot;/updateAppointment&quot;)
+<i>82</i>&nbsp;    @ResponseBody
+<i>83</i>&nbsp;    public CommonReturnType updateAppointment(@RequestBody Appointment appointment) {
+<b class="fc"><i>84</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest</b>
+<b class="fc"><i>85</i>&nbsp;                .getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>86</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>87</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>88</i>&nbsp;        }
+<b class="fc"><i>89</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>90</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>91</i>&nbsp;        //if user not exist
+<b class="fc"><i>92</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>93</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>94</i>&nbsp;        }
+<i>95</i>&nbsp;        //only manager or the same visitor can update the appointment
+<b class="fc"><i>96</i>&nbsp;        if (userModel.getRole() == Role.visitor &amp;&amp; !userModel.getUserId()</b>
+<b class="fc"><i>97</i>&nbsp;                .equals(appointment.getUserId()) ) {</b>
+<b class="nc"><i>98</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NOT_SAME_VISITOR);</b>
+<i>99</i>&nbsp;        }
+<b class="fc"><i>100</i>&nbsp;        return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * End point to delete an appointment.
+<i>105</i>&nbsp;     * @param appointmentId the appointmentId of the appointment you want to delete
+<i>106</i>&nbsp;     * @return CommonReturnType
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;    @PostMapping(&quot;/deleteAppointment&quot;)
+<i>109</i>&nbsp;    @ResponseBody
+<i>110</i>&nbsp;    public CommonReturnType deleteAppointmentId(@RequestParam(name = &quot;appointmentId&quot;)
+<i>111</i>&nbsp;                                                            String appointmentId) {
+<b class="fc"><i>112</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>113</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>114</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>115</i>&nbsp;        }
+<b class="fc"><i>116</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>117</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>118</i>&nbsp;        //if user not exist
+<b class="fc"><i>119</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>120</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>121</i>&nbsp;        }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;        //only manager or the same visitor can delete the appointment
+<b class="fc"><i>124</i>&nbsp;        return CommonReturnType.autoCreate(appointmentService</b>
+<b class="fc"><i>125</i>&nbsp;                .deleteAppointment(appointmentId, userModel));</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     *Display user&#39;s history tickets records.
+<i>130</i>&nbsp;     * @return response with common return type
+<i>131</i>&nbsp;     */
+<i>132</i>&nbsp;    @RequestMapping(&quot;/appointmentsRecord&quot;)
+<i>133</i>&nbsp;    @ResponseBody
+<i>134</i>&nbsp;    public CommonReturnType getAppointments() {
+<b class="fc"><i>135</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>136</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>137</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>138</i>&nbsp;        }
+<b class="fc"><i>139</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>140</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>141</i>&nbsp;        //if user not exist
+<b class="fc"><i>142</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>143</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>144</i>&nbsp;        }
+<b class="fc"><i>145</i>&nbsp;        List&lt;Appointment&gt; appointmentList = appointmentService</b>
+<b class="fc"><i>146</i>&nbsp;                .getAppointmentsByUserId(userModel.getUserId());</b>
+<b class="fc"><i>147</i>&nbsp;        return CommonReturnType.create(appointmentList);</b>
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

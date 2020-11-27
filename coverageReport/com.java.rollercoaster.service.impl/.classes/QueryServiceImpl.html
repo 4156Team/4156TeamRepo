@@ -85,96 +85,98 @@
 <i>11</i>&nbsp;import com.java.rollercoaster.service.QueryService;
 <i>12</i>&nbsp;import com.java.rollercoaster.service.model.EventModel;
 <i>13</i>&nbsp;import com.java.rollercoaster.service.model.FacilityModel;
-<i>14</i>&nbsp;import java.util.ArrayList;
-<i>15</i>&nbsp;import java.util.List;
-<i>16</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-<i>17</i>&nbsp;import org.springframework.stereotype.Service;
-<i>18</i>&nbsp;
+<i>14</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>15</i>&nbsp;import org.springframework.stereotype.Service;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.List;
 <i>19</i>&nbsp;
-<i>20</i>&nbsp;@Service
-<b class="fc"><i>21</i>&nbsp;public class QueryServiceImpl implements QueryService {</b>
-<i>22</i>&nbsp;
-<i>23</i>&nbsp;    @Autowired
-<i>24</i>&nbsp;    private EventMapper eventMapper;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;@Service
+<b class="fc"><i>23</i>&nbsp;public class QueryServiceImpl implements QueryService {</b>
+<i>24</i>&nbsp;
 <i>25</i>&nbsp;    @Autowired
-<i>26</i>&nbsp;    private FacilityMapper facilityMapper;
-<i>27</i>&nbsp;
-<i>28</i>&nbsp;    @Override
-<i>29</i>&nbsp;    public EventModel queryEvent(String eventName) throws BusinessException {
-<b class="fc"><i>30</i>&nbsp;        if (null == eventName) {</b>
-<b class="fc"><i>31</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_EVENT_NAME);</b>
-<b class="fc"><i>32</i>&nbsp;        } else if (null == eventMapper.selectByPrimaryKey(eventName)) {</b>
-<b class="fc"><i>33</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_SUCH_EVENT);</b>
-<i>34</i>&nbsp;        }
-<b class="fc"><i>35</i>&nbsp;        Event eventFromDb = eventMapper.selectByPrimaryKey(eventName);</b>
-<b class="fc"><i>36</i>&nbsp;        EventModel event = new EventModel();</b>
-<b class="fc"><i>37</i>&nbsp;        event.setEventName(eventFromDb.getEventName());</b>
-<b class="fc"><i>38</i>&nbsp;        event.setEventIntroduction(eventFromDb.getEventIntroduction());</b>
-<b class="fc"><i>39</i>&nbsp;        event.setStartTime(eventFromDb.getStartTime());</b>
-<b class="fc"><i>40</i>&nbsp;        event.setEndTime(eventFromDb.getEndTime());</b>
-<b class="fc"><i>41</i>&nbsp;        event.setEventLocation(eventFromDb.getEventLocation());</b>
-<b class="fc"><i>42</i>&nbsp;        event.setEventRemainPositions(eventFromDb.getEventRemainPositions());</b>
-<b class="fc"><i>43</i>&nbsp;        return event;</b>
-<i>44</i>&nbsp;    }
-<i>45</i>&nbsp;
-<i>46</i>&nbsp;    @Override
-<i>47</i>&nbsp;    public FacilityModel queryFacility(String facilityName) throws BusinessException {
-<b class="fc"><i>48</i>&nbsp;        if (null == facilityName) {</b>
-<b class="fc"><i>49</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_FACILITY_NAME);</b>
-<b class="fc"><i>50</i>&nbsp;        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {</b>
-<b class="fc"><i>51</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_SUCH_FACILITY);</b>
-<i>52</i>&nbsp;        }
-<b class="fc"><i>53</i>&nbsp;        Facility facilityFromDb = facilityMapper.selectByPrimaryKey(facilityName);</b>
-<b class="fc"><i>54</i>&nbsp;        FacilityModel facility = new FacilityModel();</b>
-<b class="fc"><i>55</i>&nbsp;        facility.setFacilityName(facilityFromDb.getFacilityName());</b>
-<b class="fc"><i>56</i>&nbsp;        facility.setFacilityIntroduction(facilityFromDb.getFacilityIntroduction());</b>
-<b class="fc"><i>57</i>&nbsp;        facility.setFacilityOpenTime(facilityFromDb.getFacilityOpenTime());</b>
-<b class="fc"><i>58</i>&nbsp;        facility.setFacilityCloseTime(facilityFromDb.getFacilityCloseTime());</b>
-<b class="fc"><i>59</i>&nbsp;        facility.setFacilityStatus(facilityFromDb.getFacilityStatus());</b>
-<b class="fc"><i>60</i>&nbsp;        facility.setQueueStatus(facilityFromDb.getQueueStatus());</b>
-<b class="fc"><i>61</i>&nbsp;        return facility;</b>
-<i>62</i>&nbsp;    }
-<i>63</i>&nbsp;
-<i>64</i>&nbsp;    @Override
-<i>65</i>&nbsp;    public List&lt;EventModel&gt; queryAllEvents() throws BusinessException {
-<b class="nc"><i>66</i>&nbsp;        List&lt;Event&gt; eventsFromDb = eventMapper.selectByExample(new EventExample());</b>
-<b class="nc"><i>67</i>&nbsp;        List&lt;EventModel&gt; eventsModel = new ArrayList&lt;EventModel&gt;();</b>
-<b class="nc"><i>68</i>&nbsp;        for (Event event : eventsFromDb) {</b>
-<b class="nc"><i>69</i>&nbsp;            EventModel eventModel = new EventModel();</b>
-<b class="nc"><i>70</i>&nbsp;            eventModel.setEventName(event.getEventName());</b>
-<b class="nc"><i>71</i>&nbsp;            eventModel.setEventIntroduction(event.getEventIntroduction());</b>
-<b class="nc"><i>72</i>&nbsp;            eventModel.setStartTime(event.getStartTime());</b>
-<b class="nc"><i>73</i>&nbsp;            eventModel.setEndTime(event.getEndTime());</b>
-<b class="nc"><i>74</i>&nbsp;            eventModel.setEventLocation(event.getEventLocation());</b>
-<b class="nc"><i>75</i>&nbsp;            eventModel.setEventRemainPositions(event.getEventRemainPositions());</b>
-<b class="nc"><i>76</i>&nbsp;            eventsModel.add(eventModel);</b>
-<b class="nc"><i>77</i>&nbsp;        }</b>
-<b class="nc"><i>78</i>&nbsp;        return eventsModel;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    @Override
-<i>82</i>&nbsp;    public List&lt;FacilityModel&gt; queryAllFacilities() throws BusinessException {
-<b class="nc"><i>83</i>&nbsp;        List&lt;Facility&gt; facilitiesFromDb = facilityMapper.selectByExample(new FacilityExample());</b>
-<b class="nc"><i>84</i>&nbsp;        List&lt;FacilityModel&gt; facilitiesModel = new ArrayList&lt;FacilityModel&gt;();</b>
-<b class="nc"><i>85</i>&nbsp;        for (Facility facility : facilitiesFromDb) {</b>
-<b class="nc"><i>86</i>&nbsp;            FacilityModel facilityModel = new FacilityModel();</b>
-<b class="nc"><i>87</i>&nbsp;            facilityModel.setFacilityName(facility.getFacilityName());</b>
-<b class="nc"><i>88</i>&nbsp;            facilityModel.setFacilityIntroduction(facility.getFacilityIntroduction());</b>
-<b class="nc"><i>89</i>&nbsp;            facilityModel.setFacilityOpenTime(facility.getFacilityOpenTime());</b>
-<b class="nc"><i>90</i>&nbsp;            facilityModel.setFacilityCloseTime(facility.getFacilityCloseTime());</b>
-<b class="nc"><i>91</i>&nbsp;            facilityModel.setFacilityStatus(facility.getFacilityStatus());</b>
-<b class="nc"><i>92</i>&nbsp;            facilityModel.setQueueStatus(facility.getQueueStatus());</b>
-<b class="nc"><i>93</i>&nbsp;            facilitiesModel.add(facilityModel);</b>
-<b class="nc"><i>94</i>&nbsp;        }</b>
-<b class="nc"><i>95</i>&nbsp;        return facilitiesModel;</b>
-<i>96</i>&nbsp;    }
-<i>97</i>&nbsp;}
+<i>26</i>&nbsp;    private EventMapper eventMapper;
+<i>27</i>&nbsp;    @Autowired
+<i>28</i>&nbsp;    private FacilityMapper facilityMapper;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public EventModel queryEvent(String eventName) throws BusinessException {
+<b class="fc"><i>32</i>&nbsp;        if (null == eventName) {</b>
+<b class="fc"><i>33</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_EVENT_NAME);</b>
+<b class="fc"><i>34</i>&nbsp;        } else if (null == eventMapper.selectByPrimaryKey(eventName)) {</b>
+<b class="fc"><i>35</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_SUCH_EVENT);</b>
+<i>36</i>&nbsp;        }
+<b class="fc"><i>37</i>&nbsp;        Event eventFromDb = eventMapper.selectByPrimaryKey(eventName);</b>
+<b class="fc"><i>38</i>&nbsp;        EventModel event = new EventModel();</b>
+<b class="fc"><i>39</i>&nbsp;        event.setEventName(eventFromDb.getEventName());</b>
+<b class="fc"><i>40</i>&nbsp;        event.setEventIntroduction(eventFromDb.getEventIntroduction());</b>
+<b class="fc"><i>41</i>&nbsp;        event.setStartTime(eventFromDb.getStartTime());</b>
+<b class="fc"><i>42</i>&nbsp;        event.setEndTime(eventFromDb.getEndTime());</b>
+<b class="fc"><i>43</i>&nbsp;        event.setEventLocation(eventFromDb.getEventLocation());</b>
+<b class="fc"><i>44</i>&nbsp;        event.setEventRemainPositions(eventFromDb.getEventRemainPositions());</b>
+<b class="fc"><i>45</i>&nbsp;        return event;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    @Override
+<i>49</i>&nbsp;    public FacilityModel queryFacility(String facilityName) throws BusinessException {
+<b class="fc"><i>50</i>&nbsp;        if (null == facilityName) {</b>
+<b class="fc"><i>51</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_FACILITY_NAME);</b>
+<b class="fc"><i>52</i>&nbsp;        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {</b>
+<b class="fc"><i>53</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_SUCH_FACILITY);</b>
+<i>54</i>&nbsp;        }
+<b class="fc"><i>55</i>&nbsp;        Facility facilityFromDb = facilityMapper.selectByPrimaryKey(facilityName);</b>
+<b class="fc"><i>56</i>&nbsp;        FacilityModel facility = new FacilityModel();</b>
+<b class="fc"><i>57</i>&nbsp;        facility.setFacilityName(facilityFromDb.getFacilityName());</b>
+<b class="fc"><i>58</i>&nbsp;        facility.setFacilityIntroduction(facilityFromDb.getFacilityIntroduction());</b>
+<b class="fc"><i>59</i>&nbsp;        facility.setFacilityOpenTime(facilityFromDb.getFacilityOpenTime());</b>
+<b class="fc"><i>60</i>&nbsp;        facility.setFacilityCloseTime(facilityFromDb.getFacilityCloseTime());</b>
+<b class="fc"><i>61</i>&nbsp;        facility.setFacilityStatus(facilityFromDb.getFacilityStatus());</b>
+<b class="fc"><i>62</i>&nbsp;        facility.setQueueStatus(facilityFromDb.getQueueStatus());</b>
+<b class="fc"><i>63</i>&nbsp;        return facility;</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @Override
+<i>67</i>&nbsp;    public List&lt;EventModel&gt; queryAllEvents() throws BusinessException {
+<b class="nc"><i>68</i>&nbsp;        List&lt;Event&gt; eventsFromDb = eventMapper.selectByExample(new EventExample());</b>
+<b class="nc"><i>69</i>&nbsp;        List&lt;EventModel&gt; eventsModel = new ArrayList&lt;EventModel&gt;();</b>
+<b class="nc"><i>70</i>&nbsp;        for (Event event : eventsFromDb) {</b>
+<b class="nc"><i>71</i>&nbsp;            EventModel eventModel = new EventModel();</b>
+<b class="nc"><i>72</i>&nbsp;            eventModel.setEventName(event.getEventName());</b>
+<b class="nc"><i>73</i>&nbsp;            eventModel.setEventIntroduction(event.getEventIntroduction());</b>
+<b class="nc"><i>74</i>&nbsp;            eventModel.setStartTime(event.getStartTime());</b>
+<b class="nc"><i>75</i>&nbsp;            eventModel.setEndTime(event.getEndTime());</b>
+<b class="nc"><i>76</i>&nbsp;            eventModel.setEventLocation(event.getEventLocation());</b>
+<b class="nc"><i>77</i>&nbsp;            eventModel.setEventRemainPositions(event.getEventRemainPositions());</b>
+<b class="nc"><i>78</i>&nbsp;            eventsModel.add(eventModel);</b>
+<b class="nc"><i>79</i>&nbsp;        }</b>
+<b class="nc"><i>80</i>&nbsp;        return eventsModel;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @Override
+<i>84</i>&nbsp;    public List&lt;FacilityModel&gt; queryAllFacilities() throws BusinessException {
+<b class="nc"><i>85</i>&nbsp;        List&lt;Facility&gt; facilitiesFromDb = facilityMapper.selectByExample(new FacilityExample());</b>
+<b class="nc"><i>86</i>&nbsp;        List&lt;FacilityModel&gt; facilitiesModel = new ArrayList&lt;FacilityModel&gt;();</b>
+<b class="nc"><i>87</i>&nbsp;        for (Facility facility : facilitiesFromDb) {</b>
+<b class="nc"><i>88</i>&nbsp;            FacilityModel facilityModel = new FacilityModel();</b>
+<b class="nc"><i>89</i>&nbsp;            facilityModel.setFacilityName(facility.getFacilityName());</b>
+<b class="nc"><i>90</i>&nbsp;            facilityModel.setFacilityIntroduction(facility.getFacilityIntroduction());</b>
+<b class="nc"><i>91</i>&nbsp;            facilityModel.setFacilityOpenTime(facility.getFacilityOpenTime());</b>
+<b class="nc"><i>92</i>&nbsp;            facilityModel.setFacilityCloseTime(facility.getFacilityCloseTime());</b>
+<b class="nc"><i>93</i>&nbsp;            facilityModel.setFacilityStatus(facility.getFacilityStatus());</b>
+<b class="nc"><i>94</i>&nbsp;            facilityModel.setQueueStatus(facility.getQueueStatus());</b>
+<b class="nc"><i>95</i>&nbsp;            facilitiesModel.add(facilityModel);</b>
+<b class="nc"><i>96</i>&nbsp;        }</b>
+<b class="nc"><i>97</i>&nbsp;        return facilitiesModel;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

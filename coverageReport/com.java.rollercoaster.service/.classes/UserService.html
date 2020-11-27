@@ -39,28 +39,29 @@
 <div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
-<i>4</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
-<i>5</i>&nbsp;import com.java.rollercoaster.pojo.UserAccount;
-<i>6</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
-<i>7</i>&nbsp;
-<i>8</i>&nbsp;import java.util.List;
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;public interface UserService {
-<i>11</i>&nbsp;
-<i>12</i>&nbsp;    void register(UserModel userModel) throws BusinessException;
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;    UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException;
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;    UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException;
-<i>17</i>&nbsp;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>6</i>&nbsp;import com.java.rollercoaster.pojo.UserAccount;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public interface UserService {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    ErrorEnum register(UserModel userModel) throws BusinessException;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    UserModel validateLogin(String telphone, String encryptPassword) throws BusinessException;
 <i>18</i>&nbsp;
-<i>19</i>&nbsp;}
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

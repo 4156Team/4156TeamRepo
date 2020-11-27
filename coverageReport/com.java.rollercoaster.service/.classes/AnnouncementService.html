@@ -38,22 +38,27 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
-<i>4</i>&nbsp;import com.java.rollercoaster.pojo.Announcement;
-<i>5</i>&nbsp;
-<i>6</i>&nbsp;import java.util.List;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Announcement;
+<i>6</i>&nbsp;import com.mashape.unirest.http.exceptions.UnirestException;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;public interface AnnouncementService {
-<i>9</i>&nbsp;    List&lt;Announcement&gt; getAnnouncements();
-<i>10</i>&nbsp;
-<i>11</i>&nbsp;    ErrorEnum pushAnnouncement(Announcement announcement);
-<i>12</i>&nbsp;}
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public interface AnnouncementService {
+<i>11</i>&nbsp;    List&lt;Announcement&gt; getAnnouncements();
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    ErrorEnum pushAnnouncement(Announcement announcement)
+<i>14</i>&nbsp;            throws BusinessException, UnirestException;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    ErrorEnum deleteAnnouncement(Integer announcementId);
+<i>17</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-26 00:20</div>
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
 </div>
 </body>
 </html>

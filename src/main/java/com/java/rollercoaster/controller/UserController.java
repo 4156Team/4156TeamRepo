@@ -77,10 +77,6 @@ public class UserController extends BaseController {
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
         //parameter verification
-//        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-//                || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-//            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-//        }
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
@@ -110,15 +106,6 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "password")String password,
                                      @RequestParam(name = "email")String email
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        //parameter verification
-//        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-//                || org.apache.commons.lang3.StringUtils.isEmpty(password)
-//                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
-//                || org.apache.commons.lang3.StringUtils.isEmpty(name)
-//                || org.apache.commons.lang3.StringUtils.isEmpty(email)) {
-//            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-//        }
-        //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);
         userModel.setUserGender(UserGender.valueOf(gender));
@@ -148,16 +135,6 @@ public class UserController extends BaseController {
     }
 
 
-//    private UserVo convertFromModel(UserModel userModel) {
-//        if (userModel == null) {
-//            return  null;
-//        }
-//        UserVo userVo = new UserVo();
-//        BeanUtils.copyProperties(userModel, userVo);
-//        return userVo;
-//    }
-
-
     /**
      *Implement google login as third party login.
      * @param idtokenstr google login account token
@@ -177,9 +154,16 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * Google login.
+     * @param userModel userModel
+     * @return CommonReturnType
+     * @throws BusinessException BusinessException
+     */
     @RequestMapping(value = "/googleLogin", method = RequestMethod.POST)
     @ResponseBody
-    public CommonReturnType googleLogIn (@RequestBody UserModel userModel) throws BusinessException {
+    public CommonReturnType googleLogIn(@RequestBody UserModel userModel)
+            throws BusinessException {
         UserAccount userAccount = new UserAccount();
         userAccount.setUserName(userModel.getUserName());
         userAccount.setEmail(userModel.getEmail());
