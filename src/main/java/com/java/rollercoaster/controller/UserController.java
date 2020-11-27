@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -174,6 +175,24 @@ public class UserController extends BaseController {
         } else {
             System.out.println("Invalid ID token.");
         }
+    }
+
+    @RequestMapping(value = "/googleLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonReturnType googleLogIn (@RequestBody UserModel userModel) throws BusinessException {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUserName(userModel.getUserName());
+        userAccount.setEmail(userModel.getEmail());
+        userAccount.setThirdPartyId(userModel.getThirdPartyId());
+        if (userAccount.getThirdPartyId() != null) {
+            userModel = userService.loginWithGoogle(userAccount);
+            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+            System.out.println("It's here.");
+        } else {
+            System.out.println("Invalid ID token.");
+        }
+        return CommonReturnType.autoCreate(null);
     }
 
     /**
