@@ -76,10 +76,10 @@ public class UserController extends BaseController {
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
         //parameter verification
-        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-                || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
+//        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
+//                || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
+//            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+//        }
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
@@ -100,7 +100,6 @@ public class UserController extends BaseController {
      * @throws UnsupportedEncodingException exception related to encrypt password
      * @throws NoSuchAlgorithmException exception related to encrypt password
      */
-    @SuppressWarnings("checkstyle:WhitespaceAround")
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "telephone") String telephone,
@@ -111,13 +110,13 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "email")String email
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
         //parameter verification
-        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-                || org.apache.commons.lang3.StringUtils.isEmpty(password)
-                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
-                || org.apache.commons.lang3.StringUtils.isEmpty(name)
-                || org.apache.commons.lang3.StringUtils.isEmpty(email)) {
-            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
+//        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
+//                || org.apache.commons.lang3.StringUtils.isEmpty(password)
+//                || org.apache.commons.lang3.StringUtils.isEmpty(gender)
+//                || org.apache.commons.lang3.StringUtils.isEmpty(name)
+//                || org.apache.commons.lang3.StringUtils.isEmpty(email)) {
+//            return CommonReturnType.autoCreate(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+//        }
         //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);

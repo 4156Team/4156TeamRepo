@@ -58,8 +58,45 @@ public class UserServiceTest {
         assertEquals("12345", userPassword.getPassword());
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void nullUserModelTRegister() throws BusinessException {
+        UserModel userModel = null;
+        assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, userService.register(userModel));
+    }
+
+    @Test
+    public void duplicateRegister() throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+        try {
+            userService.register(userModel);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, businessException.getCommonError());
+        }
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
 
     }
+
+    @Test
+    public void nullGoogleLoginTest() {
+        UserAccount userAccount = null;
+        try {
+            userService.loginWithGoogle(userAccount);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.USER_NOT_EXIST, businessException.getCommonError());
+        }
+    }
+
+
+
 
     @Test
     public void validateLoginTest() throws BusinessException {
@@ -75,6 +112,46 @@ public class UserServiceTest {
         assertEquals("Alice", userModel1.getUserName());
         assertEquals(UserGender.female, userModel1.getUserGender());
         assertEquals(Role.visitor, userModel1.getRole());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void invalidValidateLoginTest() throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        try {
+            UserModel userModel1 = userService.validateLogin("12", "12345");
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.USER_LOGIN_FAIL, businessException.getCommonError());
+        }
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void wrongPasswordLoginTest() throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        try {
+            UserModel userModel1 = userService.validateLogin("212121", "125");
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.USER_LOGIN_FAIL, businessException.getCommonError());
+        }
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
@@ -105,4 +182,5 @@ public class UserServiceTest {
         assertEquals(userAccount.getUserId(), userModel.getUserId());
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
     }
+
 }
