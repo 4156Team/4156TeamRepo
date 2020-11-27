@@ -14,7 +14,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
             throws BusinessException, UnirestException {
-        HttpResponse<JsonNode> request = Unirest.post(
+        Unirest.post(
                 "https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages")
                 .basicAuth("api", "33e62e196215815f54660b4d5e261e6f-f7910792-838afa06")
                 .queryString("from",
@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
-        HttpResponse<JsonNode> request = Unirest.post(
+        Unirest.post(
                 "https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages")
                 .basicAuth("api", "33e62e196215815f54660b4d5e261e6f-f7910792-838afa06")
                 .queryString("from",

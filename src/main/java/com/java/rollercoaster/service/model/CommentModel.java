@@ -36,11 +36,11 @@ public class CommentModel {
     }
 
     public Date getCommentTime() {
-        return commentTime;
+        return new Date(commentTime.getTime());
     }
 
     public void setCommentTime(Date commentTime) {
-        this.commentTime = commentTime;
+        this.commentTime = new Date(commentTime.getTime());
     }
 
     public String getCommentContent() {

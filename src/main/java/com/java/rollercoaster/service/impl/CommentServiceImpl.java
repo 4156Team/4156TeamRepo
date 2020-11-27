@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ErrorEnum deleteComment(UserModel userModel, CommentModel commentModel) {
-        if (userModel.getUserId() != commentModel.getUserId()) {
+        if (!userModel.getUserId().equals(commentModel.getUserId())) {
             return ErrorEnum.UNAUTHORIZED_DELETION;
         }
         commentMapper.deleteByPrimaryKey(commentModel.getCommentId());
