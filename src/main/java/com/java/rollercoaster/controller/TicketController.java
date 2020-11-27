@@ -80,20 +80,7 @@ public class TicketController {
                                             + ". Welcome to Roller Coaster Amusement park!");
             return result;
         } catch (BusinessException businessException) {
-            int errCode = businessException.getErrCode();
-            switch (errCode) {
-                case 241:
-                    return CommonReturnType.autoCreate(ErrorEnum.EMPTY_TICKET);
-                case 242:
-                    return CommonReturnType.autoCreate(ErrorEnum.DUPLICATE_TICKET);
-                case 20001:
-                    return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
-                case 243:
-                    return CommonReturnType.autoCreate(ErrorEnum.DATE_PASSED);
-                default:
-                    return CommonReturnType.autoCreate(ErrorEnum.UNKNOWN_ERROR);
-            }
-
+            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());
         }
     }
 

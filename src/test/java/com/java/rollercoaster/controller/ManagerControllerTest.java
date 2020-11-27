@@ -401,5 +401,14 @@ public class ManagerControllerTest {
         typeMapper.deleteByPrimaryKey(TicketType.adult);
     }
 
+    @Test
+    public void testDeleteAnnouncement() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        announcementMapper.insert(announcement);
+        CommonReturnType response = managerController.deleteAnnouncement(announcement);
+        assertEquals(ErrorEnum.OK, response.getData());
+    }
 
 }

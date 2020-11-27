@@ -83,4 +83,24 @@ public class AnnouncementServiceTest {
         assertTrue(flag);
         announcementMapper.deleteByPrimaryKey(id);
     }
+
+    @Test
+    public void testDeleteAnnouncement() {
+        Announcement announcement = new Announcement();
+        announcement.setText("test Announcement");
+        announcement.setDate(new Date());
+        announcementMapper.insert(announcement);
+        assertEquals(ErrorEnum.OK, announcementService.deleteAnnouncement(announcement.getAnnouncementId()));
+    }
+
+    @Test
+    public void testDeleteAnnouncementFail1() {
+        assertEquals(ErrorEnum.EMPTY_ANNOUNCEMENT_ID, announcementService.deleteAnnouncement(null));
+    }
+
+    @Test
+    public void testDeleteAnnouncementFail2() {
+        assertEquals(ErrorEnum.WRONG_ANNOUNCEMENT_ID, announcementService.deleteAnnouncement(1000));
+    }
+
 }

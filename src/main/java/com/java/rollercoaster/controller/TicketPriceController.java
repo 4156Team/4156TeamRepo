@@ -18,6 +18,11 @@ public class TicketPriceController {
     @Autowired
     private TicketPriceService ticketPriceService;
 
+    /**
+     * Get the price of ticket.
+     * @param type ticket type
+     * @return CommonReturnType
+     */
     @PostMapping("/getTicketPrice")
     @ResponseBody
     public CommonReturnType getTicketPrice(@RequestBody Type type) {

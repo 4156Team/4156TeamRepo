@@ -5,6 +5,12 @@ public class MyCalendar {
     Integer month;
     Integer day;
 
+    /**
+     * Constructor.
+     * @param year year
+     * @param month month
+     * @param day day
+     */
     public MyCalendar(int year, int month, int day) {
         this.year = year;
         this.month = month;

@@ -51,6 +51,7 @@ public class ManagerController {
 
     @Autowired
     private TicketPriceService ticketPriceService;
+
     /**
      * Add event.
      *
@@ -160,6 +161,12 @@ public class ManagerController {
                 checkInService.checkAppointments(appointment.getAppointmentId()));
     }
 
+    /**
+     * Get the the statistic of how many people visited
+     * in the park for the given date.
+     * @param myCalendar myCalendar
+     * @return CommonReturnType
+     */
     @PostMapping("/peopleInThatDay")
     @ResponseBody
     public CommonReturnType peopleInThatDay(@RequestBody MyCalendar myCalendar) {
@@ -171,6 +178,12 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Get the the statistic of how many people visited
+     * in the park for the given month.
+     * @param myCalendar myCalendar
+     * @return CommonReturnType
+     */
     @PostMapping("/peopleInThatMonth")
     @ResponseBody
     public CommonReturnType peopleInThatMonth(@RequestBody MyCalendar myCalendar) {
@@ -182,6 +195,12 @@ public class ManagerController {
         }
     }
 
+    /**
+     * Get the the statistic of how many people visited
+     * in the park for the given year.
+     * @param myCalendar myCalendar
+     * @return CommonReturnType
+     */
     @PostMapping("/peopleInThatYear")
     @ResponseBody
     public CommonReturnType peopleInThatYear(@RequestBody MyCalendar myCalendar) {
@@ -209,7 +228,15 @@ public class ManagerController {
 
     @PostMapping("/pushAnnouncement")
     @ResponseBody
-    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement) throws UnirestException, BusinessException {
+    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement)
+            throws UnirestException, BusinessException {
         return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));
+    }
+
+    @PostMapping("/deleteAnnouncement")
+    @ResponseBody
+    public CommonReturnType deleteAnnouncement(@RequestBody Announcement announcement) {
+        return CommonReturnType.autoCreate(announcementService
+                .deleteAnnouncement(announcement.getAnnouncementId()));
     }
 }

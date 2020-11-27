@@ -10,5 +10,8 @@ import java.util.List;
 public interface AnnouncementService {
     List<Announcement> getAnnouncements();
 
-    ErrorEnum pushAnnouncement(Announcement announcement) throws BusinessException, UnirestException;
+    ErrorEnum pushAnnouncement(Announcement announcement)
+            throws BusinessException, UnirestException;
+
+    ErrorEnum deleteAnnouncement(Integer announcementId);
 }

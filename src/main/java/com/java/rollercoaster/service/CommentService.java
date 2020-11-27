@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface CommentService {
     ErrorEnum addComment(UserModel userModel, CommentModel commentModel);
+
     ErrorEnum deleteComment(UserModel userModel, CommentModel commentModel);
+
     List<Comment> showAllComments();
 
 }

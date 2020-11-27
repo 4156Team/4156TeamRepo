@@ -38,7 +38,9 @@ public enum ErrorEnum implements CommonError {
 
     EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing."),
     EMPTY_TYPE_ATTRIBUTE(262, "The ticket type or ticket price is missing."),
-    EMPTY_ANNOUNCEMENT_ATTRIBUTE(263, "The text or date is missing.");
+    EMPTY_ANNOUNCEMENT_ATTRIBUTE(263, "The text or date is missing."),
+    EMPTY_ANNOUNCEMENT_ID(264, "The announcement id is empty."),
+    WRONG_ANNOUNCEMENT_ID(265, "The announcement id is wrong.");
 
     private int errorCode;
     private String errorMessage;

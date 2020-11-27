@@ -1,9 +1,9 @@
 package com.java.rollercoaster.service;
 
 import com.java.rollercoaster.errorenum.BusinessException;
-import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
+
 import java.util.List;
 
 public interface QueryService {

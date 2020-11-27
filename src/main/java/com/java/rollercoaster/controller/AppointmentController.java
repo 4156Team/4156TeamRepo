@@ -63,25 +63,12 @@ public class AppointmentController {
                 + String.format("%04d", end4);
         System.out.println(id);
         appointment.setAppointmentId(id);
-        try{
-            CommonReturnType result = CommonReturnType.create(appointmentService.addAppointment(appointment));
+        try {
+            CommonReturnType result =
+                    CommonReturnType.create(appointmentService.addAppointment(appointment));
             return result;
-        } catch (BusinessException businessException){
-            int errCode = businessException.getErrCode();
-            switch(errCode){
-                case 251:
-                    return CommonReturnType.autoCreate(ErrorEnum.EMPTY_APPOINTMENT);
-                case 252:
-                    return CommonReturnType.autoCreate(ErrorEnum.DUPLICATE_APPOINTMENT);
-                case 223:
-                    return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);
-                case 20001:
-                    return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
-                case 253:
-                    return CommonReturnType.autoCreate(ErrorEnum.EVENT_NO_POSITION);
-                default:
-                    return CommonReturnType.autoCreate(ErrorEnum.UNKNOWN_ERROR);
-            }
+        } catch (BusinessException businessException) {
+            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());
         }
 
     }

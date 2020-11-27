@@ -42,7 +42,6 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public ErrorEnum checkAppointments(String appointmentId) {
-        System.out.println("*****"+ appointmentId);
         Appointment appointment = appointmentMapper.selectByPrimaryKey(appointmentId);
         if (null == appointment) {
             return ErrorEnum.WRONG_APPOINTMENT_ID;

@@ -27,7 +27,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private UserAccountMapper userAccountMapper;
 
     @Override
-    public ErrorEnum pushAnnouncement(Announcement announcement) throws BusinessException, UnirestException {
+    public ErrorEnum pushAnnouncement(Announcement announcement)
+            throws BusinessException, UnirestException {
         if ("".equals(announcement.getText()) || null == announcement.getText()) {
             return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
         }
@@ -45,5 +46,17 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public List<Announcement> getAnnouncements() {
         return announcementMapper.selectByExample(new AnnouncementExample());
+    }
+
+    @Override
+    public ErrorEnum deleteAnnouncement(Integer announcementId) {
+        if (null == announcementId) {
+            return ErrorEnum.EMPTY_ANNOUNCEMENT_ID;
+        } else if (null == announcementMapper.selectByPrimaryKey(announcementId)) {
+            return ErrorEnum.WRONG_ANNOUNCEMENT_ID;
+        } else {
+            announcementMapper.deleteByPrimaryKey(announcementId);
+            return ErrorEnum.OK;
+        }
     }
 }
