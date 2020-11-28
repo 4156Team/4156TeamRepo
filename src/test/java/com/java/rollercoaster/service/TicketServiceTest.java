@@ -170,4 +170,15 @@ public class TicketServiceTest {
         ticketMapper.deleteByPrimaryKey("1");
         System.out.println("ticketsRecordsTest ends");
     }
+
+    @Test
+    public void emptyTicketTest() throws ParseException, BusinessException {
+        Ticket ticket = null;
+        try {
+            ticketService.addTicket(ticket);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_TICKET, businessException.getCommonError());
+        }
+    }
+
 }
