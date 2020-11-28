@@ -33,6 +33,9 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
         Calendar calendar = Calendar.getInstance();
         calendar.set(myCalendar.getYear(), myCalendar.getMonth() - 1,
                 myCalendar.getDay());
+        if (calendar.getTime().getTime() > new Date().getTime()) {
+            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_DAY);
+        }
         criteria.andValidDateEqualTo(calendar.getTime());
         criteria.andStatusEqualTo(Status.used);
         List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
@@ -93,5 +96,13 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
             dates.add(ticket.getValidDate());
         }
         return dates;
+    }
+
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, 1, 28);
+        System.out.println(calendar.getTime());
+        calendar.set(2020, 1, 32);
+        System.out.println(calendar.getTime());
     }
 }

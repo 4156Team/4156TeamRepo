@@ -37,10 +37,12 @@ public enum ErrorEnum implements CommonError {
     NOT_SAME_VISITOR(255, "Try to modify other visitor's information."),
 
     EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing."),
-    EMPTY_TYPE_ATTRIBUTE(262, "The ticket type or ticket price is missing."),
-    EMPTY_ANNOUNCEMENT_ATTRIBUTE(263, "The text or date is missing."),
-    EMPTY_ANNOUNCEMENT_ID(264, "The announcement id is empty."),
-    WRONG_ANNOUNCEMENT_ID(265, "The announcement id is wrong.");
+    TIME_OVER_CURRENT_DAY(262, "The date is ahead of current date."),
+    EMPTY_TYPE_ATTRIBUTE(271, "The ticket type or ticket price is missing."),
+    EMPTY_ANNOUNCEMENT_ATTRIBUTE(281, "The text or date is missing."),
+    EMPTY_ANNOUNCEMENT_ID(282, "The announcement id is empty."),
+    WRONG_ANNOUNCEMENT_ID(283, "The announcement id is wrong.");
+
 
     private int errorCode;
     private String errorMessage;
