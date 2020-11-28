@@ -27,7 +27,7 @@ CREATE TABLE `announcement` (
   `date` time DEFAULT NULL,
   `text` varchar(700) DEFAULT NULL,
   PRIMARY KEY (`announcement_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,7 @@ CREATE TABLE `appointment` (
   `user_id` int NOT NULL,
   `valid_date` date NOT NULL,
   PRIMARY KEY (`appointment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `balance` (
   `quickPass` int NOT NULL DEFAULT '3',
   PRIMARY KEY (`user_id`),
   CONSTRAINT `balance_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `useraccount` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,7 +103,7 @@ CREATE TABLE `comment` (
   `comment_content` longtext,
   `comment_time` datetime DEFAULT NULL,
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +132,7 @@ CREATE TABLE `event` (
   `event_remain_positions` int DEFAULT NULL,
   `event_image` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`event_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `facility` (
   `rating` float DEFAULT '3',
   `rating_people` int DEFAULT '1',
   PRIMARY KEY (`facility_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `password` (
   `user_id` int NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `quickpass` (
   `facility_name` varchar(70) NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`quickpass_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +240,7 @@ CREATE TABLE `ticket` (
   `valid_date` date NOT NULL,
   `ticket_type` enum('adult','student','child') DEFAULT 'adult',
   PRIMARY KEY (`ticket_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +263,7 @@ CREATE TABLE `Type` (
   `ticket_type` enum('adult','student','child','quickPass') NOT NULL,
   `ticket_price` float DEFAULT NULL,
   PRIMARY KEY (`ticket_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `userAccount` (
   UNIQUE KEY `phone_number_UNIQUE` (`phone_number`),
   UNIQUE KEY `third_party_id_UNIQUE` (`third_party_id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=866 DEFAULT CHARSET=utf8mb4 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB AUTO_INCREMENT=866 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
