@@ -11,6 +11,7 @@ addons:
       - mysql-server
       - mysql-client
 before_install:
+  - export TZ=Asia/Shanghai
   - mysql -u root -e 'CREATE DATABASE roller_coaster;'
   - mysql -u root -e "CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';"
   - mysql -u root -e "USE roller_coaster;"
