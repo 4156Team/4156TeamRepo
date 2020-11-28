@@ -10,7 +10,7 @@ addons:
     packages:
       - mysql-server
       - mysql-client
-before_script:
+before_install:
   - mysql -u root -e 'CREATE DATABASE roller_coaster;'
   - mysql -u root -e "CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';"
   - mysql -u root -e "USE roller_coaster;"
