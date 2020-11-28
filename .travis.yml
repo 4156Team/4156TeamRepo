@@ -17,7 +17,5 @@ before_install:
   - mysql -u root -e "GRANT ALL ON roller_coaster.* TO 'test'@'localhost';"
   - mysql -u root --default-character-set=utf8 roller_coaster < $TRAVIS_BUILD_DIR/CreateTable.sql
 script:
-  - mvn spring-boot:run
-  - mvn test -B
-  - mvn spring-boot:stop
+  - mvn spring-boot:start test spring-boot:stop
 
