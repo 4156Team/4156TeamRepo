@@ -14,8 +14,8 @@ before_script:
   - mysql -u root -e 'CREATE DATABASE roller_coaster;'
   - mysql -u root -e "CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';"
   - mysql -u root -e "USE roller_coaster;"
-  - mysql -u root -e "GRANT ALL ON roller_coaster TO 'test'@'localhost';"
-  - mysql -u root --default-character-set=utf8 baladay < CreatTable.sql
+  - mysql -u root -e "GRANT ALL ON roller_coaster.* TO 'test'@'localhost';"
+  - mysql -u root --default-character-set=utf8 roller_coaster < test/CreatTable.sql
 script:
   - mvns spring-boot:run
   - mvn test -B
