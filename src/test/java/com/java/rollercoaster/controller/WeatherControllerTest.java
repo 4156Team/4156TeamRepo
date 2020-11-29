@@ -33,8 +33,12 @@ class WeatherControllerTest {
         userModel.setUserId(1);
         httpServletRequest
                 .getSession().setAttribute("LOGIN_USER", userModel);
-        CommonReturnType response = weatherController.queryWeather(new Date());
+        Long time = System.currentTimeMillis();
+        String timeString = time.toString();
+        CommonReturnType response = weatherController.queryWeather(timeString);
         assertEquals("success", response.getStatus());
         assertEquals(WeatherModel.class, response.getData().getClass());
+        WeatherModel weather = (WeatherModel) response.getData();
+        System.out.println(weather.getMaxTemp());
     }
 }
