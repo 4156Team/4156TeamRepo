@@ -1,0 +1,69 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AppointmentService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AppointmentService (com.java.rollercoaster.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AppointmentService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Appointment;
+<i>6</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public interface AppointmentService {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    String addAppointment(Appointment appointment) throws BusinessException;
+<i>14</i>&nbsp;    //return appointment id
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    ErrorEnum updateAppointment(Appointment appointment);
+<i>17</i>&nbsp;    //update的时候对于传入的是null的属性不进行修改
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    ErrorEnum deleteAppointment(String appointmentId, UserModel userModel);
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    List&lt;Appointment&gt; getAppointmentsByUserId(Integer userId);
+<i>22</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
+</div>
+</body>
+</html>

@@ -30,7 +30,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (null == appointment) {
             throw new BusinessException(ErrorEnum.EMPTY_APPOINTMENT);
         } else if (null != appointmentMapper.selectByPrimaryKey(appointment
-                .getAppointmentid())) {
+                .getAppointmentId())) {
             throw new BusinessException(ErrorEnum.DUPLICATE_APPOINTMENT);
         } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())) {
             throw new BusinessException(ErrorEnum.NO_SUCH_EVENT);
@@ -45,7 +45,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         event.setEventRemainPositions(currentPosition);
         eventMapper.updateByPrimaryKeySelective(event);
         appointmentMapper.insert(appointment);
-        return appointment.getAppointmentid();
+        return appointment.getAppointmentId();
 
     }
 
@@ -55,7 +55,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ErrorEnum.EMPTY_APPOINTMENT;
         } else if (null == appointmentMapper
                 .selectByPrimaryKey(appointment
-                        .getAppointmentid())) {
+                        .getAppointmentId())) {
             return ErrorEnum.NO_SUCH_APPOINTMENT;
         } else if (null == eventMapper.selectByPrimaryKey(appointment.getEventName())) {
             return ErrorEnum.NO_SUCH_EVENT;
@@ -63,7 +63,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ErrorEnum.USER_NOT_EXIST;
         }
         Appointment prevAppoint = appointmentMapper
-                .selectByPrimaryKey(appointment.getAppointmentid());
+                .selectByPrimaryKey(appointment.getAppointmentId());
         if (prevAppoint.getEventName().equals(appointment.getEventName())) {
             appointmentMapper.updateByPrimaryKeySelective(appointment);
             return ErrorEnum.OK;

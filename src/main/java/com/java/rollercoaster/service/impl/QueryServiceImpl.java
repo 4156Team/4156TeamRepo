@@ -5,12 +5,19 @@ import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Event;
+import com.java.rollercoaster.pojo.EventExample;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.FacilityExample;
 import com.java.rollercoaster.service.QueryService;
 import com.java.rollercoaster.service.model.EventModel;
 import com.java.rollercoaster.service.model.FacilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -54,5 +61,39 @@ public class QueryServiceImpl implements QueryService {
         facility.setFacilityStatus(facilityFromDb.getFacilityStatus());
         facility.setQueueStatus(facilityFromDb.getQueueStatus());
         return facility;
+    }
+
+    @Override
+    public List<EventModel> queryAllEvents() throws BusinessException {
+        List<Event> eventsFromDb = eventMapper.selectByExample(new EventExample());
+        List<EventModel> eventsModel = new ArrayList<EventModel>();
+        for (Event event : eventsFromDb) {
+            EventModel eventModel = new EventModel();
+            eventModel.setEventName(event.getEventName());
+            eventModel.setEventIntroduction(event.getEventIntroduction());
+            eventModel.setStartTime(event.getStartTime());
+            eventModel.setEndTime(event.getEndTime());
+            eventModel.setEventLocation(event.getEventLocation());
+            eventModel.setEventRemainPositions(event.getEventRemainPositions());
+            eventsModel.add(eventModel);
+        }
+        return eventsModel;
+    }
+
+    @Override
+    public List<FacilityModel> queryAllFacilities() throws BusinessException {
+        List<Facility> facilitiesFromDb = facilityMapper.selectByExample(new FacilityExample());
+        List<FacilityModel> facilitiesModel = new ArrayList<FacilityModel>();
+        for (Facility facility : facilitiesFromDb) {
+            FacilityModel facilityModel = new FacilityModel();
+            facilityModel.setFacilityName(facility.getFacilityName());
+            facilityModel.setFacilityIntroduction(facility.getFacilityIntroduction());
+            facilityModel.setFacilityOpenTime(facility.getFacilityOpenTime());
+            facilityModel.setFacilityCloseTime(facility.getFacilityCloseTime());
+            facilityModel.setFacilityStatus(facility.getFacilityStatus());
+            facilityModel.setQueueStatus(facility.getQueueStatus());
+            facilitiesModel.add(facilityModel);
+        }
+        return facilitiesModel;
     }
 }

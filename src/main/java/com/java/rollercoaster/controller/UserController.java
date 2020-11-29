@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,11 +76,7 @@ public class UserController extends BaseController {
                                   @RequestParam(name = "password")String password)
                             throws BusinessException,
                             UnsupportedEncodingException, NoSuchAlgorithmException {
-        //入参校验
-        if (org.apache.commons.lang3.StringUtils.isEmpty(telephone)
-                || org.apache.commons.lang3.StringUtils.isEmpty(password)) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
-        }
+        //parameter verification
         //Determine if login is valid
         UserModel userModel = userService.validateLogin(telephone, this.encodeByMd5(password));
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
@@ -106,9 +103,9 @@ public class UserController extends BaseController {
                                      @RequestParam(name = "name") String name,
                                      @RequestParam(name = "gender") String gender,
                                      @RequestParam(name = "age")Integer age,
-                                     @RequestParam(name = "password")String password
+                                     @RequestParam(name = "password")String password,
+                                     @RequestParam(name = "email")String email
     ) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        //user register process
         UserModel userModel = new UserModel();
         userModel.setUserName(name);
         userModel.setUserGender(UserGender.valueOf(gender));
@@ -116,6 +113,7 @@ public class UserController extends BaseController {
         userModel.setPhoneNumber(telephone);
         userModel.setPassword(this.encodeByMd5(password));
         userModel.setRole(Role.visitor);
+        userModel.setEmail(email);
         userService.register(userModel);
         return CommonReturnType.create(null);
     }
@@ -137,16 +135,6 @@ public class UserController extends BaseController {
     }
 
 
-    private UserVo convertFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return  null;
-        }
-        UserVo userVo = new UserVo();
-        BeanUtils.copyProperties(userModel, userVo);
-        return userVo;
-    }
-
-
     /**
      *Implement google login as third party login.
      * @param idtokenstr google login account token
@@ -164,6 +152,31 @@ public class UserController extends BaseController {
         } else {
             System.out.println("Invalid ID token.");
         }
+    }
+
+    /**
+     * Google login.
+     * @param userModel userModel
+     * @return CommonReturnType
+     * @throws BusinessException BusinessException
+     */
+    @RequestMapping(value = "/googleLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonReturnType googleLogIn(@RequestBody UserModel userModel)
+            throws BusinessException {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUserName(userModel.getUserName());
+        userAccount.setEmail(userModel.getEmail());
+        userAccount.setThirdPartyId(userModel.getThirdPartyId());
+        if (userAccount.getThirdPartyId() != null) {
+            userModel = userService.loginWithGoogle(userAccount);
+            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+            System.out.println("It's here.");
+        } else {
+            System.out.println("Invalid ID token.");
+        }
+        return CommonReturnType.autoCreate(null);
     }
 
     /**

@@ -48,6 +48,7 @@ public class UserAcceptanceTest {
         paramMap.add("gender", "male");
         paramMap.add("age", 18);
         paramMap.add("password", "6789");
+        paramMap.add("email", "111111@qq.com");
         CommonReturnType response = restTemplate.postForObject(url, paramMap, CommonReturnType.class);
         System.out.println(response.getStatus());
         UserAccountExample example = new UserAccountExample();
@@ -69,6 +70,7 @@ public class UserAcceptanceTest {
         paramMap.add("gender", "male");
         paramMap.add("age", 18);
         paramMap.add("password", "6789");
+        paramMap.add("email", "111111@qq.com");
         restTemplate.postForObject(url, paramMap, CommonReturnType.class);
 
         MultiValueMap<String, Object> paramMap1 = new LinkedMultiValueMap<String, Object>();

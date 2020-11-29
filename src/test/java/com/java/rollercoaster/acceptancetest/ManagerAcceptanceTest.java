@@ -83,8 +83,9 @@ public class ManagerAcceptanceTest {
 
         Appointment appointment = new Appointment();
         appointment.setUserId(1);
-        appointment.setAppointmentid("1");
+        appointment.setAppointmentId("1");
         appointment.setEventName("test");
+        appointment.setValidDate(new Date());
         appointmentMapper.insert(appointment);
         System.out.println("start test");
     }
@@ -102,6 +103,7 @@ public class ManagerAcceptanceTest {
         event.setStartTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
         event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         event.setEventName("test-test");
+
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(url, event, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
@@ -115,9 +117,11 @@ public class ManagerAcceptanceTest {
     @Test
     public void test2() throws ParseException {
         init();
+        Event event = new Event();
+        event.setEventName("test");
         String url = "http://localhost:8080/manager/deleteEvent";
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "test", CommonReturnType.class);
+                restTemplate.postForEntity(url, event, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         assertEquals(null, eventMapper.selectByPrimaryKey("test"));
         finish();
@@ -213,8 +217,10 @@ public class ManagerAcceptanceTest {
     public void test7() throws ParseException {
         init();
         String url = "http://localhost:8080/manager/deleteFacility";
+        Facility facility = new Facility();
+        facility.setFacilityName("testFacility");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "testFacility", CommonReturnType.class);
+                restTemplate.postForEntity(url, facility, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         assertEquals(null, facilityMapper.selectByPrimaryKey("testFacility"));
         finish();
@@ -255,8 +261,10 @@ public class ManagerAcceptanceTest {
     public void test9() throws ParseException {
         init();
         String url = "http://localhost:8080/manager/checkTicket";
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("1");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "1", CommonReturnType.class);
+                restTemplate.postForEntity(url, ticket, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         assertEquals(Status.used, ticketMapper.selectByPrimaryKey("1").getStatus());
         finish();
@@ -269,8 +277,10 @@ public class ManagerAcceptanceTest {
     public void test10() throws ParseException {
         init();
         String url = "http://localhost:8080/manager/checkTicket";
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("200");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "200", CommonReturnType.class);
+                restTemplate.postForEntity(url, ticket, CommonReturnType.class);
         CommonReturnType result = response.getBody();
         ErrorEnum errorEnum = ErrorEnum.valueOf((String) result.getData());
         assertEquals("fail", result.getStatus());
@@ -285,8 +295,10 @@ public class ManagerAcceptanceTest {
     public void test11() throws ParseException {
         init();
         String url = "http://localhost:8080/manager/checkTicket";
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("2");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "2", CommonReturnType.class);
+                restTemplate.postForEntity(url, ticket, CommonReturnType.class);
         CommonReturnType result = response.getBody();
         ErrorEnum errorEnum = ErrorEnum.valueOf((String) result.getData());
         assertEquals("fail", result.getStatus());
@@ -300,9 +312,11 @@ public class ManagerAcceptanceTest {
     @Test
     public void test12() throws ParseException {
         init();
+        Ticket ticket = new Ticket();
+        ticket.setTicketId("3");
         String url = "http://localhost:8080/manager/checkTicket";
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "3", CommonReturnType.class);
+                restTemplate.postForEntity(url, ticket, CommonReturnType.class);
         CommonReturnType result = response.getBody();
         ErrorEnum errorEnum = ErrorEnum.valueOf((String) result.getData());
         assertEquals("fail", result.getStatus());
@@ -317,8 +331,10 @@ public class ManagerAcceptanceTest {
     public void test13() throws ParseException{
         init();
         String url = "http://localhost:8080/manager/checkAppointment";
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "1", CommonReturnType.class);
+                restTemplate.postForEntity(url, appointment, CommonReturnType.class);
         CommonReturnType result = response.getBody();
         ErrorEnum errorEnum = ErrorEnum.valueOf((String) result.getData());
         assertEquals("success", result.getStatus());
@@ -332,9 +348,11 @@ public class ManagerAcceptanceTest {
     @Test
     public void test14() throws ParseException{
         init();
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("200");
         String url = "http://localhost:8080/manager/checkAppointment";
         ResponseEntity<CommonReturnType> response =
-                restTemplate.postForEntity(url, "200", CommonReturnType.class);
+                restTemplate.postForEntity(url, appointment, CommonReturnType.class);
         CommonReturnType result = response.getBody();
         ErrorEnum errorEnum = ErrorEnum.valueOf((String) result.getData());
         assertEquals("fail", result.getStatus());

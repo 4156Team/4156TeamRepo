@@ -76,6 +76,8 @@ class QueryServiceTest {
         assertEquals(eventQueried.getEndTime().getSeconds(), 9);
         assertEquals(eventQueried.getEventIntroduction(), "test introduction");
         assertEquals(eventQueried.getEventLocation(), "test location");
+        eventMapper.deleteByPrimaryKey("queryTestEvent");
+
 
     }
 
@@ -120,5 +122,6 @@ class QueryServiceTest {
         assertEquals(facilityQueried.getFacilityCloseTime().getSeconds(), 9);
         assertEquals(facilityQueried.getFacilityIntroduction(), "test introduction");
         assertEquals(facilityQueried.getFacilityStatus(), FacilityStatus.normal);
+        facilityMapper.deleteByPrimaryKey("queryTestFacility");
     }
 }

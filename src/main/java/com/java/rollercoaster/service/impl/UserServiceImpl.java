@@ -35,22 +35,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void register(UserModel userModel) throws BusinessException {
+    public ErrorEnum register(UserModel userModel) throws BusinessException {
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+            return ErrorEnum.PARAMETER_VALIDATION_ERROR;
         }
         UserAccount userAccount = convertFromModel(userModel);
         try {
             userAccountMapper.insertSelective(userAccount);
         } catch (DuplicateKeyException ex) {
-            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
+            return ErrorEnum.PARAMETER_VALIDATION_ERROR;
         }
         userModel.setUserId(userAccount.getUserId());
 
         UserPassword userPassword = convertPasswordFromModel(userModel);
         System.out.println(userPassword.getPassword());
         userPasswordMapper.insertSelective(userPassword);
-        return;
+        return ErrorEnum.OK;
 
     }
 
@@ -104,31 +104,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserPassword convertPasswordFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return  null;
-        }
         UserPassword userPassword = new UserPassword();
         userPassword.setPassword(userModel.getPassword());
-        if (userModel.getUserId() == null) {
-            System.out.println("no user id");
-        }
         userPassword.setUserId(userModel.getUserId());
         return  userPassword;
     }
 
     private UserAccount convertFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return  null;
-        }
         UserAccount userAccount = new UserAccount();
         BeanUtils.copyProperties(userModel,userAccount);
         return  userAccount;
     }
 
     private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
-        if (userAccount == null) {
-            return  null;
-        }
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(userAccount, userModel);
         if (userpassword != null) {

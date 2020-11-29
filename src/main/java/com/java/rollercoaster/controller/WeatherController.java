@@ -1,5 +1,6 @@
 package com.java.rollercoaster.controller;
 
+
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
@@ -18,10 +19,14 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
 @Controller
 @RequestMapping("/weather")
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class WeatherController {
+
     @Autowired
     private HttpServletRequest httpServletRequest;
     @Autowired

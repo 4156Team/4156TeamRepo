@@ -8,6 +8,10 @@ public enum ErrorEnum implements CommonError {
     USER_NOT_LOGIN(20003, "User Not Login"),
     USER_LOGIN_FAIL(20002, "User or password is incorrect"),
     NO_AUTHORIZATION(20004, "No access authorization"),
+    SEND_MAIL_FAILED(20005, "Mail sending failed"),
+    COMMENT_POST_FAILED(20006, "Comment post failed"),
+    UNAUTHORIZED_DELETION(20007, "You cannot delete other's comments"),
+    INVALID_COMMENT(20008, "Invalid Comment"),
 
     INVALID_TICKET(201, "The ticket id is invalid in that day."),
     WRONG_TICKET_ID(202, "The ticket id is wrong."),
@@ -31,7 +35,14 @@ public enum ErrorEnum implements CommonError {
     EVENT_NO_POSITION(253, "This event has no remaining position."),
     NO_SUCH_APPOINTMENT(254, "The appointment does not exist."),
     NOT_SAME_VISITOR(255, "Try to modify other visitor's information."),
-    WRONG_DATE(256, "Cannot get the weather of that date.");
+
+    EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing."),
+    TIME_OVER_CURRENT_DAY(262, "The date is ahead of current date."),
+    EMPTY_TYPE_ATTRIBUTE(271, "The ticket type or ticket price is missing."),
+    EMPTY_ANNOUNCEMENT_ATTRIBUTE(281, "The text or date is missing."),
+    EMPTY_ANNOUNCEMENT_ID(282, "The announcement id is empty."),
+    WRONG_ANNOUNCEMENT_ID(283, "The announcement id is wrong.");
+
 
     private int errorCode;
     private String errorMessage;

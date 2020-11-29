@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TicketController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TicketController (com.java.rollercoaster.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TicketController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.2%
+  </span>
+  <span class="absValue">
+    (42/ 53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>6</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.MailService;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.TicketService;
+<i>9</i>&nbsp;import com.java.rollercoaster.service.UserService;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>11</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.Role;
+<i>12</i>&nbsp;import com.mashape.unirest.http.exceptions.UnirestException;
+<i>13</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>14</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>15</i>&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+<i>16</i>&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+<i>17</i>&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+<i>18</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>19</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+<i>20</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.text.ParseException;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.Random;
+<i>25</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;@Controller
+<i>29</i>&nbsp;@RequestMapping(&quot;/ticket&quot;)
+<i>30</i>&nbsp;@CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
+<b class="fc"><i>31</i>&nbsp;public class TicketController {</b>
+<i>32</i>&nbsp;    @Autowired
+<i>33</i>&nbsp;    TicketService ticketService;
+<i>34</i>&nbsp;    @Autowired
+<i>35</i>&nbsp;    private HttpServletRequest httpServletRequest;
+<i>36</i>&nbsp;    @Autowired
+<i>37</i>&nbsp;    UserService userService;
+<i>38</i>&nbsp;    @Autowired
+<i>39</i>&nbsp;    MailService mailService;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * End point to add a ticket given a ticket object.
+<i>43</i>&nbsp;     * @param ticket a ticket obejct containing information of the ticket you try to add
+<i>44</i>&nbsp;     * @return CommonReturnType
+<i>45</i>&nbsp;     * @throws ParseException a ParseException object
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    @PostMapping(&quot;/addTicket&quot;)
+<i>48</i>&nbsp;    @ResponseBody
+<i>49</i>&nbsp;    public CommonReturnType addTicket(@RequestBody Ticket ticket)
+<i>50</i>&nbsp;            throws ParseException, UnirestException {
+<b class="fc"><i>51</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>53</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>54</i>&nbsp;        }
+<b class="fc"><i>55</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>56</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>57</i>&nbsp;        //if user not exist
+<b class="fc"><i>58</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>59</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>60</i>&nbsp;        }
+<b class="fc"><i>61</i>&nbsp;        ticket.setUserId(userModel.getUserId());</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;        //生成ticketID,然后再setTicketID
+<b class="fc"><i>64</i>&nbsp;        long millis = System.currentTimeMillis();</b>
+<i>65</i>&nbsp;        //加上两位随机数
+<b class="fc"><i>66</i>&nbsp;        Random random = new Random();</b>
+<b class="fc"><i>67</i>&nbsp;        int end2 = random.nextInt(99);</b>
+<i>68</i>&nbsp;        //如果不足两位前面补0
+<b class="fc"><i>69</i>&nbsp;        String timestamp = String.valueOf(millis);</b>
+<b class="fc"><i>70</i>&nbsp;        String id = timestamp.substring(timestamp.length() - 8)</b>
+<b class="fc"><i>71</i>&nbsp;                + String.format(&quot;%02d&quot;, end2);</b>
+<b class="fc"><i>72</i>&nbsp;        System.out.println(id);</b>
+<b class="fc"><i>73</i>&nbsp;        ticket.setTicketId(id);</b>
+<i>74</i>&nbsp;        try {
+<b class="fc"><i>75</i>&nbsp;            CommonReturnType result = CommonReturnType.create(ticketService.addTicket(ticket));</b>
+<b class="fc"><i>76</i>&nbsp;            mailService.sendTicketMessage(userModel.getEmail(), &quot;Hi, &quot;</b>
+<b class="fc"><i>77</i>&nbsp;                                            + userModel.getUserName()</b>
+<i>78</i>&nbsp;                                            + &quot;! Here is your ticket! And your ticket number is &quot;
+<b class="fc"><i>79</i>&nbsp;                                            + ticket.getTicketId()</b>
+<i>80</i>&nbsp;                                            + &quot;. Welcome to Roller Coaster Amusement park!&quot;);
+<b class="fc"><i>81</i>&nbsp;            return result;</b>
+<b class="nc"><i>82</i>&nbsp;        } catch (BusinessException businessException) {</b>
+<b class="nc"><i>83</i>&nbsp;            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</b>
+<i>84</i>&nbsp;        }
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * End point to update a ticket given a ticket object.
+<i>89</i>&nbsp;     * @param ticket a ticket object containing information try to update
+<i>90</i>&nbsp;     * @return CommonReturnType
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    @PostMapping(&quot;/updateTicket&quot;)
+<i>93</i>&nbsp;    @ResponseBody
+<i>94</i>&nbsp;    public CommonReturnType updateTicket(@RequestBody Ticket ticket) {
+<b class="fc"><i>95</i>&nbsp;        System.out.println(ticket.toString());</b>
+<i>96</i>&nbsp;        //only manager can update the tickets status
+<b class="fc"><i>97</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>98</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>99</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>100</i>&nbsp;        }
+<b class="fc"><i>101</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>102</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>103</i>&nbsp;        //if user not exist
+<b class="fc"><i>104</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>105</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>106</i>&nbsp;        }
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;        if (userModel.getRole().equals(Role.visitor)) {</b>
+<b class="nc"><i>109</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_AUTHORIZATION);</b>
+<i>110</i>&nbsp;        }
+<b class="fc"><i>111</i>&nbsp;        return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * End point to delete a ticket given ticketId.
+<i>116</i>&nbsp;     * @param ticketId the ticketId of the ticket try to delete
+<i>117</i>&nbsp;     * @return CommonReturnType
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    @PostMapping(&quot;/deleteTicket&quot;)
+<i>120</i>&nbsp;    @ResponseBody
+<i>121</i>&nbsp;    public CommonReturnType deleteTicket(@RequestParam(name = &quot;ticketId&quot;) String ticketId) {
+<b class="fc"><i>122</i>&nbsp;        System.out.println(ticketId);</b>
+<b class="fc"><i>123</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>124</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>125</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>126</i>&nbsp;        }
+<b class="fc"><i>127</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>128</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>129</i>&nbsp;        //if user not exist
+<b class="fc"><i>130</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>131</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>132</i>&nbsp;        }
+<b class="fc"><i>133</i>&nbsp;        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     *Display user&#39;s history tickets records.
+<i>138</i>&nbsp;     * @return response with common return type
+<i>139</i>&nbsp;     */
+<i>140</i>&nbsp;    @RequestMapping(&quot;/ticketsRecord&quot;)
+<i>141</i>&nbsp;    @ResponseBody
+<i>142</i>&nbsp;    public CommonReturnType getTickets() {
+<b class="fc"><i>143</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>144</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="nc"><i>145</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>146</i>&nbsp;        }
+<b class="fc"><i>147</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>148</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>149</i>&nbsp;        //if user not exist
+<b class="fc"><i>150</i>&nbsp;        if (userModel == null) {</b>
+<b class="nc"><i>151</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>152</i>&nbsp;        }
+<b class="fc"><i>153</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketService.getTicketsByUserId(userModel.getUserId());</b>
+<b class="fc"><i>154</i>&nbsp;        return CommonReturnType.create(ticketList);</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
+</div>
+</body>
+</html>

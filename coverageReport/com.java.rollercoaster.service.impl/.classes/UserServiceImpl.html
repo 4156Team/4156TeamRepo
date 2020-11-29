@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UserServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.service.impl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UserServiceImpl (com.java.rollercoaster.service.impl)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (56/ 56)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$88da7229</td>
+  </tr>
+  <tr>
+    <td class="name">UserServiceImpl$$EnhancerBySpringCGLIB$$88da7229$$FastClassBySpringCGLIB$$771baf4f</td>
+  </tr>
+  <tr>
+    <td class="name">UserServiceImpl$$FastClassBySpringCGLIB$$103a8169</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (56/ 56)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service.impl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.dao.TicketMapper;
+<i>4</i>&nbsp;import com.java.rollercoaster.dao.UserAccountMapper;
+<i>5</i>&nbsp;import com.java.rollercoaster.dao.UserPasswordMapper;
+<i>6</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>7</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>8</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>9</i>&nbsp;import com.java.rollercoaster.pojo.TicketExample;
+<i>10</i>&nbsp;import com.java.rollercoaster.pojo.UserAccount;
+<i>11</i>&nbsp;import com.java.rollercoaster.pojo.UserAccountExample;
+<i>12</i>&nbsp;import com.java.rollercoaster.pojo.UserPassword;
+<i>13</i>&nbsp;import com.java.rollercoaster.service.UserService;
+<i>14</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>15</i>&nbsp;import org.apache.commons.lang3.StringUtils;
+<i>16</i>&nbsp;import org.springframework.beans.BeanUtils;
+<i>17</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>18</i>&nbsp;import org.springframework.dao.DuplicateKeyException;
+<i>19</i>&nbsp;import org.springframework.stereotype.Service;
+<i>20</i>&nbsp;import org.springframework.transaction.annotation.Transactional;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.util.ArrayList;
+<i>23</i>&nbsp;import java.util.List;
+<i>24</i>&nbsp;import java.util.Optional;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;@Service
+<b class="fc"><i>27</i>&nbsp;public class UserServiceImpl implements UserService {</b>
+<i>28</i>&nbsp;    @Autowired
+<i>29</i>&nbsp;    private UserAccountMapper userAccountMapper;
+<i>30</i>&nbsp;    @Autowired
+<i>31</i>&nbsp;    private UserPasswordMapper userPasswordMapper;
+<i>32</i>&nbsp;    @Autowired
+<i>33</i>&nbsp;    private TicketMapper ticketMapper;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Override
+<i>37</i>&nbsp;    @Transactional
+<i>38</i>&nbsp;    public ErrorEnum register(UserModel userModel) throws BusinessException {
+<b class="fc"><i>39</i>&nbsp;        if (userModel == null) {</b>
+<b class="fc"><i>40</i>&nbsp;            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;        UserAccount userAccount = convertFromModel(userModel);</b>
+<i>43</i>&nbsp;        try {
+<b class="fc"><i>44</i>&nbsp;            userAccountMapper.insertSelective(userAccount);</b>
+<b class="fc"><i>45</i>&nbsp;        } catch (DuplicateKeyException ex) {</b>
+<b class="fc"><i>46</i>&nbsp;            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</b>
+<b class="fc"><i>47</i>&nbsp;        }</b>
+<b class="fc"><i>48</i>&nbsp;        userModel.setUserId(userAccount.getUserId());</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        UserPassword userPassword = convertPasswordFromModel(userModel);</b>
+<b class="fc"><i>51</i>&nbsp;        System.out.println(userPassword.getPassword());</b>
+<b class="fc"><i>52</i>&nbsp;        userPasswordMapper.insertSelective(userPassword);</b>
+<b class="fc"><i>53</i>&nbsp;        return ErrorEnum.OK;</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @Override
+<i>58</i>&nbsp;    public UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException {
+<b class="fc"><i>59</i>&nbsp;        if (userAccount == null) {</b>
+<b class="fc"><i>60</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>61</i>&nbsp;        }
+<b class="fc"><i>62</i>&nbsp;        UserAccountExample userAccountExample = new UserAccountExample();</b>
+<b class="fc"><i>63</i>&nbsp;        UserAccountExample.Criteria criteria = userAccountExample.createCriteria();</b>
+<b class="fc"><i>64</i>&nbsp;        criteria.andThirdPartyIdEqualTo(userAccount.getThirdPartyId());</b>
+<b class="fc"><i>65</i>&nbsp;        List&lt;UserAccount&gt; candidates = userAccountMapper.selectByExample(userAccountExample);</b>
+<b class="fc"><i>66</i>&nbsp;        UserAccount existAccount = candidates.isEmpty() ?  null : candidates.get(0);</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        UserModel userModel = new UserModel();</b>
+<b class="fc"><i>69</i>&nbsp;        if (existAccount == null) {</b>
+<b class="fc"><i>70</i>&nbsp;            userAccountMapper.insertSelective(userAccount);</b>
+<b class="fc"><i>71</i>&nbsp;            userModel.setUserId(userAccount.getUserId());</b>
+<b class="fc"><i>72</i>&nbsp;            userModel.setUserName(userAccount.getUserName());</b>
+<b class="fc"><i>73</i>&nbsp;            userModel.setThirdPartyId(userAccount.getThirdPartyId());</b>
+<i>74</i>&nbsp;        } else {
+<b class="fc"><i>75</i>&nbsp;            userModel.setUserId(existAccount.getUserId());</b>
+<b class="fc"><i>76</i>&nbsp;            userModel.setUserName(existAccount.getUserName());</b>
+<b class="fc"><i>77</i>&nbsp;            userModel.setThirdPartyId(existAccount.getThirdPartyId());</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        return userModel;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Override
+<i>83</i>&nbsp;    public UserModel validateLogin(String telphone,
+<i>84</i>&nbsp;                                   String encryptPassword) throws BusinessException {
+<i>85</i>&nbsp;        //get user information by user phone number
+<b class="fc"><i>86</i>&nbsp;        UserAccountExample example = new UserAccountExample();</b>
+<b class="fc"><i>87</i>&nbsp;        UserAccountExample.Criteria criteria = example.createCriteria();</b>
+<b class="fc"><i>88</i>&nbsp;        criteria.andPhoneNumberEqualTo(telphone);</b>
+<b class="fc"><i>89</i>&nbsp;        List&lt;UserAccount&gt; results = userAccountMapper.selectByExample(example);</b>
+<b class="fc"><i>90</i>&nbsp;        UserAccount userAccount = results.isEmpty() ? null : results.get(0);</b>
+<b class="fc"><i>91</i>&nbsp;        if (userAccount ==  null) {</b>
+<b class="fc"><i>92</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
+<i>93</i>&nbsp;        }
+<b class="fc"><i>94</i>&nbsp;        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());</b>
+<b class="fc"><i>95</i>&nbsp;        UserModel userModel = convertFromDataObject(userAccount, userPassword);</b>
+<i>96</i>&nbsp;        //compare encrypt password with the input password
+<b class="fc"><i>97</i>&nbsp;        System.out.println(userPassword.getPassword());</b>
+<b class="fc"><i>98</i>&nbsp;        System.out.println(encryptPassword);</b>
+<b class="fc"><i>99</i>&nbsp;        if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {</b>
+<b class="fc"><i>100</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</b>
+<i>101</i>&nbsp;        }
+<b class="fc"><i>102</i>&nbsp;        return userModel;</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    private UserPassword convertPasswordFromModel(UserModel userModel) {
+<b class="fc"><i>107</i>&nbsp;        UserPassword userPassword = new UserPassword();</b>
+<b class="fc"><i>108</i>&nbsp;        userPassword.setPassword(userModel.getPassword());</b>
+<b class="fc"><i>109</i>&nbsp;        userPassword.setUserId(userModel.getUserId());</b>
+<b class="fc"><i>110</i>&nbsp;        return  userPassword;</b>
+<i>111</i>&nbsp;    }
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;    private UserAccount convertFromModel(UserModel userModel) {
+<b class="fc"><i>114</i>&nbsp;        UserAccount userAccount = new UserAccount();</b>
+<b class="fc"><i>115</i>&nbsp;        BeanUtils.copyProperties(userModel,userAccount);</b>
+<b class="fc"><i>116</i>&nbsp;        return  userAccount;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
+<b class="fc"><i>120</i>&nbsp;        UserModel userModel = new UserModel();</b>
+<b class="fc"><i>121</i>&nbsp;        BeanUtils.copyProperties(userAccount, userModel);</b>
+<b class="fc"><i>122</i>&nbsp;        if (userpassword != null) {</b>
+<b class="fc"><i>123</i>&nbsp;            userModel.setPassword(userpassword.getPassword());</b>
+<i>124</i>&nbsp;        }
+<b class="fc"><i>125</i>&nbsp;        return  userModel;</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-11-27 20:10</div>
+</div>
+</body>
+</html>
