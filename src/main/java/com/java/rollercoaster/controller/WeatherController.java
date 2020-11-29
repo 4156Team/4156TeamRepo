@@ -65,7 +65,14 @@ public class WeatherController {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
 
-        return CommonReturnType.create(weatherService.queryWeather(date));
+        try {
+            CommonReturnType result =
+                    CommonReturnType.create(weatherService.queryWeather(date));
+            return result;
+        } catch (BusinessException businessException) {
+            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());
+
+        }
     }
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
