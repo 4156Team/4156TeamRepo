@@ -37,6 +37,7 @@ public class WeatherServiceImpl implements WeatherService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date wantedDate = sdf.parse(sdf.format(date));
+        System.out.println("wantedDate is " + wantedDate);
 
         //We can get i = 0 value which is today's weather, i=1,2,3,4,...,7
         for (int i = 0; i < jsonArray.length(); ++i) {
