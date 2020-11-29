@@ -48,9 +48,6 @@ public class WeatherController {
             throws ParseException, BusinessException {
         Long dateLong = Long.parseLong(dateString);
         Date date = new Date(dateLong);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        date = sdf.parse(sdf.format(date));
-        Date today = sdf.parse(sdf.format(new Date()));
 
         //check login
         Boolean isLogin = (Boolean) httpServletRequest

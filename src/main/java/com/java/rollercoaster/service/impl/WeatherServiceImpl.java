@@ -35,6 +35,9 @@ public class WeatherServiceImpl implements WeatherService {
         JSONObject jsonObject = new JSONObject(result);
         JSONArray jsonArray = (JSONArray) jsonObject.get("daily");
 
+        SimpleDateFormat sdfTest = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date wantedDateTest = sdfTest.parse(sdfTest.format(date));
+        System.out.println("wantedDate without formatting to yyyy-MM-dd is " + wantedDateTest);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date wantedDate = sdf.parse(sdf.format(date));
         System.out.println("wantedDate is " + wantedDate);
@@ -49,7 +52,10 @@ public class WeatherServiceImpl implements WeatherService {
             //add three 0 after millis value
             Date eachResultDate = new Date(singleDate);
             System.out.println(eachResultDate);
-            if (eachResultDate.equals(wantedDate)) {
+            int eachResultHours = (int) eachResultDate.getTime() / 1000 / 3600;
+            int wantedHours = (int) wantedDate.getTime() / 1000 / 3600;
+            //Time zone difference is 13 hours
+            if (eachResultHours <= wantedHours + 13 && eachResultHours > wantedHours - 11) {
                 JSONArray singleArrayWeather = (JSONArray) singleJsonObject.get("weather");
                 JSONObject singleWeatherObject = singleArrayWeather.getJSONObject(0);
                 String singleWeather = singleWeatherObject.getString("main");
