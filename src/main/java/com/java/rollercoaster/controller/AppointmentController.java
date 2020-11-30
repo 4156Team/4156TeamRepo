@@ -6,6 +6,7 @@ import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.AppointmentService;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,9 +146,9 @@ public class AppointmentController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        List<Appointment> appointmentList = appointmentService
+        List<TimedAppointmentModel> timedAppointmentModelListppointmentList = appointmentService
                 .getAppointmentsByUserId(userModel.getUserId());
-        return CommonReturnType.create(appointmentList);
+        return CommonReturnType.create(timedAppointmentModelListppointmentList);
     }
 
 }

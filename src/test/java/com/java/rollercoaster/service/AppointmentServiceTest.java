@@ -9,6 +9,7 @@ import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.Status;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -184,7 +187,7 @@ public class AppointmentServiceTest {
     }
 
     @Test
-    public void appointmentsRecordsTest() throws BusinessException {
+    public void appointmentsRecordsTest() throws BusinessException, ParseException {
         System.out.println("appointmentsRecordsTest starts");
 
         UserModel userModel = new UserModel();
@@ -197,9 +200,13 @@ public class AppointmentServiceTest {
 
         Event event = new Event();
         event.setEventRemainPositions(10);
-        //event.setEndTime();
-        //event.setStartTime();
         event.setEventName("event test");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date startTime = sdf.parse("14:00");
+        event.setStartTime(startTime);
+        Date endTime = sdf.parse("15:00");
+        event.setEndTime(endTime);
+        event.setEventLocation("test location");
         eventMapper.insertSelective(event);
 
         Appointment appointment = new Appointment();
@@ -209,16 +216,26 @@ public class AppointmentServiceTest {
         appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
-        List<Appointment> appointmentsList = appointmentService.getAppointmentsByUserId(userModel.getUserId());
-        assertEquals("event test", appointmentsList.get(0).getEventName());
-        assertEquals("1", appointmentsList.get(0).getAppointmentId());
-        assertEquals(userModel.getUserId(), appointmentsList.get(0).getUserId());
+        List<TimedAppointmentModel> timedAppointmentModelList = appointmentService.getAppointmentsByUserId(userModel.getUserId());
+        assertEquals("event test", timedAppointmentModelList.get(0).getEventName());
+        assertEquals("1", timedAppointmentModelList.get(0).getAppointmentId());
+        assertEquals(userModel.getUserId(), timedAppointmentModelList.get(0).getUserId());
+        String startTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getStartTime());
+        String endTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getEndTime());
+        assertEquals("14:00", startTimeGetBack);
+        assertEquals("15:00", endTimeGetBack);
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         eventMapper.deleteByPrimaryKey(event.getEventName());
         appointmentMapper.deleteByPrimaryKey("1");
         System.out.println("appointmentsRecordsTest ends");
+    }
+
+    @Test
+    public void delete() {
+        eventMapper.deleteByPrimaryKey("event test");
+        appointmentMapper.deleteByPrimaryKey("1");
     }
 
 }

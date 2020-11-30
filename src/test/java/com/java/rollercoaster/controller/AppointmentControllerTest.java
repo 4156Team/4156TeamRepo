@@ -7,6 +7,7 @@ import com.java.rollercoaster.pojo.AppointmentExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
@@ -19,6 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,17 +59,20 @@ public class AppointmentControllerTest {
         return userModel;
     }
 
-    private Event initEvent(int position, String eventName) {
+    private Event initEvent(int position, String eventName) throws ParseException {
         Event event = new Event();
         event.setEventRemainPositions(position);
-        //event.setEndTime();
-        //event.setStartTime();
         event.setEventName(eventName);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date startTime = sdf.parse("14:00");
+        event.setStartTime(startTime);
+        Date endTime = sdf.parse("15:00");
+        event.setEndTime(endTime);
         eventMapper.insertSelective(event);
         return event;
     }
     @Test
-    public void addAppointmentControllerTest() throws BusinessException {
+    public void addAppointmentControllerTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         Event event = initEvent(10, "event test");
         Appointment appointment = new Appointment();
@@ -92,7 +98,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    public void updateAppointmentControllerTest() throws BusinessException {
+    public void updateAppointmentControllerTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         Event event = initEvent(10, "event test");
         Event anotherEvent = initEvent(5, "event another");
@@ -123,7 +129,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    public void deleteAppointmentIdTest() throws BusinessException {
+    public void deleteAppointmentIdTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         Event event = initEvent(10, "event test");
 
@@ -145,7 +151,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    public void getAppointmentsControllerTest() throws BusinessException {
+    public void getAppointmentsControllerTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         Event event = initEvent(10, "event test");
 
@@ -158,10 +164,16 @@ public class AppointmentControllerTest {
 
         CommonReturnType response = appointmentController.getAppointments();
 
+        List<TimedAppointmentModel> timedAppointmentModelList = (List<TimedAppointmentModel>)response.getData();
         assertEquals("success", response.getStatus());
-        assertEquals("1", ((List<Appointment>)response.getData()).get(0).getAppointmentId());
-        assertEquals(userModel.getUserId(), ((List<Appointment>)response.getData()).get(0).getUserId());
-        assertEquals("event test", ((List<Appointment>)response.getData()).get(0).getEventName());
+        assertEquals("1", timedAppointmentModelList.get(0).getAppointmentId());
+        assertEquals(userModel.getUserId(), timedAppointmentModelList.get(0).getUserId());
+        assertEquals("event test", timedAppointmentModelList.get(0).getEventName());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String startTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getStartTime());
+        String endTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getEndTime());
+        assertEquals("14:00", startTimeGetBack);
+        assertEquals("15:00", endTimeGetBack);
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());

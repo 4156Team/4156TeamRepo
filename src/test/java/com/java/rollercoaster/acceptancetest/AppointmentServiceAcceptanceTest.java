@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.rollercoaster.dao.*;
 import com.java.rollercoaster.pojo.*;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class AppointmentServiceAcceptanceTest {
     private UserPasswordMapper userPasswordMapper;
 
     @Test
-    public void makeAppointment(){
+    public void makeAppointment() throws ParseException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -99,11 +102,14 @@ public class AppointmentServiceAcceptanceTest {
 
     }
 
-    private Event initEvent(int position, String eventName) {
+    private Event initEvent(int position, String eventName) throws ParseException {
         Event event = new Event();
         event.setEventRemainPositions(position);
-        //event.setEndTime();
-        //event.setStartTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date startTime = sdf.parse("14:00");
+        event.setStartTime(startTime);
+        Date endTime = sdf.parse("15:00");
+        event.setEndTime(endTime);
         event.setEventName(eventName);
         eventMapper.insertSelective(event);
         return event;
@@ -116,7 +122,7 @@ public class AppointmentServiceAcceptanceTest {
     }
 
     @Test
-    public void displayAppointmentsTest() throws JsonProcessingException {
+    public void displayAppointmentsTest() throws JsonProcessingException, ParseException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -167,7 +173,7 @@ public class AppointmentServiceAcceptanceTest {
         //display appointments
         String url3 = "http://localhost:8080/appointment/appointmentsRecord";
         HttpHeaders headers2 = new HttpHeaders();
-        headers2.add("Cookie",cookie );
+        headers2.add("Cookie",cookie);
         HttpEntity httpEntity2 = new HttpEntity(headers2);
         response = restTemplate.exchange(url3, HttpMethod.GET,httpEntity2,CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
@@ -176,11 +182,16 @@ public class AppointmentServiceAcceptanceTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String res = objectMapper.writeValueAsString(response.getBody().getData());
         System.out.println(res);
-        List<Appointment> appointments = objectMapper.readValue(res, new TypeReference<List<Appointment>>() {
+        List<TimedAppointmentModel> timedAppointmentModelList = objectMapper.readValue(res, new TypeReference<List<TimedAppointmentModel>>() {
         });
 
-        assertEquals("event test", appointments.get(0).getEventName());
-        assertEquals(userId, appointments.get(0).getUserId());
+        assertEquals("event test", timedAppointmentModelList.get(0).getEventName());
+        assertEquals(userId, timedAppointmentModelList.get(0).getUserId());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String startTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getStartTime());
+        String endTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getEndTime());
+        assertEquals("14:00", startTimeGetBack);
+        assertEquals("15:00", endTimeGetBack);
 
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
@@ -190,7 +201,7 @@ public class AppointmentServiceAcceptanceTest {
     }
 
     @Test
-    public void cancelAppointmentsTest() {
+    public void cancelAppointmentsTest() throws ParseException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
@@ -257,7 +268,7 @@ public class AppointmentServiceAcceptanceTest {
     }
 
     @Test
-    public void updateAppointmentsTest() {
+    public void updateAppointmentsTest() throws ParseException {
         //register
         String url = "http://localhost:8080/user/register";
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();

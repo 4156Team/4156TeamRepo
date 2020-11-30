@@ -9,11 +9,13 @@ import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.AppointmentExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.service.AppointmentService;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,12 +118,26 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsByUserId(Integer userId) {
+    public List<TimedAppointmentModel> getAppointmentsByUserId(Integer userId) {
         AppointmentExample appointmentExample = new AppointmentExample();
         AppointmentExample.Criteria criteria = appointmentExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
         List<Appointment> appointmentList = appointmentMapper.selectByExample(appointmentExample);
-        return appointmentList;
+        List<TimedAppointmentModel> timedAppointmentModelsList = addTime2Appointment(appointmentList);
+        return timedAppointmentModelsList;
+    }
+
+    private List<TimedAppointmentModel> addTime2Appointment(List<Appointment> appointments) {
+        List<TimedAppointmentModel> res = new ArrayList<>();
+
+        for(Appointment appointment: appointments) {
+            String eventName = appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getEventName();
+            Event event = eventMapper.selectByPrimaryKey(eventName);
+            TimedAppointmentModel timedAppointmentModel = new TimedAppointmentModel(appointment, event);
+            res.add(timedAppointmentModel);
+        }
+
+        return res;
     }
 
 
