@@ -24,6 +24,11 @@ public class TimedAppointmentModel extends Appointment {
 
     }
 
+    /**
+     * This is a constructor for TimedAppointmentModel.
+     * @param appointment gives the information contained in appointment object.
+     * @param event gives the information contained in corresponding event object.
+     */
     public TimedAppointmentModel(Appointment appointment, Event event) {
         this.appointmentId = appointment.getAppointmentId();
         this.userId = appointment.getUserId();
@@ -56,12 +61,12 @@ public class TimedAppointmentModel extends Appointment {
 
     @Override
     public Date getValidDate() {
-        return validDate;
+        return validDate == null ? null : (Date) validDate.clone();
     }
 
     @Override
     public void setValidDate(Date validDate) {
-        this.validDate = validDate;
+        this.validDate = validDate == null ? null : (Date) validDate.clone();
     }
 
     @Override
@@ -75,19 +80,19 @@ public class TimedAppointmentModel extends Appointment {
     }
 
     public Date getStartTime() {
-        return startTime;
+        return startTime == null ? null : (Date) startTime.clone();
     }
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        this.startTime = startTime == null ? null : (Date) startTime.clone();
     }
 
     public Date getEndTime() {
-        return endTime;
+        return endTime == null ? null : (Date) endTime.clone();
     }
 
     public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+        this.endTime = endTime == null ? null : (Date) endTime.clone();
     }
 
     public String getEventLocation() {

@@ -123,17 +123,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentExample.Criteria criteria = appointmentExample.createCriteria();
         criteria.andUserIdEqualTo(userId);
         List<Appointment> appointmentList = appointmentMapper.selectByExample(appointmentExample);
-        List<TimedAppointmentModel> timedAppointmentModelsList = addTime2Appointment(appointmentList);
+        List<TimedAppointmentModel> timedAppointmentModelsList
+                = addTime2Appointment(appointmentList);
         return timedAppointmentModelsList;
     }
 
     private List<TimedAppointmentModel> addTime2Appointment(List<Appointment> appointments) {
         List<TimedAppointmentModel> res = new ArrayList<>();
 
-        for(Appointment appointment: appointments) {
-            String eventName = appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getEventName();
+        for (Appointment appointment: appointments) {
+            String eventName = appointmentMapper
+                    .selectByPrimaryKey(appointment.getAppointmentId())
+                    .getEventName();
             Event event = eventMapper.selectByPrimaryKey(eventName);
-            TimedAppointmentModel timedAppointmentModel = new TimedAppointmentModel(appointment, event);
+            TimedAppointmentModel timedAppointmentModel
+                    = new TimedAppointmentModel(appointment, event);
             res.add(timedAppointmentModel);
         }
 

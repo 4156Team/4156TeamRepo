@@ -84,7 +84,6 @@ public class AppointmentControllerTest {
         assertEquals("success", response.getStatus());
         String appointmentId = (String) response.getData();
 
-        Appointment appointmentGetBack = appointmentMapper.selectByPrimaryKey(appointmentId);
         assertEquals("event test", appointment.getEventName());
         assertEquals(userModel.getUserId(), appointment.getUserId());
 

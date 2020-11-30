@@ -27,7 +27,6 @@ class WeatherServiceTest {
         long millis = System.currentTimeMillis();
         long later = millis + 86400000L;
         WeatherModel weatherModel = weatherService.queryWeather(new Date(later));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         assertNotNull(weatherModel.getWeather());
         System.out.println(weatherModel.getWeather());
 

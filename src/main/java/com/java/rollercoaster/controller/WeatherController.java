@@ -3,25 +3,20 @@ package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.WeatherService;
 import com.java.rollercoaster.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 
 @Controller
 @RequestMapping("/weather")
@@ -71,13 +66,7 @@ public class WeatherController {
 
         }
     }
-    @InitBinder
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        simpleDateFormat.setLenient(false);
-        CustomDateEditor dateEditor = new CustomDateEditor(simpleDateFormat, true);
-        binder.registerCustomEditor(Date.class, dateEditor);
-    }
+
 }
 
 

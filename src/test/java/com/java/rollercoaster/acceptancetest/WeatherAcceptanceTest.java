@@ -73,7 +73,6 @@ public class WeatherAcceptanceTest {
         UserAccountExample userAccountExample = new UserAccountExample();
         UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
         userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
     }
     private String getCookie(ResponseEntity responseEntity) {
         String cookie = responseEntity.getHeaders().get("Set-Cookie").get(0);

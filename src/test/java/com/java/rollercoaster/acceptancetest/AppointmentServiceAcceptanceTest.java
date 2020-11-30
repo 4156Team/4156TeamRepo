@@ -67,7 +67,7 @@ public class AppointmentServiceAcceptanceTest {
         String cookie = getCookie(responseEntity);
 
         //insert event test to the table
-        Event event = initEvent(10, "event test");
+        initEvent(10, "event test");
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
@@ -147,7 +147,7 @@ public class AppointmentServiceAcceptanceTest {
         String cookie = getCookie(responseEntity);
 
         //add appointments
-        Event event = initEvent(10, "event test");
+        initEvent(10, "event test");
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
         appointment.setValidDate(new Date());
@@ -168,7 +168,6 @@ public class AppointmentServiceAcceptanceTest {
         AppointmentExample appointmentExample = new AppointmentExample();
         AppointmentExample.Criteria appointmentCriteria = appointmentExample.createCriteria();
         appointmentCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
-        List<Appointment> appointmentsList = appointmentMapper.selectByExample(appointmentExample);
 
         //display appointments
         String url3 = "http://localhost:8080/appointment/appointmentsRecord";
@@ -227,7 +226,7 @@ public class AppointmentServiceAcceptanceTest {
 
 
         //insert event test to the table
-        Event event = initEvent(10, "event test");
+        initEvent(10, "event test");
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
@@ -258,7 +257,7 @@ public class AppointmentServiceAcceptanceTest {
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity httpEntity2 = new HttpEntity(paramMap2,headers2);
-        response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
+        restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
         assertEquals(null, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()));
 
         //delete record
@@ -294,8 +293,8 @@ public class AppointmentServiceAcceptanceTest {
 
 
         //insert event test to the table
-        Event event = initEvent(10, "event test");
-        Event anotherEvent = initEvent(5, "event another");
+        initEvent(10, "event test");
+        initEvent(5, "event another");
         //add appointments
         Appointment appointment = new Appointment();
         appointment.setEventName("event test");
@@ -328,7 +327,7 @@ public class AppointmentServiceAcceptanceTest {
         HttpHeaders headers2 = new HttpHeaders();
         headers2.add("Cookie",cookie );
         HttpEntity<Appointment> httpEntity2 = new HttpEntity<>(appointment1, headers2);
-        response = restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
+        restTemplate.postForEntity(url3,httpEntity2,CommonReturnType.class);
         assertEquals("event another",
                 appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()).getEventName());
         assertEquals(userId, appointmentMapper.selectByPrimaryKey(appointment1.getAppointmentId()).getUserId());
