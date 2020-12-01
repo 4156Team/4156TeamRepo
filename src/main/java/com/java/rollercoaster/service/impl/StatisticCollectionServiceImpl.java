@@ -107,12 +107,16 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
     @Override
     public List<FacilityModel> top5Facility() throws BusinessException {
         List<FacilityModel> facilities = queryService.queryAllFacilities();
+        System.out.println("*1");
         facilities.sort((o1, o2) ->
                 o1.getRating() > o2.getRating() ? -1 : 1);
+        System.out.println("*2");
         List<FacilityModel> result = new ArrayList<>();
+        System.out.println("*3");
         for (int i = 0; i < Math.min(5, facilities.size()); i++) {
             result.add(facilities.get(i));
         }
+        System.out.println("*4");
         return result;
     }
 }
