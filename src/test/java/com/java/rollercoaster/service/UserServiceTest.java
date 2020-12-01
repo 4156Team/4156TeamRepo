@@ -39,13 +39,14 @@ public class UserServiceTest {
 
 
     @Test
-    public void registerTest() throws BusinessException {
+    public void registerWithValidInputTest() throws BusinessException {
         UserModel userModel = new UserModel();
         userModel.setUserName("Alice");
         userModel.setUserGender(UserGender.female);
         userModel.setRole(Role.visitor);
         userModel.setPhoneNumber("212121");
         userModel.setPassword("12345");
+        userModel.setEmail("yl4225@columbia.edu");
         userService.register(userModel);
 
         UserAccount userAccount = userAccountMapper.selectByPrimaryKey(userModel.getUserId());
@@ -61,7 +62,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void nullUserModelTRegister() throws BusinessException {
+    public void nullUserModelRegister() throws BusinessException {
         UserModel userModel = null;
         assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, userService.register(userModel));
     }

@@ -3,17 +3,26 @@ package com.java.rollercoaster.service.model;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
 
     private Integer userId;
+
+    @NotBlank(message = "Must input telephone number")
     private String phoneNumber;
+
+    @NotBlank(message = "Must input user name")
     private String userName;
+
     private UserGender userGender;
+
     private Integer userAge;
     private Role role;
+
+    @NotBlank(message = "Must input email address")
     private String email;
 
     public String getEmail() {
