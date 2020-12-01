@@ -18,9 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
-
-
-
+import java.util.List;
 
 
 @RunWith(SpringRunner.class)
@@ -38,6 +36,7 @@ class QueryServiceTest {
 
     @Test
     void queryEvent() {
+        eventMapper.deleteByPrimaryKey("queryTestEvent");
         //test null input
         try {
             queryService.queryEvent(null);
@@ -83,6 +82,7 @@ class QueryServiceTest {
 
     @Test
     void queryFacility() {
+        facilityMapper.deleteByPrimaryKey("queryTestFacility");
 
         //test null input
         try {
@@ -123,5 +123,70 @@ class QueryServiceTest {
         assertEquals(facilityQueried.getFacilityIntroduction(), "test introduction");
         assertEquals(facilityQueried.getFacilityStatus(), FacilityStatus.normal);
         facilityMapper.deleteByPrimaryKey("queryTestFacility");
+    }
+
+    @Test
+    void queryAllEvent() throws BusinessException {
+        eventMapper.deleteByPrimaryKey("queryTestEvent");
+        //test a new event
+        Event newEvent = new Event();
+        newEvent.setEventName("queryTestEvent");
+        newEvent.setStartTime(new Date(1,2,3,4,5,6));
+        newEvent.setEndTime(new Date(1,1,1,7,8,9));
+        newEvent.setEventIntroduction("test introduction");
+        newEvent.setEventLocation("test location");
+
+
+        eventMapper.insert(newEvent);
+        EventModel eventQueried;
+        try {
+            eventQueried = queryService.queryAllEvents().get(0);
+        } catch (BusinessException err) {
+            eventQueried = new EventModel();
+        }
+        for(EventModel event: queryService.queryAllEvents()) {
+            if (event.getEventName().equals("queryTestEvent")) {
+                assertEquals(event.getStartTime().getHours(),4);
+                assertEquals(event.getStartTime().getMinutes(),5);
+                assertEquals(event.getStartTime().getSeconds(),6);
+                assertEquals(event.getEndTime().getHours(), 7);
+                assertEquals(event.getEndTime().getMinutes(), 8);
+                assertEquals(event.getEndTime().getSeconds(), 9);
+                assertEquals(event.getEventIntroduction(), "test introduction");
+                assertEquals(event.getEventLocation(), "test location");
+                eventMapper.deleteByPrimaryKey("queryTestEvent");
+                return;
+            }
+        }
+        assertEquals(1,2);
+
+    }
+
+    @Test
+    void queryAllFacilities() throws BusinessException {
+        //test a new event
+        facilityMapper.deleteByPrimaryKey("queryTestFacility");
+        Event newEvent = new Event();
+        newEvent.setEventName("queryTestEvent");
+        newEvent.setStartTime(new Date(1,2,3,4,5,6));
+        newEvent.setEndTime(new Date(1,1,1,7,8,9));
+        newEvent.setEventIntroduction("test introduction");
+        newEvent.setEventLocation("test location");
+
+        Facility newFacility = new Facility();
+        newFacility.setFacilityName("queryTestFacility");
+        newFacility.setFacilityOpenTime(new Date(1,2,3,4,5,6));
+        newFacility.setFacilityCloseTime(new Date(1,1,1,7,8,9));
+        newFacility.setFacilityIntroduction("test introduction");
+        newFacility.setFacilityStatus(FacilityStatus.normal);
+        facilityMapper.insert(newFacility);
+        eventMapper.insert(newEvent);
+        FacilityModel facilityQueried;
+        try {
+            facilityQueried = queryService.queryAllFacilities().get(0);
+        } catch (BusinessException err) {
+            facilityQueried = new FacilityModel();
+        }
+
     }
 }
