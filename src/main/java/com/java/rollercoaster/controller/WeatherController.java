@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,8 +42,10 @@ public class WeatherController {
     @ResponseBody
     public CommonReturnType queryWeather(@RequestParam(name = "date") String dateString)
             throws ParseException, BusinessException {
-        Long dateLong = Long.parseLong(dateString);
-        Date date = new Date(dateLong);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse(dateString);
+//        Long dateLong = Long.parseLong(dateString);
+//        Date date = new Date(dateLong);
 
         //check login
         Boolean isLogin = (Boolean) httpServletRequest

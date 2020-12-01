@@ -1,9 +1,11 @@
 package com.java.rollercoaster.service.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class WeatherModel {
-
+    @JsonFormat()
     private Date date;
     private Float maxTemp;
     private Float minTemp;
