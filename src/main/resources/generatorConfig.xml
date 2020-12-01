@@ -46,12 +46,12 @@
 <!--            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>-->
 <!--            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>-->
 <!--        </table>-->
-<!--        <table tableName="type" domainObjectName="Type">-->
-<!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
-<!--        </table>-->
-        <table tableName="announcement" domainObjectName="Announcement">
-            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>
+        <table tableName="type" domainObjectName="Type">
+            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>
         </table>
+<!--        <table tableName="announcement" domainObjectName="Announcement">-->
+<!--            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="quickPass" domainObjectName="QuickPass" />-->
 <!--        <table tableName="balance" domainObjectName="Balance" />-->
 <!--        <table tableName="comment" domainObjectName="Comment" />-->

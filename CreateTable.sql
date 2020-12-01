@@ -261,6 +261,8 @@ DROP TABLE IF EXISTS `Type`;
 CREATE TABLE `Type` (
   `ticket_type` enum('adult','student','child','quickPass') NOT NULL,
   `ticket_price` float DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `image_url` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`ticket_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

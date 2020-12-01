@@ -392,7 +392,11 @@ public class ManagerControllerTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
 
         type.setTicketPrice(10f);
         CommonReturnType response = managerController.changeTicketPrice(type);
