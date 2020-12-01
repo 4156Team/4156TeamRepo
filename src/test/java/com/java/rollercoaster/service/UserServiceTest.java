@@ -119,7 +119,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void invalidValidateLoginTest() throws BusinessException {
+    public void userNotRegisterLoginTest() throws BusinessException {
         UserModel userModel = new UserModel();
         userModel.setUserName("Alice");
         userModel.setUserGender(UserGender.female);
