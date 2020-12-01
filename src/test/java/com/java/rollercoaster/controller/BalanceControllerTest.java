@@ -9,12 +9,17 @@ import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.UserAccountExample;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.BalanceService;
+import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
+import com.java.rollercoaster.service.model.enumeration.UserGender;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,16 +35,23 @@ class BalanceControllerTest {
     UserAccountMapper userAccountMapper;
     @Autowired
     BalanceMapper balanceMapper;
+    @Autowired
+    UserService userService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
-    public Integer initUser() {
-        UserAccount userAccount = new UserAccount();
-        userAccount.setUserName("Griffin");
-        userAccount.setPhoneNumber("phone");
-        userAccount.setRole(Role.visitor);
-        userAccountMapper.insert(userAccount);
-        UserAccountExample example = new UserAccountExample();
-        example.createCriteria().andPhoneNumberEqualTo("phone");
-        return userAccountMapper.selectByExample(example).get(0).getUserId();
+    public Integer initUser() throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        return userModel.getUserId();
     }
 
     public void initBalance(Integer userid) {
@@ -52,71 +64,69 @@ class BalanceControllerTest {
 
     public void removeUser() {
         UserAccountExample example = new UserAccountExample();
-        example.createCriteria().andPhoneNumberEqualTo("phone");
+        example.createCriteria().andPhoneNumberEqualTo("212121");
         userAccountMapper.deleteByExample(example);
     }
+
 
     public void removeBalance(Integer userid) {
         balanceMapper.deleteByPrimaryKey(userid);
     }
 
     @Test
-    void addBalanceInvalidUserTest() {
-        userAccountMapper.deleteByPrimaryKey(999);
-        removeBalance(999);
-        CommonReturnType rs =  balanceController.addBalance(999, (float) 1.0);
-        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)rs.getData());
+    void addBalanceTest() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        initBalance(userId);
+        CommonReturnType rs =  balanceController.addBalance((float) 1.0);
+        assertEquals(ErrorEnum.OK, (ErrorEnum)rs.getData());
+        removeUser();
+        removeBalance(userId);
     }
 
     @Test
-    void subBalanceInvalidUserTest() {
-        userAccountMapper.deleteByPrimaryKey(999);
-        removeBalance(999);
-        CommonReturnType rs =  balanceController.subBalance(999, (float) 1.0);
-        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)rs.getData());
+    void subBalanceTest() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        initBalance(userId);
+        CommonReturnType rs =  balanceController.subBalance((float) 0);
+        assertEquals(ErrorEnum.OK, (ErrorEnum)rs.getData());
+        removeUser();
+        removeBalance(userId);
     }
 
     @Test
-    void addQuickPassInvalidUserTest() {
-        userAccountMapper.deleteByPrimaryKey(999);
-        removeBalance(999);
-        CommonReturnType rs =  balanceController.addQuickPass(999, 1);
-        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)rs.getData());
+    void addQuickPassInvalidUserTest() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        initBalance(userId);
+        CommonReturnType rs =  balanceController.addQuickPass(1);
+        assertEquals(ErrorEnum.OK, (ErrorEnum)rs.getData());
+        removeUser();
+        removeBalance(userId);
     }
 
     @Test
-    void subQuickPassInvalidUserTest() {
-        userAccountMapper.deleteByPrimaryKey(999);
-        removeBalance(999);
-        CommonReturnType rs =  balanceController.subQuickPass(999, 1);
-        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)rs.getData());
+    void subQuickPassInvalidUserTest() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        initBalance(userId);
+        CommonReturnType rs =  balanceController.subQuickPass(0);
+        assertEquals(ErrorEnum.OK, (ErrorEnum)rs.getData());
+        removeUser();
+        removeBalance(userId);
     }
 
     @Test
-    void queryBalanceTest1() {
-        UserAccountExample example = new UserAccountExample();
-        example.createCriteria().andPhoneNumberEqualTo("phone");
-        if (userAccountMapper.selectByExample(example).size() > 0) {
-            Integer userid = userAccountMapper.selectByExample(example).get(0).getUserId();
-            balanceMapper.deleteByPrimaryKey(userid);
-            removeUser();
-        }
-        Integer userid = initUser();
-        balanceService.addBalance(userid, (float) 10.0);
-        CommonReturnType rs =  balanceController.queryBalance(userid);
+    void queryBalanceTest1() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        initBalance(userId);
+        balanceController.addBalance((float) 10);
+        balanceController.addQuickPass(3);
+        CommonReturnType rs =  balanceController.queryBalance();
         assertEquals((float)10.0,((Balance)rs.getData()).getBalance());
+        assertEquals(6,((Balance)rs.getData()).getQuickpass());
     }
 
-    @Test
-    void queryBalanceTest2() {
-        UserAccountExample example = new UserAccountExample();
-        example.createCriteria().andPhoneNumberEqualTo("phone");
-        if (userAccountMapper.selectByExample(example).size() > 0) {
-            Integer userid = userAccountMapper.selectByExample(example).get(0).getUserId();
-            balanceMapper.deleteByPrimaryKey(userid);
-            removeUser();
-        }
-        CommonReturnType rs =  balanceController.queryBalance(99999);
-        assertEquals(ErrorEnum.USER_NOT_EXIST,(ErrorEnum)rs.getData());
-    }
 }
