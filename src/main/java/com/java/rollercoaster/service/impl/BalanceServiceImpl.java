@@ -18,10 +18,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public ErrorEnum addBalance(Integer userId, float amount) {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            return ErrorEnum.USER_NOT_EXIST;
+        }
         if (balanceMapper.selectByPrimaryKey(userId) == null) {
-            if (userAccountMapper.selectByPrimaryKey(userId) == null) {
-                return ErrorEnum.USER_NOT_EXIST;
-            }
+
             Balance balance = new Balance();
             balance.setUserId(userId);
             balance.setBalance(amount);
@@ -40,10 +41,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public ErrorEnum subBalance(Integer userId, float amount) {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            return ErrorEnum.USER_NOT_EXIST;
+        }
         if (balanceMapper.selectByPrimaryKey(userId) == null) {
-            if (userAccountMapper.selectByPrimaryKey(userId) == null) {
-                return ErrorEnum.USER_NOT_EXIST;
-            }
+
             Balance balance = new Balance();
             balance.setUserId(userId);
             balance.setBalance((float) 0);
@@ -65,10 +67,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public ErrorEnum addQuickPass(Integer userId, int amount) {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            return ErrorEnum.USER_NOT_EXIST;
+        }
         if (balanceMapper.selectByPrimaryKey(userId) == null) {
-            if (userAccountMapper.selectByPrimaryKey(userId) == null) {
-                return ErrorEnum.USER_NOT_EXIST;
-            }
+
             Balance balance = new Balance();
             balance.setUserId(userId);
             balance.setBalance((float) 0);
@@ -87,10 +90,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public ErrorEnum subQuickPass(Integer userId, int amount) {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            return ErrorEnum.USER_NOT_EXIST;
+        }
         if (balanceMapper.selectByPrimaryKey(userId) == null) {
-            if (userAccountMapper.selectByPrimaryKey(userId) == null) {
-                return ErrorEnum.USER_NOT_EXIST;
-            }
+
             Balance balance = new Balance();
             balance.setUserId(userId);
             balance.setBalance((float) 0);
@@ -111,10 +115,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public Balance queryBalance(Integer userId) throws BusinessException {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            throw(new BusinessException(ErrorEnum.USER_NOT_EXIST));
+        }
         if (balanceMapper.selectByPrimaryKey(userId) == null) {
-            if (userAccountMapper.selectByPrimaryKey(userId) == null) {
-                throw(new BusinessException(ErrorEnum.USER_NOT_EXIST));
-            }
+
             Balance balance = new Balance();
             balance.setUserId(userId);
             balance.setBalance((float) 0);
