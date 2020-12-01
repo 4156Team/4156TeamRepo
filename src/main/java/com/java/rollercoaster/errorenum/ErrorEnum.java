@@ -42,7 +42,10 @@ public enum ErrorEnum implements CommonError {
     EMPTY_TYPE_ATTRIBUTE(271, "The ticket type or ticket price is missing."),
     EMPTY_ANNOUNCEMENT_ATTRIBUTE(281, "The text or date is missing."),
     EMPTY_ANNOUNCEMENT_ID(282, "The announcement id is empty."),
-    WRONG_ANNOUNCEMENT_ID(283, "The announcement id is wrong.");
+    WRONG_ANNOUNCEMENT_ID(283, "The announcement id is wrong."),
+
+    INVALID_AMOUNT(300, "Invalid operation amount"),
+    BALANCE_NOT_ENOUGH(301, "Balance not enough for operation");
 
 
     private int errorCode;
