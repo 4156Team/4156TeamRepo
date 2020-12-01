@@ -68,7 +68,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void duplicateRegister() throws BusinessException {
+    public void duplicateRegisterTest() throws BusinessException {
         UserModel userModel = new UserModel();
         userModel.setUserName("Alice");
         userModel.setUserGender(UserGender.female);
