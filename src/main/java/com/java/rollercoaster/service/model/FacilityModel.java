@@ -15,6 +15,34 @@ public class FacilityModel {
     @JsonFormat(pattern = "HH:mm:ss")
     private Date facilityCloseTime;
     private Integer queueStatus;
+    private String facilityImage;
+
+    public String getFacilityImage() {
+        return facilityImage;
+    }
+
+    public void setFacilityImage(String facilityImage) {
+        this.facilityImage = facilityImage;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public Integer getRatingPeople() {
+        return ratingPeople;
+    }
+
+    public void setRatingPeople(Integer ratingPeople) {
+        this.ratingPeople = ratingPeople;
+    }
+
+    private Float rating;
+    private Integer ratingPeople;
 
     public String getFacilityName() {
         return facilityName;
