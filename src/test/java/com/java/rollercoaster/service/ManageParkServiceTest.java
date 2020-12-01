@@ -47,14 +47,42 @@ class ManageParkServiceTest {
         facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
         facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         facility.setQueueStatus(100);
-
-        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.addFacility(facility));
         facility.setFacilityName("roller coaster");
         assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
-        assertEquals("roller coaster", facilityMapper.selectByPrimaryKey("roller coaster").getFacilityName());
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+    }
+
+
+    @Test
+    void addFacilityWithEmptyName() throws ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.addFacility(facility));
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+    }
+
+    @Test
+    void addFacilityWithDuplicateName() throws ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        facility.setFacilityName("roller coaster");
+        facilityMapper.insert(facility);
         assertEquals(ErrorEnum.DUPLICATE_FACILITY_NAME, manageParkService.addFacility(facility));
         facilityMapper.deleteByPrimaryKey("roller coaster");
     }
+
+
+
+
+
 
     @Test
     void updateFacility() throws ParseException {
@@ -69,14 +97,50 @@ class ManageParkServiceTest {
 
         Facility newFacility = new Facility();
         newFacility.setQueueStatus(200);
-        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.updateFacility(newFacility));
         newFacility.setFacilityName("test");
-        assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.updateFacility(newFacility));
         newFacility.setFacilityName("roller coaster");
         assertEquals(ErrorEnum.OK, manageParkService.updateFacility(newFacility));
         assertEquals(200, facilityMapper.selectByPrimaryKey("roller coaster").getQueueStatus());
         facilityMapper.deleteByPrimaryKey("roller coaster");
     }
+
+    @Test
+    void updateFacilityWithEmptyName() throws ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        facility.setFacilityName("roller coaster");
+        assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
+
+        Facility newFacility = new Facility();
+        newFacility.setQueueStatus(200);
+        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.updateFacility(newFacility));
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+    }
+
+
+    @Test
+    void updateFacilityWithWrongName() throws ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        facility.setFacilityName("roller coaster");
+        assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
+
+        Facility newFacility = new Facility();
+        newFacility.setQueueStatus(200);
+        newFacility.setFacilityName("test");
+        assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.updateFacility(newFacility));
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+    }
+
+
 
 
     @Test

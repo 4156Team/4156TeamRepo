@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `announcement`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `announcement` (
   `announcement_id` int NOT NULL AUTO_INCREMENT,
-  `date` time DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `text` varchar(700) DEFAULT NULL,
   PRIMARY KEY (`announcement_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -57,4 +57,12 @@ public class TicketPriceServiceTest {
         assertEquals(50, typeMapper.selectByPrimaryKey(TicketType.adult).getTicketPrice());
         typeMapper.deleteByPrimaryKey(TicketType.adult);
     }
+
+    @Test
+    public void testChangeTicketPriceFail2() {
+        Type type = new Type();
+        type.setTicketPrice(50f);
+        assertEquals(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, ticketPriceService.changeTicketPrice(type));
+        typeMapper.deleteByPrimaryKey(TicketType.adult);
+    }
 }
