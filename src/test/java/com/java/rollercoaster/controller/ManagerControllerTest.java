@@ -100,12 +100,13 @@ public class ManagerControllerTest {
         ticket.setTicketId("3");
         ticketMapper.insert(ticket);
 
-        Appointment appointment = new Appointment();
-        appointment.setUserId(1);
-        appointment.setAppointmentId("1");
-        appointment.setEventName("test");
-        appointment.setValidDate(sdf.parse("2020-10-11"));
-        appointmentMapper.insert(appointment);
+        Appointment appointment1 = new Appointment();
+        appointment1.setUserId(1);
+        appointment1.setAppointmentId("1");
+        appointment1.setEventName("test");
+        appointment1.setValidDate(new Date());
+        appointmentMapper.insert(appointment1);
+
         System.out.println("start test");
     }
 
