@@ -53,10 +53,10 @@
 <!--            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>-->
 <!--        </table>-->
 <!--        <table tableName="quickPass" domainObjectName="QuickPass" />-->
-<!--        <table tableName="balance" domainObjectName="Balance" />-->
+        <table tableName="balance" domainObjectName="Balance" />
 <!--        <table tableName="comment" domainObjectName="Comment" />-->
-        <table tableName="comment" domainObjectName="Comment" >
-            <generatedKey column="comment_id" sqlStatement="JDBC" identity="true"/>
-        </table>
+<!--        <table tableName="comment" domainObjectName="Comment" >-->
+<!--            <generatedKey column="comment_id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>
