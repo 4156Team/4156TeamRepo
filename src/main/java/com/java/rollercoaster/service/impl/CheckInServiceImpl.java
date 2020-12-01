@@ -45,6 +45,8 @@ public class CheckInServiceImpl implements CheckInService {
         Appointment appointment = appointmentMapper.selectByPrimaryKey(appointmentId);
         if (null == appointment) {
             return ErrorEnum.WRONG_APPOINTMENT_ID;
+        } else if (!DateUtils.isSameDay(new Date(), appointment.getValidDate())) {
+            return ErrorEnum.INVALID_APPOINTMENT;
         } else {
             appointmentMapper.deleteByPrimaryKey(appointmentId);
         }

@@ -17,6 +17,7 @@ public enum ErrorEnum implements CommonError {
     WRONG_TICKET_ID(202, "The ticket id is wrong."),
     USED_TICKET(203, "The ticket has been used."),
     WRONG_APPOINTMENT_ID(204, "The appointment id is wrong."),
+    INVALID_APPOINTMENT(205, "The appointment id is invalid in that day."),
 
     EMPTY_EVENT_NAME(221, "The event name is empty."),
     DUPLICATE_EVENT_NAME(222, "The event name is duplicate."),

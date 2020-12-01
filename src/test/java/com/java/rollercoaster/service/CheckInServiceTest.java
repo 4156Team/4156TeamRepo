@@ -6,7 +6,7 @@ import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.model.enumeration.Status;
-import org.junit.jupiter.api.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-class CheckInServiceTest {
+public class CheckInServiceTest {
 
     @Autowired
     CheckInService checkInService;
@@ -29,15 +29,10 @@ class CheckInServiceTest {
     @Autowired
     TicketMapper ticketMapper;
 
-    @BeforeEach
-    void init() throws ParseException {
-        Appointment appointment = new Appointment();
-        appointment.setAppointmentId("10");
-        appointment.setEventName("test");
-        appointment.setUserId(1);
-        appointment.setValidDate(new Date());
-        appointmentMapper.insertSelective(appointment);
 
+
+    @Test
+    public void  checkTicketNormal() {
         Ticket ticket = new Ticket();
         ticket.setTicketId("100");
         ticket.setStatus(Status.unused);
@@ -45,7 +40,45 @@ class CheckInServiceTest {
         ticket.setUserId(1);
         ticket.setValidDate(new Date());
         ticketMapper.insertSelective(ticket);
+        assertEquals(ErrorEnum.OK, checkInService.checkTicket("100"));
+        ticketMapper.deleteByPrimaryKey("100");
+    }
 
+    @Test
+        public void  checkTicketWithWrongTicketID() {
+        assertEquals(ErrorEnum.WRONG_TICKET_ID, checkInService.checkTicket("100000"));
+    }
+
+    @Test
+    public void  checkTicketWithInvalidTicketLastDay() throws ParseException {
+        Ticket ticket2 = new Ticket();
+        ticket2.setTicketId("300");
+        ticket2.setStatus(Status.unused);
+        ticket2.setPrice((float) 20);
+        ticket2.setUserId(1);
+        ticket2.setValidDate(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
+        ticketMapper.insertSelective(ticket2);
+        System.out.println("init finished.");
+        assertEquals(ErrorEnum.INVALID_TICKET, checkInService.checkTicket("300"));
+        ticketMapper.deleteByPrimaryKey("300");
+    }
+
+    @Test
+    public void  checkTicketWithInvalidTicketNextDay() throws ParseException {
+        Ticket ticket2 = new Ticket();
+        ticket2.setTicketId("400");
+        ticket2.setStatus(Status.unused);
+        ticket2.setPrice((float) 20);
+        ticket2.setUserId(1);
+        ticket2.setValidDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
+        ticketMapper.insertSelective(ticket2);
+        System.out.println("init finished.");
+        assertEquals(ErrorEnum.INVALID_TICKET, checkInService.checkTicket("400"));
+        ticketMapper.deleteByPrimaryKey("400");
+    }
+
+    @Test
+    public void checkTicketWithUsedTicket() {
         Ticket ticket1 = new Ticket();
         ticket1.setTicketId("200");
         ticket1.setStatus(Status.used);
@@ -53,36 +86,52 @@ class CheckInServiceTest {
         ticket1.setUserId(1);
         ticket1.setValidDate(new Date());
         ticketMapper.insertSelective(ticket1);
-
-        Ticket ticket2 = new Ticket();
-        ticket2.setTicketId("300");
-        ticket2.setStatus(Status.unused);
-        ticket2.setPrice((float) 20);
-        ticket2.setUserId(1);
-        ticket2.setValidDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-20"));
-        ticketMapper.insertSelective(ticket2);
-        System.out.println("init finished.");
-    }
-    @Test
-    void checkTicket() {
-        assertEquals(ErrorEnum.OK, checkInService.checkTicket("100"));
-        assertEquals(ErrorEnum.WRONG_TICKET_ID, checkInService.checkTicket("100000"));
-        assertEquals(ErrorEnum.INVALID_TICKET, checkInService.checkTicket("300"));
         assertEquals(ErrorEnum.USED_TICKET, checkInService.checkTicket("200"));
+        ticketMapper.deleteByPrimaryKey("200");
+    }
+
+
+
+
+
+    @Test
+    public void checkAppointmentNormal() {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("10");
+        appointment.setEventName("test");
+        appointment.setUserId(1);
+        appointment.setValidDate(new Date());
+        appointmentMapper.insertSelective(appointment);
+        assertEquals(ErrorEnum.OK,checkInService.checkAppointments("10"));
+        appointmentMapper.deleteByPrimaryKey("10");
     }
 
     @Test
-    void checkAppointments() {
+    public void checkAppointmentWithWrongAppointmentId() {
         assertEquals(ErrorEnum.WRONG_APPOINTMENT_ID,checkInService.checkAppointments("00"));
-        assertEquals(ErrorEnum.OK,checkInService.checkAppointments("10"));
     }
 
-    @AfterEach
-    void end(){
-        ticketMapper.deleteByPrimaryKey("100");
-        ticketMapper.deleteByPrimaryKey("200");
-        ticketMapper.deleteByPrimaryKey("300");
-        appointmentMapper.deleteByPrimaryKey("10");
-        System.out.println("Finished");
+    @Test
+    public void checkAppointmentWithLastDay() throws ParseException {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("20");
+        appointment.setEventName("test");
+        appointment.setUserId(1);
+        appointment.setValidDate(new Date(new Date().getTime() - 24 * 60 * 60 * 1000));
+        appointmentMapper.insertSelective(appointment);
+        assertEquals(ErrorEnum.INVALID_APPOINTMENT,checkInService.checkAppointments("20"));
+        appointmentMapper.deleteByPrimaryKey("20");
+    }
+
+    @Test
+    public void checkAppointmentWithNextDay() throws ParseException {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("30");
+        appointment.setEventName("test");
+        appointment.setUserId(1);
+        appointment.setValidDate(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
+        appointmentMapper.insertSelective(appointment);
+        assertEquals(ErrorEnum.INVALID_APPOINTMENT,checkInService.checkAppointments("30"));
+        appointmentMapper.deleteByPrimaryKey("30");
     }
 }
