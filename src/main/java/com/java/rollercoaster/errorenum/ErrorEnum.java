@@ -45,8 +45,10 @@ public enum ErrorEnum implements CommonError {
     WRONG_ANNOUNCEMENT_ID(283, "The announcement id is wrong."),
 
     INVALID_AMOUNT(300, "Invalid operation amount"),
-    BALANCE_NOT_ENOUGH(301, "Balance not enough for operation");
+    BALANCE_NOT_ENOUGH(301, "Balance not enough for operation"),
 
+    DUPLICATE_QUICKPASS(310, "Quickpass appointment already exists"),
+    QUICKPASS_NOT_EXIST(311, "Quickpass appointment already exists");
 
     private int errorCode;
     private String errorMessage;
