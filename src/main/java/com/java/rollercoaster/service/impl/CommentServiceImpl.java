@@ -4,6 +4,7 @@ import com.java.rollercoaster.dao.CommentMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Comment;
+import com.java.rollercoaster.pojo.CommentExample;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.service.CommentService;
 import com.java.rollercoaster.service.model.CommentModel;
@@ -18,6 +19,8 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentMapper commentMapper;
+
+
 
     @Override
     public ErrorEnum addComment(UserModel userModel, CommentModel commentModel)  {
@@ -49,7 +52,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> showAllComments() {
-        List<Comment> commentList = commentMapper.listAllComments();
+
+        List<Comment> commentList = commentMapper.selectByExampleWithBLOBs(new CommentExample());
+//        List<Comment> commentList = commentMapper.listAllComments();
         return commentList;
     }
 
