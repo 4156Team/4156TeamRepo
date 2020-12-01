@@ -109,7 +109,8 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
         List<FacilityModel> facilities = queryService.queryAllFacilities();
         System.out.println("*1");
         facilities.sort((o1, o2) ->
-                o1.getRating() > o2.getRating() ? -1 : 1);
+                Optional.ofNullable(o1.getRating()).orElse(0f)
+                        > Optional.ofNullable(o2.getRating()).orElse(0f) ? -1 : 1);
         System.out.println("*2");
         List<FacilityModel> result = new ArrayList<>();
         System.out.println("*3");
