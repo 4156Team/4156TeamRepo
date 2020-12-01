@@ -18,6 +18,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -62,8 +63,8 @@ public class WeatherAcceptanceTest {
         HttpHeaders headers1 = new HttpHeaders();
         headers1.add("Cookie",cookie );
         MultiValueMap<String, Object> paramMap2 = new LinkedMultiValueMap<>();
-        Long time = System.currentTimeMillis();
-        String dateString = time.toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(new Date());
         paramMap2.add("date", dateString);
         HttpEntity<MultiValueMap<String, Object>> httpEntity1 = new HttpEntity<>(paramMap2, headers1);
         ResponseEntity<CommonReturnType> response = restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);

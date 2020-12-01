@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +34,8 @@ class WeatherControllerTest {
         userModel.setUserId(1);
         httpServletRequest
                 .getSession().setAttribute("LOGIN_USER", userModel);
-        Long time = System.currentTimeMillis();
-        String timeString = time.toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String timeString = sdf.format(new Date());
         CommonReturnType response = weatherController.queryWeather(timeString);
         assertEquals("success", response.getStatus());
         assertEquals(WeatherModel.class, response.getData().getClass());
