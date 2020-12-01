@@ -20,6 +20,7 @@ import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.AnnouncementService;
 import com.java.rollercoaster.service.TicketPriceService;
+import com.java.rollercoaster.service.model.FacilityModel;
 import com.java.rollercoaster.service.model.MyCalendar;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.enumeration.Role;
@@ -414,6 +415,27 @@ public class ManagerControllerTest {
         announcementMapper.insert(announcement);
         CommonReturnType response = managerController.deleteAnnouncement(announcement);
         assertEquals(ErrorEnum.OK, response.getData());
+    }
+
+    @Test
+    public void testTop5Facility() throws BusinessException, ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        facility.setFacilityName("roller coaster");
+        facility.setRating(5.1f);
+        facility.setRatingPeople(100);
+        facilityMapper.insert(facility);
+
+        CommonReturnType response = managerController.top5Facility();
+        assertEquals("success", response.getStatus());
+        assertEquals(5.1f, ((List< FacilityModel >) response.getData()).get(0).getRating());
+
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+
     }
 
 }
