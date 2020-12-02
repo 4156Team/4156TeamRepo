@@ -20,4 +20,3 @@ before_install:
 script:
   - mvn clean install -Dmaven.test.skip=true
   - mvn spring-boot:start test spring-boot:stop
-

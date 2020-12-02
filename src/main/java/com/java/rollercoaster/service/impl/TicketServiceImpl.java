@@ -6,6 +6,7 @@ import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
+import com.java.rollercoaster.service.BalanceService;
 import com.java.rollercoaster.service.TicketService;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -23,9 +25,12 @@ public class TicketServiceImpl implements TicketService {
     private TicketMapper ticketMapper;
     @Autowired
     private UserAccountMapper userAccountMapper;
+    @Autowired
+    private BalanceService balanceService;
+
 
     @Override
-    public String addTicket(Ticket ticket) throws ParseException, BusinessException {
+    public String addTicket(Ticket ticket, int userId) throws ParseException, BusinessException {
         if (null == ticket) {
             throw new BusinessException(ErrorEnum.EMPTY_TICKET);
         } else if (null != ticketMapper.selectByPrimaryKey(ticket.getTicketId())) {
@@ -43,6 +48,7 @@ public class TicketServiceImpl implements TicketService {
             throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
         ticketMapper.insert(ticket);
+        balanceService.subBalance(userId, ticket.getPrice());
         return ticket.getTicketId();
 
     }
@@ -71,6 +77,9 @@ public class TicketServiceImpl implements TicketService {
                         .selectByPrimaryKey(ticketId).getUserId()) ) {
             return ErrorEnum.NOT_SAME_VISITOR;
         }
+        balanceService.addBalance(userModel.getUserId(),
+                Optional.ofNullable(ticketMapper.selectByPrimaryKey(ticketId).getPrice())
+                        .orElse(0f));
         ticketMapper.deleteByPrimaryKey(ticketId);
         return ErrorEnum.OK;
     }

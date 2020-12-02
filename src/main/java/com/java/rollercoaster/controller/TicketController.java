@@ -1,9 +1,11 @@
 package com.java.rollercoaster.controller;
 
+import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.BalanceService;
 import com.java.rollercoaster.service.MailService;
 import com.java.rollercoaster.service.TicketService;
 import com.java.rollercoaster.service.UserService;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,7 +78,8 @@ public class TicketController {
         ticket.setTicketId(id);
 
         try {
-            CommonReturnType result = CommonReturnType.create(ticketService.addTicket(ticket));
+            CommonReturnType result = CommonReturnType.create(ticketService
+                    .addTicket(ticket, userModel.getUserId()));
             mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
                                             + userModel.getUserName()
                                             + "! Here is your ticket! And your ticket number is "
