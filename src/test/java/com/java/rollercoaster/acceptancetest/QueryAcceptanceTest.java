@@ -8,6 +8,8 @@ import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.model.QueryEventModel;
+import com.java.rollercoaster.service.model.QueryFacilityModel;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -72,11 +74,13 @@ public class QueryAcceptanceTest {
     public void test2() throws ParseException {
         finish();
         init();
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
 
@@ -96,10 +100,12 @@ public class QueryAcceptanceTest {
         finish();
         init();
         String url = "http://localhost:8080/query/Event";
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -118,8 +124,10 @@ public class QueryAcceptanceTest {
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testEvent");
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);       //System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -139,8 +147,10 @@ public class QueryAcceptanceTest {
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testEvent");
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -156,11 +166,13 @@ public class QueryAcceptanceTest {
     public void test7() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testFacility");
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -175,11 +187,13 @@ public class QueryAcceptanceTest {
     public void test8() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testFacility");
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -194,11 +208,13 @@ public class QueryAcceptanceTest {
     public void test9() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testFacility");
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         System.out.println(response.getBody().getData().getClass().toString());
@@ -215,11 +231,13 @@ public class QueryAcceptanceTest {
     public void test10() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(url);
-        HttpEntity<String> request =
-                new HttpEntity<String>("testFacility");
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
                 restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         System.out.println(response.getBody().getData().getClass().toString());

@@ -34,7 +34,7 @@ public class RatingController {
     @PostMapping("/postRate")
     @ResponseBody
     public CommonReturnType postRating(@RequestBody  String facilityName,
-                                       @RequestParam(name = "rate") int rate) {
+                                       @RequestParam(name = "rate") String rate) {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null || !isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
@@ -45,7 +45,7 @@ public class RatingController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        return CommonReturnType.autoCreate(ratingService.rateFacility(facilityName, rate));
+        return CommonReturnType.autoCreate(ratingService.rateFacility(facilityName, Integer.parseInt(rate)));
     }
 
 }

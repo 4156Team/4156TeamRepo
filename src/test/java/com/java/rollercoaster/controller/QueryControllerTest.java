@@ -12,6 +12,8 @@ import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.model.QueryEventModel;
+import com.java.rollercoaster.service.model.QueryFacilityModel;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import com.java.rollercoaster.service.model.EventModel;
@@ -70,7 +72,9 @@ public class QueryControllerTest {
     public void testQueryEventValid() throws ParseException {
         finish();
         init();
-        CommonReturnType response = queryController.queryEvent("testEvent");
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
+        CommonReturnType response = queryController.queryEvent(qModel);
         EventModel rs = ((EventModel)response.getData());
         assertEquals("success", response.getStatus());
         assertEquals("test location", rs.getEventLocation());
@@ -89,7 +93,9 @@ public class QueryControllerTest {
     public void testQueryEventInvalid() throws ParseException {
         finish();
         init();
-        CommonReturnType response = queryController.queryEvent("NonExistenceEvent");
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("NonExistenceEvent");
+        CommonReturnType response = queryController.queryEvent(qModel);
         ErrorEnum rs = (ErrorEnum)response.getData();
         assertEquals("fail", response.getStatus());
         assertEquals(223, rs.getErrCode());
@@ -101,7 +107,9 @@ public class QueryControllerTest {
     public void testQueryFacilityValid() throws ParseException {
         finish();
         init();
-        CommonReturnType response = queryController.queryFacility("testFacility");
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
+        CommonReturnType response = queryController.queryFacility(qModel);
         FacilityModel rs = ((FacilityModel)response.getData());
         assertEquals("success", response.getStatus());
         assertEquals("normal", rs.getFacilityStatus().toString());
@@ -120,7 +128,9 @@ public class QueryControllerTest {
     public void testQueryFacilityInvalid() throws ParseException {
         finish();
         init();
-        CommonReturnType response = queryController.queryFacility("NonExistenceFacility");
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("NonExistenceFacility");
+        CommonReturnType response = queryController.queryFacility(qModel);
         ErrorEnum rs = (ErrorEnum)response.getData();
         assertEquals("fail", response.getStatus());
         assertEquals(226, rs.getErrCode());
