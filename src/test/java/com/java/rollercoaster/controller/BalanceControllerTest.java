@@ -127,6 +127,21 @@ class BalanceControllerTest {
         CommonReturnType rs =  balanceController.queryBalance();
         assertEquals((float)10.0,((Balance)rs.getData()).getBalance());
         assertEquals(6,((Balance)rs.getData()).getQuickpass());
+        removeUser();
+        removeBalance(userId);
+    }
+
+    @Test
+    void queryBalanceTest2() throws BusinessException {
+        removeUser();
+        Integer userId = initUser();
+        removeUser();
+        initBalance(userId);
+        balanceController.addBalance((float) 10);
+        balanceController.addQuickPass(3);
+        CommonReturnType rs =  balanceController.queryBalance();
+        assertEquals(ErrorEnum.USER_NOT_EXIST,((ErrorEnum)rs.getData()));
+        removeBalance(userId);
     }
 
 }
