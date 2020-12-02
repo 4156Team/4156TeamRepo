@@ -8,8 +8,10 @@ import com.java.rollercoaster.service.model.QueryEventModel;
 import com.java.rollercoaster.service.model.QueryFacilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("query")
 @RequestMapping("/query")
@@ -74,9 +76,11 @@ public class QueryController {
      */
     @RequestMapping(value = "/Facility", method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType queryFacility(@RequestBody QueryFacilityModel facilityName) {
+    public CommonReturnType queryFacility(
+            @RequestBody QueryFacilityModel facilityName) {
         try {
-            return CommonReturnType.create(queryService.queryFacility(facilityName.getFacilityName()));
+            return CommonReturnType.create(
+                    queryService.queryFacility(facilityName.getFacilityName()));
         } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);
         }

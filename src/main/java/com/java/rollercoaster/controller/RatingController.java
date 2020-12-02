@@ -11,7 +11,12 @@ import com.java.rollercoaster.service.model.CommentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,7 +50,8 @@ public class RatingController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        return CommonReturnType.autoCreate(ratingService.rateFacility(facilityName, Integer.parseInt(rate)));
+        return CommonReturnType.autoCreate(
+                ratingService.rateFacility(facilityName, Integer.parseInt(rate)));
     }
 
 }
