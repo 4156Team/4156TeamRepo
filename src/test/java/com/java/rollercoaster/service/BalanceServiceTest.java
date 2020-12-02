@@ -278,7 +278,7 @@ class BalanceServiceTest {
         }
         Integer userid = initUser();
         balanceService.addQuickPass(userid, 1);
-        assertEquals(ErrorEnum.INVALID_AMOUNT, balanceService.subBalance(userid, -10));
+        assertEquals(ErrorEnum.INVALID_AMOUNT, balanceService.subQuickPass(userid, -10));
     }
 
     @Test
