@@ -4,6 +4,8 @@ import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.QueryService;
+import com.java.rollercoaster.service.model.QueryEventModel;
+import com.java.rollercoaster.service.model.QueryFacilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +27,9 @@ public class QueryController {
      */
     @RequestMapping(value = "/Event", method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType queryEvent(@RequestBody String eventName) {
+    public CommonReturnType queryEvent(@RequestBody QueryEventModel eventName) {
         try {
-            return CommonReturnType.create(queryService.queryEvent(eventName));
+            return CommonReturnType.create(queryService.queryEvent(eventName.getEventName()));
         } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);
         }
@@ -72,9 +74,9 @@ public class QueryController {
      */
     @RequestMapping(value = "/Facility", method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType queryFacility(@RequestBody String facilityName) {
+    public CommonReturnType queryFacility(@RequestBody QueryFacilityModel facilityName) {
         try {
-            return CommonReturnType.create(queryService.queryFacility(facilityName));
+            return CommonReturnType.create(queryService.queryFacility(facilityName.getFacilityName()));
         } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);
         }
