@@ -219,7 +219,7 @@ public class ManagerController {
                 statisticCollectionService.whichDaysVisited(userId),"success");
     }
 
-    @PostMapping("top5Facility")
+    @RequestMapping("top5Facility")
     @ResponseBody
     public CommonReturnType top5Facility() throws BusinessException {
         return CommonReturnType.create(
