@@ -88,7 +88,7 @@
 <i>14</i>&nbsp;    @Override
 <i>15</i>&nbsp;    public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
 <i>16</i>&nbsp;            throws BusinessException, UnirestException {
-<b class="fc"><i>17</i>&nbsp;        HttpResponse&lt;JsonNode&gt; request = Unirest.post(</b>
+<b class="fc"><i>17</i>&nbsp;        Unirest.post(</b>
 <i>18</i>&nbsp;                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
 <b class="fc"><i>19</i>&nbsp;                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</b>
 <b class="fc"><i>20</i>&nbsp;                .queryString(&quot;from&quot;,</b>
@@ -104,7 +104,7 @@
 <i>30</i>&nbsp;
 <i>31</i>&nbsp;    @Override
 <i>32</i>&nbsp;    public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
-<b class="fc"><i>33</i>&nbsp;        HttpResponse&lt;JsonNode&gt; request = Unirest.post(</b>
+<b class="fc"><i>33</i>&nbsp;        Unirest.post(</b>
 <i>34</i>&nbsp;                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
 <b class="fc"><i>35</i>&nbsp;                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</b>
 <b class="fc"><i>36</i>&nbsp;                .queryString(&quot;from&quot;,</b>
@@ -124,7 +124,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

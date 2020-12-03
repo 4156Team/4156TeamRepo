@@ -53,7 +53,7 @@
     100%
   </span>
   <span class="absValue">
-    (16/ 16)
+    (17/ 17)
   </span>
 </td>
 <td class="coverageStat">
@@ -61,7 +61,7 @@
     100%
   </span>
   <span class="absValue">
-    (37/ 37)
+    (39/ 39)
   </span>
 </td>
 </tr>
@@ -293,33 +293,40 @@
 <b class="fc"><i>219</i>&nbsp;                statisticCollectionService.whichDaysVisited(userId),&quot;success&quot;);</b>
 <i>220</i>&nbsp;    }
 <i>221</i>&nbsp;
-<i>222</i>&nbsp;
-<i>223</i>&nbsp;    @PostMapping(&quot;/changeTicketPrice&quot;)
-<i>224</i>&nbsp;    @ResponseBody
-<i>225</i>&nbsp;    public CommonReturnType changeTicketPrice(@RequestBody Type type) {
-<b class="fc"><i>226</i>&nbsp;        return CommonReturnType.autoCreate(ticketPriceService.changeTicketPrice(type));</b>
+<i>222</i>&nbsp;    @RequestMapping(&quot;top5Facility&quot;)
+<i>223</i>&nbsp;    @ResponseBody
+<i>224</i>&nbsp;    public CommonReturnType top5Facility() throws BusinessException {
+<b class="fc"><i>225</i>&nbsp;        return CommonReturnType.create(</b>
+<b class="fc"><i>226</i>&nbsp;                statisticCollectionService.top5Facility(), &quot;success&quot;);</b>
 <i>227</i>&nbsp;    }
 <i>228</i>&nbsp;
-<i>229</i>&nbsp;    @PostMapping(&quot;/pushAnnouncement&quot;)
-<i>230</i>&nbsp;    @ResponseBody
-<i>231</i>&nbsp;    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement)
-<i>232</i>&nbsp;            throws UnirestException, BusinessException {
-<b class="fc"><i>233</i>&nbsp;        return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));</b>
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;    @PostMapping(&quot;/changeTicketPrice&quot;)
+<i>231</i>&nbsp;    @ResponseBody
+<i>232</i>&nbsp;    public CommonReturnType changeTicketPrice(@RequestBody Type type) {
+<b class="fc"><i>233</i>&nbsp;        return CommonReturnType.autoCreate(ticketPriceService.changeTicketPrice(type));</b>
 <i>234</i>&nbsp;    }
 <i>235</i>&nbsp;
-<i>236</i>&nbsp;    @PostMapping(&quot;/deleteAnnouncement&quot;)
+<i>236</i>&nbsp;    @PostMapping(&quot;/pushAnnouncement&quot;)
 <i>237</i>&nbsp;    @ResponseBody
-<i>238</i>&nbsp;    public CommonReturnType deleteAnnouncement(@RequestBody Announcement announcement) {
-<b class="fc"><i>239</i>&nbsp;        return CommonReturnType.autoCreate(announcementService</b>
-<b class="fc"><i>240</i>&nbsp;                .deleteAnnouncement(announcement.getAnnouncementId()));</b>
+<i>238</i>&nbsp;    public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement)
+<i>239</i>&nbsp;            throws UnirestException, BusinessException {
+<b class="fc"><i>240</i>&nbsp;        return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));</b>
 <i>241</i>&nbsp;    }
-<i>242</i>&nbsp;}
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;    @PostMapping(&quot;/deleteAnnouncement&quot;)
+<i>244</i>&nbsp;    @ResponseBody
+<i>245</i>&nbsp;    public CommonReturnType deleteAnnouncement(@RequestBody Announcement announcement) {
+<b class="fc"><i>246</i>&nbsp;        return CommonReturnType.autoCreate(announcementService</b>
+<b class="fc"><i>247</i>&nbsp;                .deleteAnnouncement(announcement.getAnnouncementId()));</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

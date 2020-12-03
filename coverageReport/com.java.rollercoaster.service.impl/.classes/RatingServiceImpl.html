@@ -1,0 +1,119 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RatingServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.service.impl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RatingServiceImpl (com.java.rollercoaster.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RatingServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (10/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service.impl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.dao.FacilityMapper;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Facility;
+<i>6</i>&nbsp;import com.java.rollercoaster.service.RatingService;
+<i>7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>8</i>&nbsp;import org.springframework.stereotype.Service;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;@Service
+<b class="fc"><i>11</i>&nbsp;public class RatingServiceImpl implements RatingService {</b>
+<i>12</i>&nbsp;    @Autowired
+<i>13</i>&nbsp;    private FacilityMapper facilityMapper;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    @Override
+<i>16</i>&nbsp;    public ErrorEnum rateFacility(String facilityName, float rate) {
+<b class="fc"><i>17</i>&nbsp;        if (null == facilityName) {</b>
+<b class="nc"><i>18</i>&nbsp;            return ErrorEnum.EMPTY_FACILITY_NAME;</b>
+<b class="fc"><i>19</i>&nbsp;        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {</b>
+<b class="nc"><i>20</i>&nbsp;            return ErrorEnum.NO_SUCH_FACILITY;</b>
+<i>21</i>&nbsp;        }
+<b class="fc"><i>22</i>&nbsp;        Facility facility = facilityMapper.selectByPrimaryKey(facilityName);</b>
+<b class="fc"><i>23</i>&nbsp;        if (null == facility.getRating() || null == facility.getRatingPeople()) {</b>
+<b class="nc"><i>24</i>&nbsp;            facility.setRating(rate);</b>
+<b class="nc"><i>25</i>&nbsp;            facility.setRating((float)1);</b>
+<i>26</i>&nbsp;        } else {
+<b class="fc"><i>27</i>&nbsp;            facility.setRating((facility.getRating() * facility.getRatingPeople()</b>
+<b class="fc"><i>28</i>&nbsp;                    + rate) / (facility.getRatingPeople() + 1));</b>
+<b class="fc"><i>29</i>&nbsp;            facility.setRatingPeople(facility.getRatingPeople() + 1);</b>
+<i>30</i>&nbsp;        }
+<b class="fc"><i>31</i>&nbsp;        facilityMapper.updateByPrimaryKeySelective(facility);</b>
+<b class="fc"><i>32</i>&nbsp;        return ErrorEnum.OK;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
+</div>
+</body>
+</html>

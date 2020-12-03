@@ -110,11 +110,11 @@
 <b class="fc"><i>36</i>&nbsp;    }</b>
 <i>37</i>&nbsp;
 <i>38</i>&nbsp;    public Date getCommentTime() {
-<b class="fc"><i>39</i>&nbsp;        return commentTime;</b>
+<b class="fc"><i>39</i>&nbsp;        return new Date(commentTime.getTime());</b>
 <i>40</i>&nbsp;    }
 <i>41</i>&nbsp;
 <i>42</i>&nbsp;    public void setCommentTime(Date commentTime) {
-<b class="fc"><i>43</i>&nbsp;        this.commentTime = commentTime;</b>
+<b class="fc"><i>43</i>&nbsp;        this.commentTime = new Date(commentTime.getTime());</b>
 <b class="fc"><i>44</i>&nbsp;    }</b>
 <i>45</i>&nbsp;
 <i>46</i>&nbsp;    public String getCommentContent() {
@@ -130,7 +130,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

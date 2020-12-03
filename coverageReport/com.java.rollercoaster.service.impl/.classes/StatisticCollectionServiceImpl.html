@@ -53,15 +53,15 @@
     100%
   </span>
   <span class="absValue">
-    (5/ 5)
+    (7/ 7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    98.5%
   </span>
   <span class="absValue">
-    (52/ 52)
+    (66/ 67)
   </span>
 </td>
 </tr>
@@ -74,107 +74,134 @@
 
 <div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service.impl;
 <i>2</i>&nbsp;
-<i>3</i>&nbsp;import com.java.rollercoaster.dao.TicketMapper;
-<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
-<i>5</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
-<i>6</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
-<i>7</i>&nbsp;import com.java.rollercoaster.pojo.TicketExample;
-<i>8</i>&nbsp;import com.java.rollercoaster.service.StatisticCollectionService;
-<i>9</i>&nbsp;import com.java.rollercoaster.service.model.MyCalendar;
-<i>10</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.Status;
-<i>11</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-<i>12</i>&nbsp;import org.springframework.stereotype.Service;
-<i>13</i>&nbsp;
-<i>14</i>&nbsp;import java.util.ArrayList;
-<i>15</i>&nbsp;import java.util.Calendar;
-<i>16</i>&nbsp;import java.util.Date;
-<i>17</i>&nbsp;import java.util.List;
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;@Service
-<b class="fc"><i>20</i>&nbsp;public class StatisticCollectionServiceImpl implements StatisticCollectionService {</b>
-<i>21</i>&nbsp;    @Autowired
-<i>22</i>&nbsp;    TicketMapper ticketMapper;
-<i>23</i>&nbsp;
-<i>24</i>&nbsp;    @Override
-<i>25</i>&nbsp;    public int peopleInThatDay(MyCalendar myCalendar) throws BusinessException {
-<b class="fc"><i>26</i>&nbsp;        if (null == myCalendar.getDay()</b>
-<b class="fc"><i>27</i>&nbsp;                || null == myCalendar.getMonth()</b>
-<b class="fc"><i>28</i>&nbsp;                || null == myCalendar.getYear()) {</b>
-<b class="fc"><i>29</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
-<i>30</i>&nbsp;        }
-<b class="fc"><i>31</i>&nbsp;        TicketExample ticketExample = new TicketExample();</b>
-<b class="fc"><i>32</i>&nbsp;        TicketExample.Criteria criteria = ticketExample.createCriteria();</b>
-<b class="fc"><i>33</i>&nbsp;        Calendar calendar = Calendar.getInstance();</b>
-<b class="fc"><i>34</i>&nbsp;        calendar.set(myCalendar.getYear(), myCalendar.getMonth() - 1,</b>
-<b class="fc"><i>35</i>&nbsp;                myCalendar.getDay());</b>
-<b class="fc"><i>36</i>&nbsp;        criteria.andValidDateEqualTo(calendar.getTime());</b>
-<b class="fc"><i>37</i>&nbsp;        criteria.andStatusEqualTo(Status.used);</b>
-<b class="fc"><i>38</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</b>
-<b class="fc"><i>39</i>&nbsp;        return ticketList.size();</b>
-<i>40</i>&nbsp;    }
-<i>41</i>&nbsp;
-<i>42</i>&nbsp;    @Override
-<i>43</i>&nbsp;    public int peopleInThatMonth(MyCalendar myCalendar) throws BusinessException {
-<b class="fc"><i>44</i>&nbsp;        if (null == myCalendar.getMonth()</b>
-<b class="fc"><i>45</i>&nbsp;                || null == myCalendar.getYear()) {</b>
-<b class="fc"><i>46</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
-<i>47</i>&nbsp;        }
-<b class="fc"><i>48</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</b>
-<b class="fc"><i>49</i>&nbsp;        int year = myCalendar.getYear();</b>
-<b class="fc"><i>50</i>&nbsp;        int month = myCalendar.getMonth() - 1;</b>
-<b class="fc"><i>51</i>&nbsp;        int count = 0;</b>
-<b class="fc"><i>52</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
-<b class="fc"><i>53</i>&nbsp;            Calendar curCalendar = Calendar.getInstance();</b>
-<b class="fc"><i>54</i>&nbsp;            curCalendar.setTime(ticket.getValidDate());</b>
-<b class="fc"><i>55</i>&nbsp;            int curYear = curCalendar.get(Calendar.YEAR);</b>
-<b class="fc"><i>56</i>&nbsp;            int curMonth = curCalendar.get(Calendar.MONTH);</b>
-<b class="fc"><i>57</i>&nbsp;            if (ticket.getStatus() == Status.used</b>
-<i>58</i>&nbsp;                    &amp;&amp; curYear == year &amp;&amp; curMonth == month) {
-<b class="fc"><i>59</i>&nbsp;                count += 1;</b>
-<i>60</i>&nbsp;            }
-<b class="fc"><i>61</i>&nbsp;        }</b>
-<b class="fc"><i>62</i>&nbsp;        return count;</b>
-<i>63</i>&nbsp;    }
-<i>64</i>&nbsp;
-<i>65</i>&nbsp;    @Override
-<i>66</i>&nbsp;    public int peopleInThatYear(MyCalendar myCalendar) throws BusinessException {
-<b class="fc"><i>67</i>&nbsp;        if (null == myCalendar.getYear()) {</b>
-<b class="fc"><i>68</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
-<i>69</i>&nbsp;        }
-<b class="fc"><i>70</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</b>
-<b class="fc"><i>71</i>&nbsp;        int year = myCalendar.getYear();</b>
-<b class="fc"><i>72</i>&nbsp;        int count = 0;</b>
-<b class="fc"><i>73</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
-<b class="fc"><i>74</i>&nbsp;            Calendar curCalendar = Calendar.getInstance();</b>
-<b class="fc"><i>75</i>&nbsp;            curCalendar.setTime(ticket.getValidDate());</b>
-<b class="fc"><i>76</i>&nbsp;            int curYear = curCalendar.get(Calendar.YEAR);</b>
-<b class="fc"><i>77</i>&nbsp;            if (ticket.getStatus() == Status.used</b>
-<i>78</i>&nbsp;                    &amp;&amp; curYear == year) {
-<b class="fc"><i>79</i>&nbsp;                count += 1;</b>
-<i>80</i>&nbsp;            }
-<b class="fc"><i>81</i>&nbsp;        }</b>
-<b class="fc"><i>82</i>&nbsp;        return count;</b>
-<i>83</i>&nbsp;    }
-<i>84</i>&nbsp;
-<i>85</i>&nbsp;    @Override
-<i>86</i>&nbsp;    public List&lt;Date&gt; whichDaysVisited(int userId) {
-<b class="fc"><i>87</i>&nbsp;        List&lt;Date&gt; dates = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>88</i>&nbsp;        TicketExample ticketExample = new TicketExample();</b>
-<b class="fc"><i>89</i>&nbsp;        ticketExample.createCriteria().andStatusEqualTo(Status.used)</b>
-<b class="fc"><i>90</i>&nbsp;                .andUserIdEqualTo(userId);</b>
-<b class="fc"><i>91</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</b>
-<b class="fc"><i>92</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
-<b class="fc"><i>93</i>&nbsp;            dates.add(ticket.getValidDate());</b>
-<b class="fc"><i>94</i>&nbsp;        }</b>
-<b class="fc"><i>95</i>&nbsp;        return dates;</b>
-<i>96</i>&nbsp;    }
-<i>97</i>&nbsp;}
+<i>3</i>&nbsp;import com.java.rollercoaster.dao.FacilityMapper;
+<i>4</i>&nbsp;import com.java.rollercoaster.dao.TicketMapper;
+<i>5</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>6</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>7</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
+<i>8</i>&nbsp;import com.java.rollercoaster.pojo.TicketExample;
+<i>9</i>&nbsp;import com.java.rollercoaster.service.QueryService;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.StatisticCollectionService;
+<i>11</i>&nbsp;import com.java.rollercoaster.service.model.FacilityModel;
+<i>12</i>&nbsp;import com.java.rollercoaster.service.model.MyCalendar;
+<i>13</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.Status;
+<i>14</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>15</i>&nbsp;import org.springframework.stereotype.Service;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.Calendar;
+<i>19</i>&nbsp;import java.util.Date;
+<i>20</i>&nbsp;import java.util.List;
+<i>21</i>&nbsp;import java.util.Optional;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;@Service
+<b class="fc"><i>24</i>&nbsp;public class StatisticCollectionServiceImpl implements StatisticCollectionService {</b>
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    private TicketMapper ticketMapper;
+<i>27</i>&nbsp;    @Autowired
+<i>28</i>&nbsp;    private QueryService queryService;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public int peopleInThatDay(MyCalendar myCalendar) throws BusinessException {
+<b class="fc"><i>32</i>&nbsp;        if (null == myCalendar.getDay()</b>
+<b class="fc"><i>33</i>&nbsp;                || null == myCalendar.getMonth()</b>
+<b class="fc"><i>34</i>&nbsp;                || null == myCalendar.getYear()) {</b>
+<b class="fc"><i>35</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
+<i>36</i>&nbsp;        }
+<b class="fc"><i>37</i>&nbsp;        TicketExample ticketExample = new TicketExample();</b>
+<b class="fc"><i>38</i>&nbsp;        TicketExample.Criteria criteria = ticketExample.createCriteria();</b>
+<b class="fc"><i>39</i>&nbsp;        Calendar calendar = Calendar.getInstance();</b>
+<b class="fc"><i>40</i>&nbsp;        calendar.set(myCalendar.getYear(), myCalendar.getMonth() - 1,</b>
+<b class="fc"><i>41</i>&nbsp;                myCalendar.getDay());</b>
+<b class="fc"><i>42</i>&nbsp;        if (calendar.getTime().getTime() &gt; new Date().getTime()) {</b>
+<b class="nc"><i>43</i>&nbsp;            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_DAY);</b>
+<i>44</i>&nbsp;        }
+<b class="fc"><i>45</i>&nbsp;        criteria.andValidDateEqualTo(calendar.getTime());</b>
+<b class="fc"><i>46</i>&nbsp;        criteria.andStatusEqualTo(Status.used);</b>
+<b class="fc"><i>47</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</b>
+<b class="fc"><i>48</i>&nbsp;        return ticketList.size();</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Override
+<i>52</i>&nbsp;    public int peopleInThatMonth(MyCalendar myCalendar) throws BusinessException {
+<b class="fc"><i>53</i>&nbsp;        if (null == myCalendar.getMonth()</b>
+<b class="fc"><i>54</i>&nbsp;                || null == myCalendar.getYear()) {</b>
+<b class="fc"><i>55</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
+<i>56</i>&nbsp;        }
+<b class="fc"><i>57</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</b>
+<b class="fc"><i>58</i>&nbsp;        int year = myCalendar.getYear();</b>
+<b class="fc"><i>59</i>&nbsp;        int month = myCalendar.getMonth() - 1;</b>
+<b class="fc"><i>60</i>&nbsp;        int count = 0;</b>
+<b class="fc"><i>61</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
+<b class="fc"><i>62</i>&nbsp;            Calendar curCalendar = Calendar.getInstance();</b>
+<b class="fc"><i>63</i>&nbsp;            curCalendar.setTime(ticket.getValidDate());</b>
+<b class="fc"><i>64</i>&nbsp;            int curYear = curCalendar.get(Calendar.YEAR);</b>
+<b class="fc"><i>65</i>&nbsp;            int curMonth = curCalendar.get(Calendar.MONTH);</b>
+<b class="fc"><i>66</i>&nbsp;            if (ticket.getStatus() == Status.used</b>
+<i>67</i>&nbsp;                    &amp;&amp; curYear == year &amp;&amp; curMonth == month) {
+<b class="fc"><i>68</i>&nbsp;                count += 1;</b>
+<i>69</i>&nbsp;            }
+<b class="fc"><i>70</i>&nbsp;        }</b>
+<b class="fc"><i>71</i>&nbsp;        return count;</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    @Override
+<i>75</i>&nbsp;    public int peopleInThatYear(MyCalendar myCalendar) throws BusinessException {
+<b class="fc"><i>76</i>&nbsp;        if (null == myCalendar.getYear()) {</b>
+<b class="fc"><i>77</i>&nbsp;            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</b>
+<b class="fc"><i>80</i>&nbsp;        int year = myCalendar.getYear();</b>
+<b class="fc"><i>81</i>&nbsp;        int count = 0;</b>
+<b class="fc"><i>82</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
+<b class="fc"><i>83</i>&nbsp;            Calendar curCalendar = Calendar.getInstance();</b>
+<b class="fc"><i>84</i>&nbsp;            curCalendar.setTime(ticket.getValidDate());</b>
+<b class="fc"><i>85</i>&nbsp;            int curYear = curCalendar.get(Calendar.YEAR);</b>
+<b class="fc"><i>86</i>&nbsp;            if (ticket.getStatus() == Status.used</b>
+<i>87</i>&nbsp;                    &amp;&amp; curYear == year) {
+<b class="fc"><i>88</i>&nbsp;                count += 1;</b>
+<i>89</i>&nbsp;            }
+<b class="fc"><i>90</i>&nbsp;        }</b>
+<b class="fc"><i>91</i>&nbsp;        return count;</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    @Override
+<i>95</i>&nbsp;    public List&lt;Date&gt; whichDaysVisited(int userId) {
+<b class="fc"><i>96</i>&nbsp;        List&lt;Date&gt; dates = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>97</i>&nbsp;        TicketExample ticketExample = new TicketExample();</b>
+<b class="fc"><i>98</i>&nbsp;        ticketExample.createCriteria().andStatusEqualTo(Status.used)</b>
+<b class="fc"><i>99</i>&nbsp;                .andUserIdEqualTo(userId);</b>
+<b class="fc"><i>100</i>&nbsp;        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</b>
+<b class="fc"><i>101</i>&nbsp;        for (Ticket ticket : ticketList) {</b>
+<b class="fc"><i>102</i>&nbsp;            dates.add(ticket.getValidDate());</b>
+<b class="fc"><i>103</i>&nbsp;        }</b>
+<b class="fc"><i>104</i>&nbsp;        return dates;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    @Override
+<i>108</i>&nbsp;    public List&lt;FacilityModel&gt; top5Facility() throws BusinessException {
+<b class="fc"><i>109</i>&nbsp;        List&lt;FacilityModel&gt; facilities = queryService.queryAllFacilities();</b>
+<b class="fc"><i>110</i>&nbsp;        System.out.println(&quot;****&quot;);</b>
+<b class="fc"><i>111</i>&nbsp;        for (FacilityModel facilityModel : facilities) {</b>
+<b class="fc"><i>112</i>&nbsp;            System.out.println(facilityModel.getFacilityName());</b>
+<b class="fc"><i>113</i>&nbsp;            System.out.println(facilityModel.getRating());</b>
+<b class="fc"><i>114</i>&nbsp;        }</b>
+<b class="fc"><i>115</i>&nbsp;        facilities.sort((o1, o2) -&gt;</b>
+<b class="fc"><i>116</i>&nbsp;                Optional.ofNullable(o1.getRating()).orElse(0f)</b>
+<b class="fc"><i>117</i>&nbsp;                        &gt; Optional.ofNullable(o2.getRating()).orElse(0f) ? -1 : 1);</b>
+<b class="fc"><i>118</i>&nbsp;        List&lt;FacilityModel&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>119</i>&nbsp;        for (int i = 0; i &lt; Math.min(5, facilities.size()); i++) {</b>
+<b class="fc"><i>120</i>&nbsp;            result.add(facilities.get(i));</b>
+<i>121</i>&nbsp;        }
+<b class="fc"><i>122</i>&nbsp;        return result;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +90,50 @@ public class StatisticCollectionServiceTest {
     }
 
     @Test
+    public void testPeopleInThatDayFail2() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setDay(20);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatDayFail3() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setMonth(10);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    public void testPeopleInThatDayFail4() throws ParseException {
+        init();
+        Calendar calendar = Calendar.getInstance();
+
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(calendar.get(Calendar.YEAR));
+        myCalendar.setMonth(calendar.get(Calendar.MONTH) + 1);
+        myCalendar.setDay(calendar.get(Calendar.DATE) + 8);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.TIME_OVER_CURRENT_DAY, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
     public void testPeopleInThatDayNormal() throws ParseException, BusinessException {
         init();
         MyCalendar myCalendar = new MyCalendar();
@@ -135,6 +180,8 @@ public class StatisticCollectionServiceTest {
         }
         finish();
     }
+
+
 
     @Test
     public void testPeopleInThatYearNormal() throws ParseException, BusinessException {

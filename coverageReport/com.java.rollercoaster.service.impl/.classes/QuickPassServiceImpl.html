@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: QuickPassServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.service.impl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: QuickPassServiceImpl (com.java.rollercoaster.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">QuickPassServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (15/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.service.impl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.dao.FacilityMapper;
+<i>4</i>&nbsp;import com.java.rollercoaster.dao.QuickPassMapper;
+<i>5</i>&nbsp;import com.java.rollercoaster.dao.UserAccountMapper;
+<i>6</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>7</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>8</i>&nbsp;import com.java.rollercoaster.pojo.QuickPass;
+<i>9</i>&nbsp;import com.java.rollercoaster.pojo.QuickPassExample;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.AppointmentService;
+<i>11</i>&nbsp;import com.java.rollercoaster.service.QuickPassService;
+<i>12</i>&nbsp;import com.java.rollercoaster.service.model.TimedAppointmentModel;
+<i>13</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>14</i>&nbsp;import com.java.rollercoaster.service.model.enumeration.Role;
+<i>15</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>16</i>&nbsp;import org.springframework.stereotype.Service;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.util.ArrayList;
+<i>19</i>&nbsp;import java.util.List;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@Service
+<b class="fc"><i>22</i>&nbsp;public class QuickPassServiceImpl implements QuickPassService {</b>
+<i>23</i>&nbsp;    @Autowired
+<i>24</i>&nbsp;    QuickPassMapper quickPassMapper;
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    FacilityMapper facilityMapper;
+<i>27</i>&nbsp;    @Autowired
+<i>28</i>&nbsp;    UserAccountMapper userAccountMapper;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Override
+<i>31</i>&nbsp;    public String addQuickPass(QuickPass quickPass) throws BusinessException {
+<b class="fc"><i>32</i>&nbsp;        if (null != quickPassMapper.selectByPrimaryKey(quickPass</b>
+<b class="fc"><i>33</i>&nbsp;                .getQuickpassId())) {</b>
+<b class="nc"><i>34</i>&nbsp;            throw new BusinessException(ErrorEnum.DUPLICATE_QUICKPASS);</b>
+<b class="fc"><i>35</i>&nbsp;        } else if (null == facilityMapper.selectByPrimaryKey(quickPass.getFacilityName())) {</b>
+<b class="nc"><i>36</i>&nbsp;            throw new BusinessException(ErrorEnum.NO_SUCH_FACILITY);</b>
+<b class="fc"><i>37</i>&nbsp;        } else if (null == userAccountMapper.selectByPrimaryKey(quickPass.getUserId())) {</b>
+<b class="nc"><i>38</i>&nbsp;            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</b>
+<i>39</i>&nbsp;        }
+<b class="fc"><i>40</i>&nbsp;        quickPassMapper.insert(quickPass);</b>
+<b class="fc"><i>41</i>&nbsp;        return quickPass.getQuickpassId();</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    public ErrorEnum deleteQuickPass(String quickPassId, UserModel userModel) {
+<b class="fc"><i>46</i>&nbsp;        if (quickPassMapper.selectByPrimaryKey(quickPassId) == null) {</b>
+<b class="nc"><i>47</i>&nbsp;            return ErrorEnum.QUICKPASS_NOT_EXIST;</b>
+<i>48</i>&nbsp;        }
+<b class="fc"><i>49</i>&nbsp;        if ((userModel.getUserId().intValue()</b>
+<b class="fc"><i>50</i>&nbsp;                != quickPassMapper.selectByPrimaryKey(quickPassId).getUserId().intValue())</b>
+<b class="nc"><i>51</i>&nbsp;            &amp;&amp; (userAccountMapper.selectByPrimaryKey(userModel.getUserId()).getRole()</b>
+<i>52</i>&nbsp;                != Role.manager)) {
+<b class="nc"><i>53</i>&nbsp;            return ErrorEnum.NOT_SAME_VISITOR;</b>
+<i>54</i>&nbsp;        }
+<b class="fc"><i>55</i>&nbsp;        quickPassMapper.deleteByPrimaryKey(quickPassId);</b>
+<b class="fc"><i>56</i>&nbsp;        return ErrorEnum.OK;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @Override
+<i>60</i>&nbsp;    public List&lt;QuickPass&gt; getQuickPassByUserId(Integer userId) {
+<b class="fc"><i>61</i>&nbsp;        QuickPassExample example = new QuickPassExample();</b>
+<b class="fc"><i>62</i>&nbsp;        example.createCriteria().andUserIdEqualTo(userId);</b>
+<b class="fc"><i>63</i>&nbsp;        return quickPassMapper.selectByExample(example);</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
+</div>
+</body>
+</html>

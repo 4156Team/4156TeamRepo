@@ -73,10 +73,7 @@ public class FacilityModel {
      *
      */
     public Date getFacilityOpenTime() {
-        if (this.facilityOpenTime == null) {
-            return null;
-        }
-        return (Date) facilityOpenTime.clone();
+        return new Date(facilityOpenTime.getTime());
     }
 
     /**
@@ -84,11 +81,7 @@ public class FacilityModel {
      *
      */
     public void setFacilityOpenTime(Date facilityOpenTime) {
-        if (facilityOpenTime == null) {
-            this.facilityOpenTime = null;
-        } else {
-            this.facilityOpenTime = (Date) facilityOpenTime.clone();
-        }
+        this.facilityOpenTime = new Date(facilityOpenTime.getTime());
 
     }
 
@@ -97,10 +90,7 @@ public class FacilityModel {
      *
      */
     public Date getFacilityCloseTime() {
-        if (this.facilityCloseTime == null) {
-            return null;
-        }
-        return (Date) facilityCloseTime.clone();
+        return new Date(facilityCloseTime.getTime());
     }
 
     /**
@@ -108,11 +98,7 @@ public class FacilityModel {
      *
      */
     public void setFacilityCloseTime(Date facilityCloseTime) {
-        if (facilityCloseTime == null) {
-            this.facilityCloseTime = null;
-        } else {
-            this.facilityCloseTime = (Date) facilityCloseTime.clone();
-        }
+        this.facilityCloseTime = new Date(facilityCloseTime.getTime());
     }
 
     public Integer getQueueStatus() {

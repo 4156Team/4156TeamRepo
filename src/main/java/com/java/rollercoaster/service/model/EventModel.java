@@ -37,10 +37,7 @@ public class EventModel {
      *
      */
     public Date getStartTime() {
-        if (this.startTime == null) {
-            return null;
-        }
-        return (Date) startTime.clone();
+        return new Date(startTime.getTime());
     }
 
     /**
@@ -62,10 +59,7 @@ public class EventModel {
      *
      */
     public Date getEndTime() {
-        if (this.endTime == null) {
-            return null;
-        }
-        return (Date) endTime.clone();
+        return new Date(endTime.getTime());
     }
 
     /**

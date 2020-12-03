@@ -78,92 +78,90 @@
 <i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
 <i>5</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
 <i>6</i>&nbsp;import com.java.rollercoaster.service.QueryService;
-<i>7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-<i>8</i>&nbsp;import org.springframework.stereotype.Controller;
-<i>9</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
-<i>10</i>&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
-<i>11</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
-<i>12</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.model.QueryEventModel;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.model.QueryFacilityModel;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>11</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>12</i>&nbsp;
 <i>13</i>&nbsp;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;@Controller(&quot;query&quot;)
-<i>16</i>&nbsp;@RequestMapping(&quot;/query&quot;)
-<b class="fc"><i>17</i>&nbsp;public class QueryController {</b>
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    @Autowired
-<i>20</i>&nbsp;    QueryService queryService;
-<i>21</i>&nbsp;
-<i>22</i>&nbsp;    /**
-<i>23</i>&nbsp;     * End point to query an event according to event name.
+<i>14</i>&nbsp;@Controller(&quot;query&quot;)
+<i>15</i>&nbsp;@RequestMapping(&quot;/query&quot;)
+<b class="fc"><i>16</i>&nbsp;public class QueryController {</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Autowired
+<i>19</i>&nbsp;    QueryService queryService;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * End point to query an event according to event name.
+<i>23</i>&nbsp;     *
 <i>24</i>&nbsp;     *
-<i>25</i>&nbsp;     *
-<i>26</i>&nbsp;     * @param  eventName        name of the event
-<i>27</i>&nbsp;     * @return                 a CommonReturnType
-<i>28</i>&nbsp;     */
-<i>29</i>&nbsp;    @RequestMapping(value = &quot;/Event&quot;, method = {RequestMethod.GET})
-<i>30</i>&nbsp;    @ResponseBody
-<i>31</i>&nbsp;    public CommonReturnType queryEvent(@RequestParam(name = &quot;eventName&quot;) String eventName) {
-<i>32</i>&nbsp;        try {
-<b class="fc"><i>33</i>&nbsp;            return CommonReturnType.create(queryService.queryEvent(eventName));</b>
-<b class="fc"><i>34</i>&nbsp;        } catch (BusinessException err) {</b>
-<b class="fc"><i>35</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);</b>
-<i>36</i>&nbsp;        }
-<i>37</i>&nbsp;    }
-<i>38</i>&nbsp;
-<i>39</i>&nbsp;    /**
-<i>40</i>&nbsp;     * End point to query all events.
-<i>41</i>&nbsp;     *
-<i>42</i>&nbsp;     * @return                 all events
-<i>43</i>&nbsp;     */
-<i>44</i>&nbsp;    @RequestMapping(value = &quot;/AllEvent&quot;, method = {RequestMethod.GET})
-<i>45</i>&nbsp;    @ResponseBody
-<i>46</i>&nbsp;    public CommonReturnType queryAllEvent() {
-<i>47</i>&nbsp;        try {
-<b class="nc"><i>48</i>&nbsp;            return CommonReturnType.create(queryService.queryAllEvents());</b>
-<b class="nc"><i>49</i>&nbsp;        } catch (BusinessException err) {</b>
-<b class="nc"><i>50</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);</b>
-<i>51</i>&nbsp;        }
-<i>52</i>&nbsp;    }
-<i>53</i>&nbsp;
-<i>54</i>&nbsp;    /**
-<i>55</i>&nbsp;     * End point to query all facilities.
-<i>56</i>&nbsp;     *
-<i>57</i>&nbsp;     * @return                 all facilities
-<i>58</i>&nbsp;     */
-<i>59</i>&nbsp;    @RequestMapping(value = &quot;/AllFacility&quot;, method = {RequestMethod.GET})
-<i>60</i>&nbsp;    @ResponseBody
-<i>61</i>&nbsp;    public CommonReturnType queryAllFacility() {
-<i>62</i>&nbsp;        try {
-<b class="nc"><i>63</i>&nbsp;            return CommonReturnType.create(queryService.queryAllFacilities());</b>
-<b class="nc"><i>64</i>&nbsp;        } catch (BusinessException err) {</b>
-<b class="nc"><i>65</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);</b>
-<i>66</i>&nbsp;        }
-<i>67</i>&nbsp;    }
-<i>68</i>&nbsp;
-<i>69</i>&nbsp;    /**
-<i>70</i>&nbsp;     * End point to query an facility according to facility name.
+<i>25</i>&nbsp;     * @param  eventName        name of the event
+<i>26</i>&nbsp;     * @return                 a CommonReturnType
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    @RequestMapping(value = &quot;/Event&quot;, method = {RequestMethod.POST})
+<i>29</i>&nbsp;    @ResponseBody
+<i>30</i>&nbsp;    public CommonReturnType queryEvent(@RequestBody QueryEventModel eventName) {
+<i>31</i>&nbsp;        try {
+<b class="fc"><i>32</i>&nbsp;            return CommonReturnType.create(queryService.queryEvent(eventName.getEventName()));</b>
+<b class="fc"><i>33</i>&nbsp;        } catch (BusinessException err) {</b>
+<b class="fc"><i>34</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);</b>
+<i>35</i>&nbsp;        }
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * End point to query all events.
+<i>40</i>&nbsp;     *
+<i>41</i>&nbsp;     * @return                 all events
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    @RequestMapping(value = &quot;/AllEvent&quot;, method = {RequestMethod.GET})
+<i>44</i>&nbsp;    @ResponseBody
+<i>45</i>&nbsp;    public CommonReturnType queryAllEvent() {
+<i>46</i>&nbsp;        try {
+<b class="nc"><i>47</i>&nbsp;            return CommonReturnType.create(queryService.queryAllEvents());</b>
+<b class="nc"><i>48</i>&nbsp;        } catch (BusinessException err) {</b>
+<b class="nc"><i>49</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);</b>
+<i>50</i>&nbsp;        }
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * End point to query all facilities.
+<i>55</i>&nbsp;     *
+<i>56</i>&nbsp;     * @return                 all facilities
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    @RequestMapping(value = &quot;/AllFacility&quot;, method = {RequestMethod.GET})
+<i>59</i>&nbsp;    @ResponseBody
+<i>60</i>&nbsp;    public CommonReturnType queryAllFacility() {
+<i>61</i>&nbsp;        try {
+<b class="nc"><i>62</i>&nbsp;            return CommonReturnType.create(queryService.queryAllFacilities());</b>
+<b class="nc"><i>63</i>&nbsp;        } catch (BusinessException err) {</b>
+<b class="nc"><i>64</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);</b>
+<i>65</i>&nbsp;        }
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * End point to query an facility according to facility name.
+<i>70</i>&nbsp;     *
 <i>71</i>&nbsp;     *
-<i>72</i>&nbsp;     *
-<i>73</i>&nbsp;     * @param  facilityName    name of the facility
-<i>74</i>&nbsp;     * @return                 a CommonReturnType
-<i>75</i>&nbsp;     */
-<i>76</i>&nbsp;    @RequestMapping(value = &quot;/Facility&quot;, method = {RequestMethod.GET})
-<i>77</i>&nbsp;    @ResponseBody
-<i>78</i>&nbsp;    public CommonReturnType queryFacility(@RequestParam(name = &quot;facilityName&quot;)
-<i>79</i>&nbsp;                                                      String facilityName) {
-<i>80</i>&nbsp;        try {
-<b class="fc"><i>81</i>&nbsp;            return CommonReturnType.create(queryService.queryFacility(facilityName));</b>
-<b class="fc"><i>82</i>&nbsp;        } catch (BusinessException err) {</b>
-<b class="fc"><i>83</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);</b>
-<i>84</i>&nbsp;        }
-<i>85</i>&nbsp;    }
-<i>86</i>&nbsp;}
+<i>72</i>&nbsp;     * @param  facilityName    name of the facility
+<i>73</i>&nbsp;     * @return                 a CommonReturnType
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    @RequestMapping(value = &quot;/Facility&quot;, method = {RequestMethod.POST})
+<i>76</i>&nbsp;    @ResponseBody
+<i>77</i>&nbsp;    public CommonReturnType queryFacility(@RequestBody QueryFacilityModel facilityName) {
+<i>78</i>&nbsp;        try {
+<b class="fc"><i>79</i>&nbsp;            return CommonReturnType.create(queryService.queryFacility(facilityName.getFacilityName()));</b>
+<b class="fc"><i>80</i>&nbsp;        } catch (BusinessException err) {</b>
+<b class="fc"><i>81</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>
