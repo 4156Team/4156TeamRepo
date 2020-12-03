@@ -46,6 +46,9 @@ public class QuickPassServiceImpl implements QuickPassService {
         if (quickPassMapper.selectByPrimaryKey(quickPassId) == null) {
             return ErrorEnum.QUICKPASS_NOT_EXIST;
         }
+        if (null == userAccountMapper.selectByPrimaryKey(userModel.getUserId())) {
+            return ErrorEnum.USER_NOT_EXIST;
+        }
         if ((userModel.getUserId().intValue()
                 != quickPassMapper.selectByPrimaryKey(quickPassId).getUserId().intValue())
             && (userAccountMapper.selectByPrimaryKey(userModel.getUserId()).getRole()
