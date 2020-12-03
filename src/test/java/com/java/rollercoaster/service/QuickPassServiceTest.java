@@ -125,6 +125,8 @@ class QuickPassServiceTest {
 
     @Test
     public void addQCTest2() throws BusinessException {
+        removeUser1();
+        removeUser();
         removeFacility();
         initFacility();
         quickPassMapper.deleteByPrimaryKey("qdid1");
@@ -145,6 +147,8 @@ class QuickPassServiceTest {
 
     @Test
     public void addQCTest3() throws BusinessException {
+        removeUser1();
+        removeUser();
         removeFacility();
         initFacility();
         Integer userId = initUser();
@@ -167,6 +171,8 @@ class QuickPassServiceTest {
 
     @Test
     public void deleteQCTest0() throws BusinessException {
+        removeUser1();
+        removeUser();
         removeFacility();
         initFacility();
         Integer userId = initUser();
@@ -187,6 +193,7 @@ class QuickPassServiceTest {
 
     @Test
     public void deleteQCTest1() throws BusinessException {
+        removeUser1();
         removeUser();
         removeFacility();
         initFacility();
@@ -202,6 +209,7 @@ class QuickPassServiceTest {
 
     @Test
     public void deleteQCTest2() throws BusinessException {
+        removeUser1();
         removeUser();
         removeFacility();
         initFacility();
@@ -223,6 +231,8 @@ class QuickPassServiceTest {
 
     @Test
     public void deleteQCTest3() throws BusinessException {
+        removeUser1();
+        removeUser();
         removeFacility();
         initFacility();
         Integer userId = initUser();
@@ -245,6 +255,8 @@ class QuickPassServiceTest {
 
     @Test
     public void getQCTest0() throws BusinessException {
+        removeUser1();
+        removeUser();
         removeFacility();
         initFacility();
         Integer userId = initUser();
