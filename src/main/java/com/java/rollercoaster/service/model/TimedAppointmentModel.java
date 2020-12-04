@@ -20,10 +20,6 @@ public class TimedAppointmentModel extends Appointment {
 
     private String eventLocation;
 
-    public TimedAppointmentModel() {
-
-    }
-
     /**
      * This is a constructor for TimedAppointmentModel.
      * @param appointment gives the information contained in appointment object.
