@@ -15,6 +15,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +33,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         if (null == announcement.getText()) {
             return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
         }
+        announcement.setDate(new Date());
         announcementMapper.insert(announcement);
         UserAccountExample userAccountExample = new UserAccountExample();
         List<UserAccount> userAccounts = userAccountMapper.selectByExample(userAccountExample);

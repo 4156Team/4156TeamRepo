@@ -6,4 +6,6 @@ public interface CheckInService {
     ErrorEnum checkTicket(String ticketId);
 
     ErrorEnum checkAppointments(String appointmentId);
+
+    ErrorEnum checkQuickPass(String quickPassId);
 }

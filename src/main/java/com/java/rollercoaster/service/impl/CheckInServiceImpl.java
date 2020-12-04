@@ -52,4 +52,9 @@ public class CheckInServiceImpl implements CheckInService {
         }
         return ErrorEnum.OK;
     }
+
+    @Override
+    public ErrorEnum checkQuickPass(String quickPassId) {
+        return null;
+    }
 }
