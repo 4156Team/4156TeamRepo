@@ -61,12 +61,12 @@ public class TimedAppointmentModel extends Appointment {
 
     @Override
     public Date getValidDate() {
-        return validDate == null ? null : (Date) validDate.clone();
+        return new Date(validDate.getTime());
     }
 
     @Override
     public void setValidDate(Date validDate) {
-        this.validDate = validDate == null ? null : (Date) validDate.clone();
+        this.validDate = new Date(validDate.getTime());
     }
 
     @Override
@@ -80,19 +80,19 @@ public class TimedAppointmentModel extends Appointment {
     }
 
     public Date getStartTime() {
-        return startTime == null ? null : (Date) startTime.clone();
+        return new Date(startTime.getTime());
     }
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime == null ? null : (Date) startTime.clone();
+        this.startTime = new Date(startTime.getTime());
     }
 
     public Date getEndTime() {
-        return endTime == null ? null : (Date) endTime.clone();
+        return new Date(endTime.getTime());
     }
 
     public void setEndTime(Date endTime) {
-        this.endTime = endTime == null ? null : (Date) endTime.clone();
+        this.endTime = new Date(endTime.getTime());
     }
 
     public String getEventLocation() {

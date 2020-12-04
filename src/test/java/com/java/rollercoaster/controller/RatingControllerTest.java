@@ -68,7 +68,7 @@ public class RatingControllerTest {
         assertEquals((float)3, facilityGot.getRating());
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-        ratingController.postRating("testFacility", 5 );
+        ratingController.postRating("testFacility", "5" );
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
         assertEquals((float)4, facilityGot.getRating());
 
@@ -89,7 +89,7 @@ public class RatingControllerTest {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals((ErrorEnum)ratingController.postRating("testFacility", 5).getData(), ErrorEnum.USER_NOT_LOGIN);
+        assertEquals((ErrorEnum)ratingController.postRating("testFacility", "5").getData(), ErrorEnum.USER_NOT_LOGIN);
 
         finish();
 
@@ -108,7 +108,7 @@ public class RatingControllerTest {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals((ErrorEnum)ratingController.postRating("testFacility", 5).getData(),
+        assertEquals((ErrorEnum)ratingController.postRating("testFacility", "5").getData(),
                 ErrorEnum.USER_NOT_EXIST);
 
         finish();

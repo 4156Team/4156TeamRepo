@@ -57,7 +57,7 @@ public class TicketServiceTest {
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
 
-        String addTicketReturn = ticketService.addTicket(ticket);
+        String addTicketReturn = ticketService.addTicket(ticket, userModel.getUserId());
         System.out.println(addTicketReturn);
 
         Ticket ticketGetBack = ticketMapper.selectByPrimaryKey("1");
@@ -175,7 +175,7 @@ public class TicketServiceTest {
     public void emptyTicketTest() throws ParseException, BusinessException {
         Ticket ticket = null;
         try {
-            ticketService.addTicket(ticket);
+            ticketService.addTicket(ticket, 1);
         } catch (BusinessException businessException) {
             assertEquals(ErrorEnum.EMPTY_TICKET, businessException.getCommonError());
         }

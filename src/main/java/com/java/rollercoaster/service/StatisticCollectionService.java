@@ -1,6 +1,7 @@
 package com.java.rollercoaster.service;
 
 import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.service.model.FacilityModel;
 import com.java.rollercoaster.service.model.MyCalendar;
 
 import java.util.Date;
@@ -15,6 +16,6 @@ public interface StatisticCollectionService {
 
     List<Date> whichDaysVisited(int userId);
 
-    //List<String> top5Facility();
+    List<FacilityModel> top5Facility() throws BusinessException;
 
 }

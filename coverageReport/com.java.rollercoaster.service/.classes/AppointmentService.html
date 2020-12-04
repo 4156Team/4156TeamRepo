@@ -42,28 +42,29 @@
 <i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
 <i>5</i>&nbsp;import com.java.rollercoaster.pojo.Appointment;
 <i>6</i>&nbsp;import com.java.rollercoaster.pojo.Ticket;
-<i>7</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
-<i>8</i>&nbsp;
-<i>9</i>&nbsp;import java.util.List;
-<i>10</i>&nbsp;
-<i>11</i>&nbsp;public interface AppointmentService {
-<i>12</i>&nbsp;
-<i>13</i>&nbsp;    String addAppointment(Appointment appointment) throws BusinessException;
-<i>14</i>&nbsp;    //return appointment id
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;    ErrorEnum updateAppointment(Appointment appointment);
-<i>17</i>&nbsp;    //update的时候对于传入的是null的属性不进行修改
-<i>18</i>&nbsp;
-<i>19</i>&nbsp;    ErrorEnum deleteAppointment(String appointmentId, UserModel userModel);
-<i>20</i>&nbsp;
-<i>21</i>&nbsp;    List&lt;Appointment&gt; getAppointmentsByUserId(Integer userId);
-<i>22</i>&nbsp;}
+<i>7</i>&nbsp;import com.java.rollercoaster.service.model.TimedAppointmentModel;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public interface AppointmentService {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    String addAppointment(Appointment appointment) throws BusinessException;
+<i>15</i>&nbsp;    //return appointment id
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    ErrorEnum updateAppointment(Appointment appointment);
+<i>18</i>&nbsp;    //update的时候对于传入的是null的属性不进行修改
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    ErrorEnum deleteAppointment(String appointmentId, UserModel userModel);
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    List&lt;TimedAppointmentModel&gt; getAppointmentsByUserId(Integer userId);
+<i>23</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

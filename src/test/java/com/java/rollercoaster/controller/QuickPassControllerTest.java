@@ -2,6 +2,7 @@ package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.dao.*;
 import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.*;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.QuickPassService;
@@ -93,6 +94,70 @@ public class QuickPassControllerTest {
     }
 
     @Test
+    public void addQuickPassTest2() throws BusinessException, ParseException {
+        facilityMapper.deleteByPrimaryKey("test facility");
+        UserModel userModel = initUser();
+        userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        System.out.println(userModel.getPhoneNumber());
+        initFacility();
+        QuickPass quickPass = new QuickPass();
+        quickPass.setFacilityName("test facility");
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setStartTime(new Date());
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        //httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        CommonReturnType response = quickPassController.addQuickPass(quickPass);
+        System.out.println(response.getData().toString());
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, (ErrorEnum)response.getData());
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+    }
+
+    @Test
+    public void addQuickPassTest3() throws BusinessException, ParseException {
+        facilityMapper.deleteByPrimaryKey("test facility");
+        UserModel userModel = initUser();
+        userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        System.out.println(userModel.getPhoneNumber());
+        initFacility();
+        QuickPass quickPass = new QuickPass();
+        quickPass.setFacilityName("test facility");
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setStartTime(new Date());
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        //httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        CommonReturnType response = quickPassController.addQuickPass(quickPass);
+        System.out.println(response.getData().toString());
+        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)response.getData());
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+    }
+
+    @Test
+    public void addQuickPassTest4() throws BusinessException, ParseException {
+        facilityMapper.deleteByPrimaryKey("test facility");
+        UserModel userModel = initUser();
+        userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        System.out.println(userModel.getPhoneNumber());
+        initFacility();
+        QuickPass quickPass = new QuickPass();
+        quickPass.setFacilityName("facilitydoesn'texist");
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setStartTime(new Date());
+
+        CommonReturnType response = quickPassController.addQuickPass(quickPass);
+        System.out.println(response.getData().toString());
+        assertEquals(ErrorEnum.NO_SUCH_FACILITY, (ErrorEnum)response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+    }
+
+    @Test
     public void deleteQuickPassTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         facilityMapper.deleteByPrimaryKey("test facility");
@@ -110,6 +175,55 @@ public class QuickPassControllerTest {
         assertEquals("success", response.getStatus());
         assertNull(quickPassMapper.selectByPrimaryKey("1"));
 
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+    }
+
+    @Test
+    public void deleteQuickPassTest2() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        facilityMapper.deleteByPrimaryKey("test facility");
+        Facility facility = initFacility();
+
+        QuickPass quickPass = new QuickPass();
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setFacilityName("test facility");
+        quickPass.setQuickpassId("1");
+        quickPass.setStartTime(new Date());
+        quickPassMapper.insertSelective(quickPass);
+
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        CommonReturnType response = quickPassController.deleteQuickPass("1");
+        System.out.println(response.getData().toString());
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, (ErrorEnum) response.getData());
+
+        quickPassMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+    }
+
+    @Test
+    public void deleteQuickPassTest3() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        facilityMapper.deleteByPrimaryKey("test facility");
+        Facility facility = initFacility();
+
+        QuickPass quickPass = new QuickPass();
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setFacilityName("test facility");
+        quickPass.setQuickpassId("1");
+        quickPass.setStartTime(new Date());
+        quickPassMapper.insertSelective(quickPass);
+
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        CommonReturnType response = quickPassController.deleteQuickPass("1");
+        System.out.println(response.getData().toString());
+        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum) response.getData());
+
+        quickPassMapper.deleteByPrimaryKey("1");
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         facilityMapper.deleteByPrimaryKey("test facility");
@@ -134,6 +248,54 @@ public class QuickPassControllerTest {
         assertEquals("1", quickPassList.get(0).getQuickpassId());
         assertEquals(userModel.getUserId(), quickPassList.get(0).getUserId());
         assertEquals("test facility", quickPassList.get(0).getFacilityName());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+        quickPassMapper.deleteByPrimaryKey("1");
+
+    }
+
+    @Test
+    public void getQuickPassTest2() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        Facility facility = initFacility();
+
+        QuickPass quickPass = new QuickPass();
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setFacilityName("test facility");
+        quickPass.setQuickpassId("1");
+        quickPass.setStartTime(new Date());
+        quickPassMapper.insertSelective(quickPass);
+
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        CommonReturnType response = quickPassController.getQuickPass(userModel.getUserId());
+
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, (ErrorEnum)response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        facilityMapper.deleteByPrimaryKey("test facility");
+        quickPassMapper.deleteByPrimaryKey("1");
+
+    }
+    @Test
+    public void getQuickPassTest3() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        Facility facility = initFacility();
+
+        QuickPass quickPass = new QuickPass();
+        quickPass.setUserId(userModel.getUserId());
+        quickPass.setFacilityName("test facility");
+        quickPass.setQuickpassId("1");
+        quickPass.setStartTime(new Date());
+        quickPassMapper.insertSelective(quickPass);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        CommonReturnType response = quickPassController.getQuickPass(userModel.getUserId());
+
+
+        assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)response.getData());
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());

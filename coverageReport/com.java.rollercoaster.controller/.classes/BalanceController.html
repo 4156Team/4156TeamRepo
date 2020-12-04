@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BalanceController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BalanceController (com.java.rollercoaster.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BalanceController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.3%
+  </span>
+  <span class="absValue">
+    (21/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
+<i>6</i>&nbsp;import com.java.rollercoaster.service.BalanceService;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.QueryService;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>11</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>12</i>&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+<i>14</i>&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;@Controller(&quot;balance&quot;)
+<i>20</i>&nbsp;@RequestMapping(&quot;/balance&quot;)
+<b class="fc"><i>21</i>&nbsp;public class BalanceController {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Autowired
+<i>24</i>&nbsp;    BalanceService balanceService;
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    private HttpServletRequest httpServletRequest;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * End point to add balance.
+<i>30</i>&nbsp;     *
+<i>31</i>&nbsp;     *
+<i>32</i>&nbsp;     * @param  amount        amount
+<i>33</i>&nbsp;     * @return                 a CommonReturnType
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    @RequestMapping(value = &quot;/addBalance&quot;, method = {RequestMethod.GET})
+<i>36</i>&nbsp;    @ResponseBody
+<i>37</i>&nbsp;    public CommonReturnType addBalance(@RequestParam(name = &quot;amount&quot;) Float amount) {
+<b class="fc"><i>38</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>39</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<b class="fc"><i>40</i>&nbsp;        Integer userId = userModel.getUserId();</b>
+<b class="fc"><i>41</i>&nbsp;        return CommonReturnType.autoCreate(balanceService.addBalance(userId, amount));</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * End point to subtract balance.
+<i>46</i>&nbsp;     *
+<i>47</i>&nbsp;     * @param  amount        amount
+<i>48</i>&nbsp;     * @return                 a CommonReturnType
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    @RequestMapping(value = &quot;/subBalance&quot;, method = {RequestMethod.GET})
+<i>51</i>&nbsp;    @ResponseBody
+<i>52</i>&nbsp;    public CommonReturnType subBalance(@RequestParam(name = &quot;amount&quot;) Float amount) {
+<b class="fc"><i>53</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>54</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<b class="fc"><i>55</i>&nbsp;        Integer userId = userModel.getUserId();</b>
+<b class="fc"><i>56</i>&nbsp;        return CommonReturnType.autoCreate(balanceService.subBalance(userId, amount));</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * End point to add quickpass.
+<i>61</i>&nbsp;     *
+<i>62</i>&nbsp;     * @param  amount        amount
+<i>63</i>&nbsp;     * @return                 a CommonReturnType
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    @RequestMapping(value = &quot;/addQuickPass&quot;, method = {RequestMethod.GET})
+<i>66</i>&nbsp;    @ResponseBody
+<i>67</i>&nbsp;    public CommonReturnType addQuickPass(@RequestParam(name = &quot;amount&quot;) int amount) {
+<b class="fc"><i>68</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>69</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<b class="fc"><i>70</i>&nbsp;        Integer userId = userModel.getUserId();</b>
+<b class="fc"><i>71</i>&nbsp;        return CommonReturnType.autoCreate(balanceService.addQuickPass(userId, amount));</b>
+<i>72</i>&nbsp;    }
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * End point to subtract quickpass.
+<i>76</i>&nbsp;     *
+<i>77</i>&nbsp;     * @param  amount        amount
+<i>78</i>&nbsp;     * @return                 a CommonReturnType
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    @RequestMapping(value = &quot;/subQuickPass&quot;, method = {RequestMethod.GET})
+<i>81</i>&nbsp;    @ResponseBody
+<i>82</i>&nbsp;    public CommonReturnType subQuickPass(@RequestParam(name = &quot;amount&quot;) int amount) {
+<b class="fc"><i>83</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>84</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<b class="fc"><i>85</i>&nbsp;        Integer userId = userModel.getUserId();</b>
+<b class="fc"><i>86</i>&nbsp;        return CommonReturnType.autoCreate(balanceService.subQuickPass(userId, amount));</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    /**
+<i>90</i>&nbsp;     * End point to query balance.
+<i>91</i>&nbsp;     *
+<i>92</i>&nbsp;     * @return                 a CommonReturnType
+<i>93</i>&nbsp;     */
+<i>94</i>&nbsp;    @RequestMapping(value = &quot;/queryBalance&quot;, method = {RequestMethod.GET})
+<i>95</i>&nbsp;    @ResponseBody
+<i>96</i>&nbsp;    public CommonReturnType queryBalance() {
+<b class="fc"><i>97</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>98</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<b class="fc"><i>99</i>&nbsp;        Integer userId = userModel.getUserId();</b>
+<i>100</i>&nbsp;        try {
+<b class="fc"><i>101</i>&nbsp;            return CommonReturnType.create(balanceService.queryBalance(userId));</b>
+<b class="nc"><i>102</i>&nbsp;        } catch (BusinessException err) {</b>
+<b class="nc"><i>103</i>&nbsp;            return CommonReturnType.autoCreate((ErrorEnum) err.getCommonError());</b>
+<i>104</i>&nbsp;        }
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
+</div>
+</body>
+</html>

@@ -78,67 +78,72 @@
 <i>4</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
 <i>5</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
 <i>6</i>&nbsp;import com.java.rollercoaster.pojo.Comment;
-<i>7</i>&nbsp;import com.java.rollercoaster.pojo.UserAccount;
-<i>8</i>&nbsp;import com.java.rollercoaster.service.CommentService;
-<i>9</i>&nbsp;import com.java.rollercoaster.service.model.CommentModel;
-<i>10</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
-<i>11</i>&nbsp;import org.springframework.beans.BeanUtils;
-<i>12</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-<i>13</i>&nbsp;import org.springframework.stereotype.Service;
-<i>14</i>&nbsp;
-<i>15</i>&nbsp;import java.util.List;
-<i>16</i>&nbsp;
-<i>17</i>&nbsp;@Service
-<b class="fc"><i>18</i>&nbsp;public class CommentServiceImpl implements CommentService {</b>
-<i>19</i>&nbsp;    @Autowired
-<i>20</i>&nbsp;    CommentMapper commentMapper;
-<i>21</i>&nbsp;
-<i>22</i>&nbsp;    @Override
-<i>23</i>&nbsp;    public ErrorEnum addComment(UserModel userModel, CommentModel commentModel)  {
-<b class="fc"><i>24</i>&nbsp;        if (userModel == null) {</b>
-<b class="fc"><i>25</i>&nbsp;            return ErrorEnum.USER_NOT_LOGIN;</b>
-<i>26</i>&nbsp;        }
-<b class="fc"><i>27</i>&nbsp;        if (commentModel == null) {</b>
-<b class="fc"><i>28</i>&nbsp;            return  ErrorEnum.INVALID_COMMENT;</b>
+<i>7</i>&nbsp;import com.java.rollercoaster.pojo.CommentExample;
+<i>8</i>&nbsp;import com.java.rollercoaster.pojo.UserAccount;
+<i>9</i>&nbsp;import com.java.rollercoaster.service.CommentService;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.model.CommentModel;
+<i>11</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>12</i>&nbsp;import org.springframework.beans.BeanUtils;
+<i>13</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>14</i>&nbsp;import org.springframework.stereotype.Service;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.util.List;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;@Service
+<b class="fc"><i>19</i>&nbsp;public class CommentServiceImpl implements CommentService {</b>
+<i>20</i>&nbsp;    @Autowired
+<i>21</i>&nbsp;    CommentMapper commentMapper;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Override
+<i>26</i>&nbsp;    public ErrorEnum addComment(UserModel userModel, CommentModel commentModel)  {
+<b class="fc"><i>27</i>&nbsp;        if (userModel == null) {</b>
+<b class="fc"><i>28</i>&nbsp;            return ErrorEnum.USER_NOT_LOGIN;</b>
 <i>29</i>&nbsp;        }
-<b class="fc"><i>30</i>&nbsp;        commentModel.setUserName(userModel.getUserName());</b>
-<b class="fc"><i>31</i>&nbsp;        commentModel.setUserId(userModel.getUserId());</b>
-<b class="fc"><i>32</i>&nbsp;        Comment comment = convertFromModel(commentModel);</b>
-<i>33</i>&nbsp;
-<b class="fc"><i>34</i>&nbsp;        commentMapper.insertSelective(comment);</b>
-<i>35</i>&nbsp;
-<b class="fc"><i>36</i>&nbsp;        commentModel.setCommentId(comment.getCommentId());</b>
-<b class="fc"><i>37</i>&nbsp;        return ErrorEnum.OK;</b>
+<b class="fc"><i>30</i>&nbsp;        if (commentModel == null) {</b>
+<b class="fc"><i>31</i>&nbsp;            return  ErrorEnum.INVALID_COMMENT;</b>
+<i>32</i>&nbsp;        }
+<b class="fc"><i>33</i>&nbsp;        commentModel.setUserName(userModel.getUserName());</b>
+<b class="fc"><i>34</i>&nbsp;        commentModel.setUserId(userModel.getUserId());</b>
+<b class="fc"><i>35</i>&nbsp;        Comment comment = convertFromModel(commentModel);</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        commentMapper.insertSelective(comment);</b>
 <i>38</i>&nbsp;
-<i>39</i>&nbsp;    }
-<i>40</i>&nbsp;
-<i>41</i>&nbsp;    @Override
-<i>42</i>&nbsp;    public ErrorEnum deleteComment(UserModel userModel, CommentModel commentModel) {
-<b class="fc"><i>43</i>&nbsp;        if (userModel.getUserId() != commentModel.getUserId()) {</b>
-<b class="fc"><i>44</i>&nbsp;            return ErrorEnum.UNAUTHORIZED_DELETION;</b>
-<i>45</i>&nbsp;        }
-<b class="fc"><i>46</i>&nbsp;        commentMapper.deleteByPrimaryKey(commentModel.getCommentId());</b>
-<b class="fc"><i>47</i>&nbsp;        return ErrorEnum.OK;</b>
-<i>48</i>&nbsp;    }
-<i>49</i>&nbsp;
-<i>50</i>&nbsp;    @Override
-<i>51</i>&nbsp;    public List&lt;Comment&gt; showAllComments() {
-<b class="fc"><i>52</i>&nbsp;        List&lt;Comment&gt; commentList = commentMapper.listAllComments();</b>
-<b class="fc"><i>53</i>&nbsp;        return commentList;</b>
-<i>54</i>&nbsp;    }
+<b class="fc"><i>39</i>&nbsp;        commentModel.setCommentId(comment.getCommentId());</b>
+<b class="fc"><i>40</i>&nbsp;        return ErrorEnum.OK;</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    public ErrorEnum deleteComment(UserModel userModel, CommentModel commentModel) {
+<b class="fc"><i>46</i>&nbsp;        if (!userModel.getUserId().equals(commentModel.getUserId())) {</b>
+<b class="fc"><i>47</i>&nbsp;            return ErrorEnum.UNAUTHORIZED_DELETION;</b>
+<i>48</i>&nbsp;        }
+<b class="fc"><i>49</i>&nbsp;        commentMapper.deleteByPrimaryKey(commentModel.getCommentId());</b>
+<b class="fc"><i>50</i>&nbsp;        return ErrorEnum.OK;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    @Override
+<i>54</i>&nbsp;    public List&lt;Comment&gt; showAllComments() {
 <i>55</i>&nbsp;
-<i>56</i>&nbsp;    private Comment convertFromModel(CommentModel commentModel) {
-<b class="fc"><i>57</i>&nbsp;        Comment comment = new Comment();</b>
-<b class="fc"><i>58</i>&nbsp;        BeanUtils.copyProperties(commentModel,comment);</b>
-<b class="fc"><i>59</i>&nbsp;        return  comment;</b>
-<i>60</i>&nbsp;    }
-<i>61</i>&nbsp;}
+<b class="fc"><i>56</i>&nbsp;        List&lt;Comment&gt; commentList = commentMapper.selectByExampleWithBLOBs(new CommentExample());</b>
+<i>57</i>&nbsp;//        List&lt;Comment&gt; commentList = commentMapper.listAllComments();
+<b class="fc"><i>58</i>&nbsp;        return commentList;</b>
+<i>59</i>&nbsp;    }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    private Comment convertFromModel(CommentModel commentModel) {
+<b class="fc"><i>62</i>&nbsp;        Comment comment = new Comment();</b>
+<b class="fc"><i>63</i>&nbsp;        BeanUtils.copyProperties(commentModel,comment);</b>
+<b class="fc"><i>64</i>&nbsp;        return  comment;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-11-27 20:10</div>
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
 </div>
 </body>
 </html>

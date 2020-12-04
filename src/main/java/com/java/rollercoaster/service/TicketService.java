@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TicketService {
 
-    String addTicket(Ticket ticket) throws ParseException, BusinessException;
+    String addTicket(Ticket ticket, int userId) throws ParseException, BusinessException;
 
     ErrorEnum updateTicket(Ticket ticket);
 

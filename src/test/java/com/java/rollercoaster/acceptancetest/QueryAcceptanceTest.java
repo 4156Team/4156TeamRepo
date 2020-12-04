@@ -8,6 +8,8 @@ import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.model.QueryEventModel;
+import com.java.rollercoaster.service.model.QueryFacilityModel;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -71,12 +74,15 @@ public class QueryAcceptanceTest {
     public void test2() throws ParseException {
         finish();
         init();
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("eventName","testEvent");
+                .fromUriString(url);
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
 
         //System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
@@ -94,11 +100,14 @@ public class QueryAcceptanceTest {
         finish();
         init();
         String url = "http://localhost:8080/query/Event";
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("eventName","testEvent");
+                .fromUriString(url);
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals("test introduction", rs.get("eventIntroduction"));
         finish();
@@ -114,12 +123,13 @@ public class QueryAcceptanceTest {
         init();
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("eventName","testEvent");
+                .fromUriString(url);
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
-
-        //System.out.println(response.getBody().getData().getClass().toString());
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);       //System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals("10:30:00", rs.get("startTime"));
         assertEquals("11:00:00", rs.get("endTime"));
@@ -136,10 +146,13 @@ public class QueryAcceptanceTest {
         init();
         String url = "http://localhost:8080/query/Event";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("eventName","testEvent");
+                .fromUriString(url);
+        QueryEventModel qModel = new QueryEventModel();
+        qModel.setEventName("testEvent");
+        HttpEntity<QueryEventModel> request =
+                new HttpEntity<QueryEventModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals(1000, rs.get("eventRemainPositions"));
         finish();
@@ -153,12 +166,15 @@ public class QueryAcceptanceTest {
     public void test7() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("facilityName","testFacility");
+                .fromUriString(url);
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals("normal", rs.get("facilityStatus"));
         finish();
@@ -171,12 +187,15 @@ public class QueryAcceptanceTest {
     public void test8() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("facilityName","testFacility");
+                .fromUriString(url);
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals("test facility introduction", rs.get("facilityIntroduction"));
         finish();
@@ -189,12 +208,15 @@ public class QueryAcceptanceTest {
     public void test9() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("facilityName","testFacility");
+                .fromUriString(url);
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals("11:30:00", rs.get("facilityOpenTime"));
@@ -209,12 +231,15 @@ public class QueryAcceptanceTest {
     public void test10() throws ParseException {
         finish();
         init();
+        QueryFacilityModel qModel = new QueryFacilityModel();
+        qModel.setFacilityName("testFacility");
         String url = "http://localhost:8080/query/Facility";
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(url)
-                .queryParam("facilityName","testFacility");
+                .fromUriString(url);
+        HttpEntity<QueryFacilityModel> request =
+                new HttpEntity<QueryFacilityModel>(qModel);
         ResponseEntity<CommonReturnType> response =
-                restTemplate.getForEntity(builder.toUriString(), CommonReturnType.class);
+                restTemplate.postForEntity(builder.toUriString(),request , CommonReturnType.class);
         System.out.println(response.getBody().getData().getClass().toString());
         LinkedHashMap rs = ((LinkedHashMap)response.getBody().getData());
         assertEquals(100, rs.get("queueStatus"));

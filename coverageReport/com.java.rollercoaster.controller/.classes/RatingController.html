@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RatingController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.java.rollercoaster.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RatingController (com.java.rollercoaster.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RatingController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.java.rollercoaster.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.java.rollercoaster.errorenum.BusinessException;
+<i>4</i>&nbsp;import com.java.rollercoaster.errorenum.ErrorEnum;
+<i>5</i>&nbsp;import com.java.rollercoaster.pojo.Appointment;
+<i>6</i>&nbsp;import com.java.rollercoaster.response.CommonReturnType;
+<i>7</i>&nbsp;import com.java.rollercoaster.service.CommentService;
+<i>8</i>&nbsp;import com.java.rollercoaster.service.QueryService;
+<i>9</i>&nbsp;import com.java.rollercoaster.service.RatingService;
+<i>10</i>&nbsp;import com.java.rollercoaster.service.model.CommentModel;
+<i>11</i>&nbsp;import com.java.rollercoaster.service.model.UserModel;
+<i>12</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>13</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>14</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;@Controller(&quot;rating&quot;)
+<i>19</i>&nbsp;@RequestMapping(&quot;/rating&quot;)
+<i>20</i>&nbsp;@CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
+<b class="fc"><i>21</i>&nbsp;public class RatingController {</b>
+<i>22</i>&nbsp;    @Autowired
+<i>23</i>&nbsp;    private HttpServletRequest httpServletRequest;
+<i>24</i>&nbsp;    @Autowired
+<i>25</i>&nbsp;    private RatingService ratingService;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * Post rate endpoint.
+<i>30</i>&nbsp;     * @param facilityName facility to be rated
+<i>31</i>&nbsp;     * @param rate rate star
+<i>32</i>&nbsp;     * @return common return type
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    @PostMapping(&quot;/postRate&quot;)
+<i>35</i>&nbsp;    @ResponseBody
+<i>36</i>&nbsp;    public CommonReturnType postRating(@RequestBody  String facilityName,
+<i>37</i>&nbsp;                                       @RequestParam(name = &quot;rate&quot;) String rate) {
+<b class="fc"><i>38</i>&nbsp;        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</b>
+<b class="fc"><i>39</i>&nbsp;        if (isLogin == null || !isLogin)  {</b>
+<b class="fc"><i>40</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;        UserModel userModel = (UserModel) httpServletRequest</b>
+<b class="fc"><i>43</i>&nbsp;                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</b>
+<i>44</i>&nbsp;        //if user not exist
+<b class="fc"><i>45</i>&nbsp;        if (userModel == null) {</b>
+<b class="fc"><i>46</i>&nbsp;            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</b>
+<i>47</i>&nbsp;        }
+<b class="fc"><i>48</i>&nbsp;        return CommonReturnType.autoCreate(ratingService.rateFacility(facilityName, Integer.parseInt(rate)));</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-03 16:15</div>
+</div>
+</body>
+</html>

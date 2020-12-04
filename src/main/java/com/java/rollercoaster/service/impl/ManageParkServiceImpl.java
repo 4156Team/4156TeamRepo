@@ -26,7 +26,7 @@ public class ManageParkServiceImpl implements ManageParkService {
 
     @Override
     public ErrorEnum addEvent(Event event) {
-        if (null == event.getEventName() || "".equals(event.getEventName())) {
+        if (null == event.getEventName()) {
             return ErrorEnum.EMPTY_EVENT_NAME;
         } else if (null != eventMapper.selectByPrimaryKey(event.getEventName())) {
             return ErrorEnum.DUPLICATE_EVENT_NAME;
@@ -61,7 +61,7 @@ public class ManageParkServiceImpl implements ManageParkService {
     @Override
     public ErrorEnum addFacility(Facility facility) {
 
-        if (null == facility.getFacilityName() || "".equals(facility.getFacilityName())) {
+        if (null == facility.getFacilityName()) {
             return ErrorEnum.EMPTY_FACILITY_NAME;
         } else if (null != facilityMapper.selectByPrimaryKey(facility.getFacilityName())) {
             return ErrorEnum.DUPLICATE_FACILITY_NAME;

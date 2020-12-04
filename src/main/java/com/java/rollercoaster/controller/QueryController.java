@@ -4,13 +4,14 @@ import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.QueryService;
+import com.java.rollercoaster.service.model.QueryEventModel;
+import com.java.rollercoaster.service.model.QueryFacilityModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 @Controller("query")
 @RequestMapping("/query")
@@ -26,11 +27,11 @@ public class QueryController {
      * @param  eventName        name of the event
      * @return                 a CommonReturnType
      */
-    @RequestMapping(value = "/Event", method = {RequestMethod.GET})
+    @RequestMapping(value = "/Event", method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType queryEvent(@RequestParam(name = "eventName") String eventName) {
+    public CommonReturnType queryEvent(@RequestBody QueryEventModel eventName) {
         try {
-            return CommonReturnType.create(queryService.queryEvent(eventName));
+            return CommonReturnType.create(queryService.queryEvent(eventName.getEventName()));
         } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);
         }
@@ -73,12 +74,13 @@ public class QueryController {
      * @param  facilityName    name of the facility
      * @return                 a CommonReturnType
      */
-    @RequestMapping(value = "/Facility", method = {RequestMethod.GET})
+    @RequestMapping(value = "/Facility", method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType queryFacility(@RequestParam(name = "facilityName")
-                                                      String facilityName) {
+    public CommonReturnType queryFacility(
+            @RequestBody QueryFacilityModel facilityName) {
         try {
-            return CommonReturnType.create(queryService.queryFacility(facilityName));
+            return CommonReturnType.create(
+                    queryService.queryFacility(facilityName.getFacilityName()));
         } catch (BusinessException err) {
             return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);
         }

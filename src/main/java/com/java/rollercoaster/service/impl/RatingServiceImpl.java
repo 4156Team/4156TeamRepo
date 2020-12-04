@@ -22,7 +22,7 @@ public class RatingServiceImpl implements RatingService {
         Facility facility = facilityMapper.selectByPrimaryKey(facilityName);
         if (null == facility.getRating() || null == facility.getRatingPeople()) {
             facility.setRating(rate);
-            facility.setRating((float)1);
+            facility.setRatingPeople(1);
         } else {
             facility.setRating((facility.getRating() * facility.getRatingPeople()
                     + rate) / (facility.getRatingPeople() + 1));

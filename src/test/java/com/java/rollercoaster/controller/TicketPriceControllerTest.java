@@ -28,7 +28,11 @@ public class TicketPriceControllerTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
 
         Type type1 = new Type();
         type1.setTicketType(TicketType.adult);
@@ -43,7 +47,11 @@ public class TicketPriceControllerTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
 
         Type type1 = new Type();
         CommonReturnType response = ticketPriceController.getTicketPrice(type1);

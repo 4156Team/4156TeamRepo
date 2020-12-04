@@ -60,6 +60,9 @@ public class QueryServiceImpl implements QueryService {
         facility.setFacilityCloseTime(facilityFromDb.getFacilityCloseTime());
         facility.setFacilityStatus(facilityFromDb.getFacilityStatus());
         facility.setQueueStatus(facilityFromDb.getQueueStatus());
+        facility.setFacilityImage(facilityFromDb.getFacilityImage());
+        facility.setRating(facilityFromDb.getRating());
+        facility.setRatingPeople(facilityFromDb.getRatingPeople());
         return facility;
     }
 
@@ -92,6 +95,9 @@ public class QueryServiceImpl implements QueryService {
             facilityModel.setFacilityCloseTime(facility.getFacilityCloseTime());
             facilityModel.setFacilityStatus(facility.getFacilityStatus());
             facilityModel.setQueueStatus(facility.getQueueStatus());
+            facilityModel.setFacilityImage(facility.getFacilityImage());
+            facilityModel.setRating(facility.getRating());
+            facilityModel.setRatingPeople(facility.getRatingPeople());
             facilitiesModel.add(facilityModel);
         }
         return facilitiesModel;

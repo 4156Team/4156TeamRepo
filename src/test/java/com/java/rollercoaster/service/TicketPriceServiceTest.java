@@ -25,8 +25,11 @@ public class TicketPriceServiceTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
-
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
         assertEquals(50, ticketPriceService.getTicketPrice(TicketType.adult));
 
         typeMapper.deleteByPrimaryKey(TicketType.adult);
@@ -37,7 +40,11 @@ public class TicketPriceServiceTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
 
         type.setTicketPrice(10f);
         assertEquals(ErrorEnum.OK, ticketPriceService.changeTicketPrice(type));
@@ -50,7 +57,11 @@ public class TicketPriceServiceTest {
         Type type = new Type();
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
-        typeMapper.insert(type);
+        if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
+            typeMapper.updateByPrimaryKey(type);
+        } else {
+            typeMapper.insert(type);
+        }
 
         type.setTicketPrice(null);
         assertEquals(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, ticketPriceService.changeTicketPrice(type));

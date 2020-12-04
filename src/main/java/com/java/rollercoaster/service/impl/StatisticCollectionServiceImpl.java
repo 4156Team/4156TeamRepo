@@ -1,11 +1,14 @@
 package com.java.rollercoaster.service.impl;
 
+import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
+import com.java.rollercoaster.service.QueryService;
 import com.java.rollercoaster.service.StatisticCollectionService;
+import com.java.rollercoaster.service.model.FacilityModel;
 import com.java.rollercoaster.service.model.MyCalendar;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +18,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StatisticCollectionServiceImpl implements StatisticCollectionService {
     @Autowired
-    TicketMapper ticketMapper;
+    private TicketMapper ticketMapper;
+    @Autowired
+    private QueryService queryService;
 
     @Override
     public int peopleInThatDay(MyCalendar myCalendar) throws BusinessException {
@@ -98,11 +104,21 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
         return dates;
     }
 
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2020, 1, 28);
-        System.out.println(calendar.getTime());
-        calendar.set(2020, 1, 32);
-        System.out.println(calendar.getTime());
+    @Override
+    public List<FacilityModel> top5Facility() throws BusinessException {
+        List<FacilityModel> facilities = queryService.queryAllFacilities();
+        System.out.println("****");
+        for (FacilityModel facilityModel : facilities) {
+            System.out.println(facilityModel.getFacilityName());
+            System.out.println(facilityModel.getRating());
+        }
+        facilities.sort((o1, o2) ->
+                Optional.ofNullable(o1.getRating()).orElse(0f)
+                        > Optional.ofNullable(o2.getRating()).orElse(0f) ? -1 : 1);
+        List<FacilityModel> result = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, facilities.size()); i++) {
+            result.add(facilities.get(i));
+        }
+        return result;
     }
 }

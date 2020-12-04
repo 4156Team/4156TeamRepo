@@ -2,6 +2,7 @@ package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.CommentService;
 import com.java.rollercoaster.service.QueryService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,8 +38,8 @@ public class RatingController {
      */
     @PostMapping("/postRate")
     @ResponseBody
-    public CommonReturnType postRating(@RequestParam(name = "facilityName") String facilityName,
-                                        @RequestParam(name = "rate") int rate) {
+    public CommonReturnType postRating(@RequestBody  String facilityName,
+                                       @RequestParam(name = "rate") String rate) {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null || !isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
@@ -48,7 +50,8 @@ public class RatingController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        return CommonReturnType.autoCreate(ratingService.rateFacility(facilityName, rate));
+        return CommonReturnType.autoCreate(
+                ratingService.rateFacility(facilityName, Integer.parseInt(rate)));
     }
 
 }

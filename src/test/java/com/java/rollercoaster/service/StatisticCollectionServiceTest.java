@@ -1,10 +1,14 @@
 package com.java.rollercoaster.service;
 
+import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.service.model.FacilityModel;
 import com.java.rollercoaster.service.model.MyCalendar;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import com.java.rollercoaster.service.model.enumeration.TicketType;
 import org.junit.Test;
@@ -16,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +33,8 @@ public class StatisticCollectionServiceTest {
     private StatisticCollectionService statisticCollectionService;
     @Autowired
     private TicketMapper ticketMapper;
+    @Autowired
+    private FacilityMapper facilityMapper;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
@@ -83,6 +90,51 @@ public class StatisticCollectionServiceTest {
     }
 
     @Test
+    public void testPeopleInThatDayFail2() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setDay(20);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatDayFail3() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setMonth(10);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatDayFail4() throws ParseException {
+        init();
+        Calendar calendar = Calendar.getInstance();
+
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(calendar.get(Calendar.YEAR));
+        myCalendar.setMonth(calendar.get(Calendar.MONTH) + 1);
+        myCalendar.setDay(calendar.get(Calendar.DATE) + 8);
+        try {
+            statisticCollectionService.peopleInThatDay(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.TIME_OVER_CURRENT_DAY, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
     public void testPeopleInThatDayNormal() throws ParseException, BusinessException {
         init();
         MyCalendar myCalendar = new MyCalendar();
@@ -99,6 +151,19 @@ public class StatisticCollectionServiceTest {
         init();
         MyCalendar myCalendar = new MyCalendar();
         myCalendar.setMonth(10);
+        try {
+            statisticCollectionService.peopleInThatMonth(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatMonthFail2() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setDay(10);
         try {
             statisticCollectionService.peopleInThatMonth(myCalendar);
         } catch (BusinessException businessException) {
@@ -130,6 +195,8 @@ public class StatisticCollectionServiceTest {
         finish();
     }
 
+
+
     @Test
     public void testPeopleInThatYearNormal() throws ParseException, BusinessException {
         init();
@@ -149,5 +216,25 @@ public class StatisticCollectionServiceTest {
         assertEquals(true, result.containsAll(dates));
         assertEquals(1, result.size());
         finish();
+    }
+
+    @Test
+    public void testGetTop5Facility() throws BusinessException, ParseException {
+        Facility facility = new Facility();
+        facility.setFacilityIntroduction("test");
+        facility.setFacilityStatus(FacilityStatus.normal);
+        facility.setFacilityOpenTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        facility.setQueueStatus(100);
+        facility.setFacilityName("roller coaster");
+        facility.setRating(5.1f);
+        facility.setRatingPeople(100);
+        facilityMapper.insert(facility);
+
+        List<FacilityModel> result = statisticCollectionService.top5Facility();
+        assertEquals(5.1f, result.get(0).getRating());
+
+        facilityMapper.deleteByPrimaryKey("roller coaster");
+
     }
 }

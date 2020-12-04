@@ -219,6 +219,13 @@ public class ManagerController {
                 statisticCollectionService.whichDaysVisited(userId),"success");
     }
 
+    @RequestMapping("top5Facility")
+    @ResponseBody
+    public CommonReturnType top5Facility() throws BusinessException {
+        return CommonReturnType.create(
+                statisticCollectionService.top5Facility(), "success");
+    }
+
 
     @PostMapping("/changeTicketPrice")
     @ResponseBody
