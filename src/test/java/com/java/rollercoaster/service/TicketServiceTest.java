@@ -119,34 +119,20 @@ public class TicketServiceTest {
     public void addUserNotExistTicketTest() throws BusinessException, ParseException {
         System.out.println("addUserNotExistTicketTest starts");
 
-        UserModel userModel = new UserModel();
-        userModel.setUserName("Alice");
-        userModel.setUserGender(UserGender.female);
-        userModel.setRole(Role.visitor);
-        userModel.setPhoneNumber("212121");
-        userModel.setPassword("12345");
-        userService.register(userModel);
-
-        UserAccountExample userAccountExample = new UserAccountExample();
-        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
-        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
-
         Ticket ticket = new Ticket();
-        ticket.setUserId(userModel.getUserId());
+        ticket.setUserId(2);
         ticket.setStatus(Status.unused);
         ticket.setPrice((float) 124);
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
 
         try {
-            ticketService.addTicket(ticket, userAccount.get(0).getUserId());
+            ticketService.addTicket(ticket, 2);
         } catch (BusinessException businessException) {
+            System.out.println(businessException.getErrCode());
             assertEquals(20001, businessException.getErrCode());
         }
 
-        userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
-        userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         ticketMapper.deleteByPrimaryKey("1");
         System.out.println("addUserNotExistTicketTest ends");
     }
@@ -177,14 +163,16 @@ public class TicketServiceTest {
         Date now = new Date();
         c.setTime(now);
         System.out.println("Today is " + now);
-        c.add(Calendar.DAY_OF_MONTH, -2);
+        c.add(Calendar.DAY_OF_MONTH, -1);
         Date yesterdayBefore = c.getTime();
         System.out.println("Yesterday before yesterday is " + yesterdayBefore);
         ticket.setValidDate(yesterdayBefore);
 
         try {
             ticketService.addTicket(ticket, userModel.getUserId());
+            System.out.println("successful");
         } catch (BusinessException businessException) {
+            System.out.println(businessException.getErrCode());
             assertEquals(243, businessException.getErrCode());
         }
 
@@ -259,6 +247,44 @@ public class TicketServiceTest {
         userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         ticketMapper.deleteByPrimaryKey("1");
         System.out.println("updateEmptyTicketTest ends");
+    }
+
+    @Test
+    public void updateUnmatchedTicketTest() throws BusinessException {
+        System.out.println("updateUnmatchedTicketTest starts");
+
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
+        Ticket ticket = new Ticket();
+        ticket.setUserId(userAccount.get(0).getUserId());
+        ticket.setStatus(Status.unused);
+        ticket.setPrice((float) 124);
+        ticket.setTicketId("1");
+        ticket.setValidDate(new Date());
+
+        ticketMapper.insertSelective(ticket);
+
+        ticket.setPrice((float) 100);
+        ticket.setTicketId("2");
+        ErrorEnum updateTicketReturn = ticketService.updateTicket(ticket);
+        assertEquals(244, updateTicketReturn.getErrCode());
+
+
+        userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
+        ticketMapper.deleteByPrimaryKey("1");
+        System.out.println("updateUnmatchedTicketTest ends");
     }
 
     @Test

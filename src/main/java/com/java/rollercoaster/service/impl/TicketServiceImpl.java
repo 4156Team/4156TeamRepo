@@ -42,8 +42,10 @@ public class TicketServiceImpl implements TicketService {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         date = sdf.parse(sdf.format(date));
-        int days = (int) date.getTime() / 1000 / 3600 / 24;
-        if (ticket.getValidDate().getTime() / 1000 / 3600 / 24 < days) {
+        //int days = (int) date.getTime() / 1000 / 3600 / 24;
+        Date ticketDate = sdf.parse(sdf.format(ticket.getValidDate()));
+
+        if (ticketDate.before(date)) {
             //You cannot buy past date ticket.
             throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
