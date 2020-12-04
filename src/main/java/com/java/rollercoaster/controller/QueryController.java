@@ -45,11 +45,8 @@ public class QueryController {
     @RequestMapping(value = "/AllEvent", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType queryAllEvent() {
-        try {
-            return CommonReturnType.create(queryService.queryAllEvents());
-        } catch (BusinessException err) {
-            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_EVENT);
-        }
+
+        return CommonReturnType.create(queryService.queryAllEvents());
     }
 
     /**
@@ -60,11 +57,9 @@ public class QueryController {
     @RequestMapping(value = "/AllFacility", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType queryAllFacility() {
-        try {
-            return CommonReturnType.create(queryService.queryAllFacilities());
-        } catch (BusinessException err) {
-            return CommonReturnType.autoCreate(ErrorEnum.NO_SUCH_FACILITY);
-        }
+
+        return CommonReturnType.create(queryService.queryAllFacilities());
+
     }
 
     /**

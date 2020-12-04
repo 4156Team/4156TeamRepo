@@ -67,7 +67,7 @@ public class QueryServiceImpl implements QueryService {
     }
 
     @Override
-    public List<EventModel> queryAllEvents() throws BusinessException {
+    public List<EventModel> queryAllEvents()  {
         List<Event> eventsFromDb = eventMapper.selectByExample(new EventExample());
         List<EventModel> eventsModel = new ArrayList<EventModel>();
         for (Event event : eventsFromDb) {
@@ -84,7 +84,7 @@ public class QueryServiceImpl implements QueryService {
     }
 
     @Override
-    public List<FacilityModel> queryAllFacilities() throws BusinessException {
+    public List<FacilityModel> queryAllFacilities() {
         List<Facility> facilitiesFromDb = facilityMapper.selectByExample(new FacilityExample());
         List<FacilityModel> facilitiesModel = new ArrayList<FacilityModel>();
         for (Facility facility : facilitiesFromDb) {

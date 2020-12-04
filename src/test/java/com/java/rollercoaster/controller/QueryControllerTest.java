@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -135,6 +136,26 @@ public class QueryControllerTest {
         assertEquals("fail", response.getStatus());
         assertEquals(226, rs.getErrCode());
         assertEquals("The facility does not exist", rs.getErrMsg());
+        finish();
+    }
+
+    @Test
+    public void testQueryAllFacilityValid() throws ParseException {
+        finish();
+        init();
+        CommonReturnType response = queryController.queryAllFacility();
+        FacilityModel rs = ((List<FacilityModel>)response.getData()).get(0);
+        assertEquals("success", response.getStatus());
+        finish();
+    }
+
+    @Test
+    public void testQueryAllEventValid() throws ParseException {
+        finish();
+        init();
+        CommonReturnType response = queryController.queryAllEvent();
+        EventModel rs = ((List<EventModel>)response.getData()).get(0);
+        assertEquals("success", response.getStatus());
         finish();
     }
 

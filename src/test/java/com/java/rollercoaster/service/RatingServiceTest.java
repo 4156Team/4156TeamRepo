@@ -55,7 +55,7 @@ class RatingServiceTest {
     }
 
     @Test
-    public void getQCTest0() throws BusinessException {
+    public void rateTest0() throws BusinessException {
         removeFacility();
         initFacility();
 
@@ -64,21 +64,21 @@ class RatingServiceTest {
     }
 
     @Test
-    public void getQCTest1() throws BusinessException {
+    public void rateTest1() throws BusinessException {
         removeFacility();
         assertEquals(ratingService.rateFacility("quickpassTestFacility", 3), ErrorEnum.NO_SUCH_FACILITY);
         removeFacility();
     }
 
     @Test
-    public void getQCTest2() throws BusinessException {
+    public void rateTest2() throws BusinessException {
         removeFacility();
         assertEquals(ratingService.rateFacility(null, 3), ErrorEnum.EMPTY_FACILITY_NAME);
         removeFacility();
     }
 
     @Test
-    public void getQCTest3() throws BusinessException {
+    public void rateTest3() throws BusinessException {
         removeFacility();
         initFacility();
         ratingService.rateFacility("quickpassTestFacility", 3);
