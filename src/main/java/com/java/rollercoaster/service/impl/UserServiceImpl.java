@@ -92,6 +92,9 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
         }
         UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
+        if (userPassword == null) {
+            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
+        }
         UserModel userModel = convertFromDataObject(userAccount, userPassword);
         //compare encrypt password with the input password
         System.out.println(userPassword.getPassword());
@@ -119,9 +122,7 @@ public class UserServiceImpl implements UserService {
     private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(userAccount, userModel);
-        if (userpassword != null) {
-            userModel.setPassword(userpassword.getPassword());
-        }
+        userModel.setPassword(userpassword.getPassword());
         return  userModel;
     }
 }

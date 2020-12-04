@@ -51,14 +51,6 @@ public class UserController extends BaseController {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-    private GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-            new NetHttpTransport(), JacksonFactory.getDefaultInstance())
-            .setAudience(
-                    Collections.singletonList(
-                            "66670440653-9ooesmgkcr05a37k224mr3sjsctis262"
-                                    + ".apps.googleusercontent.com"
-                    ))
-            .build();
 
     /**
      * Log in endpoint.
@@ -135,24 +127,7 @@ public class UserController extends BaseController {
     }
 
 
-    /**
-     *Implement google login as third party login.
-     * @param idtokenstr google login account token
-     * @throws BusinessException exception handler
-     */
-    @RequestMapping(value = "/googleVerify", method = RequestMethod.POST)
-    @ResponseBody
-    public void verifyToken(String idtokenstr) throws BusinessException {
-        UserAccount userAccount = googleVerifyApi(idtokenstr);
-        if (userAccount.getThirdPartyId() != null) {
-            UserModel userModel = userService.loginWithGoogle(userAccount);
-            this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-            this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-            System.out.println("It's here.");
-        } else {
-            System.out.println("Invalid ID token.");
-        }
-    }
+
 
     /**
      * Google login.
@@ -172,41 +147,11 @@ public class UserController extends BaseController {
             userModel = userService.loginWithGoogle(userAccount);
             this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
             this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-            System.out.println("It's here.");
         } else {
-            System.out.println("Invalid ID token.");
+            System.out.println("Google Verification Failed");
+            throw new BusinessException(ErrorEnum.PARAMETER_VALIDATION_ERROR);
         }
         return CommonReturnType.autoCreate(null);
     }
 
-    /**
-     * Google Verify Api.
-     * @param idTokenStr idTokenStr
-     * @return The information about google user.
-     */
-    public UserAccount googleVerifyApi(String idTokenStr) {
-        UserAccount userAccount = new UserAccount();
-        System.out.println(idTokenStr);
-        GoogleIdToken idToken = null;
-        try {
-            idToken = verifier.verify(idTokenStr);
-        } catch (GeneralSecurityException ex) {
-            System.out.println("GeneralSecurityException Exception");
-        } catch (IOException ex) {
-            System.out.println("IOException");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-        if (idToken != null) {
-            System.out.println("Verified");
-            GoogleIdToken.Payload payload = idToken.getPayload();
-            String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
-            String name = (String) payload.get("name");
-            System.out.println("User name:" + name);
-            userAccount.setThirdPartyId(userId);
-            userAccount.setUserName(name);
-        }
-        return userAccount;
-    }
 }

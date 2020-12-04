@@ -5,6 +5,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.UserAccountExample;
 import com.java.rollercoaster.pojo.UserPassword;
@@ -27,6 +28,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import sun.misc.BASE64Encoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -47,6 +49,8 @@ public class UserControllerTest {
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     private int id;
     private MessageDigest md5;
@@ -108,36 +112,62 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testVerifyToken() throws
-            NoSuchFieldException, IllegalAccessException,
-            GeneralSecurityException, IOException, BusinessException {
-//        GoogleIdTokenVerifier verifier = PowerMockito.mock(GoogleIdTokenVerifier.class);
-//        GoogleIdToken googleIdToken = PowerMockito.mock(GoogleIdToken.class);
-//        PowerMockito.when(payload.getSubject()).thenReturn("testGoogleVerify");
-//        PowerMockito.when(payload.get("name")).thenReturn("KD");
-//        PowerMockito.when(googleIdToken.getPayload()).thenReturn(payload);
-//        PowerMockito.when(verifier.verify(Mockito.any(String.class))).thenReturn(googleIdToken);
-//
-//        Field field = controller.getClass().getField("userService");
-//        field.setAccessible(false);
-//        field.set(controller, service);
-//        UserController controller = Mockito.spy(new UserController());
-//        UserAccount userAccount = new UserAccount();
-//        userAccount.setThirdPartyId("testGoogleVerify");
-//        userAccount.setUserName("testGoogle");
-//        Mockito.doReturn(userAccount).when(controller).googleVerifyApi(Mockito.anyString());
-//        Mockito.doReturn(new UserModel()).when(service).loginWithGoogle(Mockito.any());
-//        controller.verifyToken("testToken");
-//
-//        UserAccountExample example = new UserAccountExample();
-//        UserAccountExample.Criteria criteria = example.createCriteria();
-//        criteria.andThirdPartyIdEqualTo("testGoogleVerify");
-//        UserAccount userAccount1 = userAccountMapper.selectByExample(example).get(0);
-//        assertEquals("testGoogle", userAccount1.getUserName());
-//        userAccountMapper.deleteByPrimaryKey(userAccount1.getUserId());
-        userController.verifyToken("12313123");
+    public void validGoogleLoginTest() throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setEmail("yl4225@columbia.edu");
+        userModel.setUserName("Yumiao");
+        userModel.setThirdPartyId("asdsfgh");
+        userController.googleLogIn(userModel);
+        UserModel userModel1 = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        assertEquals(userModel.getUserName(), userModel1.getUserName());
+        assertEquals(true, httpServletRequest.getSession().getAttribute("IS_LOGIN"));
 
     }
+
+    @Test
+    public void googleLoginVerificationFailedTest() {
+        UserModel userModel = new UserModel();
+        userModel.setEmail("yl4225@columbia.edu");
+        userModel.setUserName("Yumiao");
+        try {
+            userController.googleLogIn(userModel);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, businessException.getCommonError());
+        }
+
+    }
+
+//    @Test
+//    public void testVerifyToken() throws
+//            NoSuchFieldException, IllegalAccessException,
+//            GeneralSecurityException, IOException, BusinessException {
+////        GoogleIdTokenVerifier verifier = PowerMockito.mock(GoogleIdTokenVerifier.class);
+////        GoogleIdToken googleIdToken = PowerMockito.mock(GoogleIdToken.class);
+////        PowerMockito.when(payload.getSubject()).thenReturn("testGoogleVerify");
+////        PowerMockito.when(payload.get("name")).thenReturn("KD");
+////        PowerMockito.when(googleIdToken.getPayload()).thenReturn(payload);
+////        PowerMockito.when(verifier.verify(Mockito.any(String.class))).thenReturn(googleIdToken);
+////
+////        Field field = controller.getClass().getField("userService");
+////        field.setAccessible(false);
+////        field.set(controller, service);
+////        UserController controller = Mockito.spy(new UserController());
+////        UserAccount userAccount = new UserAccount();
+////        userAccount.setThirdPartyId("testGoogleVerify");
+////        userAccount.setUserName("testGoogle");
+////        Mockito.doReturn(userAccount).when(controller).googleVerifyApi(Mockito.anyString());
+////        Mockito.doReturn(new UserModel()).when(service).loginWithGoogle(Mockito.any());
+////        controller.verifyToken("testToken");
+////
+////        UserAccountExample example = new UserAccountExample();
+////        UserAccountExample.Criteria criteria = example.createCriteria();
+////        criteria.andThirdPartyIdEqualTo("testGoogleVerify");
+////        UserAccount userAccount1 = userAccountMapper.selectByExample(example).get(0);
+////        assertEquals("testGoogle", userAccount1.getUserName());
+////        userAccountMapper.deleteByPrimaryKey(userAccount1.getUserId());
+//        userController.verifyToken("12313123");
+//
+//    }
 
     public void finish() {
         userPasswordMapper.deleteByPrimaryKey(id);
