@@ -3,7 +3,6 @@ package com.java.rollercoaster.controller;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
-import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.AppointmentService;
 import com.java.rollercoaster.service.model.TimedAppointmentModel;

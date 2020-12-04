@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -350,6 +351,45 @@ public class AppointmentServiceTest {
         ErrorEnum updateAppointmentReturn = appointmentService.updateAppointment(appointment);
 
         assertEquals(20001, updateAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+        appointmentMapper.deleteByPrimaryKey("1");
+    }
+
+    @Test
+    public void updateSameEventAppointmentTest() throws BusinessException, ParseException {
+
+        UserModel userModel = initUser();
+        Event event = initEvent("event test", 10);
+
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        Date now = new Date();
+        appointment.setValidDate(now);
+        appointmentService.addAppointment(appointment);
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(now);
+        System.out.println("Today is " + now);
+        c.add(Calendar.DAY_OF_MONTH, 1);//add one day to today
+        Date tomorrow = c.getTime();
+
+        appointment.setValidDate(tomorrow);
+        System.out.println("Tomorrow is " + tomorrow);
+        ErrorEnum updateAppointmentReturn = appointmentService.updateAppointment(appointment);
+
+        assertEquals(100, updateAppointmentReturn.getErrCode());
+        assertEquals(9, eventMapper.selectByPrimaryKey("event test").getEventRemainPositions());
+        System.out.println(appointmentMapper.selectByPrimaryKey("1").getValidDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateGetBack = sdf.parse(sdf.format(appointmentMapper.selectByPrimaryKey("1").getValidDate()));
+        tomorrow = sdf.parse(sdf.format(tomorrow));
+        
+        assertEquals(tomorrow, dateGetBack);
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
