@@ -7,6 +7,7 @@ import com.java.rollercoaster.service.ManageParkService;
 import com.java.rollercoaster.service.TicketPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,4 +33,12 @@ public class TicketPriceController {
         float price = ticketPriceService.getTicketPrice(type.getTicketType());
         return CommonReturnType.create(price, "success");
     }
+
+    @GetMapping("/getAllTicketPrice")
+    @ResponseBody
+    public CommonReturnType getAllTicketPrice() {
+        return CommonReturnType.create(
+                ticketPriceService.getAllTicketPrice(), "success");
+    }
+
 }

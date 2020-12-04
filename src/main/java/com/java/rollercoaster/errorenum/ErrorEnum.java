@@ -40,6 +40,8 @@ public enum ErrorEnum implements CommonError {
 
     EMPTY_DATE_ATTRIBUTE(261, "The day or month or year parameter is missing."),
     TIME_OVER_CURRENT_DAY(262, "The date is ahead of current date."),
+    TIME_OVER_CURRENT_MONTH(263, "The date is ahead of current Month."),
+    TIME_OVER_CURRENT_YEAR(264, "The date is ahead of current Year."),
     EMPTY_TYPE_ATTRIBUTE(271, "The ticket type or ticket price is missing."),
     EMPTY_ANNOUNCEMENT_ATTRIBUTE(281, "The text or date is missing."),
     EMPTY_ANNOUNCEMENT_ID(282, "The announcement id is empty."),

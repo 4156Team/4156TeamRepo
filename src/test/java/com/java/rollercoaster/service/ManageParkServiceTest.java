@@ -6,14 +6,10 @@ import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
 import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.Announcement;
-import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
-import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
-import com.java.rollercoaster.service.model.enumeration.TicketType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,15 +17,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-class ManageParkServiceTest {
+public class ManageParkServiceTest {
     @Autowired
     FacilityMapper facilityMapper;
     @Autowired
@@ -40,7 +33,7 @@ class ManageParkServiceTest {
     TypeMapper typeMapper;
 
     @Test
-    void addFacility() throws ParseException {
+    public void addFacility() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -54,7 +47,7 @@ class ManageParkServiceTest {
 
 
     @Test
-    void addFacilityWithEmptyName() throws ParseException {
+    public void addFacilityWithEmptyName() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -66,7 +59,7 @@ class ManageParkServiceTest {
     }
 
     @Test
-    void addFacilityWithDuplicateName() throws ParseException {
+    public void addFacilityWithDuplicateName() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -85,7 +78,7 @@ class ManageParkServiceTest {
 
 
     @Test
-    void updateFacility() throws ParseException {
+    public void updateFacility() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -105,7 +98,7 @@ class ManageParkServiceTest {
     }
 
     @Test
-    void updateFacilityWithEmptyName() throws ParseException {
+    public void updateFacilityWithEmptyName() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -123,7 +116,7 @@ class ManageParkServiceTest {
 
 
     @Test
-    void updateFacilityWithWrongName() throws ParseException {
+    public void updateFacilityWithWrongName() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -143,8 +136,14 @@ class ManageParkServiceTest {
 
 
 
+
     @Test
-    void deleteFacility() throws ParseException {
+    public void deleteFacilityWithEmptyName() throws ParseException {
+        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.deleteFacility(null));
+    }
+
+    @Test
+    public void deleteFacility() throws ParseException {
         Facility facility = new Facility();
         facility.setFacilityIntroduction("test");
         facility.setFacilityStatus(FacilityStatus.normal);
@@ -152,19 +151,32 @@ class ManageParkServiceTest {
         facility.setFacilityCloseTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         facility.setQueueStatus(100);
         facility.setFacilityName("roller coaster");
-
-        assertEquals(ErrorEnum.EMPTY_FACILITY_NAME, manageParkService.deleteFacility(null));
-
-        assertEquals(ErrorEnum.OK, manageParkService.addFacility(facility));
-
-        assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.deleteFacility("test"));
-
+        facilityMapper.insert(facility);
         assertEquals(ErrorEnum.OK, manageParkService.deleteFacility("roller coaster"));
-
     }
 
     @Test
-    void addEvent() throws ParseException {
+    public void deleteFacilityWithWrongName() {
+        facilityMapper.deleteByPrimaryKey("test");
+        assertEquals(ErrorEnum.NO_SUCH_FACILITY, manageParkService.deleteFacility("test"));
+    }
+
+    @Test
+    public void addEvent() throws ParseException {
+        Event event = new Event();
+        event.setEventLocation("test");
+        event.setEventIntroduction("test");
+        event.setEventRemainPositions(1000);
+        event.setStartTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
+        event.setEventName("testEvent");
+        assertEquals(ErrorEnum.OK, manageParkService.addEvent(event));
+        assertEquals("testEvent", eventMapper.selectByPrimaryKey("testEvent").getEventName());
+        eventMapper.deleteByPrimaryKey("testEvent");
+    }
+
+    @Test
+    public void addEventWithEmptyName() throws ParseException {
         Event event = new Event();
         event.setEventLocation("test");
         event.setEventIntroduction("test");
@@ -173,15 +185,25 @@ class ManageParkServiceTest {
         event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         event.setEventName(null);
         assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.addEvent(event));
+    }
+
+    @Test
+    public void addEventWithWrongName() throws ParseException {
+        Event event = new Event();
+        event.setEventLocation("test");
+        event.setEventIntroduction("test");
+        event.setEventRemainPositions(1000);
+        event.setStartTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
+        event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         event.setEventName("testEvent");
-        assertEquals(ErrorEnum.OK, manageParkService.addEvent(event));
-        assertEquals("testEvent", eventMapper.selectByPrimaryKey("testEvent").getEventName());
+        eventMapper.insert(event);
         assertEquals(ErrorEnum.DUPLICATE_EVENT_NAME, manageParkService.addEvent(event));
         eventMapper.deleteByPrimaryKey("testEvent");
     }
 
+
     @Test
-    void updateEvent() throws ParseException {
+    public void updateEvent() throws ParseException {
         Event event = new Event();
         event.setEventLocation("test");
         event.setEventIntroduction("test");
@@ -191,11 +213,7 @@ class ManageParkServiceTest {
         event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         manageParkService.addEvent(event);
         Event newEvent = new Event();
-        newEvent.setEventName(null);
         newEvent.setEventRemainPositions(100);
-        assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.updateEvent(newEvent));
-        newEvent.setEventName("ttttt");
-        assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.updateEvent(newEvent));
         newEvent.setEventName("testEvent");
         assertEquals(ErrorEnum.OK, manageParkService.updateEvent(newEvent));
         assertEquals(100, eventMapper.selectByPrimaryKey("testEvent").getEventRemainPositions());
@@ -203,7 +221,24 @@ class ManageParkServiceTest {
     }
 
     @Test
-    void deleteEvent() throws ParseException {
+    public void updateEventWithWrongName() {
+        eventMapper.deleteByPrimaryKey("ttttt");
+        Event newEvent = new Event();
+        newEvent.setEventName(null);
+        newEvent.setEventRemainPositions(100);
+        newEvent.setEventName("ttttt");
+        assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.updateEvent(newEvent));
+    }
+
+    @Test
+    public void updateEventWithEmptyName() {
+        Event newEvent = new Event();
+        newEvent.setEventName(null);
+        assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.updateEvent(newEvent));
+    }
+
+    @Test
+    public void deleteEvent() throws ParseException {
         Event event = new Event();
         event.setEventLocation("test");
         event.setEventIntroduction("test");
@@ -212,10 +247,18 @@ class ManageParkServiceTest {
         event.setStartTime(new SimpleDateFormat("HH-mm-ss").parse("10-00-00"));
         event.setEndTime(new SimpleDateFormat("HH-mm-ss").parse("19-00-00"));
         manageParkService.addEvent(event);
-        assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.deleteEvent(null));
-        assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.deleteEvent("tttt"));
         assertEquals(ErrorEnum.OK, manageParkService.deleteEvent("testEvent"));
     }
 
+    @Test
+    public void deleteEventWithEmptyName() {
+        assertEquals(ErrorEnum.EMPTY_EVENT_NAME, manageParkService.deleteEvent(null));
+    }
+
+    @Test
+    public void deleteEventWithWrongName() {
+        eventMapper.deleteByPrimaryKey("tttt");
+        assertEquals(ErrorEnum.NO_SUCH_EVENT, manageParkService.deleteEvent("tttt"));
+    }
 
 }

@@ -54,6 +54,11 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
                 || null == myCalendar.getYear()) {
             throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);
         }
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.MONTH) + 1 <= myCalendar.getMonth()
+                || calendar.get(Calendar.YEAR) < myCalendar.getYear()) {
+            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_MONTH);
+        }
         List<Ticket> ticketList = ticketMapper.selectByExample(new TicketExample());
         int year = myCalendar.getYear();
         int month = myCalendar.getMonth() - 1;
@@ -75,6 +80,10 @@ public class StatisticCollectionServiceImpl implements StatisticCollectionServic
     public int peopleInThatYear(MyCalendar myCalendar) throws BusinessException {
         if (null == myCalendar.getYear()) {
             throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);
+        }
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.YEAR) <= myCalendar.getYear()) {
+            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_YEAR);
         }
         List<Ticket> ticketList = ticketMapper.selectByExample(new TicketExample());
         int year = myCalendar.getYear();

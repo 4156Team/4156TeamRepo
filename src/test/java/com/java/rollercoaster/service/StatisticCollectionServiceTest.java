@@ -137,12 +137,21 @@ public class StatisticCollectionServiceTest {
     @Test
     public void testPeopleInThatDayNormal() throws ParseException, BusinessException {
         init();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day - 1);
+        ticketMapper.insert(createTicket("2111",1, Status.used, 100,
+                sdf.format(calendar.getTime()), TicketType.adult));
+
         MyCalendar myCalendar = new MyCalendar();
-        myCalendar.setYear(2020);
-        myCalendar.setMonth(11);
-        myCalendar.setDay(25);
+        myCalendar.setYear(year);
+        myCalendar.setMonth(month + 1);
+        myCalendar.setDay(day - 1);
         int count = statisticCollectionService.peopleInThatDay(myCalendar);
         assertEquals(1, count);
+        ticketMapper.deleteByPrimaryKey("2111");
         finish();
     }
 
@@ -163,11 +172,25 @@ public class StatisticCollectionServiceTest {
     public void testPeopleInThatMonthFail2() throws ParseException {
         init();
         MyCalendar myCalendar = new MyCalendar();
-        myCalendar.setDay(10);
+        myCalendar.setYear(2020);
         try {
             statisticCollectionService.peopleInThatMonth(myCalendar);
         } catch (BusinessException businessException) {
             assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatMonthFail3() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        myCalendar.setMonth(12);
+        try {
+            statisticCollectionService.peopleInThatMonth(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.TIME_OVER_CURRENT_MONTH, businessException.getCommonError());
         }
         finish();
     }
@@ -195,15 +218,29 @@ public class StatisticCollectionServiceTest {
         finish();
     }
 
+    @Test
+    public void testPeopleInThatYearFail2() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2020);
+        try {
+            statisticCollectionService.peopleInThatYear(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.TIME_OVER_CURRENT_YEAR, businessException.getCommonError());
+        }
+        finish();
+    }
+
+
 
 
     @Test
     public void testPeopleInThatYearNormal() throws ParseException, BusinessException {
         init();
         MyCalendar myCalendar = new MyCalendar();
-        myCalendar.setYear(2020);
+        myCalendar.setYear(2019);
         int count = statisticCollectionService.peopleInThatYear(myCalendar);
-        assertEquals(3, count);
+        assertEquals(1, count);
         finish();
     }
 
