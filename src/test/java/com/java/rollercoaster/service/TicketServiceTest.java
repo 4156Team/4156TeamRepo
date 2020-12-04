@@ -31,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest()
 public class TicketServiceTest {
     @Autowired
+    private BalanceService balanceService;
+    @Autowired
     private UserService userService;
     @Autowired
     private UserAccountMapper userAccountMapper;
@@ -61,7 +63,7 @@ public class TicketServiceTest {
         Ticket ticket = new Ticket();
         ticket.setUserId(userAccount.get(0).getUserId());
         ticket.setStatus(Status.unused);
-        ticket.setPrice((float) 124);
+        ticket.setPrice((float) 0);
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
 
@@ -70,12 +72,49 @@ public class TicketServiceTest {
 
         Ticket ticketGetBack = ticketMapper.selectByPrimaryKey("1");
         assertEquals(Status.unused, ticketGetBack.getStatus());
-        assertEquals((float) 124, ticketGetBack.getPrice());
+        assertEquals((float) 0, ticketGetBack.getPrice());
 
         userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         ticketMapper.deleteByPrimaryKey("1");
         System.out.println("addTicketTest ends");
+    }
+
+    @Test
+    public void addNoEnoughMoneyTicketTest() throws BusinessException, ParseException {
+        System.out.println("addNoEnoughMoneyTicketTest starts");
+
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
+        Ticket ticket = new Ticket();
+        ticket.setUserId(userAccount.get(0).getUserId());
+        ticket.setStatus(Status.unused);
+        ticket.setPrice((float) 124);
+        ticket.setTicketId("1");
+        ticket.setValidDate(new Date());
+
+        try {
+            ticketService.addTicket(ticket, userModel.getUserId());
+        } catch (BusinessException businessException) {
+            assertEquals(301, businessException.getErrCode());
+        }
+
+
+        userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
+        ticketMapper.deleteByPrimaryKey("1");
+        System.out.println("addNoEnoughMoneyTicketTest ends");
     }
 
     @Test
@@ -101,8 +140,11 @@ public class TicketServiceTest {
         ticket.setPrice((float) 124);
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
-
+        balanceService.addBalance(userModel.getUserId(), (float)248);
+        System.out.println(userModel.getUserId() + "has " + balanceService.queryBalance(userModel.getUserId()));
         ticketService.addTicket(ticket, userAccount.get(0).getUserId());
+
+
         try {
             ticketService.addTicket(ticket, userAccount.get(0).getUserId());
         } catch (BusinessException businessException) {
@@ -387,12 +429,6 @@ public class TicketServiceTest {
         userModel.setPhoneNumber("212121");
         userModel.setPassword("12345");
         userService.register(userModel);
-
-        UserAccountExample userAccountExample = new UserAccountExample();
-        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
-        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
-
 
         ErrorEnum deleteTicketReturn = ticketService.deleteTicket("1", userModel);
         assertEquals(244, deleteTicketReturn.getErrCode());

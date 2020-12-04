@@ -38,7 +38,7 @@ class WeatherServiceTest {
         long millis = System.currentTimeMillis();
         long before = millis - 86400000L;
         try {
-            WeatherModel weatherModel = weatherService.queryWeather(new Date(before));
+            weatherService.queryWeather(new Date(before));
         } catch (BusinessException businessException) {
             assertEquals(256, businessException.getErrCode());
         }

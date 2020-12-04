@@ -2,6 +2,7 @@ package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.response.CommonReturnType;
 import com.java.rollercoaster.service.WeatherService;
 import com.java.rollercoaster.service.model.WeatherModel;
 
@@ -9,6 +10,9 @@ import com.java.rollercoaster.service.model.WeatherModel;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +29,7 @@ import java.util.Map;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
+    private RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public WeatherModel queryWeather(Date date) throws ParseException, BusinessException {
@@ -33,12 +38,10 @@ public class WeatherServiceImpl implements WeatherService {
         String param = "lat=40.43&lon=-74&exclude=hourly,minutely,current"
                 + "&appid=36ecbb1aa6c1f51110ee49fe989c46bf&units=imperial";
 
-        String result = sendGet(url, param);
+        String result = restTemplate.getForObject(url + "?" + param, String.class);
+
         JSONObject jsonObject = new JSONObject(result);
         JSONArray jsonArray = (JSONArray) jsonObject.get("daily");
-
-
-
 
         SimpleDateFormat sdfTest = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date wantedDateTest = sdfTest.parse(sdfTest.format(date));
@@ -81,45 +84,5 @@ public class WeatherServiceImpl implements WeatherService {
         }
         //temperature in Fahrenheit and wind speed in miles/hour
         throw new BusinessException(ErrorEnum.WRONG_DATE);
-    }
-
-    private static String sendGet(String url, String param) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader in = null;
-        try {
-            String urlNameString = url + "?" + param;
-            URL realUrl = new URL(urlNameString);
-            // 打开和URL之间的连接
-            URLConnection connection = realUrl.openConnection();
-            // 设置通用的请求属性
-            connection.setRequestProperty("accept", "*/*");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // 建立实际的连接
-            connection.connect();
-
-
-            // 定义 BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream(), "utf-8"));
-
-            String line;
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (Exception getException) {
-            System.out.println("Exception occurred in sending get request" + getException);
-            getException.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
-        return sb.toString();
     }
 }
