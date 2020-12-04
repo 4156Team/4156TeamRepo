@@ -1,6 +1,7 @@
 package com.java.rollercoaster.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
@@ -139,11 +140,8 @@ class QueryServiceTest {
 
         eventMapper.insert(newEvent);
         EventModel eventQueried;
-        try {
-            eventQueried = queryService.queryAllEvents().get(0);
-        } catch (BusinessException err) {
-            eventQueried = new EventModel();
-        }
+
+        eventQueried = queryService.queryAllEvents().get(0);
         for(EventModel event: queryService.queryAllEvents()) {
             if (event.getEventName().equals("queryTestEvent")) {
                 assertEquals(event.getStartTime().getHours(),4);
@@ -182,11 +180,9 @@ class QueryServiceTest {
         facilityMapper.insert(newFacility);
         eventMapper.insert(newEvent);
         FacilityModel facilityQueried;
-        try {
-            facilityQueried = queryService.queryAllFacilities().get(0);
-        } catch (BusinessException err) {
-            facilityQueried = new FacilityModel();
-        }
+        facilityQueried = queryService.queryAllFacilities().get(0);
+        assertNotNull(facilityQueried);
+
 
     }
 }

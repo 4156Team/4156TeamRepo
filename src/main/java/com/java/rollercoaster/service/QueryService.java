@@ -12,7 +12,7 @@ public interface QueryService {
 
     FacilityModel queryFacility(String facilityName) throws BusinessException;
 
-    List<EventModel> queryAllEvents() throws BusinessException;
+    List<EventModel> queryAllEvents();
 
-    List<FacilityModel> queryAllFacilities() throws BusinessException;
+    List<FacilityModel> queryAllFacilities();
 }
