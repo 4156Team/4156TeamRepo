@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,6 +43,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .getEventRemainPositions()) {
             throw new BusinessException(ErrorEnum.EVENT_NO_POSITION);
         }
+        appointment.setValidDate(new Date());
         Event event = eventMapper.selectByPrimaryKey(appointment.getEventName());
         Integer currentPosition = event.getEventRemainPositions() - 1;
         event.setEventRemainPositions(currentPosition);
@@ -80,6 +82,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 newEvent.setEventRemainPositions(currentNewEventPosition);
                 eventMapper.updateByPrimaryKeySelective(newEvent);
 
+                appointment.setValidDate(new Date());
                 appointmentMapper.updateByPrimaryKeySelective(appointment);
 
                 Event oldEvent = eventMapper
