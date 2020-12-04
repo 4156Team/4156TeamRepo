@@ -51,7 +51,8 @@ public enum ErrorEnum implements CommonError {
     BALANCE_NOT_ENOUGH(301, "Balance not enough for operation"),
 
     DUPLICATE_QUICKPASS(310, "Quickpass appointment already exists"),
-    QUICKPASS_NOT_EXIST(311, "Quickpass appointment already exists");
+    QUICKPASS_NOT_EXIST(311, "Quickpass appointment already exists"),
+    INVALID_QUICKPASS(312, "QuickPass is invalid.");
 
     private int errorCode;
     private String errorMessage;

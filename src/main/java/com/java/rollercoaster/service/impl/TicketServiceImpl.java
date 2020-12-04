@@ -49,6 +49,9 @@ public class TicketServiceImpl implements TicketService {
             //You cannot buy past date ticket.
             throw new BusinessException(ErrorEnum.DATE_PASSED);
         }
+        if (balanceService.queryBalance(userId).getBalance() < ticket.getPrice()) {
+            throw new BusinessException(ErrorEnum.BALANCE_NOT_ENOUGH);
+        }
         ticketMapper.insert(ticket);
         balanceService.subBalance(userId, ticket.getPrice());
         return ticket.getTicketId();
