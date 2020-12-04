@@ -54,7 +54,6 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> showAllComments() {
 
         List<Comment> commentList = commentMapper.selectByExampleWithBLOBs(new CommentExample());
-//        List<Comment> commentList = commentMapper.listAllComments();
         return commentList;
     }
 

@@ -44,8 +44,6 @@ public class WeatherController {
             throws ParseException, BusinessException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sdf.parse(dateString);
-//        Long dateLong = Long.parseLong(dateString);
-//        Date date = new Date(dateLong);
 
         //check login
         Boolean isLogin = (Boolean) httpServletRequest

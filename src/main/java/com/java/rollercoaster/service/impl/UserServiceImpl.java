@@ -92,9 +92,6 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
         }
         UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());
-        if (userPassword == null) {
-            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);
-        }
         UserModel userModel = convertFromDataObject(userAccount, userPassword);
         //compare encrypt password with the input password
         System.out.println(userPassword.getPassword());

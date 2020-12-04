@@ -3,8 +3,9 @@ package com.java.rollercoaster.service.model;
 import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+
 
 public class UserModel implements Serializable {
 
