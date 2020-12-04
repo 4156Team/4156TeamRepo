@@ -1,9 +1,11 @@
 package com.java.rollercoaster.service;
 
 import com.java.rollercoaster.dao.AppointmentMapper;
+import com.java.rollercoaster.dao.QuickPassMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.pojo.QuickPass;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import org.junit.Test;
@@ -28,6 +30,8 @@ public class CheckInServiceTest {
     AppointmentMapper appointmentMapper;
     @Autowired
     TicketMapper ticketMapper;
+    @Autowired
+    QuickPassMapper quickPassMapper;
 
 
 
@@ -133,5 +137,41 @@ public class CheckInServiceTest {
         appointmentMapper.insertSelective(appointment);
         assertEquals(ErrorEnum.INVALID_APPOINTMENT,checkInService.checkAppointments("30"));
         appointmentMapper.deleteByPrimaryKey("30");
+    }
+
+    @Test
+    public void checkQuickPassNormal() {
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("1000100");
+        quickPass.setUserId(10000);
+        quickPass.setStartTime(new Date(new Date().getTime() - 10000));
+        quickPass.setFacilityName("Hunny Pot Spin");
+        quickPassMapper.insertSelective(quickPass);
+        assertEquals(ErrorEnum.OK, checkInService.checkQuickPass(quickPass.getQuickpassId()));
+        quickPassMapper.deleteByPrimaryKey("1000100");
+    }
+
+    @Test
+    public void checkQuickPassInvalid1() {
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("1000100");
+        quickPass.setUserId(10000);
+        quickPass.setStartTime(new Date(new Date().getTime() - 31 * 60 * 1000));
+        quickPass.setFacilityName("Hunny Pot Spin");
+        quickPassMapper.insertSelective(quickPass);
+        assertEquals(ErrorEnum.INVALID_QUICKPASS, checkInService.checkQuickPass(quickPass.getQuickpassId()));
+        quickPassMapper.deleteByPrimaryKey("1000100");
+    }
+
+    @Test
+    public void checkQuickPassInvalid2() {
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("1000100");
+        quickPass.setUserId(10000);
+        quickPass.setStartTime(new Date(new Date().getTime() + 60 * 1000));
+        quickPass.setFacilityName("Hunny Pot Spin");
+        quickPassMapper.insertSelective(quickPass);
+        assertEquals(ErrorEnum.INVALID_QUICKPASS, checkInService.checkQuickPass(quickPass.getQuickpassId()));
+        quickPassMapper.deleteByPrimaryKey("1000100");
     }
 }
