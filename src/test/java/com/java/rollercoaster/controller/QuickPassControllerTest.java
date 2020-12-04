@@ -47,10 +47,10 @@ public class QuickPassControllerTest {
 
     private UserModel initUser() throws BusinessException {
         UserModel userModel = new UserModel();
-        userModel.setUserName("Alice");
+        userModel.setUserName("Bob");
         userModel.setUserGender(UserGender.female);
         userModel.setRole(Role.visitor);
-        userModel.setPhoneNumber("212121");
+        userModel.setPhoneNumber("78909809");
         userModel.setPassword("12345");
         userService.register(userModel);
 
@@ -65,7 +65,6 @@ public class QuickPassControllerTest {
         facilityMapper.insert(facility);
         return facility;
     }
-
 
     @Test
     public void addQuickPassTest() throws BusinessException, ParseException {
@@ -240,6 +239,10 @@ public class QuickPassControllerTest {
         quickPass.setQuickpassId("1");
         quickPass.setStartTime(new Date());
         quickPassMapper.insertSelective(quickPass);
+
+
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
 
         CommonReturnType response = quickPassController.getQuickPass();
 

@@ -47,12 +47,12 @@ public class TicketControllerTest {
 
     private UserModel initUser(Role role) throws BusinessException {
         UserModel userModel = new UserModel();
-        userModel.setUserName("Alice");
+        userModel.setUserName("Tim");
         userModel.setUserGender(UserGender.female);
         userModel.setRole(role);
-        userModel.setPhoneNumber("212121");
+        userModel.setPhoneNumber("137139");
         userModel.setPassword("12345");
-        userModel.setEmail("yl4225@columbia.edu");
+        userModel.setEmail("yy2979@columbia.edu");
         userService.register(userModel);
 
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);

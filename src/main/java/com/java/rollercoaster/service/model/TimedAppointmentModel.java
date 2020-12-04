@@ -35,6 +35,8 @@ public class TimedAppointmentModel extends Appointment {
         this.eventLocation = event.getEventLocation();
     }
 
+    public TimedAppointmentModel() {}
+
     @Override
     public String getAppointmentId() {
         return appointmentId;

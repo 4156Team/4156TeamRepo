@@ -313,9 +313,9 @@ public class ManagerControllerTest {
     public void testPeopleInThatYearNormal() throws ParseException {
         init1();
         MyCalendar myCalendar = new MyCalendar();
-        myCalendar.setYear(2020);
+        myCalendar.setYear(2019);
         CommonReturnType response = managerController.peopleInThatYear(myCalendar);
-        assertEquals(3, response.getData());
+        assertEquals(1, response.getData());
         assertEquals("success", response.getStatus());
         finish1();
     }
