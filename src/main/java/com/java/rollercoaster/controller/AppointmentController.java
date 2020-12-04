@@ -145,9 +145,14 @@ public class AppointmentController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        List<TimedAppointmentModel> timedAppointmentModelListppointmentList = appointmentService
-                .getAppointmentsByUserId(userModel.getUserId());
-        return CommonReturnType.create(timedAppointmentModelListppointmentList);
+        try {
+            List<TimedAppointmentModel> timedAppointmentModelListppointmentList = appointmentService
+                    .getAppointmentsByUserId(userModel.getUserId());
+            return CommonReturnType.create(timedAppointmentModelListppointmentList);
+        } catch (BusinessException businessException) {
+            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());
+        }
+
     }
 
 }

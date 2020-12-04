@@ -3,9 +3,11 @@ package com.java.rollercoaster.acceptancetest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.rollercoaster.dao.BalanceMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
+import com.java.rollercoaster.pojo.Balance;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.TicketExample;
 import com.java.rollercoaster.pojo.UserAccount;
@@ -40,6 +42,8 @@ public class TicketServiceAcceptanceTest {
     private TicketMapper ticketMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+    @Autowired
+    private BalanceMapper balanceMapper;
 
     @Test
     public void buyTicketsTest() {
@@ -54,6 +58,7 @@ public class TicketServiceAcceptanceTest {
         paramMap.add("email", "111111@qq.com");
         restTemplate.postForObject(url, paramMap, CommonReturnType.class);
 
+
         //log in
         MultiValueMap<String, Object> paramMap1 = new LinkedMultiValueMap<String, Object>();
         String url1 = "http://localhost:8080/user/login";
@@ -65,6 +70,16 @@ public class TicketServiceAcceptanceTest {
         //restTemplate.postForObject(url1, paramMap1, CommonReturnType.class);
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        userAccountExample.createCriteria().andPhoneNumberEqualTo("6789");
+        List<UserAccount> userAccounts = userAccountMapper.selectByExample(userAccountExample);
+        int userId = userAccounts.get(0).getUserId();
+        Balance balance = new Balance();
+        balance.setUserId(userId);
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balanceMapper.insert(balance);
 
         //buy tickets
         Ticket ticket = new Ticket();
@@ -79,15 +94,10 @@ public class TicketServiceAcceptanceTest {
 
         assertEquals("success", response.getBody().getStatus());
 
-        UserAccountExample userAccountExample = new UserAccountExample();
-        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
-        userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
-        int userId = userAccount.get(0).getUserId();
         TicketExample ticketExample = new TicketExample();
         TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
-        ticketCriteria.andUserIdEqualTo(userAccount.get(0).getUserId());
+        ticketCriteria.andUserIdEqualTo(userId);
         List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
         assertEquals(100, ticketList.get(0).getPrice());
 
@@ -95,6 +105,7 @@ public class TicketServiceAcceptanceTest {
         userAccountMapper.deleteByExample(userAccountExample);
         userPasswordMapper.deleteByPrimaryKey(userId);
         ticketMapper.deleteByExample(ticketExample);
+        balanceMapper.deleteByPrimaryKey(userId);
 
     }
 
@@ -129,6 +140,18 @@ public class TicketServiceAcceptanceTest {
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
 
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        userAccountExample.createCriteria().andPhoneNumberEqualTo("6789");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+        int userId = userAccount.get(0).getUserId();
+        Balance balance = new Balance();
+        balance.setUserId(userId);
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balanceMapper.insert(balance);
+
+
         //buy tickets
         Ticket ticket = new Ticket();
         ticket.setValidDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
@@ -140,10 +163,6 @@ public class TicketServiceAcceptanceTest {
         HttpEntity<Ticket> httpEntity1 = new HttpEntity<>(ticket, headers1);
         restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
 
-        UserAccountExample userAccountExample = new UserAccountExample();
-        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
-        userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
         TicketExample ticketExample = new TicketExample();
         TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
@@ -171,6 +190,7 @@ public class TicketServiceAcceptanceTest {
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
         ticketMapper.deleteByExample(ticketExample);
+        balanceMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
     }
 
     @Test
@@ -198,6 +218,16 @@ public class TicketServiceAcceptanceTest {
         ResponseEntity<CommonReturnType> responseEntity = restTemplate.postForEntity(url1, httpEntity, CommonReturnType.class);
         String cookie = getCookie(responseEntity);
 
+        UserAccountExample userAccountExample = new UserAccountExample();
+        userAccountExample.createCriteria().andPhoneNumberEqualTo("6789");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+        int userId = userAccount.get(0).getUserId();
+        Balance balance = new Balance();
+        balance.setUserId(userId);
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balanceMapper.insert(balance);
+
         //buy tickets
         Ticket ticket = new Ticket();
         ticket.setValidDate(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
@@ -208,11 +238,6 @@ public class TicketServiceAcceptanceTest {
         headers1.add("Cookie",cookie );
         HttpEntity<Ticket> httpEntity1 = new HttpEntity<>(ticket, headers1);
         restTemplate.postForEntity(url2, httpEntity1, CommonReturnType.class);
-
-        UserAccountExample userAccountExample = new UserAccountExample();
-        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
-        userAccountExampleCriteria.andPhoneNumberEqualTo("6789");
-        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
         TicketExample ticketExample = new TicketExample();
         TicketExample.Criteria ticketCriteria = ticketExample.createCriteria();
@@ -233,5 +258,6 @@ public class TicketServiceAcceptanceTest {
         //delete record
         userAccountMapper.deleteByExample(userAccountExample);
         ticketMapper.deleteByExample(ticketExample);
+        balanceMapper.deleteByPrimaryKey(userId);
     }
 }

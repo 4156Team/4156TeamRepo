@@ -1,10 +1,12 @@
 package com.java.rollercoaster.controller;
 
+import com.java.rollercoaster.dao.BalanceMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.pojo.Balance;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -44,6 +46,8 @@ public class TicketControllerTest {
     private UserAccountMapper userAccountMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+    @Autowired
+    private BalanceMapper balanceMapper;
 
     private UserModel initUser(Role role) throws BusinessException {
         UserModel userModel = new UserModel();
@@ -54,7 +58,11 @@ public class TicketControllerTest {
         userModel.setPassword("12345");
         userModel.setEmail("yy2979@columbia.edu");
         userService.register(userModel);
-
+        Balance balance = new Balance();
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balance.setUserId(userModel.getUserId());
+        balanceMapper.insert(balance);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         return userModel;
@@ -87,6 +95,7 @@ public class TicketControllerTest {
         ticketMapper.deleteByPrimaryKey(ticketId);
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 
     @Test
@@ -108,6 +117,7 @@ public class TicketControllerTest {
         ticketMapper.deleteByPrimaryKey("1");
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 
     @Test
@@ -125,6 +135,7 @@ public class TicketControllerTest {
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 
     @Test
@@ -145,5 +156,6 @@ public class TicketControllerTest {
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 }

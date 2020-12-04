@@ -19,5 +19,5 @@ public interface AppointmentService {
 
     ErrorEnum deleteAppointment(String appointmentId, UserModel userModel);
 
-    List<TimedAppointmentModel> getAppointmentsByUserId(Integer userId);
+    List<TimedAppointmentModel> getAppointmentsByUserId(Integer userId) throws BusinessException;
 }

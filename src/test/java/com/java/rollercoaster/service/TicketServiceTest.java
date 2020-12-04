@@ -1,10 +1,12 @@
 package com.java.rollercoaster.service;
 
+import com.java.rollercoaster.dao.BalanceMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Balance;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.UserAccount;
 import com.java.rollercoaster.pojo.UserAccountExample;
@@ -42,6 +44,8 @@ public class TicketServiceTest {
     private TicketMapper ticketMapper;
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private BalanceMapper balanceMapper;
 
     @Test
     public void addTicketTest() throws BusinessException, ParseException {
@@ -67,6 +71,12 @@ public class TicketServiceTest {
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
 
+        Balance balance = new Balance();
+        balance.setUserId(userAccount.get(0).getUserId());
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balanceMapper.insert(balance);
+
         String addTicketReturn = ticketService.addTicket(ticket, userModel.getUserId());
         System.out.println(addTicketReturn);
 
@@ -77,6 +87,7 @@ public class TicketServiceTest {
         userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         System.out.println("addTicketTest ends");
     }
 
@@ -140,8 +151,14 @@ public class TicketServiceTest {
         ticket.setPrice((float) 124);
         ticket.setTicketId("1");
         ticket.setValidDate(new Date());
-        balanceService.addBalance(userModel.getUserId(), (float)248);
-        System.out.println(userModel.getUserId() + "has " + balanceService.queryBalance(userModel.getUserId()));
+
+
+        Balance balance = new Balance();
+        balance.setUserId(userAccount.get(0).getUserId());
+        balance.setBalance(2000f);
+        balance.setQuickpass(10);
+        balanceMapper.insert(balance);
+
         ticketService.addTicket(ticket, userAccount.get(0).getUserId());
 
 
@@ -154,6 +171,7 @@ public class TicketServiceTest {
         userAccountMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         userPasswordMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userAccount.get(0).getUserId());
         System.out.println("addDuplicateTicketTest ends");
     }
 
