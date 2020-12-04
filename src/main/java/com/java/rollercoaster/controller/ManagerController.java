@@ -6,6 +6,7 @@ import com.java.rollercoaster.pojo.Announcement;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.QuickPass;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.response.CommonReturnType;
@@ -159,6 +160,19 @@ public class ManagerController {
                                              Appointment appointment) {
         return CommonReturnType.autoCreate(
                 checkInService.checkAppointments(appointment.getAppointmentId()));
+    }
+
+    /**
+     * Check QuickPass.
+     * @param quickPass quickPass
+     * @return CommonReturnType
+     */
+    @PostMapping("/checkQuickPass")
+    @ResponseBody
+    public CommonReturnType checkQuickPass(@RequestBody
+                                           QuickPass quickPass) {
+        return CommonReturnType.autoCreate(
+                checkInService.checkAppointments(quickPass.getQuickpassId()));
     }
 
     /**

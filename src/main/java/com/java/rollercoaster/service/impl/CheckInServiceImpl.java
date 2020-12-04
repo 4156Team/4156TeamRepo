@@ -1,9 +1,11 @@
 package com.java.rollercoaster.service.impl;
 
 import com.java.rollercoaster.dao.AppointmentMapper;
+import com.java.rollercoaster.dao.QuickPassMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.pojo.QuickPass;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.service.CheckInService;
 import com.java.rollercoaster.service.model.enumeration.Status;
@@ -21,6 +23,8 @@ public class CheckInServiceImpl implements CheckInService {
     private TicketMapper ticketMapper;
     @Autowired
     private AppointmentMapper appointmentMapper;
+    @Autowired
+    private QuickPassMapper quickPassMapper;
 
     @Override
     public ErrorEnum checkTicket(String ticketId) {
@@ -55,6 +59,16 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public ErrorEnum checkQuickPass(String quickPassId) {
-        return null;
+        QuickPass quickPass = quickPassMapper.selectByPrimaryKey(quickPassId);
+        if (null == quickPass) {
+            return ErrorEnum.QUICKPASS_NOT_EXIST;
+        } else if (new Date().getTime() < quickPass.getStartTime().getTime()
+                || new Date().getTime()
+                > quickPass.getStartTime().getTime() + 30 * 60 * 1000) {
+            return ErrorEnum.INVALID_QUICKPASS;
+        } else {
+            quickPassMapper.deleteByPrimaryKey(quickPassId);
+        }
+        return ErrorEnum.OK;
     }
 }
