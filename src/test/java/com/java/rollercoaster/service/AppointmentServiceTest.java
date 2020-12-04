@@ -6,9 +6,7 @@ import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
-import com.java.rollercoaster.pojo.Appointment;
-import com.java.rollercoaster.pojo.Event;
-import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.*;
 import com.java.rollercoaster.service.model.TimedAppointmentModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.Role;
@@ -84,12 +82,17 @@ public class AppointmentServiceTest {
 
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event test");
         appointment.setValidDate(new Date());
+        System.out.println("userId from userModel: " + userModel.getUserId());
+        System.out.println("userId from appointment: " + appointment.getUserId());
 
-        String addAppointmentReturn = appointmentService.addAppointment(appointment);
-        System.out.println(addAppointmentReturn);
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+        appointment.setUserId(userAccount.get(0).getUserId());
+        appointmentService.addAppointment(appointment);
 
         Appointment appointmentGetBack = appointmentMapper.selectByPrimaryKey("1");
         assertEquals(userModel.getUserId(), appointmentGetBack.getUserId());
@@ -129,14 +132,29 @@ public class AppointmentServiceTest {
     @Test
     public void addDuplicateAppointmentTest() throws BusinessException {
 
-        UserModel userModel = initUser();
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
         Event event = initEvent("event test", 10);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event test");
         appointment.setValidDate(new Date());
+        System.out.println("userId from userModel: " + userModel.getUserId());
+        System.out.println("userId from appointment: " + appointment.getUserId());
         appointmentService.addAppointment(appointment);
+
 
         try {
             appointmentService.addAppointment(appointment);
@@ -206,13 +224,17 @@ public class AppointmentServiceTest {
 
     @Test
     public void addBusyEventAppointmentTest() throws BusinessException {
-        System.out.println("ddBusyEventAppointmentTest starts");
+        System.out.println("addBusyEventAppointmentTest starts");
         UserModel userModel = initUser();
-        userModel.setUserId(3);
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
         Event event = initEvent("event", 0);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event");
         appointment.setValidDate(new Date());
         System.out.println("userId from userModel: " + userModel.getUserId());
@@ -312,11 +334,15 @@ public class AppointmentServiceTest {
     public void updateWrongEventAppointmentTest() throws BusinessException {
 
         UserModel userModel = initUser();
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
         Event event = initEvent("event test", 10);
 
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event");
         appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
@@ -363,10 +389,14 @@ public class AppointmentServiceTest {
 
         UserModel userModel = initUser();
         Event event = initEvent("event test", 10);
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
 
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event test");
         Date now = new Date();
         appointment.setValidDate(now);
@@ -404,9 +434,14 @@ public class AppointmentServiceTest {
         Event event = initEvent("event test", 1);
         Event anotherEvent = initEvent("another", 0);
 
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event test");
         Date now = new Date();
         appointment.setValidDate(now);
@@ -525,17 +560,21 @@ public class AppointmentServiceTest {
         event.setEventLocation("test location");
         eventMapper.insertSelective(event);
 
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
-        appointment.setUserId(userModel.getUserId());
+        appointment.setUserId(userAccount.get(0).getUserId());
         appointment.setEventName("event test");
         appointment.setValidDate(new Date());
         appointmentMapper.insertSelective(appointment);
 
-        List<TimedAppointmentModel> timedAppointmentModelList = appointmentService.getAppointmentsByUserId(userModel.getUserId());
+        List<TimedAppointmentModel> timedAppointmentModelList = appointmentService.getAppointmentsByUserId(userAccount.get(0).getUserId());
         assertEquals("event test", timedAppointmentModelList.get(0).getEventName());
         assertEquals("1", timedAppointmentModelList.get(0).getAppointmentId());
-        assertEquals(userModel.getUserId(), timedAppointmentModelList.get(0).getUserId());
+        assertEquals(userAccount.get(0).getUserId(), timedAppointmentModelList.get(0).getUserId());
         String startTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getStartTime());
         String endTimeGetBack = sdf.format(timedAppointmentModelList.get(0).getEndTime());
         assertEquals("14:00", startTimeGetBack);
