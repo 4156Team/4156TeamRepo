@@ -29,7 +29,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public ErrorEnum pushAnnouncement(Announcement announcement)
             throws BusinessException, UnirestException {
-        if ("".equals(announcement.getText()) || null == announcement.getText()) {
+        if (null == announcement.getText()) {
             return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
         }
         announcementMapper.insert(announcement);

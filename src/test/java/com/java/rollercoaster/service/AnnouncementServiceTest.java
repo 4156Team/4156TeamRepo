@@ -42,6 +42,10 @@ public class AnnouncementServiceTest {
         userAccount2.setRole(Role.manager);
         userAccountMapper.insert(userAccount2);
 
+        UserAccount userAccount3 = new UserAccount();
+        userAccount3.setRole(Role.visitor);
+        userAccountMapper.insert(userAccount3);
+
         Announcement announcement = new Announcement();
         announcement.setText("test Announcement");
         announcement.setDate(new Date());
@@ -53,12 +57,12 @@ public class AnnouncementServiceTest {
         announcementMapper.deleteByExample(announcementExample);
         userAccountMapper.deleteByPrimaryKey(userAccount1.getUserId());
         userAccountMapper.deleteByPrimaryKey(userAccount2.getUserId());
+        userAccountMapper.deleteByPrimaryKey(userAccount3.getUserId());
     }
 
     @Test
     public void testPushAnnouncementFail() throws UnirestException, BusinessException {
         Announcement announcement = new Announcement();
-        announcement.setText("");
         announcement.setDate(new Date());
         assertEquals(ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE, announcementService.pushAnnouncement(announcement));
     }

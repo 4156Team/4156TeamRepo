@@ -117,6 +117,7 @@ public class StatisticCollectionServiceTest {
         finish();
     }
 
+    @Test
     public void testPeopleInThatDayFail4() throws ParseException {
         init();
         Calendar calendar = Calendar.getInstance();
@@ -150,6 +151,19 @@ public class StatisticCollectionServiceTest {
         init();
         MyCalendar myCalendar = new MyCalendar();
         myCalendar.setMonth(10);
+        try {
+            statisticCollectionService.peopleInThatMonth(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.EMPTY_DATE_ATTRIBUTE, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
+    public void testPeopleInThatMonthFail2() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setDay(10);
         try {
             statisticCollectionService.peopleInThatMonth(myCalendar);
         } catch (BusinessException businessException) {
