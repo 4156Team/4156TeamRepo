@@ -102,8 +102,7 @@ public class QuickPassController {
      */
     @RequestMapping("/quickPassRecord")
     @ResponseBody
-    public CommonReturnType getQuickPass(@RequestParam(name = "userId")
-                                                     Integer userId) {
+    public CommonReturnType getQuickPass() {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null || !isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
@@ -114,7 +113,7 @@ public class QuickPassController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        List<QuickPass> quickPassList = quickPassService.getQuickPassByUserId(userId);
+        List<QuickPass> quickPassList = quickPassService.getQuickPassByUserId(userModel.getUserId());
         return CommonReturnType.create(quickPassList);
     }
 }

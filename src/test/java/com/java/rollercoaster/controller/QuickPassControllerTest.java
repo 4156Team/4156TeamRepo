@@ -241,7 +241,7 @@ public class QuickPassControllerTest {
         quickPass.setStartTime(new Date());
         quickPassMapper.insertSelective(quickPass);
 
-        CommonReturnType response = quickPassController.getQuickPass(userModel.getUserId());
+        CommonReturnType response = quickPassController.getQuickPass();
 
         List<QuickPass> quickPassList = (List<QuickPass>)response.getData();
         assertEquals("success", response.getStatus());
@@ -269,7 +269,7 @@ public class QuickPassControllerTest {
         quickPassMapper.insertSelective(quickPass);
 
         httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
-        CommonReturnType response = quickPassController.getQuickPass(userModel.getUserId());
+        CommonReturnType response = quickPassController.getQuickPass();
 
         assertEquals(ErrorEnum.USER_NOT_LOGIN, (ErrorEnum)response.getData());
 
@@ -292,7 +292,7 @@ public class QuickPassControllerTest {
         quickPassMapper.insertSelective(quickPass);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
-        CommonReturnType response = quickPassController.getQuickPass(userModel.getUserId());
+        CommonReturnType response = quickPassController.getQuickPass();
 
 
         assertEquals(ErrorEnum.USER_NOT_EXIST, (ErrorEnum)response.getData());
