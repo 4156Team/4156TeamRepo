@@ -15,6 +15,7 @@ import com.java.rollercoaster.service.model.enumeration.Role;
 import com.java.rollercoaster.service.model.enumeration.Status;
 import com.java.rollercoaster.service.model.enumeration.UserGender;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -198,8 +199,6 @@ public class AppointmentServiceTest {
             assertEquals(20001, businessException.getErrCode());
         }
 
-        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
-        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         eventMapper.deleteByPrimaryKey(event.getEventName());
         appointmentMapper.deleteByPrimaryKey("1");
 
@@ -207,14 +206,17 @@ public class AppointmentServiceTest {
 
     @Test
     public void addBusyEventAppointmentTest() throws BusinessException {
-
+        System.out.println("ddBusyEventAppointmentTest starts");
         UserModel userModel = initUser();
+        userModel.setUserId(3);
         Event event = initEvent("event", 0);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
         appointment.setUserId(userModel.getUserId());
         appointment.setEventName("event");
         appointment.setValidDate(new Date());
+        System.out.println("userId from userModel: " + userModel.getUserId());
+        System.out.println("userId from appointment: " + appointment.getUserId());
 
         try {
             appointmentService.addAppointment(appointment);
@@ -352,8 +354,6 @@ public class AppointmentServiceTest {
 
         assertEquals(20001, updateAppointmentReturn.getErrCode());
 
-        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
-        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         eventMapper.deleteByPrimaryKey(event.getEventName());
         appointmentMapper.deleteByPrimaryKey("1");
     }
@@ -388,7 +388,7 @@ public class AppointmentServiceTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dateGetBack = sdf.parse(sdf.format(appointmentMapper.selectByPrimaryKey("1").getValidDate()));
         tomorrow = sdf.parse(sdf.format(tomorrow));
-        
+
         assertEquals(tomorrow, dateGetBack);
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
@@ -398,23 +398,37 @@ public class AppointmentServiceTest {
     }
 
     @Test
+    public void updateFullEventAppointmentTest() throws BusinessException, ParseException {
+
+        UserModel userModel = initUser();
+        Event event = initEvent("event test", 1);
+        Event anotherEvent = initEvent("another", 0);
+
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        Date now = new Date();
+        appointment.setValidDate(now);
+        appointmentService.addAppointment(appointment);
+
+        appointment.setEventName("another");
+        ErrorEnum updateAppointmentReturn = appointmentService.updateAppointment(appointment);
+
+        assertEquals(253, updateAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+        eventMapper.deleteByPrimaryKey(anotherEvent.getEventName());
+        appointmentMapper.deleteByPrimaryKey("1");
+    }
+    @Test
     public void deleteAppointmentTest() throws BusinessException {
-        System.out.println("deleteAppointmentTest starts");
 
-        UserModel userModel = new UserModel();
-        userModel.setUserName("Alice");
-        userModel.setUserGender(UserGender.female);
-        userModel.setRole(Role.visitor);
-        userModel.setPhoneNumber("212121");
-        userModel.setPassword("12345");
-        userService.register(userModel);
+        UserModel userModel = initUser();
 
-        Event event = new Event();
-        event.setEventRemainPositions(10);
-        //event.setEndTime();
-        //event.setStartTime();
-        event.setEventName("event test");
-        eventMapper.insertSelective(event);
+        Event event = initEvent("event test", 10);
 
         Appointment appointment = new Appointment();
         appointment.setAppointmentId("1");
@@ -435,8 +449,57 @@ public class AppointmentServiceTest {
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
 
-        System.out.println("deleteAppointmentTest ends");
+    @Test
+    public void deleteNullIdAppointmentTest() throws BusinessException {
+        UserModel userModel = initUser();
+
+        Event event = initEvent("event test", 10);
+
+        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment(null,userModel);
+        assertEquals(251, deleteAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
+    public void deleteNotExistAppointmentTest() throws BusinessException {
+        UserModel userModel = initUser();
+
+        Event event = initEvent("event test", 10);
+
+        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment("1",userModel);
+        assertEquals(254, deleteAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
+    public void deleteNotSameUserAppointmentTest() throws BusinessException {
+        UserModel userModel = initUser();
+
+        Event event = initEvent("event test", 10);
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+        appointmentMapper.insertSelective(appointment);
+
+        userModel.setUserId(userModel.getUserId() - 1);
+
+        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment("1",userModel);
+        assertEquals(255, deleteAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        appointmentMapper.deleteByPrimaryKey("1");
+        eventMapper.deleteByPrimaryKey(event.getEventName());
     }
 
     @Test
@@ -480,15 +543,18 @@ public class AppointmentServiceTest {
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
-        eventMapper.deleteByPrimaryKey(event.getEventName());
+        eventMapper.deleteByPrimaryKey("event");
+        eventMapper.deleteByPrimaryKey("event test");
         appointmentMapper.deleteByPrimaryKey("1");
         System.out.println("appointmentsRecordsTest ends");
     }
 
-    @Test
+    @AfterEach
     public void delete() {
+        eventMapper.deleteByPrimaryKey("event");
         eventMapper.deleteByPrimaryKey("event test");
         appointmentMapper.deleteByPrimaryKey("1");
+        System.out.println("deletion done");
     }
 
 }
