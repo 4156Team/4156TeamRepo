@@ -9,40 +9,43 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
-<span class="fc" id="L13">public class MailServiceImpl implements MailService {</span>
+<span class="fc" id="L15">public class MailServiceImpl implements MailService {</span>
     @Override
     public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
             throws BusinessException, UnirestException {
-<span class="fc" id="L17">        Unirest.post(</span>
-                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
-<span class="fc" id="L19">                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</span>
-<span class="fc" id="L20">                .queryString(&quot;from&quot;,</span>
-                        &quot;Roller Coaster &lt;mailgun@sandbox1ad7f0d6956b4fcdb728091dbebe3d7b&quot;
-                                + &quot;.mailgun.org&gt;&quot;)
-<span class="fc" id="L23">                .queryString(&quot;to&quot;, toEmail)</span>
-<span class="fc" id="L24">                .queryString(&quot;subject&quot;, &quot;New announcement from Roller coaster&quot;)</span>
-<span class="fc" id="L25">                .queryString(&quot;text&quot;, text)</span>
-<span class="fc" id="L26">                .asJson();</span>
-<span class="fc" id="L27">        return ErrorEnum.OK;</span>
+//        Unirest.post(
+//                &quot;https://api.mailgun.net/v3/sandbox577c98fd40d242c3bf95fbedf216dd8a.mailgun.org/messages&quot;)
+//                .basicAuth(&quot;api&quot;, &quot;2362f0e8ad721fcfe14b2a6507ef27a6-95f6ca46-cee0c017&quot;)
+//                .queryString(&quot;from&quot;,
+//                        &quot;Roller Coaster &lt;mailgun@sandbox577c98fd40d242c3bf95fbedf216dd8a&quot;
+//                                + &quot;.mailgun.org&gt;&quot;)
+//                .queryString(&quot;to&quot;, toEmail)
+//                .queryString(&quot;subject&quot;, &quot;New announcement from Roller coaster&quot;)
+//                .queryString(&quot;text&quot;, text)
+//                .asJson();
+<span class="fc" id="L29">        return ErrorEnum.OK;</span>
 
     }
 
     @Override
     public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
-<span class="fc" id="L33">        Unirest.post(</span>
-                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
-<span class="fc" id="L35">                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</span>
-<span class="fc" id="L36">                .queryString(&quot;from&quot;,</span>
-                        &quot;Roller Coaster &lt;mailgun@sandbox1ad7f0d6956b4fcdb728091dbebe3d7b&quot;
-                        + &quot;.mailgun.org&gt;&quot;)
-<span class="fc" id="L39">                .queryString(&quot;to&quot;, toEmail)</span>
-<span class="fc" id="L40">                .queryString(&quot;subject&quot;, &quot;Your ticket of Roller coaster!&quot;)</span>
-<span class="fc" id="L41">                .queryString(&quot;text&quot;, text)</span>
-<span class="fc" id="L42">                .asJson();</span>
-<span class="fc" id="L43">        return ErrorEnum.OK;</span>
+//        HttpResponse&lt;JsonNode&gt; request = Unirest.post(
+//                &quot;https://api.mailgun.net/v3/sandbox577c98fd40d242c3bf95fbedf216dd8a.mailgun.org/messages&quot;)
+//                .basicAuth(&quot;api&quot;, &quot;2362f0e8ad721fcfe14b2a6507ef27a6-95f6ca46-cee0c017&quot;)
+//                .queryString(&quot;from&quot;,
+//                        &quot;Roller Coaster &lt;mailgun@sandbox577c98fd40d242c3bf95fbedf216dd8a&quot;
+//                        + &quot;.mailgun.org&gt;&quot;)
+//                .queryString(&quot;to&quot;, toEmail)
+//                .queryString(&quot;subject&quot;, &quot;Your ticket of Roller coaster!&quot;)
+//                .queryString(&quot;text&quot;, text)
+//                .asJson();
 
+<span class="fc" id="L46">        return ErrorEnum.OK;</span>
 
     }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

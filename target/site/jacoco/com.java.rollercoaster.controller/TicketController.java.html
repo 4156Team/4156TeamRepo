@@ -80,11 +80,11 @@ import javax.servlet.http.HttpServletRequest;
         try {
 <span class="fc" id="L81">            CommonReturnType result = CommonReturnType.create(ticketService</span>
 <span class="fc" id="L82">                    .addTicket(ticket, userModel.getUserId()));</span>
-<span class="fc" id="L83">            mailService.sendTicketMessage(userModel.getEmail(), &quot;Hi, &quot;</span>
-<span class="fc" id="L84">                                            + userModel.getUserName()</span>
-                                            + &quot;! Here is your ticket! And your ticket number is &quot;
-<span class="fc" id="L86">                                            + ticket.getTicketId()</span>
-                                            + &quot;. Welcome to Roller Coaster Amusement park!&quot;);
+//            mailService.sendTicketMessage(userModel.getEmail(), &quot;Hi, &quot;
+//                                            + userModel.getUserName()
+//                                            + &quot;! Here is your ticket! And your ticket number is &quot;
+//                                            + ticket.getTicketId()
+//                                            + &quot;. Welcome to Roller Coaster Amusement park!&quot;);
 <span class="fc" id="L88">            return result;</span>
 <span class="nc" id="L89">        } catch (BusinessException businessException) {</span>
 <span class="nc" id="L90">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
