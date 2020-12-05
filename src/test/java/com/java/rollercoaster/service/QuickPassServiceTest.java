@@ -63,6 +63,18 @@ class QuickPassServiceTest {
         return userAccountMapper.selectByExample(example).get(0).getUserId();
     }
 
+    public Integer initManager() {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUserName("Griffin1");
+        userAccount.setPhoneNumber("phone2");
+        //userAccount.setUserId((Integer)123);
+        userAccount.setRole(Role.manager);
+        userAccountMapper.insert(userAccount);
+        UserAccountExample example = new UserAccountExample();
+        example.createCriteria().andPhoneNumberEqualTo("phone2");
+        return userAccountMapper.selectByExample(example).get(0).getUserId();
+    }
+
     public void initFacility() {
         Facility newFacility = new Facility();
         newFacility.setFacilityName("quickpassTestFacility");
@@ -83,6 +95,12 @@ class QuickPassServiceTest {
     public void removeUser1() {
         UserAccountExample example = new UserAccountExample();
         example.createCriteria().andPhoneNumberEqualTo("phone1");
+        userAccountMapper.deleteByExample(example);
+    }
+
+    public void removeManager() {
+        UserAccountExample example = new UserAccountExample();
+        example.createCriteria().andPhoneNumberEqualTo("phone2");
         userAccountMapper.deleteByExample(example);
     }
 
@@ -229,6 +247,7 @@ class QuickPassServiceTest {
         removeFacility();
     }
 
+    //not same user, not manager
     @Test
     public void deleteQCTest3() throws BusinessException {
         removeUser1();
@@ -250,6 +269,57 @@ class QuickPassServiceTest {
         quickPassMapper.deleteByPrimaryKey("qdid1");
         removeUser();
         removeUser1();
+        removeFacility();
+    }
+    //not same user, but manager
+    @Test
+    public void deleteQCTest4() throws BusinessException {
+        removeUser1();
+        removeUser();
+        removeFacility();
+        initFacility();
+        Integer userId = initUser();
+        Integer userId1 = initManager();
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("qdid1");
+        quickPass.setFacilityName("quickpassTestFacility");
+        quickPass.setUserId(userId);
+        quickPass.setStartTime(new Date());
+        String qcid = quickPassService.addQuickPass(quickPass);
+        UserModel userModel = new UserModel();
+        userModel.setUserId(userId1);
+        assertEquals(quickPassService.deleteQuickPass("qdid1", userModel),ErrorEnum.OK);
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        removeUser();
+        removeUser1();
+        removeManager();
+        removeFacility();
+    }
+
+    //same user, and manager
+    @Test
+    public void deleteQCTest5() throws BusinessException {
+        removeUser1();
+        removeUser();
+        removeFacility();
+        initFacility();
+        Integer userId = initUser();
+        Integer userId1 = initManager();
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("qdid1");
+        quickPass.setFacilityName("quickpassTestFacility");
+        quickPass.setUserId(userId1);
+        quickPass.setStartTime(new Date());
+        String qcid = quickPassService.addQuickPass(quickPass);
+        UserModel userModel = new UserModel();
+        userModel.setUserId(userId1);
+        assertEquals(quickPassService.deleteQuickPass("qdid1", userModel),ErrorEnum.OK);
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        removeUser();
+        removeUser1();
+        removeManager();
         removeFacility();
     }
 

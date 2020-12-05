@@ -50,8 +50,60 @@ class RatingServiceTest {
         facilityMapper.insert(newFacility);
     }
 
+    public void initFacility0() {
+        Facility newFacility = new Facility();
+        newFacility.setFacilityName("quickpassTestFacility0");
+        newFacility.setFacilityOpenTime(new Date(1,2,3,4,5,6));
+        newFacility.setFacilityCloseTime(new Date(1,1,1,7,8,9));
+        newFacility.setFacilityIntroduction("test introduction");
+        newFacility.setFacilityStatus(FacilityStatus.normal);
+
+        facilityMapper.insert(newFacility);
+    }
+
+    public void initFacility1() {
+        Facility newFacility = new Facility();
+        newFacility.setFacilityName("quickpassTestFacility1");
+        newFacility.setFacilityOpenTime(new Date(1,2,3,4,5,6));
+        newFacility.setFacilityCloseTime(new Date(1,1,1,7,8,9));
+        newFacility.setFacilityIntroduction("test introduction");
+        newFacility.setFacilityStatus(FacilityStatus.normal);
+        newFacility.setRatingPeople(2);
+
+        facilityMapper.insert(newFacility);
+    }
+
+    public void initFacility2() {
+        Facility newFacility = new Facility();
+        newFacility.setFacilityName("quickpassTestFacility2");
+        newFacility.setFacilityOpenTime(new Date(1,2,3,4,5,6));
+        newFacility.setFacilityCloseTime(new Date(1,1,1,7,8,9));
+        newFacility.setFacilityIntroduction("test introduction");
+        newFacility.setFacilityStatus(FacilityStatus.normal);
+        newFacility.setRating((float) 3);
+
+        facilityMapper.insert(newFacility);
+    }
+
+    public void initFacility3() {
+        Facility newFacility = new Facility();
+        newFacility.setFacilityName("quickpassTestFacility3");
+        newFacility.setFacilityOpenTime(new Date(1,2,3,4,5,6));
+        newFacility.setFacilityCloseTime(new Date(1,1,1,7,8,9));
+        newFacility.setFacilityIntroduction("test introduction");
+        newFacility.setFacilityStatus(FacilityStatus.normal);
+        newFacility.setRating((float) 3);
+        newFacility.setRatingPeople(2);
+
+        facilityMapper.insert(newFacility);
+    }
+
     public void removeFacility() {
         facilityMapper.deleteByPrimaryKey("quickpassTestFacility");
+        facilityMapper.deleteByPrimaryKey("quickpassTestFacility0");
+        facilityMapper.deleteByPrimaryKey("quickpassTestFacility1");
+        facilityMapper.deleteByPrimaryKey("quickpassTestFacility2");
+        facilityMapper.deleteByPrimaryKey("quickpassTestFacility3");
     }
 
     @Test
@@ -83,6 +135,41 @@ class RatingServiceTest {
         initFacility();
         ratingService.rateFacility("quickpassTestFacility", 3);
         assertEquals(ratingService.rateFacility("quickpassTestFacility", 3), ErrorEnum.OK);
+        removeFacility();
+    }
+
+    @Test
+    public void rateTest4() throws BusinessException {
+        removeFacility();
+        initFacility1();
+        assertEquals(ratingService.rateFacility("quickpassTestFacility1", 3), ErrorEnum.OK);
+        removeFacility();
+    }
+
+    @Test
+    public void rateTest5() throws BusinessException {
+        removeFacility();
+        initFacility2();
+
+        assertEquals(ratingService.rateFacility("quickpassTestFacility2", 3), ErrorEnum.OK);
+        removeFacility();
+    }
+
+    @Test
+    public void rateTest6() throws BusinessException {
+        removeFacility();
+        initFacility3();
+
+        assertEquals(ratingService.rateFacility("quickpassTestFacility3", 3), ErrorEnum.OK);
+        removeFacility();
+    }
+
+    @Test
+    public void rateTest7() throws BusinessException {
+        removeFacility();
+        initFacility0();
+
+        assertEquals(ratingService.rateFacility("quickpassTestFacility0", 3), ErrorEnum.OK);
         removeFacility();
     }
 }
