@@ -637,6 +637,20 @@ public class AppointmentServiceTest {
         System.out.println("appointmentsRecordsTest ends");
     }
 
+    @Test
+    public void appointmentsUserNotExistsRecordsTest() {
+        System.out.println("appointmentsUserNotExistsRecordsTest starts");
+        try {
+            appointmentService.getAppointmentsByUserId(3);
+            System.out.println("successful");
+        } catch (BusinessException businessException) {
+            assertEquals(20001, businessException.getErrCode());
+            System.out.println(businessException.getErrCode());
+        }
+
+        System.out.println("appointmentsUserNotExistsRecordsTest ends");
+    }
+
     @AfterEach
     public void delete() {
         eventMapper.deleteByPrimaryKey("event");

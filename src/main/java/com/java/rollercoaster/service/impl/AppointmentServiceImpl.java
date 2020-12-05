@@ -140,8 +140,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                     .selectByPrimaryKey(appointment.getAppointmentId())
                     .getEventName();
             Event event = eventMapper.selectByPrimaryKey(eventName);
-            TimedAppointmentModel timedAppointmentModel
-                    = new TimedAppointmentModel(appointment, event);
+            TimedAppointmentModel timedAppointmentModel;
+            timedAppointmentModel = new TimedAppointmentModel(appointment, event);
             res.add(timedAppointmentModel);
         }
 
