@@ -45,7 +45,10 @@ public class QuickPassController {
     public CommonReturnType addQuickPass(@RequestBody QuickPass quickPass) {
         Boolean isLogin = (Boolean) httpServletRequest
                 .getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
@@ -83,7 +86,10 @@ public class QuickPassController {
     public CommonReturnType deleteQuickPass(@RequestParam(name = "quickPassId")
                                                         String quickPassId) {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
@@ -104,7 +110,10 @@ public class QuickPassController {
     @ResponseBody
     public CommonReturnType getQuickPass() {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest

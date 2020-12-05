@@ -114,6 +114,26 @@ public class RatingControllerTest {
         finish();
 
     }
+
+    @Test
+    public void ratingTest4() throws ParseException {
+        finish();
+        init();
+
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Aria");
+        userModel.setUserId(3);
+        Facility facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
+        assertEquals((float)3, facilityGot.getRating());
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
+        assertEquals((ErrorEnum)ratingController.postRating("testFacility", "5").getData(), ErrorEnum.USER_NOT_LOGIN);
+
+        finish();
+
+    }
+
     public void finish() throws ParseException{
         facilityMapper.deleteByPrimaryKey("testFacility");
     }

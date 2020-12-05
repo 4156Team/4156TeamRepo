@@ -41,7 +41,10 @@ public class RatingController {
     public CommonReturnType postRating(@RequestBody  String facilityName,
                                        @RequestParam(name = "rate") String rate) {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null)  {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin)  {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
