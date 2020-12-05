@@ -31,6 +31,7 @@
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/TypeMapper.java">
 </file>
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/TicketController.java">
+<error line="87" severity="warning" message="Comment has incorrect indentation level 0, expected is 12, indentation should be the same level as line 88." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
 </file>
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/AnnouncementController.java">
 </file>
@@ -88,6 +89,8 @@
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/ManageParkServiceImpl.java">
 </file>
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/MailServiceImpl.java">
+<error line="28" severity="warning" message="Comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 29." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="44" severity="warning" message="Comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 46." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
 </file>
 <file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/CommentServiceImpl.java">
 </file>

@@ -61,8 +61,8 @@ import java.util.Date;
     @Override
     public ErrorEnum checkQuickPass(String quickPassId) {
 <span class="fc" id="L63">        QuickPass quickPass = quickPassMapper.selectByPrimaryKey(quickPassId);</span>
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (null == quickPass) {</span>
-<span class="nc" id="L65">            return ErrorEnum.QUICKPASS_NOT_EXIST;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (null == quickPass) {</span>
+<span class="fc" id="L65">            return ErrorEnum.QUICKPASS_NOT_EXIST;</span>
 <span class="fc bfc" id="L66" title="All 2 branches covered.">        } else if (new Date().getTime() &lt; quickPass.getStartTime().getTime()</span>
 <span class="fc" id="L67">                || new Date().getTime()</span>
 <span class="fc bfc" id="L68" title="All 2 branches covered.">                &gt; quickPass.getStartTime().getTime() + 30 * 60 * 1000) {</span>

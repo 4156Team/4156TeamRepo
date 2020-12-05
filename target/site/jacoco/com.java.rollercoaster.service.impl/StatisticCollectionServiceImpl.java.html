@@ -56,7 +56,7 @@ import java.util.Optional;
         }
 <span class="fc" id="L57">        Calendar calendar = Calendar.getInstance();</span>
 <span class="fc bfc" id="L58" title="All 2 branches covered.">        if (calendar.get(Calendar.MONTH) + 1 &lt;= myCalendar.getMonth()</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                || calendar.get(Calendar.YEAR) &lt; myCalendar.getYear()) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">                || calendar.get(Calendar.YEAR) &lt; myCalendar.getYear()) {</span>
 <span class="fc" id="L60">            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_MONTH);</span>
         }
 <span class="fc" id="L62">        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</span>

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.java.rollercoaster.controller.BalanceControllerTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.037 s - in com.java.rollercoaster.controller.BalanceControllerTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.476 s - in com.java.rollercoaster.controller.BalanceControllerTest

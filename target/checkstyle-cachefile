@@ -1,4 +1,4 @@
-#Sat Dec 05 11:27:42 CST 2020
+#Sat Dec 05 12:20:51 CST 2020
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/MybatisGenerator.java=1605452679000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/UserServiceImpl.java=1607095412000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/FacilityStatus.java=1605509490000
@@ -9,16 +9,14 @@ configuration*?=8360E27E33AD7B1B772E62DBB09C59C5D8B66F19
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/resources/application.properties=1605545748000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/resources/generator.properties=1604823964000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/UserGender.java=1605509490000
-/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Appointment.java=1606289007000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/BalanceService.java=1606791597000
+/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Appointment.java=1606289007000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/BaseController.java=1606151097000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/SecurityTestController.java=1606527371000
-/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/TicketController.java=1606927178000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/Role.java=1605509490000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/QuickPassServiceImpl.java=1607013903000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/UserPassword.java=1604923194000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/QueryController.java=1607076940000
-/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/MailServiceImpl.java=1607095392000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/Status.java=1605509490000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/IdTokenStr.java=1606151097000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/ManageParkService.java=1606317811000
@@ -67,8 +65,8 @@ configuration*?=8360E27E33AD7B1B772E62DBB09C59C5D8B66F19
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/EventModel.java=1607011180000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/RollerCoasterApplication.java=1606841552000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/errorenum/CommonError.java=1605510677000
-/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Announcement.java=1607101493000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/configure/package-info.java=1605456727000
+/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Announcement.java=1607101493000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/WeatherService.java=1606837796000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/RatingController.java=1607013903000
 /Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/QueryEventModel.java=1606903343000

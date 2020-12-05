@@ -178,7 +178,7 @@ public class CheckInServiceTest {
     @Test
     public void checkQuickPassInvalid3() {
         quickPassMapper.deleteByPrimaryKey("1000100");
-        assertEquals(ErrorEnum.INVALID_QUICKPASS, checkInService.checkQuickPass("1000100"));
+        assertEquals(ErrorEnum.QUICKPASS_NOT_EXIST, checkInService.checkQuickPass("1000100"));
         quickPassMapper.deleteByPrimaryKey("1000100");
     }
 
