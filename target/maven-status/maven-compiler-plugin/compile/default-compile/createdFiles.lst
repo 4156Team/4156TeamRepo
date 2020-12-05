@@ -113,7 +113,6 @@ com/java/rollercoaster/errorenum/CommonError.class
 com/java/rollercoaster/service/impl/StatisticCollectionServiceImpl.class
 com/java/rollercoaster/service/QueryService.class
 com/java/rollercoaster/controller/AppointmentController.class
-com/java/rollercoaster/controller/TestController.class
 com/java/rollercoaster/pojo/AppointmentExample.class
 com/java/rollercoaster/pojo/Comment.class
 com/java/rollercoaster/RollerCoasterApplication.class

@@ -171,8 +171,8 @@ import java.util.Date;
     @ResponseBody
     public CommonReturnType checkQuickPass(@RequestBody
                                            QuickPass quickPass) {
-<span class="nc" id="L174">        return CommonReturnType.autoCreate(</span>
-<span class="nc" id="L175">                checkInService.checkAppointments(quickPass.getQuickpassId()));</span>
+<span class="fc" id="L174">        return CommonReturnType.autoCreate(</span>
+<span class="fc" id="L175">                checkInService.checkQuickPass(quickPass.getQuickpassId()));</span>
     }
 
     /**

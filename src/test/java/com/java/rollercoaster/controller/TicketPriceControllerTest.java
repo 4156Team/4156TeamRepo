@@ -59,4 +59,9 @@ public class TicketPriceControllerTest {
         assertEquals(ErrorEnum.EMPTY_TYPE_ATTRIBUTE, response.getData());
         typeMapper.deleteByPrimaryKey(TicketType.adult);
     }
+    @Test
+    public void testGetAllPrices() {
+        CommonReturnType commonReturnType = ticketPriceController.getAllTicketPrice();
+        assertEquals("success", commonReturnType.getStatus());
+    }
 }

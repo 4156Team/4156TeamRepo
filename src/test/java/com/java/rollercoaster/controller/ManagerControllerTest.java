@@ -4,6 +4,7 @@ import com.java.rollercoaster.dao.AnnouncementMapper;
 import com.java.rollercoaster.dao.AppointmentMapper;
 import com.java.rollercoaster.dao.EventMapper;
 import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.QuickPassMapper;
 import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.TypeMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
@@ -14,6 +15,7 @@ import com.java.rollercoaster.pojo.AnnouncementExample;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Event;
 import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.QuickPass;
 import com.java.rollercoaster.pojo.Ticket;
 import com.java.rollercoaster.pojo.Type;
 import com.java.rollercoaster.pojo.UserAccount;
@@ -62,6 +64,8 @@ public class ManagerControllerTest {
     private TypeMapper typeMapper;
     @Autowired
     private UserAccountMapper userAccountMapper;
+    @Autowired
+    private QuickPassMapper quickPassMapper;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 
@@ -436,6 +440,21 @@ public class ManagerControllerTest {
 
         facilityMapper.deleteByPrimaryKey("roller coaster");
 
+    }
+
+
+    @Test
+    public void testCheckQuickPass() {
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("1000100");
+        quickPass.setUserId(10000);
+        quickPass.setStartTime(new Date(new Date().getTime() - 10000));
+        quickPass.setFacilityName("Hunny Pot Spin");
+        quickPassMapper.insertSelective(quickPass);
+        CommonReturnType commonReturnType = managerController.checkQuickPass(quickPass);
+        assertEquals(ErrorEnum.OK, commonReturnType.getData());
+        assertEquals("success", commonReturnType.getStatus());
+        quickPassMapper.deleteByPrimaryKey("1000100");
     }
 
 }

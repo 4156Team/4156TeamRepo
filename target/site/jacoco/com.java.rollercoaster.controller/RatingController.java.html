@@ -39,19 +39,22 @@ import javax.servlet.http.HttpServletRequest;
     @PostMapping(&quot;/postRate&quot;)
     @ResponseBody
     public CommonReturnType postRating(@RequestBody  String facilityName,
-                                       @RequestParam(name = &quot;rate&quot;) String rate) {
+                                       @RequestParam(name = &quot;rate&quot;) int rate) {
 <span class="fc" id="L43">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="pc bpc" id="L44" title="1 of 4 branches missed.">        if (isLogin == null || !isLogin)  {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (isLogin == null)  {</span>
 <span class="fc" id="L45">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L47">        UserModel userModel = (UserModel) httpServletRequest</span>
-<span class="fc" id="L48">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
-        //if user not exist
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (userModel == null) {</span>
-<span class="fc" id="L51">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (!isLogin)  {</span>
+<span class="fc" id="L48">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L53">        return CommonReturnType.autoCreate(</span>
-<span class="fc" id="L54">                ratingService.rateFacility(facilityName, Integer.parseInt(rate)));</span>
+<span class="fc" id="L50">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L51">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L54">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L56">        return CommonReturnType.autoCreate(</span>
+<span class="fc" id="L57">                ratingService.rateFacility(facilityName, rate));</span>
     }
 
 }

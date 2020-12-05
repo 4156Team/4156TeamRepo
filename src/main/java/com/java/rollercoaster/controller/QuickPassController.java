@@ -122,7 +122,8 @@ public class QuickPassController {
         if (userModel == null) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
-        List<QuickPass> quickPassList = quickPassService.getQuickPassByUserId(userModel.getUserId());
+        List<QuickPass> quickPassList =
+                quickPassService.getQuickPassByUserId(userModel.getUserId());
         return CommonReturnType.create(quickPassList);
     }
 }

@@ -51,7 +51,7 @@ import java.util.List;
         }
 <span class="fc" id="L52">        if ((userModel.getUserId().intValue()</span>
 <span class="fc bfc" id="L53" title="All 2 branches covered.">                != quickPassMapper.selectByPrimaryKey(quickPassId).getUserId().intValue())</span>
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">            &amp;&amp; (userAccountMapper.selectByPrimaryKey(userModel.getUserId()).getRole()</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            &amp;&amp; (userAccountMapper.selectByPrimaryKey(userModel.getUserId()).getRole()</span>
                 != Role.manager)) {
 <span class="fc" id="L56">            return ErrorEnum.NOT_SAME_VISITOR;</span>
         }

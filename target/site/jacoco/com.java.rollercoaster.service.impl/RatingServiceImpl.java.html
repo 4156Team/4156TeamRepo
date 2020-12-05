@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 <span class="fc" id="L20">            return ErrorEnum.NO_SUCH_FACILITY;</span>
         }
 <span class="fc" id="L22">        Facility facility = facilityMapper.selectByPrimaryKey(facilityName);</span>
-<span class="pc bpc" id="L23" title="1 of 4 branches missed.">        if (null == facility.getRating() || null == facility.getRatingPeople()) {</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">        if (null == facility.getRating() || null == facility.getRatingPeople()) {</span>
 <span class="fc" id="L24">            facility.setRating(rate);</span>
 <span class="fc" id="L25">            facility.setRatingPeople(1);</span>
         } else {

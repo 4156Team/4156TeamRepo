@@ -172,7 +172,7 @@ public class ManagerController {
     public CommonReturnType checkQuickPass(@RequestBody
                                            QuickPass quickPass) {
         return CommonReturnType.autoCreate(
-                checkInService.checkAppointments(quickPass.getQuickpassId()));
+                checkInService.checkQuickPass(quickPass.getQuickpassId()));
     }
 
     /**

@@ -51,7 +51,7 @@ import java.util.Map;
 <span class="fc" id="L51">        System.out.println(&quot;wantedDate is &quot; + wantedDate);</span>
 
         //We can get i = 0 value which is today's weather, i=1,2,3,4,...,7
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        for (int i = 0; i &lt; jsonArray.length(); ++i) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (int i = 0; i &lt; jsonArray.length(); ++i) {</span>
 <span class="fc" id="L55">            JSONObject singleJsonObject = (JSONObject)jsonArray.get(i);</span>
 <span class="fc" id="L56">            long singleDate = ((Number)singleJsonObject.get(&quot;dt&quot;)).longValue();</span>
 <span class="fc" id="L57">            singleDate *= 1000;</span>
@@ -63,7 +63,7 @@ import java.util.Map;
 <span class="fc" id="L63">            int eachResultHours = (int) eachResultDate.getTime() / 1000 / 3600;</span>
 <span class="fc" id="L64">            int wantedHours = (int) wantedDate.getTime() / 1000 / 3600;</span>
             //Time zone difference is 13 hours
-<span class="pc bpc" id="L66" title="1 of 4 branches missed.">            if (eachResultHours &lt;= wantedHours + 13 &amp;&amp; eachResultHours &gt; wantedHours - 11) {</span>
+<span class="fc bfc" id="L66" title="All 4 branches covered.">            if (eachResultHours &lt;= wantedHours + 13 &amp;&amp; eachResultHours &gt; wantedHours - 11) {</span>
 <span class="fc" id="L67">                JSONArray singleArrayWeather = (JSONArray) singleJsonObject.get(&quot;weather&quot;);</span>
 <span class="fc" id="L68">                JSONObject singleWeatherObject = singleArrayWeather.getJSONObject(0);</span>
 <span class="fc" id="L69">                String singleWeather = singleWeatherObject.getString(&quot;main&quot;);</span>
@@ -83,7 +83,7 @@ import java.util.Map;
             }
         }
         //temperature in Fahrenheit and wind speed in miles/hour
-<span class="nc" id="L86">        throw new BusinessException(ErrorEnum.WRONG_DATE);</span>
+<span class="fc" id="L86">        throw new BusinessException(ErrorEnum.WRONG_DATE);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
