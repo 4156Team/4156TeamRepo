@@ -46,8 +46,9 @@ public class UserServiceTest {
         userModel.setRole(Role.visitor);
         userModel.setPhoneNumber("212121");
         userModel.setPassword("12345");
-        userModel.setEmail("yl4225@columbia.edu");
-        userService.register(userModel);
+        userModel.setEmail("test@gmail.com");
+        System.out.println("******************");
+        System.out.println(userService.register(userModel).getErrMsg());
 
         UserAccount userAccount = userAccountMapper.selectByPrimaryKey(userModel.getUserId());
         assertEquals("Alice", userAccount.getUserName());
