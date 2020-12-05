@@ -80,11 +80,11 @@ public class TicketController {
         try {
             CommonReturnType result = CommonReturnType.create(ticketService
                     .addTicket(ticket, userModel.getUserId()));
-            mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
-                                            + userModel.getUserName()
-                                            + "! Here is your ticket! And your ticket number is "
-                                            + ticket.getTicketId()
-                                            + ". Welcome to Roller Coaster Amusement park!");
+//            mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
+//                                            + userModel.getUserName()
+//                                            + "! Here is your ticket! And your ticket number is "
+//                                            + ticket.getTicketId()
+//                                            + ". Welcome to Roller Coaster Amusement park!");
             return result;
         } catch (BusinessException businessException) {
             return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());

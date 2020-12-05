@@ -22,13 +22,13 @@ public class MailServiceTest {
     public void sendAnnouncementTest() throws BusinessException, UnirestException {
 //       String message = (String) mailService.sendAnnouncementMessage("yl4225@columbia.edu", "Announcement test").getObject().get("message");
 //        assertEquals("Queued. Thank you.", message);
-        assertEquals(ErrorEnum.OK, mailService.sendAnnouncementMessage("yl4225@columbia.edu", "Announcement test"));
+        assertEquals(ErrorEnum.OK, mailService.sendAnnouncementMessage("Yumiao_Li@outlook.com", "Announcement test"));
 
     }
 
     @Test
     public void sendTicketTest() throws UnirestException, BusinessException {
-        assertEquals(ErrorEnum.OK, mailService.sendTicketMessage("yl4225@columbia.edu", "Ticket test"));
+        assertEquals(ErrorEnum.OK, mailService.sendTicketMessage("Yumiao_Li@outlook.com", "Ticket test"));
 
     }
 
