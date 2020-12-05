@@ -9,6 +9,7 @@ import com.java.rollercoaster.pojo.Facility;
 import com.java.rollercoaster.service.CommentService;
 import com.java.rollercoaster.service.RatingService;
 import com.java.rollercoaster.service.model.CommentModel;
+import com.java.rollercoaster.service.model.FacilityModel;
 import com.java.rollercoaster.service.model.UserModel;
 import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
 import org.junit.Test;
@@ -68,7 +69,9 @@ public class RatingControllerTest {
         assertEquals((float)3, facilityGot.getRating());
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-        ratingController.postRating("testFacility", 5 );
+        FacilityModel facilityModel = new FacilityModel();
+        facilityModel.setFacilityName("testFacility");
+        ratingController.postRating(facilityModel, 5 );
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
         assertEquals((float)4, facilityGot.getRating());
 
@@ -89,7 +92,9 @@ public class RatingControllerTest {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals((ErrorEnum)ratingController.postRating("testFacility", 5).getData(), ErrorEnum.USER_NOT_LOGIN);
+        FacilityModel facilityModel = new FacilityModel();
+        facilityModel.setFacilityName("testFacility");
+        assertEquals((ErrorEnum)ratingController.postRating(facilityModel, 5).getData(), ErrorEnum.USER_NOT_LOGIN);
 
         finish();
 
@@ -108,7 +113,9 @@ public class RatingControllerTest {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals((ErrorEnum)ratingController.postRating("testFacility", 5).getData(),
+        FacilityModel facilityModel = new FacilityModel();
+        facilityModel.setFacilityName("testFacility");
+        assertEquals((ErrorEnum)ratingController.postRating(facilityModel, 5).getData(),
                 ErrorEnum.USER_NOT_EXIST);
 
         finish();
@@ -128,7 +135,9 @@ public class RatingControllerTest {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         facilityGot = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals((ErrorEnum)ratingController.postRating("testFacility", 5).getData(), ErrorEnum.USER_NOT_LOGIN);
+        FacilityModel facilityModel = new FacilityModel();
+        facilityModel.setFacilityName("testFacility");
+        assertEquals((ErrorEnum)ratingController.postRating(facilityModel, 5).getData(), ErrorEnum.USER_NOT_LOGIN);
 
         finish();
 
