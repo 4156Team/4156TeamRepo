@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManageParkServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">ManageParkServiceImpl.java</span></div><h1>ManageParkServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.dao.AnnouncementMapper;
+import com.java.rollercoaster.dao.EventMapper;
+import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TypeMapper;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Announcement;
+import com.java.rollercoaster.pojo.AnnouncementExample;
+import com.java.rollercoaster.pojo.Event;
+import com.java.rollercoaster.pojo.Facility;
+import com.java.rollercoaster.pojo.Type;
+import com.java.rollercoaster.service.ManageParkService;
+import com.java.rollercoaster.service.model.enumeration.TicketType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L21">public class ManageParkServiceImpl implements ManageParkService {</span>
+    @Autowired
+    private EventMapper eventMapper;
+    @Autowired
+    private FacilityMapper facilityMapper;
+
+    @Override
+    public ErrorEnum addEvent(Event event) {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (null == event.getEventName()) {</span>
+<span class="fc" id="L30">            return ErrorEnum.EMPTY_EVENT_NAME;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        } else if (null != eventMapper.selectByPrimaryKey(event.getEventName())) {</span>
+<span class="fc" id="L32">            return ErrorEnum.DUPLICATE_EVENT_NAME;</span>
+        } else {
+<span class="fc" id="L34">            eventMapper.insert(event);</span>
+<span class="fc" id="L35">            return ErrorEnum.OK;</span>
+        }
+    }
+
+    @Override
+    public ErrorEnum updateEvent(Event event) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (null == event.getEventName()) {</span>
+<span class="fc" id="L42">            return ErrorEnum.EMPTY_EVENT_NAME;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        } else if (null == eventMapper.selectByPrimaryKey(event.getEventName())) {</span>
+<span class="fc" id="L44">            return ErrorEnum.NO_SUCH_EVENT;</span>
+        }
+<span class="fc" id="L46">        eventMapper.updateByPrimaryKeySelective(event);</span>
+<span class="fc" id="L47">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum deleteEvent(String eventName) {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (null == eventName) {</span>
+<span class="fc" id="L53">            return ErrorEnum.EMPTY_EVENT_NAME;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        } else if (null == eventMapper.selectByPrimaryKey(eventName)) {</span>
+<span class="fc" id="L55">            return ErrorEnum.NO_SUCH_EVENT;</span>
+        }
+<span class="fc" id="L57">        eventMapper.deleteByPrimaryKey(eventName);</span>
+<span class="fc" id="L58">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum addFacility(Facility facility) {
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (null == facility.getFacilityName()) {</span>
+<span class="fc" id="L65">            return ErrorEnum.EMPTY_FACILITY_NAME;</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        } else if (null != facilityMapper.selectByPrimaryKey(facility.getFacilityName())) {</span>
+<span class="fc" id="L67">            return ErrorEnum.DUPLICATE_FACILITY_NAME;</span>
+        } else {
+<span class="fc" id="L69">            facilityMapper.insert(facility);</span>
+<span class="fc" id="L70">            return ErrorEnum.OK;</span>
+        }
+    }
+
+    @Override
+    public ErrorEnum updateFacility(Facility facility) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (null == facility.getFacilityName()) {</span>
+<span class="fc" id="L77">            return ErrorEnum.EMPTY_FACILITY_NAME;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        } else if (null == facilityMapper.selectByPrimaryKey(facility.getFacilityName())) {</span>
+<span class="fc" id="L79">            return ErrorEnum.NO_SUCH_FACILITY;</span>
+        }
+<span class="fc" id="L81">        facilityMapper.updateByPrimaryKeySelective(facility);</span>
+<span class="fc" id="L82">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum deleteFacility(String facilityName) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (null == facilityName) {</span>
+<span class="fc" id="L88">            return ErrorEnum.EMPTY_FACILITY_NAME;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        } else if (null == facilityMapper.selectByPrimaryKey(facilityName)) {</span>
+<span class="fc" id="L90">            return ErrorEnum.NO_SUCH_FACILITY;</span>
+        }
+<span class="fc" id="L92">        facilityMapper.deleteByPrimaryKey(facilityName);</span>
+<span class="fc" id="L93">        return ErrorEnum.OK;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="generator.properties" />
+
+    <context id="context1" targetRuntime="MyBatis3">
+
+        <!-- 数据库连接信息 -->
+        <jdbcConnection driverClass="${jdbc.driverClassName}"
+                        connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}" />
+
+        <!-- 生成Model对象路径配置 -->
+        <javaModelGenerator targetPackage="com.java.rollercoaster.pojo"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成sqlXML文件路径配置 -->
+        <sqlMapGenerator targetPackage="com.java.rollercoaster.dao"
+                         targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的类文件路径配置 -->
+        <javaClientGenerator targetPackage="com.java.rollercoaster.dao"
+                             targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--要生成哪些表 -->
+        <!--其中tableName指的是mysql里面的tableName, domainObjectName指的是转换后的类名 -->
+<!--        <table tableName="password" domainObjectName="UserPassword" />-->
+<!--        <table tableName="event" domainObjectName="Event" />-->
+<!--        <table tableName="appointment" domainObjectName="Appointment" />-->
+<!--        <table tableName="facility" domainObjectName="Facility">-->
+<!--            <columnOverride column="facility_status" property="FacilityStatus" javaType="com.java.rollercoaster.service.model.enumeration.FacilityStatus"/>-->
+<!--        </table>-->
+<!--        <table tableName="ticket" domainObjectName="Ticket" >-->
+<!--            <columnOverride column="status" property="Status" javaType="com.java.rollercoaster.service.model.enumeration.Status"/>-->
+<!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
+<!--        </table>-->
+<!--        <table tableName="userAccount" domainObjectName="UserAccount" >-->
+<!--            <generatedKey column="user_id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="user_gender" property="UserGender" javaType="com.java.rollercoaster.service.model.enumeration.UserGender"/>-->
+<!--            <columnOverride column="role" property="Role" javaType="com.java.rollercoaster.service.model.enumeration.Role"/>-->
+<!--        </table>-->
+<!--        <table tableName="type" domainObjectName="Type">-->
+<!--            <columnOverride column="ticket_type" property="TicketType" javaType="com.java.rollercoaster.service.model.enumeration.TicketType"/>-->
+<!--        </table>-->
+        <table tableName="announcement" domainObjectName="Announcement">
+            <generatedKey column="announcement_id" sqlStatement="JDBC" identity="true"/>
+        </table>
+        <table tableName="quickPass" domainObjectName="QuickPass" />
+<!--        <table tableName="balance" domainObjectName="Balance" />-->
+<!--        <table tableName="comment" domainObjectName="Comment" />-->
+<!--        <table tableName="comment" domainObjectName="Comment" >-->
+<!--            <generatedKey column="comment_id" sqlStatement="JDBC" identity="true"/>-->
+<!--        </table>-->
+    </context>
+</generatorConfiguration>

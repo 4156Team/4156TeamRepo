@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BalanceServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">BalanceServiceImpl.java</span></div><h1>BalanceServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.dao.BalanceMapper;
+import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Balance;
+import com.java.rollercoaster.service.BalanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L13">public class BalanceServiceImpl implements BalanceService {</span>
+    @Autowired
+    BalanceMapper balanceMapper;
+    @Autowired
+    UserAccountMapper userAccountMapper;
+
+    @Override
+    public ErrorEnum addBalance(Integer userId, float amount) {
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (userAccountMapper.selectByPrimaryKey(userId) == null) {</span>
+<span class="fc" id="L22">            return ErrorEnum.USER_NOT_EXIST;</span>
+        }
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (balanceMapper.selectByPrimaryKey(userId) == null) {</span>
+
+<span class="fc" id="L26">            Balance balance = new Balance();</span>
+<span class="fc" id="L27">            balance.setUserId(userId);</span>
+<span class="fc" id="L28">            balance.setBalance(amount);</span>
+<span class="fc" id="L29">            balance.setQuickpass(3);</span>
+<span class="fc" id="L30">            balanceMapper.insert(balance);</span>
+<span class="fc" id="L31">            return ErrorEnum.OK;</span>
+        }
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (amount &lt; 0) {</span>
+<span class="fc" id="L34">            return ErrorEnum.INVALID_AMOUNT;</span>
+        }
+<span class="fc" id="L36">        Balance balance = balanceMapper.selectByPrimaryKey(userId);</span>
+<span class="fc" id="L37">        balance.setBalance(balance.getBalance() + amount);</span>
+<span class="fc" id="L38">        balanceMapper.updateByPrimaryKey(balance);</span>
+<span class="fc" id="L39">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum subBalance(Integer userId, float amount) {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (userAccountMapper.selectByPrimaryKey(userId) == null) {</span>
+<span class="fc" id="L45">            return ErrorEnum.USER_NOT_EXIST;</span>
+        }
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (balanceMapper.selectByPrimaryKey(userId) == null) {</span>
+
+<span class="fc" id="L49">            Balance balance = new Balance();</span>
+<span class="fc" id="L50">            balance.setUserId(userId);</span>
+<span class="fc" id="L51">            balance.setBalance((float) 0);</span>
+<span class="fc" id="L52">            balance.setQuickpass(3);</span>
+<span class="fc" id="L53">            balanceMapper.insert(balance);</span>
+<span class="fc" id="L54">            return ErrorEnum.BALANCE_NOT_ENOUGH;</span>
+        }
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (amount &lt; 0) {</span>
+<span class="fc" id="L57">            return ErrorEnum.INVALID_AMOUNT;</span>
+        }
+<span class="fc" id="L59">        Balance balance = balanceMapper.selectByPrimaryKey(userId);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (amount &gt; balance.getBalance()) {</span>
+<span class="fc" id="L61">            return ErrorEnum.BALANCE_NOT_ENOUGH;</span>
+        }
+<span class="fc" id="L63">        balance.setBalance(balance.getBalance() - amount);</span>
+<span class="fc" id="L64">        balanceMapper.updateByPrimaryKey(balance);</span>
+<span class="fc" id="L65">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum addQuickPass(Integer userId, int amount) {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (userAccountMapper.selectByPrimaryKey(userId) == null) {</span>
+<span class="fc" id="L71">            return ErrorEnum.USER_NOT_EXIST;</span>
+        }
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (balanceMapper.selectByPrimaryKey(userId) == null) {</span>
+
+<span class="fc" id="L75">            Balance balance = new Balance();</span>
+<span class="fc" id="L76">            balance.setUserId(userId);</span>
+<span class="fc" id="L77">            balance.setBalance((float) 0);</span>
+<span class="fc" id="L78">            balance.setQuickpass(amount + 3);</span>
+<span class="fc" id="L79">            balanceMapper.insert(balance);</span>
+<span class="fc" id="L80">            return ErrorEnum.OK;</span>
+        }
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (amount &lt; 0) {</span>
+<span class="fc" id="L83">            return ErrorEnum.INVALID_AMOUNT;</span>
+        }
+<span class="fc" id="L85">        Balance balance = balanceMapper.selectByPrimaryKey(userId);</span>
+<span class="fc" id="L86">        balance.setQuickpass(balance.getQuickpass() + amount);</span>
+<span class="fc" id="L87">        balanceMapper.updateByPrimaryKey(balance);</span>
+<span class="fc" id="L88">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public ErrorEnum subQuickPass(Integer userId, int amount) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (userAccountMapper.selectByPrimaryKey(userId) == null) {</span>
+<span class="fc" id="L94">            return ErrorEnum.USER_NOT_EXIST;</span>
+        }
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (balanceMapper.selectByPrimaryKey(userId) == null) {</span>
+
+<span class="fc" id="L98">            Balance balance = new Balance();</span>
+<span class="fc" id="L99">            balance.setUserId(userId);</span>
+<span class="fc" id="L100">            balance.setBalance((float) 0);</span>
+<span class="fc" id="L101">            balance.setQuickpass(3);</span>
+<span class="fc" id="L102">            balanceMapper.insert(balance);</span>
+        }
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (amount &lt; 0) {</span>
+<span class="fc" id="L105">            return ErrorEnum.INVALID_AMOUNT;</span>
+        }
+<span class="fc" id="L107">        Balance balance = balanceMapper.selectByPrimaryKey(userId);</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (amount &gt; balance.getQuickpass()) {</span>
+<span class="fc" id="L109">            return ErrorEnum.BALANCE_NOT_ENOUGH;</span>
+        }
+<span class="fc" id="L111">        balance.setQuickpass(balance.getQuickpass() - amount);</span>
+<span class="fc" id="L112">        balanceMapper.updateByPrimaryKey(balance);</span>
+<span class="fc" id="L113">        return ErrorEnum.OK;</span>
+    }
+
+    @Override
+    public Balance queryBalance(Integer userId) throws BusinessException {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (userAccountMapper.selectByPrimaryKey(userId) == null) {</span>
+<span class="fc" id="L119">            throw(new BusinessException(ErrorEnum.USER_NOT_EXIST));</span>
+        }
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (balanceMapper.selectByPrimaryKey(userId) == null) {</span>
+
+<span class="fc" id="L123">            Balance balance = new Balance();</span>
+<span class="fc" id="L124">            balance.setUserId(userId);</span>
+<span class="fc" id="L125">            balance.setBalance((float) 0);</span>
+<span class="fc" id="L126">            balance.setQuickpass(3);</span>
+<span class="fc" id="L127">            balanceMapper.insert(balance);</span>
+<span class="fc" id="L128">            return balance;</span>
+        }
+<span class="fc" id="L130">        Balance balance = balanceMapper.selectByPrimaryKey(userId);</span>
+<span class="fc" id="L131">        return balance;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

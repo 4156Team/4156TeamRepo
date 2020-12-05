@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MailServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">MailServiceImpl.java</span></div><h1>MailServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.service.MailService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L13">public class MailServiceImpl implements MailService {</span>
+    @Override
+    public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
+            throws BusinessException, UnirestException {
+<span class="fc" id="L17">        Unirest.post(</span>
+                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
+<span class="fc" id="L19">                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</span>
+<span class="fc" id="L20">                .queryString(&quot;from&quot;,</span>
+                        &quot;Roller Coaster &lt;mailgun@sandbox1ad7f0d6956b4fcdb728091dbebe3d7b&quot;
+                                + &quot;.mailgun.org&gt;&quot;)
+<span class="fc" id="L23">                .queryString(&quot;to&quot;, toEmail)</span>
+<span class="fc" id="L24">                .queryString(&quot;subject&quot;, &quot;New announcement from Roller coaster&quot;)</span>
+<span class="fc" id="L25">                .queryString(&quot;text&quot;, text)</span>
+<span class="fc" id="L26">                .asJson();</span>
+<span class="fc" id="L27">        return ErrorEnum.OK;</span>
+
+    }
+
+    @Override
+    public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
+<span class="fc" id="L33">        Unirest.post(</span>
+                &quot;https://api.mailgun.net/v3/sandbox1ad7f0d6956b4fcdb728091dbebe3d7b.mailgun.org/messages&quot;)
+<span class="fc" id="L35">                .basicAuth(&quot;api&quot;, &quot;33e62e196215815f54660b4d5e261e6f-f7910792-838afa06&quot;)</span>
+<span class="fc" id="L36">                .queryString(&quot;from&quot;,</span>
+                        &quot;Roller Coaster &lt;mailgun@sandbox1ad7f0d6956b4fcdb728091dbebe3d7b&quot;
+                        + &quot;.mailgun.org&gt;&quot;)
+<span class="fc" id="L39">                .queryString(&quot;to&quot;, toEmail)</span>
+<span class="fc" id="L40">                .queryString(&quot;subject&quot;, &quot;Your ticket of Roller coaster!&quot;)</span>
+<span class="fc" id="L41">                .queryString(&quot;text&quot;, text)</span>
+<span class="fc" id="L42">                .asJson();</span>
+<span class="fc" id="L43">        return ErrorEnum.OK;</span>
+
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

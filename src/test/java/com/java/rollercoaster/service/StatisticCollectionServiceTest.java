@@ -196,6 +196,20 @@ public class StatisticCollectionServiceTest {
     }
 
     @Test
+    public void testPeopleInThatMonthFail4() throws ParseException {
+        init();
+        MyCalendar myCalendar = new MyCalendar();
+        myCalendar.setYear(2021);
+        myCalendar.setMonth(1);
+        try {
+            statisticCollectionService.peopleInThatMonth(myCalendar);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.TIME_OVER_CURRENT_MONTH, businessException.getCommonError());
+        }
+        finish();
+    }
+
+    @Test
     public void testPeopleInThatMonthNormal() throws ParseException, BusinessException {
         init();
         MyCalendar myCalendar = new MyCalendar();

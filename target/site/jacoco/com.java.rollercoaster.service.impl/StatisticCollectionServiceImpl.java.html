@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatisticCollectionServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">StatisticCollectionServiceImpl.java</span></div><h1>StatisticCollectionServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.dao.FacilityMapper;
+import com.java.rollercoaster.dao.TicketMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
+import com.java.rollercoaster.service.QueryService;
+import com.java.rollercoaster.service.StatisticCollectionService;
+import com.java.rollercoaster.service.model.FacilityModel;
+import com.java.rollercoaster.service.model.MyCalendar;
+import com.java.rollercoaster.service.model.enumeration.Status;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L24">public class StatisticCollectionServiceImpl implements StatisticCollectionService {</span>
+    @Autowired
+    private TicketMapper ticketMapper;
+    @Autowired
+    private QueryService queryService;
+
+    @Override
+    public int peopleInThatDay(MyCalendar myCalendar) throws BusinessException {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (null == myCalendar.getDay()</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                || null == myCalendar.getMonth()</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">                || null == myCalendar.getYear()) {</span>
+<span class="fc" id="L35">            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</span>
+        }
+<span class="fc" id="L37">        TicketExample ticketExample = new TicketExample();</span>
+<span class="fc" id="L38">        TicketExample.Criteria criteria = ticketExample.createCriteria();</span>
+<span class="fc" id="L39">        Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L40">        calendar.set(myCalendar.getYear(), myCalendar.getMonth() - 1,</span>
+<span class="fc" id="L41">                myCalendar.getDay());</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (calendar.getTime().getTime() &gt; new Date().getTime()) {</span>
+<span class="fc" id="L43">            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_DAY);</span>
+        }
+<span class="fc" id="L45">        criteria.andValidDateEqualTo(calendar.getTime());</span>
+<span class="fc" id="L46">        criteria.andStatusEqualTo(Status.used);</span>
+<span class="fc" id="L47">        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</span>
+<span class="fc" id="L48">        return ticketList.size();</span>
+    }
+
+    @Override
+    public int peopleInThatMonth(MyCalendar myCalendar) throws BusinessException {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (null == myCalendar.getMonth()</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                || null == myCalendar.getYear()) {</span>
+<span class="fc" id="L55">            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</span>
+        }
+<span class="fc" id="L57">        Calendar calendar = Calendar.getInstance();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (calendar.get(Calendar.MONTH) + 1 &lt;= myCalendar.getMonth()</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                || calendar.get(Calendar.YEAR) &lt; myCalendar.getYear()) {</span>
+<span class="fc" id="L60">            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_MONTH);</span>
+        }
+<span class="fc" id="L62">        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</span>
+<span class="fc" id="L63">        int year = myCalendar.getYear();</span>
+<span class="fc" id="L64">        int month = myCalendar.getMonth() - 1;</span>
+<span class="fc" id="L65">        int count = 0;</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Ticket ticket : ticketList) {</span>
+<span class="fc" id="L67">            Calendar curCalendar = Calendar.getInstance();</span>
+<span class="fc" id="L68">            curCalendar.setTime(ticket.getValidDate());</span>
+<span class="fc" id="L69">            int curYear = curCalendar.get(Calendar.YEAR);</span>
+<span class="fc" id="L70">            int curMonth = curCalendar.get(Calendar.MONTH);</span>
+<span class="fc bfc" id="L71" title="All 6 branches covered.">            if (ticket.getStatus() == Status.used</span>
+                    &amp;&amp; curYear == year &amp;&amp; curMonth == month) {
+<span class="fc" id="L73">                count += 1;</span>
+            }
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        return count;</span>
+    }
+
+    @Override
+    public int peopleInThatYear(MyCalendar myCalendar) throws BusinessException {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (null == myCalendar.getYear()) {</span>
+<span class="fc" id="L82">            throw new BusinessException(ErrorEnum.EMPTY_DATE_ATTRIBUTE);</span>
+        }
+<span class="fc" id="L84">        Calendar calendar = Calendar.getInstance();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (calendar.get(Calendar.YEAR) &lt;= myCalendar.getYear()) {</span>
+<span class="fc" id="L86">            throw new BusinessException(ErrorEnum.TIME_OVER_CURRENT_YEAR);</span>
+        }
+<span class="fc" id="L88">        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(new TicketExample());</span>
+<span class="fc" id="L89">        int year = myCalendar.getYear();</span>
+<span class="fc" id="L90">        int count = 0;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        for (Ticket ticket : ticketList) {</span>
+<span class="fc" id="L92">            Calendar curCalendar = Calendar.getInstance();</span>
+<span class="fc" id="L93">            curCalendar.setTime(ticket.getValidDate());</span>
+<span class="fc" id="L94">            int curYear = curCalendar.get(Calendar.YEAR);</span>
+<span class="fc bfc" id="L95" title="All 4 branches covered.">            if (ticket.getStatus() == Status.used</span>
+                    &amp;&amp; curYear == year) {
+<span class="fc" id="L97">                count += 1;</span>
+            }
+<span class="fc" id="L99">        }</span>
+<span class="fc" id="L100">        return count;</span>
+    }
+
+    @Override
+    public List&lt;Date&gt; whichDaysVisited(int userId) {
+<span class="fc" id="L105">        List&lt;Date&gt; dates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L106">        TicketExample ticketExample = new TicketExample();</span>
+<span class="fc" id="L107">        ticketExample.createCriteria().andStatusEqualTo(Status.used)</span>
+<span class="fc" id="L108">                .andUserIdEqualTo(userId);</span>
+<span class="fc" id="L109">        List&lt;Ticket&gt; ticketList = ticketMapper.selectByExample(ticketExample);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (Ticket ticket : ticketList) {</span>
+<span class="fc" id="L111">            dates.add(ticket.getValidDate());</span>
+<span class="fc" id="L112">        }</span>
+<span class="fc" id="L113">        return dates;</span>
+    }
+
+    @Override
+    public List&lt;FacilityModel&gt; top5Facility() throws BusinessException {
+<span class="fc" id="L118">        List&lt;FacilityModel&gt; facilities = queryService.queryAllFacilities();</span>
+<span class="fc" id="L119">        System.out.println(&quot;****&quot;);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (FacilityModel facilityModel : facilities) {</span>
+<span class="fc" id="L121">            System.out.println(facilityModel.getFacilityName());</span>
+<span class="fc" id="L122">            System.out.println(facilityModel.getRating());</span>
+<span class="fc" id="L123">        }</span>
+<span class="fc" id="L124">        facilities.sort((o1, o2) -&gt;</span>
+<span class="fc" id="L125">                Optional.ofNullable(o1.getRating()).orElse(0f)</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                        &gt; Optional.ofNullable(o2.getRating()).orElse(0f) ? -1 : 1);</span>
+<span class="fc" id="L127">        List&lt;FacilityModel&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for (int i = 0; i &lt; Math.min(5, facilities.size()); i++) {</span>
+<span class="fc" id="L129">            result.add(facilities.get(i));</span>
+        }
+<span class="fc" id="L131">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

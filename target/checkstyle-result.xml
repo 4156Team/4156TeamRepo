@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="6.18">
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/response/CommonReturnType.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/ServletInitializer.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/configure/WebMvcConfigure.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/configure/package-info.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/EventMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/AppointmentMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/BalanceMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/TicketMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/CommentMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/UserAccountMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/FacilityMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/AnnouncementMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/UserPasswordMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/QuickPassMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/dao/TypeMapper.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/TicketController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/AnnouncementController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/QueryController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/TicketPriceController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/QuickPassController.java">
+<error line="116" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/CommentController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/AppointmentController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/BalanceController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/RatingController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/SecurityTestController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/BaseController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/TestController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/ManagerController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/UserController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/WeatherController.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/controller/viewobject/UserVo.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/errorenum/ErrorEnum.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/errorenum/BusinessException.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/errorenum/CommonError.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/RollerCoasterApplication.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/MybatisGenerator.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/CheckInServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/TicketPriceServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/StatisticCollectionServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/BalanceServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/RatingServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/WeatherServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/ManageParkServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/MailServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/CommentServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/QueryServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/UserServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/AnnouncementServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/TicketServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/AppointmentServiceImpl.java">
+<error line="124" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="125" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="125" severity="warning" message="Line is longer than 100 characters (found 120)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/impl/QuickPassServiceImpl.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/BalanceService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/UserService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/QuickPassService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/ManageParkService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/AnnouncementService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/MailService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/CommentService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/AppointmentService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/TicketService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/TicketPriceService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/QueryService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/MyCalendar.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/CommentModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/FacilityModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/Status.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/TicketType.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/FacilityStatus.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/UserGender.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/enumeration/Role.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/QueryEventModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/IdTokenStr.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/QueryFacilityModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/TicketModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/UserModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/EventModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/WeatherModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/model/TimedAppointmentModel.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/StatisticCollectionService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/CheckInService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/WeatherService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/service/RatingService.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/QuickPassExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/QuickPass.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Announcement.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/BalanceExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Type.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Appointment.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/TicketExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/AppointmentExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/CommentExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/AnnouncementExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/FacilityExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Event.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Facility.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/TypeExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Comment.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Ticket.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/Balance.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/UserPasswordExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/UserAccountExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/UserAccount.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/EventExample.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/java/com/java/rollercoaster/pojo/UserPassword.java">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/resources/generator.properties">
+</file>
+<file name="/Users/james/Desktop/Advance_Software_System/4156TeamRepo/src/main/resources/application.properties">
+</file>
+</checkstyle>

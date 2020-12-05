@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuickPassController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.controller</a> &gt; <span class="el_source">QuickPassController.java</span></div><h1>QuickPassController.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.controller;
+
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.pojo.QuickPass;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.AppointmentService;
+import com.java.rollercoaster.service.QuickPassService;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
+import com.java.rollercoaster.service.model.UserModel;
+import com.java.rollercoaster.service.model.enumeration.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+
+
+@Controller
+@RequestMapping(&quot;/quickpass&quot;)
+@CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
+<span class="fc" id="L31">public class QuickPassController {</span>
+    @Autowired
+    QuickPassService quickPassService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    /**
+     * End point to add a new appointment given appointment object.
+     * @param quickPass an QuickPass object
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
+    @PostMapping(&quot;/appointQuickPass&quot;)
+    @ResponseBody
+    public CommonReturnType addQuickPass(@RequestBody QuickPass quickPass) {
+<span class="fc" id="L46">        Boolean isLogin = (Boolean) httpServletRequest</span>
+<span class="fc" id="L47">                .getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">        if (isLogin == null || !isLogin)  {</span>
+<span class="fc" id="L49">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L51">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L52">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L54">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L56">        quickPass.setUserId(userModel.getUserId());</span>
+<span class="fc" id="L57">        long millis = System.currentTimeMillis();</span>
+<span class="fc" id="L58">        Random random = new Random();</span>
+<span class="fc" id="L59">        int end4 = random.nextInt(9999);</span>
+<span class="fc" id="L60">        String timestamp = String.valueOf(millis);</span>
+<span class="fc" id="L61">        String id = timestamp.substring(timestamp.length() - 6)</span>
+<span class="fc" id="L62">                + String.format(&quot;%04d&quot;, end4);</span>
+<span class="fc" id="L63">        System.out.println(id);</span>
+
+<span class="fc" id="L65">        quickPass.setQuickpassId(id);</span>
+        try {
+<span class="fc" id="L67">            CommonReturnType result =</span>
+<span class="fc" id="L68">                    CommonReturnType.create(quickPassService.addQuickPass(quickPass));</span>
+<span class="fc" id="L69">            return result;</span>
+<span class="fc" id="L70">        } catch (BusinessException businessException) {</span>
+<span class="fc" id="L71">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
+
+        }
+    }
+
+    /**
+     * End point to delete an quickpass appointment.
+     * @param quickPassId the quickPassId
+     * @return CommonReturnType
+     */
+    @PostMapping(&quot;/deleteQuickPass&quot;)
+    @ResponseBody
+    public CommonReturnType deleteQuickPass(@RequestParam(name = &quot;quickPassId&quot;)
+                                                        String quickPassId) {
+<span class="fc" id="L85">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="pc bpc" id="L86" title="1 of 4 branches missed.">        if (isLogin == null || !isLogin)  {</span>
+<span class="fc" id="L87">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L89">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L90">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L93">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L95">        return CommonReturnType.autoCreate(quickPassService</span>
+<span class="fc" id="L96">                .deleteQuickPass(quickPassId, userModel));</span>
+    }
+
+    /**
+     *Display a user's all quickPass appointment.
+     * @return response with common return type
+     */
+    @RequestMapping(&quot;/quickPassRecord&quot;)
+    @ResponseBody
+    public CommonReturnType getQuickPass() {
+<span class="fc" id="L106">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">        if (isLogin == null || !isLogin)  {</span>
+<span class="fc" id="L108">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L110">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L111">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L114">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L116">        List&lt;QuickPass&gt; quickPassList = quickPassService.getQuickPassByUserId(userModel.getUserId());</span>
+<span class="fc" id="L117">        return CommonReturnType.create(quickPassList);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

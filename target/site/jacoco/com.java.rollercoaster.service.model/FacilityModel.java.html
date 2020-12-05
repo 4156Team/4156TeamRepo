@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FacilityModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.model</a> &gt; <span class="el_source">FacilityModel.java</span></div><h1>FacilityModel.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.java.rollercoaster.service.model.enumeration.FacilityStatus;
+
+import java.util.Date;
+
+<span class="fc" id="L8">public class FacilityModel {</span>
+
+    private String facilityName;
+    private FacilityStatus facilityStatus;
+    private String facilityIntroduction;
+    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+    private Date facilityOpenTime;
+    @JsonFormat(pattern = &quot;HH:mm:ss&quot;)
+    private Date facilityCloseTime;
+    private Integer queueStatus;
+    private String facilityImage;
+
+    public String getFacilityImage() {
+<span class="nc" id="L21">        return facilityImage;</span>
+    }
+
+    public void setFacilityImage(String facilityImage) {
+<span class="fc" id="L25">        this.facilityImage = facilityImage;</span>
+<span class="fc" id="L26">    }</span>
+
+    public Float getRating() {
+<span class="fc" id="L29">        return rating;</span>
+    }
+
+    public void setRating(Float rating) {
+<span class="fc" id="L33">        this.rating = rating;</span>
+<span class="fc" id="L34">    }</span>
+
+    public Integer getRatingPeople() {
+<span class="nc" id="L37">        return ratingPeople;</span>
+    }
+
+    public void setRatingPeople(Integer ratingPeople) {
+<span class="fc" id="L41">        this.ratingPeople = ratingPeople;</span>
+<span class="fc" id="L42">    }</span>
+
+    private Float rating;
+    private Integer ratingPeople;
+
+    public String getFacilityName() {
+<span class="fc" id="L48">        return facilityName;</span>
+    }
+
+    public void setFacilityName(String facilityName) {
+<span class="fc" id="L52">        this.facilityName = facilityName;</span>
+<span class="fc" id="L53">    }</span>
+
+    public com.java.rollercoaster.service.model.enumeration.FacilityStatus getFacilityStatus() {
+<span class="fc" id="L56">        return facilityStatus;</span>
+    }
+
+    public void setFacilityStatus(FacilityStatus facilityStatus) {
+<span class="fc" id="L60">        this.facilityStatus = facilityStatus;</span>
+<span class="fc" id="L61">    }</span>
+
+    public String getFacilityIntroduction() {
+<span class="fc" id="L64">        return facilityIntroduction;</span>
+    }
+
+    public void setFacilityIntroduction(String facilityIntroduction) {
+<span class="fc" id="L68">        this.facilityIntroduction = facilityIntroduction;</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Get facility open time with null check.
+     *
+     */
+    public Date getFacilityOpenTime() {
+<span class="fc" id="L76">        return new Date(facilityOpenTime.getTime());</span>
+    }
+
+    /**
+     * Set facility open time with null check.
+     *
+     */
+    public void setFacilityOpenTime(Date facilityOpenTime) {
+<span class="fc" id="L84">        this.facilityOpenTime = new Date(facilityOpenTime.getTime());</span>
+
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Get facility close time with null check.
+     *
+     */
+    public Date getFacilityCloseTime() {
+<span class="fc" id="L93">        return new Date(facilityCloseTime.getTime());</span>
+    }
+
+    /**
+     * Set facility close time with null check.
+     *
+     */
+    public void setFacilityCloseTime(Date facilityCloseTime) {
+<span class="fc" id="L101">        this.facilityCloseTime = new Date(facilityCloseTime.getTime());</span>
+<span class="fc" id="L102">    }</span>
+
+    public Integer getQueueStatus() {
+<span class="fc" id="L105">        return queueStatus;</span>
+    }
+
+    public void setQueueStatus(Integer queueStatus) {
+<span class="fc" id="L109">        this.queueStatus = queueStatus;</span>
+<span class="fc" id="L110">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

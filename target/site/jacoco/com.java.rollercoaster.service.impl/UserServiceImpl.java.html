@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">UserServiceImpl.java</span></div><h1>UserServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.dao.TicketMapper;
+import com.java.rollercoaster.dao.UserAccountMapper;
+import com.java.rollercoaster.dao.UserPasswordMapper;
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Ticket;
+import com.java.rollercoaster.pojo.TicketExample;
+import com.java.rollercoaster.pojo.UserAccount;
+import com.java.rollercoaster.pojo.UserAccountExample;
+import com.java.rollercoaster.pojo.UserPassword;
+import com.java.rollercoaster.service.UserService;
+import com.java.rollercoaster.service.model.UserModel;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L27">public class UserServiceImpl implements UserService {</span>
+    @Autowired
+    private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserPasswordMapper userPasswordMapper;
+    @Autowired
+    private TicketMapper ticketMapper;
+
+
+    @Override
+    @Transactional
+    public ErrorEnum register(UserModel userModel) throws BusinessException {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L40">            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</span>
+        }
+<span class="fc" id="L42">        UserAccount userAccount = convertFromModel(userModel);</span>
+        try {
+<span class="fc" id="L44">            userAccountMapper.insertSelective(userAccount);</span>
+<span class="fc" id="L45">        } catch (DuplicateKeyException ex) {</span>
+<span class="fc" id="L46">            return ErrorEnum.PARAMETER_VALIDATION_ERROR;</span>
+<span class="fc" id="L47">        }</span>
+<span class="fc" id="L48">        userModel.setUserId(userAccount.getUserId());</span>
+
+<span class="fc" id="L50">        UserPassword userPassword = convertPasswordFromModel(userModel);</span>
+<span class="fc" id="L51">        System.out.println(userPassword.getPassword());</span>
+<span class="fc" id="L52">        userPasswordMapper.insertSelective(userPassword);</span>
+<span class="fc" id="L53">        return ErrorEnum.OK;</span>
+
+    }
+
+    @Override
+    public UserModel loginWithGoogle(UserAccount userAccount) throws BusinessException {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (userAccount == null) {</span>
+<span class="fc" id="L60">            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L62">        UserAccountExample userAccountExample = new UserAccountExample();</span>
+<span class="fc" id="L63">        UserAccountExample.Criteria criteria = userAccountExample.createCriteria();</span>
+<span class="fc" id="L64">        criteria.andThirdPartyIdEqualTo(userAccount.getThirdPartyId());</span>
+<span class="fc" id="L65">        List&lt;UserAccount&gt; candidates = userAccountMapper.selectByExample(userAccountExample);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        UserAccount existAccount = candidates.isEmpty() ?  null : candidates.get(0);</span>
+
+<span class="fc" id="L68">        UserModel userModel = new UserModel();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (existAccount == null) {</span>
+<span class="fc" id="L70">            userAccountMapper.insertSelective(userAccount);</span>
+<span class="fc" id="L71">            userModel.setUserId(userAccount.getUserId());</span>
+<span class="fc" id="L72">            userModel.setUserName(userAccount.getUserName());</span>
+<span class="fc" id="L73">            userModel.setThirdPartyId(userAccount.getThirdPartyId());</span>
+        } else {
+<span class="fc" id="L75">            userModel.setUserId(existAccount.getUserId());</span>
+<span class="fc" id="L76">            userModel.setUserName(existAccount.getUserName());</span>
+<span class="fc" id="L77">            userModel.setThirdPartyId(existAccount.getThirdPartyId());</span>
+        }
+<span class="fc" id="L79">        return userModel;</span>
+    }
+
+    @Override
+    public UserModel validateLogin(String telphone,
+                                   String encryptPassword) throws BusinessException {
+        //get user information by user phone number
+<span class="fc" id="L86">        UserAccountExample example = new UserAccountExample();</span>
+<span class="fc" id="L87">        UserAccountExample.Criteria criteria = example.createCriteria();</span>
+<span class="fc" id="L88">        criteria.andPhoneNumberEqualTo(telphone);</span>
+<span class="fc" id="L89">        List&lt;UserAccount&gt; results = userAccountMapper.selectByExample(example);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        UserAccount userAccount = results.isEmpty() ? null : results.get(0);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (userAccount ==  null) {</span>
+<span class="fc" id="L92">            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</span>
+        }
+<span class="fc" id="L94">        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userAccount.getUserId());</span>
+<span class="fc" id="L95">        UserModel userModel = convertFromDataObject(userAccount, userPassword);</span>
+        //compare encrypt password with the input password
+<span class="fc" id="L97">        System.out.println(userPassword.getPassword());</span>
+<span class="fc" id="L98">        System.out.println(encryptPassword);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (!StringUtils.equals(encryptPassword, userModel.getPassword())) {</span>
+<span class="fc" id="L100">            throw new BusinessException(ErrorEnum.USER_LOGIN_FAIL);</span>
+        }
+<span class="fc" id="L102">        return userModel;</span>
+
+    }
+
+    private UserPassword convertPasswordFromModel(UserModel userModel) {
+<span class="fc" id="L107">        UserPassword userPassword = new UserPassword();</span>
+<span class="fc" id="L108">        userPassword.setPassword(userModel.getPassword());</span>
+<span class="fc" id="L109">        userPassword.setUserId(userModel.getUserId());</span>
+<span class="fc" id="L110">        return  userPassword;</span>
+    }
+
+    private UserAccount convertFromModel(UserModel userModel) {
+<span class="fc" id="L114">        UserAccount userAccount = new UserAccount();</span>
+<span class="fc" id="L115">        BeanUtils.copyProperties(userModel,userAccount);</span>
+<span class="fc" id="L116">        return  userAccount;</span>
+    }
+
+    private  UserModel convertFromDataObject(UserAccount userAccount, UserPassword userpassword) {
+<span class="fc" id="L120">        UserModel userModel = new UserModel();</span>
+<span class="fc" id="L121">        BeanUtils.copyProperties(userAccount, userModel);</span>
+<span class="fc" id="L122">        userModel.setPassword(userpassword.getPassword());</span>
+<span class="fc" id="L123">        return  userModel;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
