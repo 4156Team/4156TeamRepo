@@ -8,7 +8,7 @@ cd Frontend
 cd project
 npm install
 ```
-### 3. Create tables in Mysql with CreateTable.sql
+### 2. Create tables in Mysql with CreateTable.sql
 
 ### 3. Run our frontend serve on port 3000
 ```
