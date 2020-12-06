@@ -36,7 +36,7 @@ class WeatherServiceTest {
     void queryWrongDateWeatherTest() throws ParseException {
 
         long millis = System.currentTimeMillis();
-        long before = millis - 86400000L;
+        long before = millis - 2 * 86400000L;
         try {
             weatherService.queryWeather(new Date(before));
         } catch (BusinessException businessException) {
