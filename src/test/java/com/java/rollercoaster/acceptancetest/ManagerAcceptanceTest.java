@@ -246,8 +246,8 @@ public class ManagerAcceptanceTest {
                 restTemplate.postForEntity(url, facility, CommonReturnType.class);
         assertEquals("success", response.getBody().getStatus());
         Facility result = facilityMapper.selectByPrimaryKey("testFacility");
-        assertEquals(format.parse("20-00-00"), result.getFacilityOpenTime());
-        assertEquals(format.parse("21-00-00"), result.getFacilityCloseTime());
+        assertEquals("20-00-00", format.format(result.getFacilityOpenTime()));
+        assertEquals("21-00-00", format.format(result.getFacilityCloseTime()));
         assertEquals("test-test", result.getFacilityIntroduction());
         assertEquals(FacilityStatus.repairing, result.getFacilityStatus());
         assertEquals(1000, result.getQueueStatus());
