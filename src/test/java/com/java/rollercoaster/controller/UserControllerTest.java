@@ -36,6 +36,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -114,7 +115,7 @@ public class UserControllerTest {
     @Test
     public void validGoogleLoginTest() throws BusinessException {
         UserModel userModel = new UserModel();
-        userModel.setEmail("yl4225@columbia.edu");
+        userModel.setEmail("aaaa@columbia.edu");
         userModel.setUserName("Yumiao");
         userModel.setThirdPartyId("asdsfgh");
         userController.googleLogIn(userModel);
@@ -122,6 +123,12 @@ public class UserControllerTest {
         assertEquals(userModel.getUserName(), userModel1.getUserName());
         assertEquals(true, httpServletRequest.getSession().getAttribute("IS_LOGIN"));
         userAccountMapper.deleteByPrimaryKey(userModel1.getUserId());
+
+//        UserAccountExample userAccountExample = new UserAccountExample();
+//        UserAccountExample.Criteria criteria = userAccountExample.createCriteria();
+//        criteria.andEmailEqualTo("yl4225@columbia.edu");
+//        UserAccount userAccount = userAccountMapper.selectByExample(userAccountExample).get(0);
+//        userAccountMapper.deleteByPrimaryKey(userAccount.getUserId());
     }
 
     @Test
@@ -134,6 +141,9 @@ public class UserControllerTest {
         } catch (BusinessException businessException) {
             assertEquals(ErrorEnum.PARAMETER_VALIDATION_ERROR, businessException.getCommonError());
         }
+
+
+
 
     }
 

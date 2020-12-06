@@ -85,21 +85,19 @@ public class TicketControllerTest {
         Ticket ticket = initTicket(userModel);
         CommonReturnType response = null;
         try {
-             response = ticketController.addTicket(ticket);
+             ticketController.addTicket(ticket);
         } catch (BusinessException businessException) {
             assertEquals(ErrorEnum.SEND_MAIL_FAILED, businessException.getCommonError());
         }
 
 
-        String ticketId = (String) response.getData();
-
-        Ticket ticketGetBack = ticketMapper.selectByPrimaryKey(ticketId);
+        Ticket ticketGetBack = ticketMapper.selectByPrimaryKey(ticket.getTicketId());
         assertEquals(userModel.getUserId(), ticketGetBack.getUserId());
         assertEquals(Status.unused, ticketGetBack.getStatus());
         assertEquals((float) 124, ticketGetBack.getPrice());
 
 
-        ticketMapper.deleteByPrimaryKey(ticketId);
+        ticketMapper.deleteByPrimaryKey(ticket.getTicketId());
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
         balanceMapper.deleteByPrimaryKey(userModel.getUserId());
