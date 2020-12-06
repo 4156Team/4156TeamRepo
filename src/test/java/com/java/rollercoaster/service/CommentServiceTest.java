@@ -73,7 +73,7 @@ public class CommentServiceTest {
     }
 
     @Test
-    public void notLoginTest() {
+    public void notLoginPostCommentTest() {
         UserModel userModel = null;
         CommentModel commentModel = new CommentModel();
         assertEquals(ErrorEnum.USER_NOT_LOGIN, commentService.addComment(userModel, commentModel));
