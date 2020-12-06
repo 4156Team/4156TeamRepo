@@ -28,14 +28,14 @@ export default {
     };
   },
     mounted: function () {
-    console.log("start!")
+    // console.log("start!")
     this.$axios
       .get("/api/query/AllEvent")
       .then((response) => {
         if (response.data.status == "success") {
           this.events = response.data.data;
-          console.log(this.events);
-        } else window.alert("Failed");
+          // console.log(this.events);
+        } else this.$msg("Failed");
       });
   }, 
 };

@@ -32,9 +32,6 @@
         <a>
         <Googlelogin />
         </a>
-
-        <!-- <GoogleLoginButton /> -->
-
       </div>
     </form>
   </div>
@@ -79,13 +76,9 @@ export default {
           })
           .then((response) => {
             if (response.data.status == "success") {
-              
+        
               window.sessionStorage.clear();
-              // this.$store.commit("SET_LOGIN", true);
               window.sessionStorage.setItem("isLogin", true);
-              console.log("login", response);
-              console.log(sessionStorage.getItem("isLogin"))
-                // this.$store.commit("GET_USER", response.data.data);
               if (response.data.data == "manager") {
                 window.sessionStorage.setItem("isAdmin", true);
                 window.sessionStorage.setItem(
@@ -105,7 +98,7 @@ export default {
                 this.$router.push("/");
               }
           } else {
-            window.alert(response.data.data.errMsg);
+            this.$msg(response.data.data.errMsg);
             console.log(response.data.data.errMsg);
           }
         })

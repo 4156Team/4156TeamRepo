@@ -2,11 +2,14 @@
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <el-button @click="back" style="float: left; padding: 3px 3px" type="text">Back</el-button>
-      <span> {{ currentEvent.category }}</span>
+      <!-- <span> {{ currentEvent.category }}</span> -->
       <el-button @click="next" style="float: right; padding: 3px 0" type="text">Next</el-button>
     </div>
     <div class="text item">
-      {{ "Price: $" + currentEvent.price}}
+      {{ "Type: " + currentEvent.ticketType}}
+    </div>
+    <div class="text item">
+      {{ "Price: $" + currentEvent.ticketPrice}}
     </div>
     <div class="text item">
       {{ "Description: " + currentEvent.description }}
@@ -18,11 +21,14 @@
         type="text">Register
       </el-button>
     </div>
-  <img :src="currentEvent.imgSrc" class="image">
+  <div class="img">
+  <img :src="currentEvent.imageUrl">
+  </div>
   </el-card>
 </template>
 <script>
 export default {
+  inject:['reload'],
   props: {
     selectedTime: String,
     currentEvent: Object,
@@ -30,15 +36,17 @@ export default {
     back: Function,
   },
   data() {
-    return { registerEvent: null };
+    return { registerEvent: null,
+    register_st: 0
+     };
   },
   methods: {
     register() {
       if (!this.selectedTime) {
-        window.alert("Please select a date to register");
+        this.$msg("Please select a date to register");
       } else {
         var param = {
-          price: this.currentEvent.price,
+          price: this.currentEvent.ticketPrice,
           validDate: this.selectedTime,
           status: "unused",
         };
@@ -47,7 +55,6 @@ export default {
           .post("/api/ticket/addTicket", JSON.stringify(param), {
             headers: {
               "Content-Type": "application/json",
-              // "Access-Control-Allow-Credentials": "true",
             },
           })
           .then((response) => {
@@ -58,8 +65,12 @@ export default {
                 text: "Hello user! Your purchasement is successed",
               });
               console.log(response);
+              // this.reload()
+              this.register_st += 1
+              console.log("re",this.register_st)
+              this.$emit("register",this.register_st)
             } else {
-              window.alert(response.data.data);
+              this.$msg(response.data.data);
             }
           })
           .catch(function(error) {
@@ -94,5 +105,9 @@ export default {
   width: 400px;
   text-align: center;
   padding: 14px 14px;
+}
+.img{
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -25,30 +25,58 @@ export default {
     onSignInSuccess: function (googleUser) {
       this.toggleLoading()
       this.resetResponse()
-      const param = {token:googleUser.xc.id_token}
-      console.log(googleUser.xc.id_token)
-      this.$axios.post("/api/user/googleVerify", JSON.stringify(param),{
-            headers: {
-              "Access-Control-Allow-Credentials": "true",
-              "Content-Type": "application/json",
-            },}).then((response) => {
-              window.sessionStorage.clear();
-              if(response.status == "200"){
-                window.sessionStorage.setItem("isLogin", true)
-                window.sessionStorage.setItem("type", "vistor")
-                 this.$notify({
-                group: "foo",
-                title: "Important message",
-                text: "Hello user! You success login with Google account!",
-              });
-              this.$router.push("/");
-              }else{
-                window.alert("Failed to verfiy ")
-              }
-            }).catch(function(error) {
-          console.error(error.response);
-          window.alert("Backend service error!")
+      var profile = googleUser.getBasicProfile();
+      // const param = {token:googleUser.xc.id_token}
+      const param = {email:profile.getEmail(),
+                     userName:profile.getName(),
+                     thirdPartyId:profile.getId()}
+      // console.log("11",param)
+      this.$axios.post("/api/user/googleLogin", JSON.stringify(param),{
+        headers: {
+          // "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },}).then((response) => {
+          console.log(response)
+          window.sessionStorage.clear();
+          if(response.status == "200"){
+            window.sessionStorage.setItem("isLogin", true)
+            window.sessionStorage.setItem("type", "vistor")
+              this.$notify({
+              group: "foo",
+              title: "Important message",
+              text: "Hello user! You success login with Google account!",
+            });
+            this.$router.push("/");
+          }else{
+            this.$msg("Failed to verfiy")
+          }
+        }).catch(function(error) {
+            console.error(error.response);
+            this.$msg("Backend service error!")
         });
+      // console.log(googleUser.xc.id_token)
+      // this.$axios.post("/api/user/googleVerify", JSON.stringify(param),{
+      //       headers: {
+      //         "Access-Control-Allow-Credentials": "true",
+      //         "Content-Type": "application/json",
+      //       },}).then((response) => {
+      //         window.sessionStorage.clear();
+      //         if(response.status == "200"){
+      //           window.sessionStorage.setItem("isLogin", true)
+      //           window.sessionStorage.setItem("type", "vistor")
+      //            this.$notify({
+      //           group: "foo",
+      //           title: "Important message",
+      //           text: "Hello user! You success login with Google account!",
+      //         });
+      //         this.$router.push("/");
+      //         }else{
+      //           window.alert("Failed to verfiy ")
+      //         }
+      //       }).catch(function(error) {
+      //     console.error(error.response);
+      //     window.alert("Backend service error!")
+      //   });
     },
     onSignInError: function (error) {
       this.response = 'Failed to sign-in'

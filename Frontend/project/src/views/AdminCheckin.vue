@@ -1,24 +1,39 @@
 <template>
-<el-row type="flex" class="row-bg">
-  <el-col :span="6">
-      <div class="item">
-      <h1 class="item"> Ticket Id</h1>
-         <el-input placeholder="Please input ticket ID" v-model="ticketId"></el-input> 
-      </div>
-    </el-col>
-    <div class="buttonitem"> 
-        <el-button @click="handleTicket" type="success" icon="el-icon-check">Checkin</el-button>
-    </div>
-    <el-col :span="6" :offset="4">
-      <div class="item">
-      <h1 class="item"> Appointment Id</h1>
-         <el-input placeholder="Please input Appointment ID" v-model="appointmentId"></el-input> 
-      </div>
-    </el-col>
-    <div class="buttonitem"> 
-        <el-button @click="handleAppointment" type="success" icon="el-icon-check">Checkin</el-button>
-    </div>
-</el-row>
+<el-container>
+  <el-main>
+    <el-row type="flex" class="row-bg">
+    <el-col :span="6">
+        <div class="item">
+        <h1 class="item"> Ticket Id</h1>
+            <el-input placeholder="Please input ticket ID" v-model="ticketId"></el-input> 
+        </div>
+        </el-col>
+        <div class="buttonitem"> 
+            <el-button @click="handleTicket" type="success" icon="el-icon-check">Checkin</el-button>
+        </div>
+        <el-col :span="6" :offset="4">
+        <div class="item">
+        <h1 class="item"> Appointment Id</h1>
+            <el-input placeholder="Please input Appointment ID" v-model="appointmentId"></el-input> 
+        </div>
+        </el-col>
+        <div class="buttonitem"> 
+            <el-button @click="handleAppointment" type="success" icon="el-icon-check">Checkin</el-button>
+        </div>
+    </el-row>
+    <el-row type="flex" class="row-bg">
+    <el-col :span="6">
+        <div class="item">
+        <h1 class="item"> QuickPass Id</h1>
+            <el-input placeholder="Please input QuickPass ID" v-model="quickPassId"></el-input> 
+        </div>
+        </el-col>
+        <div class="buttonitem"> 
+            <el-button @click="handleQuickpass" type="success" icon="el-icon-check">Checkin</el-button>
+        </div>
+    </el-row>
+  </el-main>
+</el-container>
 </template>
 
 
@@ -28,12 +43,13 @@ export default {
     return {
       ticketId: '',
       appointmentId:'',
+      quickPassId:'',
     }
   },
   methods: {
       handleTicket(){
           if(!this.ticketId){
-              window.alert("Please input");
+              this.$msg("Please input");
           }else{
               var param = {ticketId:this.ticketId}
                 this.$axios
@@ -52,7 +68,7 @@ export default {
                     });
                     console.log(response);
                     } else {
-                    window.alert(response.data.data);
+                    this.$msg(response.data.data);
                     }
                 })
                 .catch(function(error) {
@@ -60,7 +76,7 @@ export default {
                 });
           }
       },
-          handleAppointment(){
+        handleAppointment(){
           if(!this.appointmentId){
               window.alert("Please input");
           }else{
@@ -81,7 +97,37 @@ export default {
                     });
                     console.log(response);
                     } else {
-                    window.alert(response.data.data);
+                    this.$msg(response.data.data);
+                    }
+                })
+                .catch(function(error) {
+                    console.error(error.response);
+                });
+          }
+      },
+        handleQuickpass(){
+          if(!this.quickPassId){
+              this.$msg("Please input");
+          }else{
+              var param = {quickpassId:this.quickPassId}
+              console.log(param)
+                this.$axios
+                .post("/api/manager/checkQuickPass", JSON.stringify(param), {
+                    headers: {
+                    "Content-Type": "application/json",
+                    // "Access-Control-Allow-Credentials": "true",
+                    },
+                })
+                .then((response) => {
+                    if (response.data.status == "success") {
+                    this.$notify({
+                        group: "foo",
+                        title: "Important message",
+                        text: "Hello manager! Checkin successed",
+                    });
+                    console.log(response);
+                    } else {
+                    this.$msg(response.data.data);
                     }
                 })
                 .catch(function(error) {

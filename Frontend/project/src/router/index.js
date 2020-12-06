@@ -31,6 +31,11 @@ let router = new Router({
       component: () => import("../views/Facility.vue"),
     },
     {
+      path: "/announcement",
+      name: "announcement",
+      component: () => import("../views/Announcement.vue"),
+    },
+    {
       path: "/event/:eventName",
       name: "eventName",  
       component: () => import("../views/EventSingle.vue"),
@@ -61,6 +66,24 @@ let router = new Router({
       // beforeEnter: authcheck,
     },
     {
+      path: "/myAccount",
+      name: "myAccount",
+      component: () => import("../views/UserAccount.vue"),
+      beforeEnter: authcheck,
+    },
+    {
+      path: "/feedback",
+      name: "feedback",
+      component: () => import("../views/FeedbackPage.vue"),
+      beforeEnter: authcheck,
+    },
+    {
+      path: "/myquickpass",
+      name: "myquickpassq",
+      component: () => import("../views/QuickPassShow.vue"),
+      beforeEnter: authcheck,
+    },
+    {
       path: "/adminhome",
       name: "adminhome",
       component: () => import("../views/AdminHome.vue"),
@@ -82,6 +105,18 @@ let router = new Router({
       path: "/adminEvent",
       name: "adminhome",
       component: () => import("../views/EventUpdate.vue"),
+      beforeEnter: authcheck_admin,
+    },
+    {
+      path: "/admininfo",
+      name: "adminhome",
+      component: () => import("../views/AdminInfo.vue"),
+      beforeEnter: authcheck_admin,
+    },
+    {
+      path: "/adminprice",
+      name: "adminhome",
+      component: () => import("../views/AdminTicketAnnounce.vue"),
       beforeEnter: authcheck_admin,
     },
   ],

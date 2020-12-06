@@ -1,56 +1,55 @@
 <template>
-  <b-container class="bv-example-row">
-    <!-- <el-row :gutter="10"> -->
-      <!-- <el-col :span="8"> -->
-        <div class="grid-content bg-purple">
+  <el-container class="bv-example-row">
+    <el-container>
+      <el-header>
+        <div class="datepicker">
           <DatePicker v-on:DateSelected="date_se" />
-          <!-- <h2>{{ date_select }}</h2> -->
         </div>
-      <!-- </el-col> -->
-    <!-- </el-row> -->
-
-    <b-row class="box"> 
-      <b-col sm="6" offset="3">
+      </el-header>
+      <el-main>
         <BookBox
           :currentEvent="event[index]"
           :next="next"
           :back="back"
           :selectedTime="date_select"
+          v-on:register ="register"
         />
-      </b-col>
-    </b-row>
-  </b-container>
+      </el-main>
+      </el-container>
+      <el-main>
+        <div class="account">
+        <AccountCard 
+        v-if="isLogin"
+        :refresh="register_status"/>
+        </div>
+        <div class="weather">
+          <WeatherShow 
+          :selectedTime="date_select"/>
+        </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
+import AccountCard from "../components/UserPage/AccountCard"
 import BookBox from "../components/BookBox.vue";
 import DatePicker from "../components/DatePicker.vue";
+import WeatherShow from "../components/UserPage/WeatherShow"
 export default {
   components: {
+    AccountCard,
     BookBox,
     DatePicker,
+    WeatherShow,
   },
   name: "fetchdata",
   data() {
     return {
-      event: [
-        {
-          Type: 0,
-          category: "Adult",
-          description: "One day ticket for adult",
-          price: "20",
-          imgSrc: require("../assets/img/ticket/adult.jpeg"),
-        },
-        {
-          Type: 1,
-          category: "Teenager",
-          description: "One day ticket for teenager",
-          price: "10",
-          imgSrc: require("../assets/img/ticket/teen.jpeg"),
-        },
-      ],
+      event:[],
       index: 0,
       date_select: "",
+      isLogin:false,
+      register_status:0
     };
   },
   methods: {
@@ -63,11 +62,36 @@ export default {
     date_se(e) {
       this.date_select = e;
     },
+    register(e){
+      this.register_status = e
+      console.log("ress",e)
+    },
   },
+  mounted: function () {
+    // GET /someUrl
+    this.isLogin = window.sessionStorage.getItem("isLogin");
+    this.$axios
+      .get("/api/ticketPrice/getAllTicketPrice")
+      .then((response) => {
+        return response;
+      })
+      .then((response) => {
+        if (response.data.status == "success") {
+          this.event = response.data.data;
+          console.log(this.event);
+        } else this.$msg("Failed");
+      });
+    }, 
+  // mounted() {
+  //   this.isLogin = window.sessionStorage.getItem("isLogin");
+  // },
 };
 </script>
 <style scoped>
-.box{
+.account{
+  margin-top: 65px;
+}
+.weather{
   margin-top: 20px;
 }
 </style>

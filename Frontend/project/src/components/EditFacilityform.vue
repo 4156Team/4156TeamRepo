@@ -16,7 +16,7 @@
       </el-col>
     </el-form-item>
 
-    <el-form-item label="Open/Close">
+    <el-form-item label="Normal/Repair">
       <el-switch v-model="form.facilityStatus"></el-switch>
     </el-form-item>
     <el-form-item disabled label="Activity type">

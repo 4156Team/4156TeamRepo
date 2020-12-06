@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <el-container>
+    <el-main>
     <AllFacility  />
-  </div>
+    </el-main>
+  </el-container>
 </template>
 <script> 
 import AllFacility from '../components/AllFacility.vue';

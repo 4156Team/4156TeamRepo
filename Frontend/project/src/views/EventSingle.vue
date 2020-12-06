@@ -73,7 +73,6 @@
   </div>
 </template>
 <script>
-import qs from "qs";
 export default {
   name: "EventSingle",
   data() {
@@ -88,16 +87,22 @@ export default {
         eventName: this.eventName,
         status: "unused"
       });
+      console.log(param)
       this.$http
-        .post("/api/appointment/addAppointment", param)
+        .post("/api/appointment/addAppointment", param,{
+              headers: {
+              "Content-Type": "application/json",
+              },
+          })
         .then((response) => {
-            console.log(response.data);
+            console.log(response.data)
             if (response.data.status == "success") {
               this.$notify({
                 group: "foo",
                 title: "Important message",
                 text: "Hello user! You have register a event",
               });
+              this.initData();
             } else {
               this.$notify({
                 group: "foo",
@@ -109,30 +114,34 @@ export default {
             console.error(error.response);
           });
     },
-  },
-  created() {
-    let selectevent = this.$route.path;
-    // console.log(this.$route.name);
-    this.eventName = selectevent.replace(/\/event\//, "")
-    console.log(this.eventName );
-    return selectevent;
-  },
-  mounted: function () {
-
-    var param =qs.stringify({
+    initData () {
+    var param =JSON.stringify({
           eventName: this.eventName,
         })
-    console.log(param);
     this.$axios
-      .get("/api/query/Event?" + param)
-      .then((response) => {
-        console.log(response);
+      .post("/api/query/Event?", param,{
+            headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((response) => {
+        console.log("get",response);
         if (response.data.status == "success") {
           this.event = response.data.data;
           console.log(this.event);
-        } else window.alert("Failed");
+        } else this.$msg("Failed");
       });
   }, 
+  },
+  created() {
+    let selectevent = this.$route.path;
+    let name = selectevent.replace(/\/event\//, "")
+    // console.log(this.$route.name);
+    this.eventName = decodeURI(name)
+    console.log(this.eventName);
+  },
+    mounted() {
+        this.initData();
+    },
 };
 </script>
 <style lang="scss" scoped>

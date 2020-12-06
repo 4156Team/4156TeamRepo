@@ -2,7 +2,6 @@
   <el-carousel :interval="4000" type="card" height="300px">
     <el-carousel-item v-for="item in images" :key="item.id">
       <img :src="item.imgSrc" class="“carousel_image_type”" />
-      <!-- <h3 class="medium">{{ item }}</h3> -->
     </el-carousel-item>
   </el-carousel>
 </template>

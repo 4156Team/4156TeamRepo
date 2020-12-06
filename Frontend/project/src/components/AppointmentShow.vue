@@ -15,36 +15,15 @@
       </template>
     </el-table-column>
 
-    <el-table-column prop="eventName" label="eventName" width="200"></el-table-column>
-
+    <el-table-column prop="eventName" label="Event Name" width="200"></el-table-column>
+    <el-table-column prop="startTime" label="Satrt Time" width="200"></el-table-column>
+    <el-table-column prop="eventLocation" label="eventLocation" width="200"></el-table-column>
     <el-table-column
       prop="appointmentId"
       label="appointmentId"
       width="250"></el-table-column>
   </el-table>
 </template>
-  <!-- <el-table
-    ref="singleTable"
-    :data="tableData"
-    highlight-current-row
-    @current-change="getCurrentRow"
-    style="width: 100%"
-    size="medium">
-    <el-table-column
-      type="index"
-      label="Index"
-      width="100">
-    </el-table-column>
-   <el-table-column prop="eventName" label="eventName" width="120"></el-table-column>
-     <el-table-column
-      prop="appointmentId"
-      label="appointmentID"
-      width="150"
-    ></el-table-column>
-  </el-table> -->
-
-
-
 <script>
 export default {
   data() {
@@ -74,7 +53,7 @@ export default {
         if (jsonData.data.status == "success") {
           this.tableData = jsonData.data.data;
           console.log(this.tableData);
-        } else window.alert("Failed");
+        } else this.$msg("Failed");
       });
   },
   beforeDestroy() {

@@ -25,6 +25,11 @@
               Admin page
               </el-button>
             </h3>
+          <div>
+            <el-divider></el-divider>
+            <span>There little thoughts are the rustle of leaves; they have their whisper of joy in my mind. weather</span>
+            
+          </div>
           </div>
         </div>
       </div>
@@ -35,6 +40,7 @@
       </h1>
       <Carousel />
     </section>
+      <el-divider></el-divider>
     <EventsList />
   </div>
 </template>
@@ -51,6 +57,7 @@ export default {
   mounted() {
     this.isLogin = window.sessionStorage.getItem("isLogin");
     this.isAdimin = window.sessionStorage.getItem("isAdmin");
+
   },
   name: "home",
   components: {

@@ -6,23 +6,6 @@
     <el-form-item class="item" label="Event location">
       <el-input v-model="form.eventLocation" style="width: 60%;"></el-input>
     </el-form-item>
-    <!-- <el-form-item label="Start time">
-      <el-col :span="8">
-        <el-time-picker
-          placeholder="Pick a  start time"
-          v-model="form.startTime"
-          style="width: 70%;"
-        ></el-time-picker>
-      </el-col>
-      <el-col class="line" :span="2">-</el-col>
-      <el-col :span="8">
-        <el-time-picker
-          placeholder="Pick a close time"
-          v-model="form.endTime"
-          style="width: 70%;"
-        ></el-time-picker>
-      </el-col>
-    </el-form-item> -->
     <el-form-item label="Time">
       <el-col :span="5">
         <el-input v-model="form.startTime" style="width: 60%;" placeholder="Start 00:00:00"></el-input>

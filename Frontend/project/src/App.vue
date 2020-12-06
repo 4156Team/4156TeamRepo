@@ -5,11 +5,10 @@
       <Nav :name="$route.name" />
       <router-view v-if="isRouterAlive"/>
       <notifications group="foo" />
-      <notifications group="info" />
-      <el-alert />
     </div>
     <div v-else-if="($route.name === 'Login')">
       <!-- <AdminNav /> -->
+      <!-- <Nav :name="$route.name" /> -->
       <router-view />
       <notifications group="foo" />
     </div>

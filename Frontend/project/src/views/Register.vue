@@ -45,6 +45,16 @@
       </div>
       <div>
         <el-input
+          id="email"
+          type="email"
+          placeholder="Please enter your email"
+          style="width: 30%;"
+          v-model="email"
+          required
+        />
+      </div>
+      <div>
+        <el-input
           id="password"
           type="password"
           placeholder="Please enter your password"
@@ -63,7 +73,6 @@
           required
         />
       </div>
-
       <div>
         <el-button class="button" type="warning" @click="login" round>
           Login
@@ -87,6 +96,7 @@ export default {
       password_confirmation: "",
       gender: "",
       age: "",
+      email:"",
       type: "",
     };
   },
@@ -107,6 +117,7 @@ export default {
           password: this.password,
           gender: this.gender,
           age: this.age,
+          email:this.email
         });
         this.$axios
           .post("http://localhost:8080/user/register", param, {
@@ -122,18 +133,18 @@ export default {
               window.sessionStorage.setItem("type", this.type);
               this.$router.push("/login");
             } else {
-              window.alert(response.data.data.errMsg);
+              this.$msg(response.data.data.errMsg);
               console.log(response.data.data.errMsg);
             }
           })
           .catch((error) => {
-            alert("Wrong!");
+            this.$msg("Wrong!");
             console.error(error);
           });
       } else {
         this.password = "";
         this.passwordConfirm = "";
-        return alert("Passwords do not match");
+        this.$msg("Passwords do not match");
       }
     },
   },

@@ -4,40 +4,40 @@
       <h1 class="title">This is admin page </h1>
       <el-header height="100px">
       <span>
-        <AdminTimePicker
-        v-on:pickRange="pickRange"/>
+        <AdminDatePicker
+        v-on:pickDates="pickDates"/>
       </span>
       </el-header>
       <el-main>
       <div>
-        <PeopleMonth 
-        :monthRange="monthRange"/>
+        <PeopleDay 
+        :dateArray="dateArray"/>
       </div>
-      </el-main>
-    </el-container>
+      </el-main>    
+  </el-container>
   </el-container>
   <!-- </div> -->
 </template>
 
 <script>
-import PeopleMonth from "../components/AdminPage/PeopleMonth"
-import AdminTimePicker from "../components/AdminPage/AdminTimePicker"
+import PeopleDay from "../components/AdminPage/PeopleDay"
+import AdminDatePicker from "../components/AdminPage/AdminDatePicker"
 export default {
-  name:"Adminhome",
+  name:"Admininfo",
   components:{
-    PeopleMonth,
-    AdminTimePicker,
+    PeopleDay,
+    AdminDatePicker,
     },
     data() {
     return {
-      monthRange: "",
+      dateArray:""
     }
   },
   methods: {
-    pickRange(e) {
-      this.monthRange = e
-      console.log("range",e)
-    },
+    pickDates(e){
+      this.dateArray = e
+      console.log("rangedate",e)
+    }
 }
 };
 </script>
@@ -48,4 +48,3 @@ export default {
   font-size: 20pt;
 }
 </style>
-

@@ -14,9 +14,7 @@
         ></el-radio>
       </template>
     </el-table-column>
-
     <el-table-column prop="status" label="status" width="120"></el-table-column>
-
     <el-table-column
       prop="validDate"
       label="validDate"
@@ -64,11 +62,8 @@ export default {
         if (jsonData.data.status == "success") {
           this.tableData = jsonData.data.data;
           console.log(this.tableData);
-        } else window.alert("Failed");
+        } else this.$msg("Failed");
       });
-  },
-  beforeDestroy() {
-    window.console.log("before destroied");
   },
 };
 </script>

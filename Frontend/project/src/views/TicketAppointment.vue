@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :span="18"> </el-col>
       <el-col :span="4">
-        <el-button @click="deleteTicket" type="primary" plain>Delete</el-button>
+        <el-button @click="deleteTicket" type="primary" plain>Cancel</el-button>
       </el-col>
     </el-row>
     <TicketCheck v-if="redenComponet" v-on:TicketSelected="ticket_se" />
@@ -17,25 +17,14 @@ export default {
   inject:['reload'],
   data() {
     return {
-      // date_select: "",
-      // time_select: "",
       ticket_select: "",
       redenComponet: true,
     };
   },
   components: {
-    // DatePicker,
-    // TimePicker,
     TicketCheck,
   },
   methods: {
-    // date_se(e) {
-    //   this.date_select = e;
-    // },
-    // time_se(t) {
-    //   this.time_select = t;
-    //   console.log(this.time_select);
-    // },
     ticket_se(t) {
       this.ticket_select = t;
       console.log(this.ticket_select);
@@ -46,19 +35,21 @@ export default {
         var param = qs.stringify({
           ticketId: book.ticket_select.ticketId,
         });
-        this.$axios
+        this.$msgbox.confirm('This operation will permanently cancel the appointment, do you want to continue', 'Note', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Not sure',
+        type: 'warning'})
+        .then(() => {
+          this.$axios
           .post("/api/ticket/deleteTicket", param, {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          })
+            headers: {"Content-Type": "application/x-www-form-urlencoded",},})
           .then((response) => {
             console.log(response.data);
             if (response.data.status == "success") {
               this.$notify({
                 group: "foo",
                 title: "Important message",
-                text: "Hello user! You have dropped a ticket",
+                text: "Hello user! You have canceled a ticket",
               });
               this.reload()
             } else {
@@ -73,17 +64,9 @@ export default {
           .catch(function(error) {
             console.error(error.response);
           });
+      })
       }
     },
-    forceRerender() {
-      this.renderComponent = false;
-      this.$nextTick().then(() => {
-        this.renderComponent = true;
-      });
-    },
-  },
-  mounted() {
-    this.forceRerender();
   },
 };
 </script>

@@ -75,27 +75,6 @@ export default {
         } else {
           console.log("Not log in");
         }
-        // if (!book.$auth.isAuthenticated) {
-        //   book
-        //     .$axios({
-        //       url: "https://982517f7-7de9-4f21-b91b-fb184b613a4a.mock.pstmn.io",
-        //       method: "post",
-        //       data: param,
-        //     })
-        //     .then((ref) => {
-        //       if (ref.result) {
-        //         book.$message({
-        //           message: book.$t("zsgl_zhgl.xxbccg"),
-        //           type: "success",
-        //         });
-        //       } else {
-        //         book.$message.error(ref.msg);
-        //       }
-        //     });
-        // } else {
-        //   this.$message.error();
-        //   return false;
-        // }
       }
     },
   },

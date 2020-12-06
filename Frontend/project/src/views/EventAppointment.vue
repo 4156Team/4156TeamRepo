@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :span="18"> </el-col>
       <el-col :span="4">
-        <el-button @click="deleteAppointment" type="primary" plain>Delete</el-button>
+        <el-button @click="deleteAppointment" type="primary" plain>Cancel</el-button>
       </el-col>
     </el-row>
     <TicketCheck v-if="redenComponet" v-on:EventSelected="appointment_se" />
@@ -35,14 +35,19 @@ export default {
       this.appoint_select = t;
       console.log("test",this.appoint_select.appointmentid);
     },
+
     deleteAppointment() {
       var book = this;
       if (this.appoint_select != null) {
         var param = qs.stringify({
           appointmentId: book.appoint_select.appointmentId,
         });
-        console.log("pp",param)
-        this.$axios
+        this.$msgbox.confirm('This operation will permanently cancel the appointment, do you want to continue', 'Note', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Not sure',
+        type: 'warning'
+      }).then(() => {
+          this.$axios
           .post("/api/appointment/deleteAppointment", param)
           .then((response) => {
             console.log(response.data);
@@ -65,17 +70,9 @@ export default {
           .catch(function(error) {
             console.error(error.response);
           });
+      })
       }
     },
-    forceRerender() {
-      this.renderComponent = false;
-      this.$nextTick().then(() => {
-        this.renderComponent = true;
-      });
-    },
-  },
-  mounted() {
-    this.forceRerender();
   },
 };
 </script>

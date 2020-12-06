@@ -1,7 +1,6 @@
 <template>
   <div class="date">
   <el-row :gutter="10">
-    <!-- <el-col :span="10" :offset="0"> -->
     <el-date-picker
       v-model="date_value"
       format="yyyy/MM/dd"
@@ -20,11 +19,6 @@
 export default {
   data() {
     return {
-      // pickerOptions: {
-      //   disabledDate(time) {
-      //     return time.getTime() > Date.now();
-      //   },
-      // },
       date_value: "",
     };
   },
@@ -41,7 +35,7 @@ export default {
 </script>
 <style scoped>
 .date{
-  margin-left: 64px;
+  margin-left: 45px;
 }
 
 </style>
