@@ -233,6 +233,7 @@
                     <excludes>
                         <exclude>**/pojo/**</exclude>
                         <exclude>**/dao/**</exclude>
+                        <exclude>**/model/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

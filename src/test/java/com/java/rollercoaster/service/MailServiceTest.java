@@ -35,7 +35,7 @@ public class MailServiceTest {
     }
 
     @Test
-    public void failToSendMailTest() throws UnirestException {
+    public void failToSendTicketTest() throws UnirestException {
         assertEquals(ErrorEnum.SEND_MAIL_FAILED, mailService.sendTicketMessage("example@columbia.edu", "Announcement test"));
     }
 
