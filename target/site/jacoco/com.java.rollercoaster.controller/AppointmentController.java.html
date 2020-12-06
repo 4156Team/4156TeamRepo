@@ -92,13 +92,13 @@ import javax.servlet.http.HttpServletRequest;
 <span class="fc" id="L92">        UserModel userModel = (UserModel) httpServletRequest</span>
 <span class="fc" id="L93">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
         //if user not exist
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (userModel == null) {</span>
-<span class="nc" id="L96">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L96">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
         }
         //only manager or the same visitor can update the appointment
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (userModel.getRole() == Role.visitor &amp;&amp; !userModel.getUserId()</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">                .equals(appointment.getUserId()) ) {</span>
-<span class="nc" id="L101">            return CommonReturnType.autoCreate(ErrorEnum.NOT_SAME_VISITOR);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (userModel.getRole() == Role.visitor &amp;&amp; !userModel.getUserId()</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">                .equals(appointment.getUserId()) ) {</span>
+<span class="fc" id="L101">            return CommonReturnType.autoCreate(ErrorEnum.NOT_SAME_VISITOR);</span>
         }
 <span class="fc" id="L103">        return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));</span>
     }
@@ -113,14 +113,14 @@ import javax.servlet.http.HttpServletRequest;
     public CommonReturnType deleteAppointmentId(@RequestParam(name = &quot;appointmentId&quot;)
                                                             String appointmentId) {
 <span class="fc" id="L115">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (isLogin == null) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (isLogin == null) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
 
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
 <span class="fc" id="L119">        UserModel userModel = (UserModel) httpServletRequest</span>
 <span class="fc" id="L120">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
         //if user not exist
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if (userModel == null) {</span>
-<span class="nc" id="L123">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L123">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
         }
 
         //only manager or the same visitor can delete the appointment
@@ -136,22 +136,22 @@ import javax.servlet.http.HttpServletRequest;
     @ResponseBody
     public CommonReturnType getAppointments() {
 <span class="fc" id="L138">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if (isLogin == null) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">        if (isLogin == null) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
 
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
 
 <span class="fc" id="L143">        UserModel userModel = (UserModel) httpServletRequest</span>
 <span class="fc" id="L144">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
         //if user not exist
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (userModel == null) {</span>
-<span class="nc" id="L147">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L147">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
         }
         try {
 <span class="fc" id="L150">            List&lt;TimedAppointmentModel&gt; timedAppointmentModelListppointmentList = appointmentService</span>
 <span class="fc" id="L151">                    .getAppointmentsByUserId(userModel.getUserId());</span>
 <span class="fc" id="L152">            return CommonReturnType.create(timedAppointmentModelListppointmentList);</span>
-<span class="nc" id="L153">        } catch (BusinessException businessException) {</span>
-<span class="nc" id="L154">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
+<span class="fc" id="L153">        } catch (BusinessException businessException) {</span>
+<span class="fc" id="L154">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
         }
 
     }

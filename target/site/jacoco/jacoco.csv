@@ -24,7 +24,7 @@ rollercoaster,com.java.rollercoaster.controller,ManagerController,0,150,0,0,0,41
 rollercoaster,com.java.rollercoaster.controller,SecurityTestController,0,3,0,0,0,1,0,1,0,1
 rollercoaster,com.java.rollercoaster.controller,TicketController,33,177,13,13,11,40,13,5,0,5
 rollercoaster,com.java.rollercoaster.controller,QuickPassController,0,168,0,18,0,48,0,13,0,4
-rollercoaster,com.java.rollercoaster.controller,AppointmentController,30,197,9,19,6,51,9,10,0,5
+rollercoaster,com.java.rollercoaster.controller,AppointmentController,0,227,0,28,0,57,0,19,0,5
 rollercoaster,com.java.rollercoaster.controller,BaseController,0,3,0,0,0,1,0,1,0,1
 rollercoaster,com.java.rollercoaster.service.impl,CommentServiceImpl,0,68,0,6,0,20,0,8,0,5
 rollercoaster,com.java.rollercoaster.service.impl,TicketPriceServiceImpl,0,34,0,4,0,7,0,6,0,4

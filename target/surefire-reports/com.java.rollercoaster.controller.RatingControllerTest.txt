@@ -6,7 +6,7 @@ ratingTest2  Time elapsed: 0 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <OK> but was: <USER_NOT_LOGIN>
 	at com.java.rollercoaster.controller.RatingControllerTest.ratingTest2(RatingControllerTest.java:97)
 
-ratingTest3  Time elapsed: 0 s  <<< FAILURE!
+ratingTest3  Time elapsed: 0.005 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <OK> but was: <USER_NOT_EXIST>
 	at com.java.rollercoaster.controller.RatingControllerTest.ratingTest3(RatingControllerTest.java:118)
 
