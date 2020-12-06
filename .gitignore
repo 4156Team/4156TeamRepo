@@ -4,3 +4,4 @@
 .DS_Store
 /src/main/resources/static
 /target
+/Frontend/project/node_modules
