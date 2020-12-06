@@ -2,6 +2,7 @@ package com.java.rollercoaster.controller;
 
 import com.java.rollercoaster.dao.*;
 import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.AppointmentExample;
 import com.java.rollercoaster.pojo.Event;
@@ -97,6 +98,77 @@ public class AppointmentControllerTest {
     }
 
     @Test
+    public void addAppointmentIsNullLoginControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Event event = initEvent(10, "event test");
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+
+        CommonReturnType response = appointmentController.addAppointment(appointment);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
+    public void addAppointmentIsFalseLoginControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Event event = initEvent(10, "event test");
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+
+        CommonReturnType response = appointmentController.addAppointment(appointment);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
+    public void addAppointmentNullLoginUserControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        Event event = initEvent(10, "event test");
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+
+        CommonReturnType response = appointmentController.addAppointment(appointment);
+        assertEquals(ErrorEnum.USER_NOT_EXIST, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
+    public void addAppointmentErrorImplControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        Event event = initEvent(10, "event");
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+
+        CommonReturnType response = appointmentController.addAppointment(appointment);
+        assertEquals(ErrorEnum.NO_SUCH_EVENT, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+    }
+
+    @Test
     public void updateAppointmentControllerTest() throws BusinessException, ParseException {
         UserModel userModel = initUser();
         Event event = initEvent(10, "event test");
@@ -119,6 +191,60 @@ public class AppointmentControllerTest {
                 appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getEventName());
         assertEquals(userModel.getUserId(),
                 appointmentMapper.selectByPrimaryKey(appointment.getAppointmentId()).getUserId());
+
+        appointmentMapper.deleteByPrimaryKey(appointment.getAppointmentId());
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+        eventMapper.deleteByPrimaryKey(anotherEvent.getEventName());
+    }
+
+    @Test
+    public void updateAppointmentIsNullLoginControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Event event = initEvent(10, "event test");
+        Event anotherEvent = initEvent(5, "event another");
+
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
+        appointmentMapper.insertSelective(appointment);
+
+        appointment.setEventName("event another");
+
+        CommonReturnType response = appointmentController.updateAppointment(appointment);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+
+        appointmentMapper.deleteByPrimaryKey(appointment.getAppointmentId());
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+        eventMapper.deleteByPrimaryKey(anotherEvent.getEventName());
+    }
+
+    @Test
+    public void updateAppointmentFalseLoginControllerTest() throws BusinessException, ParseException {
+        UserModel userModel = initUser();
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Event event = initEvent(10, "event test");
+        Event anotherEvent = initEvent(5, "event another");
+
+        Appointment appointment = new Appointment();
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setAppointmentId("1");
+        appointment.setValidDate(new Date());
+        appointmentMapper.insertSelective(appointment);
+
+        appointment.setEventName("event another");
+
+        CommonReturnType response = appointmentController.updateAppointment(appointment);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
 
         appointmentMapper.deleteByPrimaryKey(appointment.getAppointmentId());
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
