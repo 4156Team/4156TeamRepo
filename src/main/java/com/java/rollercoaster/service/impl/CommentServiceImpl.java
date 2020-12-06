@@ -17,10 +17,9 @@ import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+
     @Autowired
     CommentMapper commentMapper;
-
-
 
     @Override
     public ErrorEnum addComment(UserModel userModel, CommentModel commentModel)  {
@@ -52,7 +51,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> showAllComments() {
-
         List<Comment> commentList = commentMapper.selectByExampleWithBLOBs(new CommentExample());
         return commentList;
     }
