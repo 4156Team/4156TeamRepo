@@ -7,9 +7,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public interface MailService {
     ErrorEnum sendAnnouncementMessage(String toEmail, String text)
-            throws UnirestException, BusinessException;
+            throws UnirestException;
 
     ErrorEnum sendTicketMessage(String toEmail, String text)
-            throws UnirestException, BusinessException;
+            throws UnirestException;
 
 }
