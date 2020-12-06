@@ -37,6 +37,11 @@ public class QuickPassServiceImpl implements QuickPassService {
         } else if (null == userAccountMapper.selectByPrimaryKey(quickPass.getUserId())) {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
+        QuickPassExample example = new QuickPassExample();
+        example.createCriteria().andUserIdEqualTo(quickPass.getUserId());
+        if (quickPassMapper.selectByExample(example).size() >= 2) {
+            throw new BusinessException(ErrorEnum.OVER_QUICKPASS_LIMIT);
+        }
         quickPassMapper.insert(quickPass);
         return quickPass.getQuickpassId();
     }

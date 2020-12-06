@@ -188,6 +188,40 @@ class QuickPassServiceTest {
     }
 
     @Test
+    public void addQCTest4() throws BusinessException {
+        removeUser1();
+        removeUser();
+        removeFacility();
+        initFacility();
+        Integer userId = initUser();
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        QuickPass q1 = new QuickPass();
+        q1.setQuickpassId("testQ1");
+        q1.setStartTime(new Date());
+        q1.setUserId(userId);
+        q1.setFacilityName("quickpassTestFacility");
+        quickPassMapper.insert(q1);
+        q1.setQuickpassId("testQ2");
+        quickPassMapper.insert(q1);
+        QuickPass quickPass = new QuickPass();
+        quickPass.setQuickpassId("qdid1");
+        quickPass.setFacilityName("quickpassTestFacility");
+        quickPass.setUserId(userId);
+        quickPass.setStartTime(new Date());
+        try {
+            quickPassService.addQuickPass(quickPass);
+        } catch (BusinessException err) {
+            assertEquals(err.getCommonError(), ErrorEnum.OVER_QUICKPASS_LIMIT);
+        }
+        assertEquals(1,1);
+        quickPassMapper.deleteByPrimaryKey("qdid1");
+        quickPassMapper.deleteByPrimaryKey("testQ1");
+        quickPassMapper.deleteByPrimaryKey("testQ2");
+        removeUser();
+        removeFacility();
+    }
+
+    @Test
     public void deleteQCTest0() throws BusinessException {
         removeUser1();
         removeUser();

@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS `appointment`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `appointment` (
   `appointment_id` char(10) NOT NULL,
-  `event_name` varchar(30) NOT NULL,
+  `event_name` varchar(300) NOT NULL,
   `user_id` int NOT NULL,
   `valid_date` date NOT NULL,
   PRIMARY KEY (`appointment_id`)

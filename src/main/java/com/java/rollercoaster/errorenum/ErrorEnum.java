@@ -52,7 +52,8 @@ public enum ErrorEnum implements CommonError {
 
     DUPLICATE_QUICKPASS(310, "Quickpass appointment already exists"),
     QUICKPASS_NOT_EXIST(311, "Quickpass appointment already exists"),
-    INVALID_QUICKPASS(312, "QuickPass is invalid.");
+    INVALID_QUICKPASS(312, "QuickPass is invalid."),
+    OVER_QUICKPASS_LIMIT(313, "The number of quickPass of this user is over the limit");
 
     private int errorCode;
     private String errorMessage;
