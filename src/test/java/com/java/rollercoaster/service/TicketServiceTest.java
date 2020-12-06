@@ -415,6 +415,58 @@ public class TicketServiceTest {
     }
 
     @Test
+    public void deleteManagerTicketTest() throws BusinessException {
+        System.out.println("deleteManagerTicketTest starts");
+
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        userService.register(userModel);
+
+        UserModel manager = new UserModel();
+        manager.setUserName("Jane");
+        manager.setRole(Role.manager);
+        manager.setPhoneNumber("9999999");
+        manager.setPassword("54321");
+        userService.register(manager);
+
+        UserAccountExample userAccountExample = new UserAccountExample();
+        UserAccountExample.Criteria userAccountExampleCriteria = userAccountExample.createCriteria();
+        userAccountExampleCriteria.andPhoneNumberEqualTo("212121");
+        List<UserAccount> userAccount = userAccountMapper.selectByExample(userAccountExample);
+
+        Ticket ticket = new Ticket();
+        ticket.setUserId(userAccount.get(0).getUserId());
+        ticket.setStatus(Status.unused);
+        ticket.setPrice((float) 124);
+        ticket.setTicketId("1");
+        ticket.setValidDate(new Date());
+
+        ticketMapper.insertSelective(ticket);
+
+        Ticket ticketGetBack = ticketMapper.selectByPrimaryKey("1");
+        assertEquals(Status.unused, ticketGetBack.getStatus());
+        assertEquals((float) 124, ticketGetBack.getPrice());
+
+        ErrorEnum deleteTicketReturn = ticketService.deleteTicket("1", manager);
+        System.out.println(deleteTicketReturn);
+
+        ticketGetBack = ticketMapper.selectByPrimaryKey("1");
+        assertNull(ticketGetBack);
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        userAccountMapper.deleteByPrimaryKey(manager.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(manager.getUserId());
+
+        System.out.println("deleteManagerTicketTest ends");
+    }
+
+    @Test
     public void deleteNullIdTicketTest() throws BusinessException {
         System.out.println("deleteNullIdTicketTest starts");
 

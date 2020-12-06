@@ -584,6 +584,50 @@ public class AppointmentServiceTest {
     }
 
     @Test
+    public void deleteManagerAppointmentTest() throws BusinessException {
+        System.out.println("deleteManagerAppointmentTest starts");
+        UserModel userModel = new UserModel();
+        userModel.setUserName("Alice");
+        userModel.setUserGender(UserGender.female);
+        userModel.setRole(Role.visitor);
+        userModel.setPhoneNumber("212121");
+        userModel.setPassword("12345");
+        ErrorEnum registerReturn =  userService.register(userModel);
+        System.out.println(registerReturn);
+
+        UserModel manager = new UserModel();
+        manager.setUserName("Jane");
+        manager.setRole(Role.manager);
+        manager.setPhoneNumber("9999999");
+        manager.setPassword("54321");
+        registerReturn =  userService.register(manager);
+        System.out.println(registerReturn);
+
+        Event event = initEvent("event test", 10);
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentId("1");
+        appointment.setUserId(userModel.getUserId());
+        appointment.setEventName("event test");
+        appointment.setValidDate(new Date());
+        appointmentMapper.insertSelective(appointment);
+        System.out.println("userId from userModel: " + userModel.getUserId());
+        System.out.println("userId from appointment: " + appointment.getUserId());
+
+
+
+        ErrorEnum deleteAppointmentReturn = appointmentService.deleteAppointment("1",manager);
+        assertEquals(100, deleteAppointmentReturn.getErrCode());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        userAccountMapper.deleteByPrimaryKey(manager.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(manager.getUserId());
+        appointmentMapper.deleteByPrimaryKey("1");
+        eventMapper.deleteByPrimaryKey(event.getEventName());
+        System.out.println("deleteManagerAppointmentTest ends");
+    }
+
+    @Test
     public void appointmentsRecordsTest() throws BusinessException, ParseException {
         System.out.println("appointmentsRecordsTest starts");
 

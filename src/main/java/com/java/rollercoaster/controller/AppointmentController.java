@@ -43,9 +43,9 @@ public class AppointmentController {
         System.out.println(appointment.toString());
         Boolean isLogin = (Boolean) httpServletRequest
                 .getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
-            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
-        }
+        if (isLogin == null || !isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+
+        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
@@ -86,9 +86,9 @@ public class AppointmentController {
     public CommonReturnType updateAppointment(@RequestBody Appointment appointment) {
         Boolean isLogin = (Boolean) httpServletRequest
                 .getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
-            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
-        }
+        if (isLogin == null || !isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+
+        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
@@ -113,9 +113,9 @@ public class AppointmentController {
     public CommonReturnType deleteAppointmentId(@RequestParam(name = "appointmentId")
                                                             String appointmentId) {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
-            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
-        }
+        if (isLogin == null || !isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+
+        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
@@ -136,9 +136,10 @@ public class AppointmentController {
     @ResponseBody
     public CommonReturnType getAppointments() {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
-            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
-        }
+        if (isLogin == null) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+
+        if (!isLogin) return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
