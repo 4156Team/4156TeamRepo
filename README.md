@@ -12,7 +12,7 @@ npm install
 
 ### 3. Run our frontend serve on port 3000
 ```
-cd frontend/project
+cd Frontend/project
 npm run serve -- --port 3000
 ```
 ### 4. Run our backend serve on port 8080
