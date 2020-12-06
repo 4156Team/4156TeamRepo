@@ -107,7 +107,7 @@ class WeatherControllerTest {
         httpServletRequest
                 .getSession().setAttribute("LOGIN_USER", userModel);
         long millis = System.currentTimeMillis();
-        long before = millis - 86400000L;
+        long before = millis - 2 * 86400000L;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timeString = sdf.format(new Date(before));
         CommonReturnType response = weatherController.queryWeather(timeString);

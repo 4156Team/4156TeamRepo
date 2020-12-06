@@ -64,7 +64,7 @@
         </p>
         <div class="event-images">
           <img
-            src="https://www.kiro7.com/resizer/nHPv7HlV0bPIDFRNOUq3dEg670c=/1200x675/cloudfront-us-east-1.images.arcpublishing.com/cmg/H3KH4Z5EKJBNHMMLYCRWZZ5PXU.jpg"
+            :src="event.eventImage"
             :alt="`${event.eventName}`"
           />
         </div>

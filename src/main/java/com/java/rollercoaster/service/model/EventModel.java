@@ -15,6 +15,7 @@ public class EventModel {
     private Date endTime;
     private String eventLocation;
     private Integer eventRemainPositions;
+    private String eventImage;
 
     public String getEventName() {
         return eventName;
@@ -90,5 +91,13 @@ public class EventModel {
 
     public void setEventRemainPositions(final Integer newEventRemainPositions) {
         this.eventRemainPositions = newEventRemainPositions;
+    }
+
+    public String getEventImage() {
+        return eventImage;
+    }
+
+    public void setEventImage(String eventImage) {
+        this.eventImage = eventImage;
     }
 }

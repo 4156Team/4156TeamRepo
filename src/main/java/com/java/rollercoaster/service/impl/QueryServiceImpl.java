@@ -42,6 +42,7 @@ public class QueryServiceImpl implements QueryService {
         event.setEndTime(eventFromDb.getEndTime());
         event.setEventLocation(eventFromDb.getEventLocation());
         event.setEventRemainPositions(eventFromDb.getEventRemainPositions());
+        event.setEventImage(eventFromDb.getEventImage());
         return event;
     }
 
