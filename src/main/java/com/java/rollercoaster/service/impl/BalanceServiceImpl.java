@@ -35,7 +35,7 @@ public class BalanceServiceImpl implements BalanceService {
         }
         Balance balance = balanceMapper.selectByPrimaryKey(userId);
         balance.setBalance(balance.getBalance() + amount);
-        balanceMapper.updateByPrimaryKey(balance);
+        balanceMapper.updateByPrimaryKeySelective(balance);
         return ErrorEnum.OK;
     }
 
@@ -61,7 +61,7 @@ public class BalanceServiceImpl implements BalanceService {
             return ErrorEnum.BALANCE_NOT_ENOUGH;
         }
         balance.setBalance(balance.getBalance() - amount);
-        balanceMapper.updateByPrimaryKey(balance);
+        balanceMapper.updateByPrimaryKeySelective(balance);
         return ErrorEnum.OK;
     }
 
@@ -84,7 +84,7 @@ public class BalanceServiceImpl implements BalanceService {
         }
         Balance balance = balanceMapper.selectByPrimaryKey(userId);
         balance.setQuickpass(balance.getQuickpass() + amount);
-        balanceMapper.updateByPrimaryKey(balance);
+        balanceMapper.updateByPrimaryKeySelective(balance);
         return ErrorEnum.OK;
     }
 
@@ -109,7 +109,7 @@ public class BalanceServiceImpl implements BalanceService {
             return ErrorEnum.BALANCE_NOT_ENOUGH;
         }
         balance.setQuickpass(balance.getQuickpass() - amount);
-        balanceMapper.updateByPrimaryKey(balance);
+        balanceMapper.updateByPrimaryKeySelective(balance);
         return ErrorEnum.OK;
     }
 

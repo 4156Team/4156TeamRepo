@@ -398,7 +398,7 @@ public class ManagerControllerTest {
         type.setTicketType(TicketType.adult);
         type.setTicketPrice(50f);
         if (null != typeMapper.selectByPrimaryKey(type.getTicketType())){
-            typeMapper.updateByPrimaryKey(type);
+            typeMapper.updateByPrimaryKeySelective(type);
         } else {
             typeMapper.insert(type);
         }

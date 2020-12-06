@@ -28,7 +28,7 @@ public class TicketPriceServiceImpl implements TicketPriceService {
         if (null == type.getTicketPrice() || null == type.getTicketType()) {
             return ErrorEnum.EMPTY_TYPE_ATTRIBUTE;
         }
-        typeMapper.updateByPrimaryKey(type);
+        typeMapper.updateByPrimaryKeySelective(type);
         return ErrorEnum.OK;
     }
 
