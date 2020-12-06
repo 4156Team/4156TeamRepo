@@ -107,13 +107,16 @@
             headers: {
             "Content-Type": "application/json",
             },}).then((response) => {
-            console.log(response);
-              this.$notify({
-              group: "foo",
-              title: "Important message",
-              text: "Hello user! You success to add a quick pass!",
-            });
-        }).catch((error) =>{
+             if (response.data.status == "success") {
+                    this.$notify({
+                        group: "foo",
+                        title: "Important message",
+                        text: "Hello user! You success to add a quick pass!",
+                    });
+                    }else {
+                    this.$msg(response.data.data);
+                    }
+                }).catch((error) =>{
             console.log(error)
         })
         },       
