@@ -54,11 +54,8 @@ class WeatherControllerTest {
                 .getSession().setAttribute("LOGIN_USER", userModel);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timeString = sdf.format(new Date());
-        try {
-            weatherController.queryWeather(timeString);
-        } catch (BusinessException businessException) {
-            assertEquals(20003, businessException.getErrCode());
-        }
+        CommonReturnType result = weatherController.queryWeather(timeString);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, result.getData());
 
     }
 
@@ -72,11 +69,8 @@ class WeatherControllerTest {
                 .getSession().setAttribute("LOGIN_USER", userModel);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timeString = sdf.format(new Date());
-        try {
-            weatherController.queryWeather(timeString);
-        } catch (BusinessException businessException) {
-            assertEquals(20003, businessException.getErrCode());
-        }
+        CommonReturnType result = weatherController.queryWeather(timeString);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, result.getData());
 
     }
 
@@ -90,11 +84,8 @@ class WeatherControllerTest {
                 .getSession().setAttribute("LOGIN_USER", null);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String timeString = sdf.format(new Date());
-        try {
-            weatherController.queryWeather(timeString);
-        } catch (BusinessException businessException) {
-            assertEquals(20001, businessException.getErrCode());
-        }
+        CommonReturnType result = weatherController.queryWeather(timeString);
+        assertEquals(ErrorEnum.USER_NOT_EXIST, result.getData());
 
     }
 

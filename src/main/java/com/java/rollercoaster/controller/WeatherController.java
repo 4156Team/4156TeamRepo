@@ -49,10 +49,10 @@ public class WeatherController {
         Boolean isLogin = (Boolean) httpServletRequest
                 .getSession().getAttribute("IS_LOGIN");
         if (isLogin == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         if (!isLogin) {
-            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
 
 
@@ -60,7 +60,7 @@ public class WeatherController {
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
         if (userModel == null) {
-            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);
         }
 
         try {
