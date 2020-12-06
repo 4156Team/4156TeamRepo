@@ -19,18 +19,25 @@ public class MailServiceTest {
     MailService mailService;
 
     @Test
-    public void sendAnnouncementTest() throws BusinessException, UnirestException {
-//       String message = (String) mailService.sendAnnouncementMessage("yl4225@columbia.edu", "Announcement test").getObject().get("message");
-//        assertEquals("Queued. Thank you.", message);
-        assertEquals(ErrorEnum.OK, mailService.sendAnnouncementMessage("Yumiao_Li@outlook.com", "Announcement test"));
+    public void sendAnnouncementSuccessfullyTest() throws UnirestException {
+        assertEquals(ErrorEnum.OK, mailService.sendAnnouncementMessage("yl4225@columbia.edu", "Announcement test"));
+
+    }
+    @Test
+    public void failToSendAnnouncementTest() throws UnirestException {
+        assertEquals(ErrorEnum.SEND_MAIL_FAILED, mailService.sendAnnouncementMessage("example@columbia.edu", "Announcement test"));
+    }
+
+    @Test
+    public void sendTicketSuccessfullyTest() throws UnirestException {
+        assertEquals(ErrorEnum.OK, mailService.sendTicketMessage("yl4225@columbia.edu", "Ticket test"));
 
     }
 
-//    @Test
-//    public void sendTicketTest() throws UnirestException, BusinessException {
-//        assertEquals(ErrorEnum.OK, mailService.sendTicketMessage("Yumiao_Li@outlook.com", "Ticket test"));
-//
-//    }
+    @Test
+    public void failToSendMailTest() throws UnirestException {
+        assertEquals(ErrorEnum.SEND_MAIL_FAILED, mailService.sendTicketMessage("example@columbia.edu", "Announcement test"));
+    }
 
 
 
