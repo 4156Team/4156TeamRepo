@@ -5,6 +5,7 @@ import com.java.rollercoaster.dao.TicketMapper;
 import com.java.rollercoaster.dao.UserAccountMapper;
 import com.java.rollercoaster.dao.UserPasswordMapper;
 import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.pojo.Appointment;
 import com.java.rollercoaster.pojo.Balance;
 import com.java.rollercoaster.pojo.Event;
@@ -99,6 +100,64 @@ public class TicketControllerTest {
     }
 
     @Test
+    public void addTicketNullLoginControllerTest() throws BusinessException, ParseException, UnirestException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Ticket ticket = initTicket(userModel);
+
+        CommonReturnType response = ticketController.addTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void addTicketFalseLoginControllerTest() throws BusinessException, ParseException, UnirestException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Ticket ticket = initTicket(userModel);
+
+        CommonReturnType response = ticketController.addTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void addTicketNullUserControllerTest() throws BusinessException, ParseException, UnirestException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        Ticket ticket = initTicket(userModel);
+
+        CommonReturnType response = ticketController.addTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_EXIST, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void addErrorTicketControllerTest() throws BusinessException, ParseException, UnirestException {
+        UserModel userModel = initUser(Role.visitor);
+
+        Ticket ticket = initTicket(userModel);
+        long millis = System.currentTimeMillis();
+        long before = millis - 86400000L;
+        ticket.setValidDate(new Date(before));
+        CommonReturnType response = ticketController.addTicket(ticket);
+        assertEquals(ErrorEnum.DATE_PASSED, response.getData());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
     public void updateTicket() throws BusinessException {
         UserModel userModel = initUser(Role.manager);
         Ticket ticket = initTicket(userModel);
@@ -113,6 +172,78 @@ public class TicketControllerTest {
         assertEquals(userModel.getUserId(), ticketGetBack.getUserId());
         assertEquals(Status.unused, ticketGetBack.getStatus());
         assertEquals((float) 100, ticketGetBack.getPrice());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void updateVisitorTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        ticket.setPrice((float) 100);
+        CommonReturnType response = ticketController.updateTicket(ticket);
+        assertEquals(ErrorEnum.NO_AUTHORIZATION, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+
+    @Test
+    public void updateFalseLoginTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.manager);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        ticket.setPrice((float) 100);
+        CommonReturnType response = ticketController.updateTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void updateNullLoginTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.manager);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        ticket.setPrice((float) 100);
+        CommonReturnType response = ticketController.updateTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void updateNullUserTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.manager);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        ticket.setPrice((float) 100);
+        CommonReturnType response = ticketController.updateTicket(ticket);
+        assertEquals(ErrorEnum.USER_NOT_EXIST, response.getData());
 
         ticketMapper.deleteByPrimaryKey("1");
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
@@ -139,6 +270,58 @@ public class TicketControllerTest {
     }
 
     @Test
+    public void deleteNullLoginTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.deleteTicket("1");
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+
+    @Test
+    public void deleteFalseLoginTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.deleteTicket("1");
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void deleteNullUserTicket() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.deleteTicket("1");
+        assertEquals(ErrorEnum.USER_NOT_EXIST, response.getData());
+
+        ticketMapper.deleteByPrimaryKey("1");
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
     public void getTickets() throws BusinessException {
         UserModel userModel = initUser(Role.visitor);
         Ticket ticket = initTicket(userModel);
@@ -152,6 +335,60 @@ public class TicketControllerTest {
         assertEquals((float) 124, ticketGetBack.getPrice());
         assertEquals("1", ticketGetBack.getTicketId());
         assertEquals(userModel.getUserId(), ticketGetBack.getUserId());
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void getNullLoginTickets() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.getTickets();
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void getFalseLoginTickets() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.getTickets();
+        assertEquals(ErrorEnum.USER_NOT_LOGIN, response.getData());
+
+
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        ticketMapper.deleteByPrimaryKey("1");
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
+    }
+
+    @Test
+    public void getNullUserTickets() throws BusinessException {
+        UserModel userModel = initUser(Role.visitor);
+        httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
+        Ticket ticket = initTicket(userModel);
+        ticket.setTicketId("1");
+        ticketMapper.insertSelective(ticket);
+
+        CommonReturnType response = ticketController.getTickets();
+        assertEquals(ErrorEnum.USER_NOT_EXIST, response.getData());
+
 
         userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
         userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());

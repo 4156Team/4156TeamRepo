@@ -54,7 +54,10 @@ public class TicketController {
             throws ParseException, UnirestException {
 
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null) {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
@@ -103,7 +106,10 @@ public class TicketController {
         System.out.println(ticket.toString());
         //only manager can update the tickets status
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null) {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
@@ -129,7 +135,10 @@ public class TicketController {
     public CommonReturnType deleteTicket(@RequestParam(name = "ticketId") String ticketId) {
         System.out.println(ticketId);
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null) {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest
@@ -149,7 +158,10 @@ public class TicketController {
     @ResponseBody
     public CommonReturnType getTickets() {
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
-        if (isLogin == null || !isLogin)  {
+        if (isLogin == null) {
+            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
+        }
+        if (!isLogin) {
             return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);
         }
         UserModel userModel = (UserModel) httpServletRequest

@@ -121,8 +121,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<TimedAppointmentModel> getAppointmentsByUserId(Integer userId) throws BusinessException {
-        if (userAccountMapper.selectByPrimaryKey(userId) == null) throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+    public List<TimedAppointmentModel> getAppointmentsByUserId(Integer userId)
+            throws BusinessException {
+        if (userAccountMapper.selectByPrimaryKey(userId) == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
+        }
         AppointmentExample appointmentExample = new AppointmentExample();
         AppointmentExample.Criteria criteria = appointmentExample.createCriteria();
         criteria.andUserIdEqualTo(userId);

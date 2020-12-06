@@ -48,9 +48,14 @@ public class WeatherController {
         //check login
         Boolean isLogin = (Boolean) httpServletRequest
                 .getSession().getAttribute("IS_LOGIN");
+        if (isLogin == null) {
+            throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
+        }
         if (!isLogin) {
             throw new BusinessException(ErrorEnum.USER_NOT_LOGIN);
         }
+
+
         UserModel userModel = (UserModel) httpServletRequest
                 .getSession().getAttribute("LOGIN_USER");
         //if user not exist
