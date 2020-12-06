@@ -9,7 +9,7 @@ public interface MailService {
     ErrorEnum sendAnnouncementMessage(String toEmail, String text)
             throws UnirestException, BusinessException;
 
-//    ErrorEnum sendTicketMessage(String toEmail, String text)
-//            throws UnirestException, BusinessException;
+    ErrorEnum sendTicketMessage(String toEmail, String text)
+            throws UnirestException, BusinessException;
 
 }
