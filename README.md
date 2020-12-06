@@ -16,3 +16,8 @@ cd Frontend/project
 npm run serve -- --port 3000
 ```
 ### 4. Run our backend serve on port 8080
+
+### 5. Manager view
+To log in as a manager, you first need to create an account, then go to Mysql workbench change the role into manager.
+Login to our service with modified account, you will have the access to the admin page.
+
