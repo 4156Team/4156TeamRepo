@@ -57,7 +57,7 @@ public class TicketControllerTest {
         userModel.setRole(role);
         userModel.setPhoneNumber("137139");
         userModel.setPassword("12345");
-        userModel.setEmail("yy2979@columbia.edu");
+        userModel.setEmail("yl4225@columbia.edu");
         userService.register(userModel);
         Balance balance = new Balance();
         balance.setBalance(2000f);
@@ -76,6 +76,33 @@ public class TicketControllerTest {
         ticket.setPrice((float) 124);
         ticket.setValidDate(new Date());
         return ticket;
+    }
+
+    @Test
+    public void addTicketFailToSendMailTest() throws BusinessException, ParseException, UnirestException {
+        UserModel userModel = initUser(Role.visitor);
+        userModel.setEmail("example@columbia.edu");
+        Ticket ticket = initTicket(userModel);
+        CommonReturnType response = null;
+        try {
+             response = ticketController.addTicket(ticket);
+        } catch (BusinessException businessException) {
+            assertEquals(ErrorEnum.SEND_MAIL_FAILED, businessException.getCommonError());
+        }
+
+
+        String ticketId = (String) response.getData();
+
+        Ticket ticketGetBack = ticketMapper.selectByPrimaryKey(ticketId);
+        assertEquals(userModel.getUserId(), ticketGetBack.getUserId());
+        assertEquals(Status.unused, ticketGetBack.getStatus());
+        assertEquals((float) 124, ticketGetBack.getPrice());
+
+
+        ticketMapper.deleteByPrimaryKey(ticketId);
+        userAccountMapper.deleteByPrimaryKey(userModel.getUserId());
+        userPasswordMapper.deleteByPrimaryKey(userModel.getUserId());
+        balanceMapper.deleteByPrimaryKey(userModel.getUserId());
     }
 
     @Test

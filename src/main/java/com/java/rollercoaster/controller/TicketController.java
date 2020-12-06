@@ -51,7 +51,7 @@ public class TicketController {
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket)
 
-            throws ParseException, UnirestException {
+            throws ParseException, UnirestException,BusinessException  {
 
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null) {
@@ -83,11 +83,14 @@ public class TicketController {
         try {
             CommonReturnType result = CommonReturnType.create(ticketService
                     .addTicket(ticket, userModel.getUserId()));
-//            mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
-//                                            + userModel.getUserName()
-//                                            + "! Here is your ticket! And your ticket number is "
-//                                            + ticket.getTicketId()
-//                                            + ". Welcome to Roller Coaster Amusement park!");
+            ErrorEnum errorEnum = mailService.sendTicketMessage(userModel.getEmail(), "Hi, "
+                                            + userModel.getUserName()
+                                            + "! Here is your ticket! And your ticket number is "
+                                            + ticket.getTicketId()
+                                            + ". Welcome to Roller Coaster Amusement park!");
+            if (errorEnum.getErrorCode() == ErrorEnum.SEND_MAIL_FAILED.getErrorCode()) {
+                throw new BusinessException(ErrorEnum.SEND_MAIL_FAILED);
+            }
             return result;
         } catch (BusinessException businessException) {
             return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());
