@@ -38,6 +38,7 @@ public class MailServiceImpl implements MailService {
 
     }
 
+
     @Override
     public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
         HttpResponse<JsonNode> request = Unirest.post(url)
