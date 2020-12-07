@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorEnum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.errorenum</a> &gt; <span class="el_source">ErrorEnum.java</span></div><h1>ErrorEnum.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.errorenum;
+
+<span class="fc" id="L3">public enum ErrorEnum implements CommonError {</span>
+<span class="fc" id="L4">    OK(100, &quot;&quot;),</span>
+<span class="fc" id="L5">    PARAMETER_VALIDATION_ERROR(10001, &quot;Invalid parameter.&quot;),</span>
+<span class="fc" id="L6">    UNKNOWN_ERROR(10002, &quot;unknown error&quot;),</span>
+<span class="fc" id="L7">    USER_NOT_EXIST(20001, &quot;User not exist&quot;),</span>
+<span class="fc" id="L8">    USER_NOT_LOGIN(20003, &quot;User Not Login&quot;),</span>
+<span class="fc" id="L9">    USER_LOGIN_FAIL(20002, &quot;User or password is incorrect&quot;),</span>
+<span class="fc" id="L10">    NO_AUTHORIZATION(20004, &quot;No access authorization&quot;),</span>
+<span class="fc" id="L11">    SEND_MAIL_FAILED(20005, &quot;Mail sending failed&quot;),</span>
+<span class="fc" id="L12">    COMMENT_POST_FAILED(20006, &quot;Comment post failed&quot;),</span>
+<span class="fc" id="L13">    UNAUTHORIZED_DELETION(20007, &quot;You cannot delete other's comments&quot;),</span>
+<span class="fc" id="L14">    INVALID_COMMENT(20008, &quot;Invalid Comment&quot;),</span>
+
+<span class="fc" id="L16">    INVALID_TICKET(201, &quot;The ticket id is invalid in that day.&quot;),</span>
+<span class="fc" id="L17">    WRONG_TICKET_ID(202, &quot;The ticket id is wrong.&quot;),</span>
+<span class="fc" id="L18">    USED_TICKET(203, &quot;The ticket has been used.&quot;),</span>
+<span class="fc" id="L19">    WRONG_APPOINTMENT_ID(204, &quot;The appointment id is wrong.&quot;),</span>
+<span class="fc" id="L20">    INVALID_APPOINTMENT(205, &quot;The appointment id is invalid in that day.&quot;),</span>
+
+<span class="fc" id="L22">    EMPTY_EVENT_NAME(221, &quot;The event name is empty.&quot;),</span>
+<span class="fc" id="L23">    DUPLICATE_EVENT_NAME(222, &quot;The event name is duplicate.&quot;),</span>
+<span class="fc" id="L24">    NO_SUCH_EVENT(223, &quot;The event does not exist&quot;),</span>
+<span class="fc" id="L25">    EMPTY_FACILITY_NAME(224, &quot;The facility name is empty.&quot;),</span>
+<span class="fc" id="L26">    DUPLICATE_FACILITY_NAME(225, &quot;The facility name is duplicate.&quot;),</span>
+<span class="fc" id="L27">    NO_SUCH_FACILITY(226, &quot;The facility does not exist&quot;),</span>
+
+<span class="fc" id="L29">    EMPTY_TICKET(241, &quot;Try to operate empty ticket.&quot;),</span>
+<span class="fc" id="L30">    DUPLICATE_TICKET(242, &quot;Ticket already existed.&quot;),</span>
+<span class="fc" id="L31">    DATE_PASSED(243, &quot;The date chosen has already passed.&quot;),</span>
+<span class="fc" id="L32">    NO_SUCH_TICKET(244, &quot;Ticket does not exist.&quot;),</span>
+
+<span class="fc" id="L34">    EMPTY_APPOINTMENT(251, &quot;Try to operate empty appointment.&quot;),</span>
+<span class="fc" id="L35">    DUPLICATE_APPOINTMENT(252, &quot;The appointment is duplicate.&quot;),</span>
+<span class="fc" id="L36">    EVENT_NO_POSITION(253, &quot;This event has no remaining position.&quot;),</span>
+<span class="fc" id="L37">    NO_SUCH_APPOINTMENT(254, &quot;The appointment does not exist.&quot;),</span>
+<span class="fc" id="L38">    NOT_SAME_VISITOR(255, &quot;Try to modify other visitor's information.&quot;),</span>
+<span class="fc" id="L39">    WRONG_DATE(256, &quot;Cannot get the weather of that date.&quot;),</span>
+
+<span class="fc" id="L41">    EMPTY_DATE_ATTRIBUTE(261, &quot;The day or month or year parameter is missing.&quot;),</span>
+<span class="fc" id="L42">    TIME_OVER_CURRENT_DAY(262, &quot;The date is ahead of current date.&quot;),</span>
+<span class="fc" id="L43">    TIME_OVER_CURRENT_MONTH(263, &quot;The date is ahead of current Month.&quot;),</span>
+<span class="fc" id="L44">    TIME_OVER_CURRENT_YEAR(264, &quot;The date is ahead of current Year.&quot;),</span>
+<span class="fc" id="L45">    EMPTY_TYPE_ATTRIBUTE(271, &quot;The ticket type or ticket price is missing.&quot;),</span>
+<span class="fc" id="L46">    EMPTY_ANNOUNCEMENT_ATTRIBUTE(281, &quot;The text or date is missing.&quot;),</span>
+<span class="fc" id="L47">    EMPTY_ANNOUNCEMENT_ID(282, &quot;The announcement id is empty.&quot;),</span>
+<span class="fc" id="L48">    WRONG_ANNOUNCEMENT_ID(283, &quot;The announcement id is wrong.&quot;),</span>
+
+<span class="fc" id="L50">    INVALID_AMOUNT(300, &quot;Invalid operation amount&quot;),</span>
+<span class="fc" id="L51">    BALANCE_NOT_ENOUGH(301, &quot;Balance not enough for operation&quot;),</span>
+
+<span class="fc" id="L53">    DUPLICATE_QUICKPASS(310, &quot;Quickpass appointment already exists&quot;),</span>
+<span class="fc" id="L54">    QUICKPASS_NOT_EXIST(311, &quot;Quickpass appointment already exists&quot;),</span>
+<span class="fc" id="L55">    INVALID_QUICKPASS(312, &quot;QuickPass is invalid.&quot;),</span>
+<span class="fc" id="L56">    OVER_QUICKPASS_LIMIT(313, &quot;The number of quickPass of this user is over the limit&quot;);</span>
+
+    private int errorCode;
+    private String errorMessage;
+
+    public int getErrorCode() {
+<span class="fc" id="L62">        return this.errorCode;</span>
+    }
+
+    private void setErrorCode(int errorCode) {
+<span class="nc" id="L66">        this.errorCode = errorCode;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getErrorMessage() {
+<span class="nc" id="L70">        return errorMessage;</span>
+    }
+
+    private void setErrorMessage(String errorMessage) {
+<span class="nc" id="L74">        this.errorMessage = errorMessage;</span>
+<span class="nc" id="L75">    }</span>
+
+<span class="fc" id="L77">    ErrorEnum(int code, String message) {</span>
+<span class="fc" id="L78">        this.errorCode = code;</span>
+<span class="fc" id="L79">        this.errorMessage = message;</span>
+<span class="fc" id="L80">    }</span>
+
+    @Override
+    public int getErrCode() {
+<span class="fc" id="L84">        return this.errorCode;</span>
+    }
+
+    @Override
+    public String getErrMsg() {
+<span class="fc" id="L89">        return this.errorMessage;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

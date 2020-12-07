@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppointmentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.controller</a> &gt; <span class="el_source">AppointmentController.java</span></div><h1>AppointmentController.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.controller;
+
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.pojo.Appointment;
+import com.java.rollercoaster.response.CommonReturnType;
+import com.java.rollercoaster.service.AppointmentService;
+import com.java.rollercoaster.service.model.TimedAppointmentModel;
+import com.java.rollercoaster.service.model.UserModel;
+import com.java.rollercoaster.service.model.enumeration.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+
+
+@Controller
+@RequestMapping(&quot;/appointment&quot;)
+@CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
+<span class="fc" id="L28">public class AppointmentController {</span>
+    @Autowired
+    AppointmentService appointmentService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+    /**
+     * End point to add a new appointment given appointment object.
+     * @param appointment an appointment object
+     * @return CommonReturnType
+     * @throws BusinessException a BusinessException object
+     */
+    @PostMapping(&quot;/addAppointment&quot;)
+    @ResponseBody
+    public CommonReturnType addAppointment(@RequestBody Appointment appointment) {
+<span class="fc" id="L43">        System.out.println(appointment.toString());</span>
+<span class="fc" id="L44">        Boolean isLogin = (Boolean) httpServletRequest</span>
+<span class="fc" id="L45">                .getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (isLogin == null) {</span>
+<span class="fc" id="L47">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L51">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L53">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L54">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L57">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L59">        appointment.setUserId(userModel.getUserId());</span>
+<span class="fc" id="L60">        long millis = System.currentTimeMillis();</span>
+        //加上四位随机数
+<span class="fc" id="L62">        Random random = new Random();</span>
+<span class="fc" id="L63">        int end4 = random.nextInt(9999);</span>
+        //如果不足两位前面补0
+<span class="fc" id="L65">        String timestamp = String.valueOf(millis);</span>
+<span class="fc" id="L66">        String id = timestamp.substring(timestamp.length() - 6)</span>
+<span class="fc" id="L67">                + String.format(&quot;%04d&quot;, end4);</span>
+<span class="fc" id="L68">        System.out.println(id);</span>
+
+
+<span class="fc" id="L71">        appointment.setAppointmentId(id);</span>
+        try {
+<span class="fc" id="L73">            CommonReturnType result =</span>
+<span class="fc" id="L74">                    CommonReturnType.create(appointmentService.addAppointment(appointment));</span>
+<span class="fc" id="L75">            return result;</span>
+<span class="fc" id="L76">        } catch (BusinessException businessException) {</span>
+<span class="fc" id="L77">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
+
+        }
+
+    }
+
+    /**
+     * End point to update an appointment given an appointment object.
+     * @param appointment an appointment object
+     * @return CommonReturnType
+     */
+    @PostMapping(&quot;/updateAppointment&quot;)
+    @ResponseBody
+    public CommonReturnType updateAppointment(@RequestBody Appointment appointment) {
+<span class="fc" id="L91">        Boolean isLogin = (Boolean) httpServletRequest</span>
+<span class="fc" id="L92">                .getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (isLogin == null) {</span>
+<span class="fc" id="L94">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L98">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L100">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L101">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L104">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+        //only manager or the same visitor can update the appointment
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (userModel.getRole() == Role.visitor &amp;&amp; !userModel.getUserId()</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                .equals(appointment.getUserId()) ) {</span>
+<span class="fc" id="L109">            return CommonReturnType.autoCreate(ErrorEnum.NOT_SAME_VISITOR);</span>
+        }
+<span class="fc" id="L111">        return CommonReturnType.autoCreate(appointmentService.updateAppointment(appointment));</span>
+    }
+
+    /**
+     * End point to delete an appointment.
+     * @param appointmentId the appointmentId of the appointment you want to delete
+     * @return CommonReturnType
+     */
+    @PostMapping(&quot;/deleteAppointment&quot;)
+    @ResponseBody
+    public CommonReturnType deleteAppointmentId(@RequestParam(name = &quot;appointmentId&quot;)
+                                                            String appointmentId) {
+<span class="fc" id="L123">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (isLogin == null) {</span>
+<span class="fc" id="L125">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L129">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L131">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L132">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L135">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+
+        //only manager or the same visitor can delete the appointment
+<span class="fc" id="L139">        return CommonReturnType.autoCreate(appointmentService</span>
+<span class="fc" id="L140">                .deleteAppointment(appointmentId, userModel));</span>
+    }
+
+    /**
+     *Display user's history tickets records.
+     * @return response with common return type
+     */
+    @RequestMapping(&quot;/appointmentsRecord&quot;)
+    @ResponseBody
+    public CommonReturnType getAppointments() {
+<span class="fc" id="L150">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (isLogin == null) {</span>
+<span class="fc" id="L152">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L156">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+
+<span class="fc" id="L159">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L160">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L163">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+        try {
+<span class="fc" id="L166">            List&lt;TimedAppointmentModel&gt; timedAppointmentModelListppointmentList = appointmentService</span>
+<span class="fc" id="L167">                    .getAppointmentsByUserId(userModel.getUserId());</span>
+<span class="fc" id="L168">            return CommonReturnType.create(timedAppointmentModelListppointmentList);</span>
+<span class="fc" id="L169">        } catch (BusinessException businessException) {</span>
+<span class="fc" id="L170">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

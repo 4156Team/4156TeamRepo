@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>rollercoaster - Checkstyle report</title>
+    <link>https://spring.io/projects/spring-boot/rollercoaster</link>
+    <description>rollercoaster - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2020</copyright>
+    <item>
+      <title>File: 26,
+             Errors: 0,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.Facility.java">com/java/rollercoaster/pojo/Facility.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.AppointmentExample.java">com/java/rollercoaster/pojo/AppointmentExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.Type.java">com/java/rollercoaster/pojo/Type.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.UserPasswordMapper.java">com/java/rollercoaster/dao/UserPasswordMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.BalanceMapper.java">com/java/rollercoaster/dao/BalanceMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.EventExample.java">com/java/rollercoaster/pojo/EventExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.EventMapper.java">com/java/rollercoaster/dao/EventMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.TypeExample.java">com/java/rollercoaster/pojo/TypeExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.BalanceExample.java">com/java/rollercoaster/pojo/BalanceExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.QuickPassMapper.java">com/java/rollercoaster/dao/QuickPassMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.QuickPassExample.java">com/java/rollercoaster/pojo/QuickPassExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.UserAccountMapper.java">com/java/rollercoaster/dao/UserAccountMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.Ticket.java">com/java/rollercoaster/pojo/Ticket.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.TicketMapper.java">com/java/rollercoaster/dao/TicketMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.UserAccountExample.java">com/java/rollercoaster/pojo/UserAccountExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.FacilityExample.java">com/java/rollercoaster/pojo/FacilityExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.UserAccount.java">com/java/rollercoaster/pojo/UserAccount.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.AnnouncementExample.java">com/java/rollercoaster/pojo/AnnouncementExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.AnnouncementMapper.java">com/java/rollercoaster/dao/AnnouncementMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.CommentMapper.java">com/java/rollercoaster/dao/CommentMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.FacilityMapper.java">com/java/rollercoaster/dao/FacilityMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.AppointmentMapper.java">com/java/rollercoaster/dao/AppointmentMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.TicketExample.java">com/java/rollercoaster/pojo/TicketExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.CommentExample.java">com/java/rollercoaster/pojo/CommentExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.dao.TypeMapper.java">com/java/rollercoaster/dao/TypeMapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://spring.io/projects/spring-boot/rollercoaster/checkstyle.html#com.java.rollercoaster.pojo.UserPasswordExample.java">com/java/rollercoaster/pojo/UserPasswordExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

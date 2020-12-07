@@ -3,5 +3,10 @@
 *.iml
 .DS_Store
 /src/main/resources/static
-/target
+/target/classes
+/target/coverage-reports
+/target/generated-sources
+/target/generated-test-sources
+/target/maven-status
+/target/test-classes
 /Frontend/project/node_modules

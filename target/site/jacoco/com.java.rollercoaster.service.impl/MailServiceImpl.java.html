@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MailServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">MailServiceImpl.java</span></div><h1>MailServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
+
+import com.java.rollercoaster.errorenum.BusinessException;
+import com.java.rollercoaster.errorenum.ErrorEnum;
+import com.java.rollercoaster.service.MailService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
+
+@Service
+@PropertySource(value = {&quot;classpath:apiKey.properties&quot;})
+<span class="fc" id="L16">public class MailServiceImpl implements MailService {</span>
+    @Value(&quot;${mail.url}&quot;)
+    private String url;
+    @Value(&quot;${mail.apiKey}&quot;)
+    private String apiKey;
+    @Value(&quot;${mail.address}&quot;)
+    private String mailFrom;
+
+    @Override
+    public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
+            throws UnirestException {
+<span class="fc" id="L27">        HttpResponse&lt;JsonNode&gt; request = Unirest.post(url)</span>
+<span class="fc" id="L28">                .basicAuth(&quot;api&quot;, apiKey)</span>
+<span class="fc" id="L29">                .queryString(&quot;from&quot;, mailFrom)</span>
+<span class="fc" id="L30">                .queryString(&quot;to&quot;, toEmail)</span>
+<span class="fc" id="L31">                .queryString(&quot;subject&quot;, &quot;New announcement from Roller coaster&quot;)</span>
+<span class="fc" id="L32">                .queryString(&quot;text&quot;, text)</span>
+<span class="fc" id="L33">                .asJson();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (request.getStatus() != 200 ) {</span>
+<span class="fc" id="L35">            return ErrorEnum.SEND_MAIL_FAILED;</span>
+        }
+<span class="fc" id="L37">        return ErrorEnum.OK;</span>
+
+    }
+
+    @Override
+    public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
+<span class="fc" id="L43">        HttpResponse&lt;JsonNode&gt; request = Unirest.post(url)</span>
+<span class="fc" id="L44">                .basicAuth(&quot;api&quot;, apiKey)</span>
+<span class="fc" id="L45">                .queryString(&quot;from&quot;, mailFrom)</span>
+<span class="fc" id="L46">                .queryString(&quot;to&quot;, toEmail)</span>
+<span class="fc" id="L47">                .queryString(&quot;subject&quot;, &quot;Your ticket of Roller coaster!&quot;)</span>
+<span class="fc" id="L48">                .queryString(&quot;text&quot;, text)</span>
+<span class="fc" id="L49">                .asJson();</span>
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (request.getStatus() != 200 ) {</span>
+<span class="fc" id="L52">            return ErrorEnum.SEND_MAIL_FAILED;</span>
+        }
+<span class="fc" id="L54">        return ErrorEnum.OK;</span>
+    }
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
