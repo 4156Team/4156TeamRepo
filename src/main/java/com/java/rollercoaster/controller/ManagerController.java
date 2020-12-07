@@ -27,8 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import java.security.GeneralSecurityException;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.mail.MessagingException;
 
 @Controller
 @RequestMapping("/manager")
@@ -250,7 +254,8 @@ public class ManagerController {
     @PostMapping("/pushAnnouncement")
     @ResponseBody
     public CommonReturnType pushAnnouncement(@RequestBody Announcement announcement)
-            throws UnirestException, BusinessException {
+            throws UnirestException, BusinessException,
+            GeneralSecurityException, MessagingException {
         return CommonReturnType.autoCreate(announcementService.pushAnnouncement(announcement));
     }
 

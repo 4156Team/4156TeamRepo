@@ -55,7 +55,7 @@ public class TicketServiceAcceptanceTest {
         paramMap.add("gender", "male");
         paramMap.add("age", 18);
         paramMap.add("password", "6789");
-        paramMap.add("email", "111111@qq.com");
+        paramMap.add("email", "1661257855@qq.com");
         restTemplate.postForObject(url, paramMap, CommonReturnType.class);
 
 
@@ -125,7 +125,7 @@ public class TicketServiceAcceptanceTest {
         paramMap.add("gender", "male");
         paramMap.add("age", 18);
         paramMap.add("password", "6789");
-        paramMap.add("email", "111111@qq.com");
+        paramMap.add("email", "1661257855@qq.com");
         restTemplate.postForObject(url, paramMap, CommonReturnType.class);
 
         //log in
@@ -203,7 +203,7 @@ public class TicketServiceAcceptanceTest {
         paramMap.add("gender", "male");
         paramMap.add("age", 18);
         paramMap.add("password", "6789");
-        paramMap.add("email", "111111@qq.com");
+        paramMap.add("email", "1661257855@qq.com");
         restTemplate.postForObject(url, paramMap, CommonReturnType.class);
 
         //log in

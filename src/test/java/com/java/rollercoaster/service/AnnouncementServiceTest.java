@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.mail.MessagingException;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class AnnouncementServiceTest {
     private UserAccountMapper userAccountMapper;
 
     @Test
-    public void testPushAnnouncement() throws UnirestException, BusinessException {
+    public void testPushAnnouncement() throws UnirestException, BusinessException, GeneralSecurityException, MessagingException {
         UserAccount userAccount1 = new UserAccount();
         userAccount1.setRole(Role.visitor);
         userAccount1.setEmail("yy2979@columbia.edu");
@@ -61,7 +63,7 @@ public class AnnouncementServiceTest {
     }
 
     @Test
-    public void testPushAnnouncementFail() throws UnirestException, BusinessException {
+    public void testPushAnnouncementFail() throws UnirestException, BusinessException, GeneralSecurityException, MessagingException {
         Announcement announcement = new Announcement();
         announcement.setDate(new Date());
         assertEquals(ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE, announcementService.pushAnnouncement(announcement));

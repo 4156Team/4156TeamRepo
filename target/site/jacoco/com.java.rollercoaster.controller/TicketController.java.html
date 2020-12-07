@@ -21,17 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
 @RequestMapping(&quot;/ticket&quot;)
 @CrossOrigin(allowCredentials = &quot;true&quot;, allowedHeaders = &quot;*&quot;)
-<span class="fc" id="L34">public class TicketController {</span>
+<span class="fc" id="L36">public class TicketController {</span>
     @Autowired
     TicketService ticketService;
     @Autowired
@@ -51,49 +53,50 @@ import javax.servlet.http.HttpServletRequest;
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket)
 
-            throws ParseException, UnirestException,BusinessException  {
+            throws ParseException, UnirestException,BusinessException,
+            GeneralSecurityException, MessagingException {
 
-<span class="fc" id="L56">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (isLogin == null) {</span>
-<span class="fc" id="L58">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
-        }
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L59">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (isLogin == null) {</span>
 <span class="fc" id="L61">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L63">        UserModel userModel = (UserModel) httpServletRequest</span>
-<span class="fc" id="L64">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
-        //if user not exist
-<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (userModel == null) {</span>
-<span class="fc" id="L67">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L64">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L69">        ticket.setUserId(userModel.getUserId());</span>
+<span class="fc" id="L66">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L67">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L70">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L72">        ticket.setUserId(userModel.getUserId());</span>
 
         //生成ticketID,然后再setTicketID
-<span class="fc" id="L72">        long millis = System.currentTimeMillis();</span>
+<span class="fc" id="L75">        long millis = System.currentTimeMillis();</span>
         //加上两位随机数
-<span class="fc" id="L74">        Random random = new Random();</span>
-<span class="fc" id="L75">        int end2 = random.nextInt(99);</span>
+<span class="fc" id="L77">        Random random = new Random();</span>
+<span class="fc" id="L78">        int end2 = random.nextInt(99);</span>
         //如果不足两位前面补0
-<span class="fc" id="L77">        String timestamp = String.valueOf(millis);</span>
-<span class="fc" id="L78">        String id = timestamp.substring(timestamp.length() - 8)</span>
-<span class="fc" id="L79">                + String.format(&quot;%02d&quot;, end2);</span>
-<span class="fc" id="L80">        System.out.println(id);</span>
-<span class="fc" id="L81">        ticket.setTicketId(id);</span>
+<span class="fc" id="L80">        String timestamp = String.valueOf(millis);</span>
+<span class="fc" id="L81">        String id = timestamp.substring(timestamp.length() - 8)</span>
+<span class="fc" id="L82">                + String.format(&quot;%02d&quot;, end2);</span>
+<span class="fc" id="L83">        System.out.println(id);</span>
+<span class="fc" id="L84">        ticket.setTicketId(id);</span>
 
         try {
-<span class="fc" id="L84">            CommonReturnType result = CommonReturnType.create(ticketService</span>
-<span class="fc" id="L85">                    .addTicket(ticket, userModel.getUserId()));</span>
-<span class="fc" id="L86">            ErrorEnum errorEnum = mailService.sendTicketMessage(userModel.getEmail(), &quot;Hi, &quot;</span>
-<span class="fc" id="L87">                                            + userModel.getUserName()</span>
+<span class="fc" id="L87">            CommonReturnType result = CommonReturnType.create(ticketService</span>
+<span class="fc" id="L88">                    .addTicket(ticket, userModel.getUserId()));</span>
+<span class="fc" id="L89">            ErrorEnum errorEnum = mailService.sendTicketMessage(userModel.getEmail(), &quot;Hi, &quot;</span>
+<span class="fc" id="L90">                                            + userModel.getUserName()</span>
                                             + &quot;! Here is your ticket! And your ticket number is &quot;
-<span class="fc" id="L89">                                            + ticket.getTicketId()</span>
+<span class="fc" id="L92">                                            + ticket.getTicketId()</span>
                                             + &quot;. Welcome to Roller Coaster Amusement park!&quot;);
-<span class="fc bfc" id="L91" title="All 2 branches covered.">            if (errorEnum.getErrorCode() == ErrorEnum.SEND_MAIL_FAILED.getErrorCode()) {</span>
-<span class="fc" id="L92">                throw new BusinessException(ErrorEnum.SEND_MAIL_FAILED);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            if (errorEnum.getErrorCode() == ErrorEnum.SEND_MAIL_FAILED.getErrorCode()) {</span>
+<span class="fc" id="L95">                throw new BusinessException(ErrorEnum.SEND_MAIL_FAILED);</span>
             }
-<span class="fc" id="L94">            return result;</span>
-<span class="fc" id="L95">        } catch (BusinessException businessException) {</span>
-<span class="fc" id="L96">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
+<span class="fc" id="L97">            return result;</span>
+<span class="fc" id="L98">        } catch (BusinessException businessException) {</span>
+<span class="fc" id="L99">            return CommonReturnType.autoCreate((ErrorEnum) businessException.getCommonError());</span>
 
         }
     }
@@ -106,26 +109,26 @@ import javax.servlet.http.HttpServletRequest;
     @PostMapping(&quot;/updateTicket&quot;)
     @ResponseBody
     public CommonReturnType updateTicket(@RequestBody Ticket ticket) {
-<span class="fc" id="L109">        System.out.println(ticket.toString());</span>
+<span class="fc" id="L112">        System.out.println(ticket.toString());</span>
         //only manager can update the tickets status
-<span class="fc" id="L111">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (isLogin == null) {</span>
-<span class="fc" id="L113">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
-        }
-<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L114">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (isLogin == null) {</span>
 <span class="fc" id="L116">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L118">        UserModel userModel = (UserModel) httpServletRequest</span>
-<span class="fc" id="L119">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L119">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
+        }
+<span class="fc" id="L121">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L122">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
         //if user not exist
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (userModel == null) {</span>
-<span class="fc" id="L122">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L125">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
         }
 
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (userModel.getRole().equals(Role.visitor)) {</span>
-<span class="fc" id="L126">            return CommonReturnType.autoCreate(ErrorEnum.NO_AUTHORIZATION);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (userModel.getRole().equals(Role.visitor)) {</span>
+<span class="fc" id="L129">            return CommonReturnType.autoCreate(ErrorEnum.NO_AUTHORIZATION);</span>
         }
-<span class="fc" id="L128">        return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));</span>
+<span class="fc" id="L131">        return CommonReturnType.autoCreate(ticketService.updateTicket(ticket));</span>
     }
 
     /**
@@ -136,21 +139,21 @@ import javax.servlet.http.HttpServletRequest;
     @PostMapping(&quot;/deleteTicket&quot;)
     @ResponseBody
     public CommonReturnType deleteTicket(@RequestParam(name = &quot;ticketId&quot;) String ticketId) {
-<span class="fc" id="L139">        System.out.println(ticketId);</span>
-<span class="fc" id="L140">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="fc bfc" id="L141" title="All 2 branches covered.">        if (isLogin == null) {</span>
-<span class="fc" id="L142">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
-        }
-<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L142">        System.out.println(ticketId);</span>
+<span class="fc" id="L143">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if (isLogin == null) {</span>
 <span class="fc" id="L145">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L147">        UserModel userModel = (UserModel) httpServletRequest</span>
-<span class="fc" id="L148">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
-        //if user not exist
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (userModel == null) {</span>
-<span class="fc" id="L151">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L148">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L153">        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));</span>
+<span class="fc" id="L150">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L151">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L154">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L156">        return CommonReturnType.autoCreate(ticketService.deleteTicket(ticketId, userModel));</span>
     }
 
     /**
@@ -160,21 +163,21 @@ import javax.servlet.http.HttpServletRequest;
     @RequestMapping(&quot;/ticketsRecord&quot;)
     @ResponseBody
     public CommonReturnType getTickets() {
-<span class="fc" id="L163">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (isLogin == null) {</span>
-<span class="fc" id="L165">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
-        }
-<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L166">        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute(&quot;IS_LOGIN&quot;);</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        if (isLogin == null) {</span>
 <span class="fc" id="L168">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L170">        UserModel userModel = (UserModel) httpServletRequest</span>
-<span class="fc" id="L171">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
-        //if user not exist
-<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (userModel == null) {</span>
-<span class="fc" id="L174">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (!isLogin) {</span>
+<span class="fc" id="L171">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_LOGIN);</span>
         }
-<span class="fc" id="L176">        List&lt;Ticket&gt; ticketList = ticketService.getTicketsByUserId(userModel.getUserId());</span>
-<span class="fc" id="L177">        return CommonReturnType.create(ticketList);</span>
+<span class="fc" id="L173">        UserModel userModel = (UserModel) httpServletRequest</span>
+<span class="fc" id="L174">                .getSession().getAttribute(&quot;LOGIN_USER&quot;);</span>
+        //if user not exist
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        if (userModel == null) {</span>
+<span class="fc" id="L177">            return CommonReturnType.autoCreate(ErrorEnum.USER_NOT_EXIST);</span>
+        }
+<span class="fc" id="L179">        List&lt;Ticket&gt; ticketList = ticketService.getTicketsByUserId(userModel.getUserId());</span>
+<span class="fc" id="L180">        return CommonReturnType.create(ticketList);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

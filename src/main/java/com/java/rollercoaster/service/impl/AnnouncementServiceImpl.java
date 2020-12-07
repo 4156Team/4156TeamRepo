@@ -15,8 +15,12 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
@@ -29,7 +33,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public ErrorEnum pushAnnouncement(Announcement announcement)
-            throws BusinessException, UnirestException {
+            throws BusinessException, UnirestException,
+            GeneralSecurityException, MessagingException {
         if (null == announcement.getText()) {
             return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;
         }

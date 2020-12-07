@@ -15,11 +15,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
 
 @Service
-<span class="fc" id="L22">public class AnnouncementServiceImpl implements AnnouncementService {</span>
+<span class="fc" id="L24">public class AnnouncementServiceImpl implements AnnouncementService {</span>
     @Autowired
     private AnnouncementMapper announcementMapper;
     @Autowired
@@ -29,36 +31,36 @@ import java.util.List;
 
     @Override
     public ErrorEnum pushAnnouncement(Announcement announcement)
-            throws BusinessException, UnirestException {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (null == announcement.getText()) {</span>
-<span class="fc" id="L34">            return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;</span>
+            throws BusinessException, UnirestException, GeneralSecurityException, MessagingException {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (null == announcement.getText()) {</span>
+<span class="fc" id="L36">            return ErrorEnum.EMPTY_ANNOUNCEMENT_ATTRIBUTE;</span>
         }
-<span class="fc" id="L36">        announcement.setDate(new Date());</span>
-<span class="fc" id="L37">        announcementMapper.insert(announcement);</span>
-<span class="fc" id="L38">        UserAccountExample userAccountExample = new UserAccountExample();</span>
-<span class="fc" id="L39">        List&lt;UserAccount&gt; userAccounts = userAccountMapper.selectByExample(userAccountExample);</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (UserAccount userAccount : userAccounts) {</span>
-<span class="fc bfc" id="L41" title="All 4 branches covered.">            if (userAccount.getRole() == Role.visitor &amp;&amp; null != userAccount.getEmail()) {</span>
-<span class="fc" id="L42">                mailService.sendAnnouncementMessage(userAccount.getEmail(), announcement.getText());</span>
+<span class="fc" id="L38">        announcement.setDate(new Date());</span>
+<span class="fc" id="L39">        announcementMapper.insert(announcement);</span>
+<span class="fc" id="L40">        UserAccountExample userAccountExample = new UserAccountExample();</span>
+<span class="fc" id="L41">        List&lt;UserAccount&gt; userAccounts = userAccountMapper.selectByExample(userAccountExample);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (UserAccount userAccount : userAccounts) {</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">            if (userAccount.getRole() == Role.visitor &amp;&amp; null != userAccount.getEmail()) {</span>
+<span class="fc" id="L44">                mailService.sendAnnouncementMessage(userAccount.getEmail(), announcement.getText());</span>
             }
-<span class="fc" id="L44">        }</span>
-<span class="fc" id="L45">        return ErrorEnum.OK;</span>
+<span class="fc" id="L46">        }</span>
+<span class="fc" id="L47">        return ErrorEnum.OK;</span>
     }
 
     @Override
     public List&lt;Announcement&gt; getAnnouncements() {
-<span class="fc" id="L50">        return announcementMapper.selectByExample(new AnnouncementExample());</span>
+<span class="fc" id="L52">        return announcementMapper.selectByExample(new AnnouncementExample());</span>
     }
 
     @Override
     public ErrorEnum deleteAnnouncement(Integer announcementId) {
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (null == announcementId) {</span>
-<span class="fc" id="L56">            return ErrorEnum.EMPTY_ANNOUNCEMENT_ID;</span>
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        } else if (null == announcementMapper.selectByPrimaryKey(announcementId)) {</span>
-<span class="fc" id="L58">            return ErrorEnum.WRONG_ANNOUNCEMENT_ID;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (null == announcementId) {</span>
+<span class="fc" id="L58">            return ErrorEnum.EMPTY_ANNOUNCEMENT_ID;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        } else if (null == announcementMapper.selectByPrimaryKey(announcementId)) {</span>
+<span class="fc" id="L60">            return ErrorEnum.WRONG_ANNOUNCEMENT_ID;</span>
         } else {
-<span class="fc" id="L60">            announcementMapper.deleteByPrimaryKey(announcementId);</span>
-<span class="fc" id="L61">            return ErrorEnum.OK;</span>
+<span class="fc" id="L62">            announcementMapper.deleteByPrimaryKey(announcementId);</span>
+<span class="fc" id="L63">            return ErrorEnum.OK;</span>
         }
     }
 }

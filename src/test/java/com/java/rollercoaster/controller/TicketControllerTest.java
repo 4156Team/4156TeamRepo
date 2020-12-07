@@ -23,8 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -79,7 +81,8 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketFailToSendMailTest() throws BusinessException, ParseException, UnirestException {
+    public void addTicketFailToSendMailTest() throws BusinessException, ParseException, UnirestException,
+            GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
         userModel.setEmail("example@columbia.edu");
         Ticket ticket = initTicket(userModel);
@@ -104,7 +107,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketControllerTest() throws BusinessException, ParseException, UnirestException {
+    public void addTicketControllerTest() throws BusinessException, ParseException, UnirestException, GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
         Ticket ticket = initTicket(userModel);
 
@@ -125,7 +128,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketNullLoginControllerTest() throws BusinessException, ParseException, UnirestException {
+    public void addTicketNullLoginControllerTest() throws BusinessException, ParseException, UnirestException, GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", null);
         Ticket ticket = initTicket(userModel);
@@ -139,7 +142,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketFalseLoginControllerTest() throws BusinessException, ParseException, UnirestException {
+    public void addTicketFalseLoginControllerTest() throws BusinessException, ParseException, UnirestException, GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", false);
         Ticket ticket = initTicket(userModel);
@@ -153,7 +156,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addTicketNullUserControllerTest() throws BusinessException, ParseException, UnirestException {
+    public void addTicketNullUserControllerTest() throws BusinessException, ParseException, UnirestException, GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", null);
         Ticket ticket = initTicket(userModel);
@@ -167,7 +170,7 @@ public class TicketControllerTest {
     }
 
     @Test
-    public void addErrorTicketControllerTest() throws BusinessException, ParseException, UnirestException {
+    public void addErrorTicketControllerTest() throws BusinessException, ParseException, UnirestException, GeneralSecurityException, MessagingException {
         UserModel userModel = initUser(Role.visitor);
 
         Ticket ticket = initTicket(userModel);

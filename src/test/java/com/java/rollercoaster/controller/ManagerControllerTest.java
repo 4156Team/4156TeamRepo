@@ -36,6 +36,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.mail.MessagingException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -378,7 +380,7 @@ public class ManagerControllerTest {
 
 
     @Test
-    public void testPushAnnouncement() throws BusinessException, UnirestException {
+    public void testPushAnnouncement() throws BusinessException, UnirestException, GeneralSecurityException, MessagingException {
         Announcement announcement = new Announcement();
         announcement.setText("test Announcement");
         announcement.setDate(new Date());

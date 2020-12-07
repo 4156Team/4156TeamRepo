@@ -1,57 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MailServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rollercoaster</a> &gt; <a href="index.source.html" class="el_package">com.java.rollercoaster.service.impl</a> &gt; <span class="el_source">MailServiceImpl.java</span></div><h1>MailServiceImpl.java</h1><pre class="source lang-java linenums">package com.java.rollercoaster.service.impl;
 
-import com.java.rollercoaster.errorenum.BusinessException;
 import com.java.rollercoaster.errorenum.ErrorEnum;
 import com.java.rollercoaster.service.MailService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.security.GeneralSecurityException;
+import java.util.Properties;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+
 @Service
 @PropertySource(value = {&quot;classpath:apiKey.properties&quot;})
-<span class="fc" id="L16">public class MailServiceImpl implements MailService {</span>
-    @Value(&quot;${mail.url}&quot;)
-    private String url;
-    @Value(&quot;${mail.apiKey}&quot;)
-    private String apiKey;
-    @Value(&quot;${mail.address}&quot;)
-    private String mailFrom;
+<span class="fc" id="L28">public class MailServiceImpl implements MailService {</span>
 
     @Override
     public  ErrorEnum sendAnnouncementMessage(String toEmail, String text)
-            throws UnirestException {
-<span class="fc" id="L27">        HttpResponse&lt;JsonNode&gt; request = Unirest.post(url)</span>
-<span class="fc" id="L28">                .basicAuth(&quot;api&quot;, apiKey)</span>
-<span class="fc" id="L29">                .queryString(&quot;from&quot;, mailFrom)</span>
-<span class="fc" id="L30">                .queryString(&quot;to&quot;, toEmail)</span>
-<span class="fc" id="L31">                .queryString(&quot;subject&quot;, &quot;New announcement from Roller coaster&quot;)</span>
-<span class="fc" id="L32">                .queryString(&quot;text&quot;, text)</span>
-<span class="fc" id="L33">                .asJson();</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (request.getStatus() != 200 ) {</span>
-<span class="fc" id="L35">            return ErrorEnum.SEND_MAIL_FAILED;</span>
-        }
-<span class="fc" id="L37">        return ErrorEnum.OK;</span>
+            throws UnirestException, MessagingException, GeneralSecurityException {
+<span class="fc" id="L33">        Properties props = new Properties();</span>
+<span class="fc" id="L34">        props.setProperty(&quot;mail.debug&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L35">        props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L36">        props.setProperty(&quot;mail.smtp.host&quot;, &quot;smtp.qq.com&quot;);</span>
+<span class="fc" id="L37">        props.setProperty(&quot;mail.smtp.port&quot;, &quot;465&quot;);</span>
+<span class="fc" id="L38">        props.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);</span>
+        try {
+<span class="fc" id="L40">            MailSSLSocketFactory msf = new MailSSLSocketFactory();</span>
+<span class="fc" id="L41">            msf.setTrustAllHosts(true);</span>
+<span class="fc" id="L42">            props.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L43">            props.put(&quot;mail.smtp.ssl.socketFactory&quot;,msf);</span>
+<span class="fc" id="L44">            Session session = Session.getInstance(props,new javax.mail.Authenticator() {</span>
+                protected PasswordAuthentication getPasswordAuthentication() {
+<span class="fc" id="L46">                    return new PasswordAuthentication(&quot;2313368506@qq.com&quot;,&quot;mwgezkmnephhdjde&quot;);</span>
+                }
+            });
+<span class="fc" id="L49">            Message message = new MimeMessage(session);</span>
+<span class="fc" id="L50">            message.setSubject(&quot;New announcement from Roller coaster&quot;);</span>
+<span class="fc" id="L51">            message.setText(text);</span>
+<span class="fc" id="L52">            message.setFrom(new InternetAddress(&quot;2313368506@qq.com&quot;));</span>
+<span class="fc" id="L53">            Transport transport = session.getTransport();</span>
+<span class="fc" id="L54">            transport.connect();</span>
+<span class="fc" id="L55">            transport.sendMessage(message,new Address[]{new InternetAddress(toEmail)});</span>
+<span class="fc" id="L56">            transport.close();</span>
+<span class="fc" id="L57">        } catch (Exception e1) {</span>
+<span class="fc" id="L58">            return ErrorEnum.SEND_MAIL_FAILED;</span>
+<span class="fc" id="L59">        }</span>
 
+<span class="fc" id="L61">        return ErrorEnum.OK;</span>
     }
+
 
     @Override
     public ErrorEnum sendTicketMessage(String toEmail, String text) throws UnirestException {
-<span class="fc" id="L43">        HttpResponse&lt;JsonNode&gt; request = Unirest.post(url)</span>
-<span class="fc" id="L44">                .basicAuth(&quot;api&quot;, apiKey)</span>
-<span class="fc" id="L45">                .queryString(&quot;from&quot;, mailFrom)</span>
-<span class="fc" id="L46">                .queryString(&quot;to&quot;, toEmail)</span>
-<span class="fc" id="L47">                .queryString(&quot;subject&quot;, &quot;Your ticket of Roller coaster!&quot;)</span>
-<span class="fc" id="L48">                .queryString(&quot;text&quot;, text)</span>
-<span class="fc" id="L49">                .asJson();</span>
-
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (request.getStatus() != 200 ) {</span>
-<span class="fc" id="L52">            return ErrorEnum.SEND_MAIL_FAILED;</span>
-        }
-<span class="fc" id="L54">        return ErrorEnum.OK;</span>
+<span class="fc" id="L67">        Properties props = new Properties();</span>
+<span class="fc" id="L68">        props.setProperty(&quot;mail.debug&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L69">        props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L70">        props.setProperty(&quot;mail.smtp.host&quot;, &quot;smtp.qq.com&quot;);</span>
+<span class="fc" id="L71">        props.setProperty(&quot;mail.smtp.port&quot;, &quot;465&quot;);</span>
+<span class="fc" id="L72">        props.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);</span>
+        try {
+<span class="fc" id="L74">            MailSSLSocketFactory msf = new MailSSLSocketFactory();</span>
+<span class="fc" id="L75">            msf.setTrustAllHosts(true);</span>
+<span class="fc" id="L76">            props.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L77">            props.put(&quot;mail.smtp.ssl.socketFactory&quot;,msf);</span>
+<span class="fc" id="L78">            Session session = Session.getInstance(props,new javax.mail.Authenticator() {</span>
+                protected PasswordAuthentication getPasswordAuthentication() {
+<span class="fc" id="L80">                    return new PasswordAuthentication(&quot;2313368506@qq.com&quot;,&quot;mwgezkmnephhdjde&quot;);</span>
+                }
+            });
+<span class="fc" id="L83">            Message message = new MimeMessage(session);</span>
+<span class="fc" id="L84">            message.setSubject(&quot;Your ticket of Roller coaster!&quot;);</span>
+<span class="fc" id="L85">            message.setText(text);</span>
+<span class="fc" id="L86">            message.setFrom(new InternetAddress(&quot;2313368506@qq.com&quot;));</span>
+<span class="fc" id="L87">            Transport transport = session.getTransport();</span>
+<span class="fc" id="L88">            transport.connect();</span>
+<span class="fc" id="L89">            transport.sendMessage(message,new Address[]{new InternetAddress(toEmail)});</span>
+<span class="fc" id="L90">            transport.close();</span>
+<span class="fc" id="L91">        } catch (Exception e1) {</span>
+<span class="fc" id="L92">            System.out.println(e1.getMessage());</span>
+<span class="fc" id="L93">            return ErrorEnum.SEND_MAIL_FAILED;</span>
+<span class="fc" id="L94">        }</span>
+<span class="fc" id="L95">        System.out.println(&quot;Ok&quot;);</span>
+<span class="fc" id="L96">        return ErrorEnum.OK;</span>
     }
 
 

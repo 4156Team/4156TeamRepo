@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -51,7 +53,8 @@ public class TicketController {
     @ResponseBody
     public CommonReturnType addTicket(@RequestBody Ticket ticket)
 
-            throws ParseException, UnirestException,BusinessException  {
+            throws ParseException, UnirestException,BusinessException,
+            GeneralSecurityException, MessagingException {
 
         Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null) {

@@ -19,4 +19,4 @@ before_install:
   - mysql -u root --default-character-set=utf8 roller_coaster < $TRAVIS_BUILD_DIR/CreateTable.sql
 script:
   - mvn clean install -Dmaven.test.skip=true
-  - mvn spring-boot:start test spring-boot:stop
+  - mvn spring-boot:start clean test spring-boot:stop
